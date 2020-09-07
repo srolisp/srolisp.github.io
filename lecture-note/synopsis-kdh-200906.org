@@ -1,0 +1,53 @@
+#+title: AI lecture synopsis
+#+subtitle: 3 weeks by kdh
+#+date: <2020-09-06 Sun 12:00>
+#+tags: python, bash, elisp, lisp
+#+author: srolisp
+
+* 수업 방향
+
+** *지도학습*(답이 있다) 와 *비지도학습*(답이 없다)
+
+** [x]강화학습(보상을 준다)
+
+* ai service steps
+
+** gathering data
+
+*** crawling with images
+
+** refine the data (데이터 다듬기?)
+** training the data
+** apply a model made by the data to specific service
+** share through webpage
+** view webpage contents by mobile
+
+* materials
+
+** homepages
+
+*** 수업 홈페이지
+**** https://ai-run.tistory.com
+
+*** 참고자료
+트렌디해지자. 시간내서 꼭 읽어봐라.
+**** https://sapstoryhub.co.kr/가트너-2020년-10대-전략-기술-트렌드-제시/
+**** file:pdf/Kiosk_Issue69_2020_2.pdf
+**** file:pdf/Insight-report-ai-trend.pdf
+**** file:pdf/It&future-strategy-2019-nia-ai-index.pdf
+**** [#A] http://delab.cju.ac.kr/seminar/seminar_main.html
+***** [#A] file:pdf/LG_ai.pdf
+***** file:pdf/LG_big.pdf
+***** file:pdf/s20190528.pdf
+***** file:pdf/s20190430.pdf
+
+**** cf. 영화: 이미테이션 게임
+weak AI(현재, 분야별) --------> strong AI(추구)
+***** 인공지능 개념: 인간과 컴퓨터가 내놓은 결과가 구분안되게(가장 비슷하게) 해야한다. (strong AI)
+
+***** (현재) 현대에서의 인공지능 개념: (weak AI)
+
+****** 지능적인 행동의 자동화
+****** 합리적으로 생각하는(추리할수있는) 
+****** (- 사람처럼)
+

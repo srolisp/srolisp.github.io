@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-06 Sun 14:22 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI lecture synopsis</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="srolisp" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">AI lecture synopsis
+<br />
+<span class="subtitle">3 weeks by kdh</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9a57a01">1. 수업 방향</a>
+<ul>
+<li><a href="#org64cebdd">1.1. *지도학습*(답이 있다) 와 *비지도학습*(답이 없다)</a></li>
+<li><a href="#orgf0adecd">1.2. [x]강화학습(보상을 준다)</a></li>
+</ul>
+</li>
+<li><a href="#orge81054e">2. ai service steps</a>
+<ul>
+<li><a href="#orgcb88646">2.1. gathering data</a>
+<ul>
+<li><a href="#orga05b7d7">2.1.1. crawling with images</a></li>
+</ul>
+</li>
+<li><a href="#org29d3497">2.2. refine the data (데이터 다듬기?)</a></li>
+<li><a href="#org4d611a5">2.3. training the data</a></li>
+<li><a href="#org71c33a1">2.4. apply a model made by the data to specific service</a></li>
+<li><a href="#orgd48df88">2.5. share through webpage</a></li>
+<li><a href="#org1504455">2.6. view webpage contents by mobile</a></li>
+</ul>
+</li>
+<li><a href="#orgfa0fc9c">3. materials</a>
+<ul>
+<li><a href="#org23da4f8">3.1. homepages</a>
+<ul>
+<li><a href="#orgd3d47d0">3.1.1. 수업 홈페이지</a></li>
+<li><a href="#org77c01d9">3.1.2. 참고자료</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9a57a01" class="outline-2">
+<h2 id="org9a57a01"><span class="section-number-2">1</span> 수업 방향</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org64cebdd" class="outline-3">
+<h3 id="org64cebdd"><span class="section-number-3">1.1</span> *지도학습*(답이 있다) 와 *비지도학습*(답이 없다)</h3>
+</div>
+
+<div id="outline-container-orgf0adecd" class="outline-3">
+<h3 id="orgf0adecd"><span class="section-number-3">1.2</span> [x]강화학습(보상을 준다)</h3>
+</div>
+</div>
+
+<div id="outline-container-orge81054e" class="outline-2">
+<h2 id="orge81054e"><span class="section-number-2">2</span> ai service steps</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgcb88646" class="outline-3">
+<h3 id="orgcb88646"><span class="section-number-3">2.1</span> gathering data</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-orga05b7d7" class="outline-4">
+<h4 id="orga05b7d7"><span class="section-number-4">2.1.1</span> crawling with images</h4>
+</div>
+</div>
+
+<div id="outline-container-org29d3497" class="outline-3">
+<h3 id="org29d3497"><span class="section-number-3">2.2</span> refine the data (데이터 다듬기?)</h3>
+</div>
+<div id="outline-container-org4d611a5" class="outline-3">
+<h3 id="org4d611a5"><span class="section-number-3">2.3</span> training the data</h3>
+</div>
+<div id="outline-container-org71c33a1" class="outline-3">
+<h3 id="org71c33a1"><span class="section-number-3">2.4</span> apply a model made by the data to specific service</h3>
+</div>
+<div id="outline-container-orgd48df88" class="outline-3">
+<h3 id="orgd48df88"><span class="section-number-3">2.5</span> share through webpage</h3>
+</div>
+<div id="outline-container-org1504455" class="outline-3">
+<h3 id="org1504455"><span class="section-number-3">2.6</span> view webpage contents by mobile</h3>
+</div>
+</div>
+
+<div id="outline-container-orgfa0fc9c" class="outline-2">
+<h2 id="orgfa0fc9c"><span class="section-number-2">3</span> materials</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org23da4f8" class="outline-3">
+<h3 id="org23da4f8"><span class="section-number-3">3.1</span> homepages</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-orgd3d47d0" class="outline-4">
+<h4 id="orgd3d47d0"><span class="section-number-4">3.1.1</span> 수업 홈페이지</h4>
+<div class="outline-text-4" id="text-3-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="org3dae060"></a><a href="https://ai-run.tistory.com">https://ai-run.tistory.com</a><br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org77c01d9" class="outline-4">
+<h4 id="org77c01d9"><span class="section-number-4">3.1.2</span> 참고자료</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+트렌디해지자. 시간내서 꼭 읽어봐라.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgdb3805b"></a><a href="https://sapstoryhub.co.kr/%EA%B0%80%ED%8A%B8%EB%84%88-2020%EB%85%84-10%EB%8C%80-%EC%A0%84%EB%9E%B5-%EA%B8%B0%EC%88%A0-%ED%8A%B8%EB%A0%8C%EB%93%9C-%EC%A0%9C%EC%8B%9C/">https://sapstoryhub.co.kr/%EA%B0%80%ED%8A%B8%EB%84%88-2020%EB%85%84-10%EB%8C%80-%EC%A0%84%EB%9E%B5-%EA%B8%B0%EC%88%A0-%ED%8A%B8%EB%A0%8C%EB%93%9C-%EC%A0%9C%EC%8B%9C/</a><br /></li>
+<li><a id="orgbd5ffc5"></a><a href="pdf/Kiosk_Issue69_2020_2.pdf">pdf/Kiosk_Issue69_2020_2.pdf</a><br /></li>
+<li><a id="org22b5e95"></a><a href="pdf/Insight-report-ai-trend.pdf">pdf/Insight-report-ai-trend.pdf</a><br /></li>
+<li><a id="org1e9c349"></a><a href="pdf/It&amp;future-strategy-2019-nia-ai-index.pdf">pdf/It&amp;future-strategy-2019-nia-ai-index.pdf</a><br /></li>
+<li><a id="orgfc00ba0"></a><a href="http://delab.cju.ac.kr/seminar/seminar_main.html">http://delab.cju.ac.kr/seminar/seminar_main.html</a><br />
+<ol class="org-ol">
+<li><a id="org8c3bb85"></a><a href="pdf/LG_ai.pdf">pdf/LG_ai.pdf</a><br /></li>
+<li><a id="orgfb51591"></a><a href="pdf/LG_big.pdf">pdf/LG_big.pdf</a><br /></li>
+<li><a id="org57b91bf"></a><a href="pdf/s20190528.pdf">pdf/s20190528.pdf</a><br /></li>
+<li><a id="orgf9fc564"></a><a href="pdf/s20190430.pdf">pdf/s20190430.pdf</a><br /></li>
+</ol>
+</li>
+
+<li><a id="org3ab28ef"></a>cf. 영화: 이미테이션 게임<br />
+<div class="outline-text-5" id="text-3-1-2-6">
+<p>
+weak AI(현재, 분야별) ---&#x2013;&#x2014;&gt; strong AI(추구)
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org84e5fa7"></a>인공지능 개념: 인간과 컴퓨터가 내놓은 결과가 구분안되게(가장 비슷하게) 해야한다. (strong AI)<br /></li>
+
+<li><a id="orgc0a166a"></a>(현재) 현대에서의 인공지능 개념: (weak AI)<br />
+<ol class="org-ol">
+<li><a id="org79afb7f"></a>지능적인 행동의 자동화<br /></li>
+<li><a id="orga89b0a6"></a>합리적으로 생각하는(추리할수있는)<br /></li>
+<li><a id="org20e3944"></a>(- 사람처럼)<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2020-09-06 Sun 12:00</p>
+<p class="author">Author: srolisp</p>
+<p class="date">Created: 2020-09-06 Sun 14:22</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
