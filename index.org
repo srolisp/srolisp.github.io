@@ -1,9 +1,13 @@
 #+title: Literate programming
 #+subtitle: elisp, lisp, python, bash
 #+author: srolisp
+* lectures
+
+** [[file:lecture-note/ai-lecture-kdh-200909-1.html::<?xml version="1.0" encoding="utf-8"?>][200909-1]]
+** [[file:lecture-note/ai-lecture-kdh-200909-2.html::<?xml version="1.0" encoding="utf-8"?>][200909-2]]
+** [[file:lecture-note/ai-lecture-kdh-200910.html::<?xml version="1.0" encoding="utf-8"?>][200910]]
+
 * pyenv은 파이썬 버전을 다양하게 사용할 수 있다
-
-
 * virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.
 pyenv의 목록에 virtualenv가 들어가기 때문에 pyenv를 먼저 설치
 
