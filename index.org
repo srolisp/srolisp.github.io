@@ -3,9 +3,25 @@
 #+author: srolisp
 * lectures
 
+** [[file:lecture-note/synopsis-kdh-200906.html::<?xml version="1.0" encoding="utf-8"?>][200906]]
+
+** [[file:lecture-note/ai-methodology-???-200907.html::<?xml version="1.0" encoding="utf-8"?>][200907]]
+
+** [[file:lecture-note/ai-lecture-kdh-200908.html::<?xml version="1.0" encoding="utf-8"?>][200908]]
+
+** [[file:lecture-note/ai-lecture-kdh-200908-2.html::<?xml version="1.0" encoding="utf-8"?>][200908-2]]
+
+** [[file:lecture-note/ai-lecture-kdh-200908-3.html::<?xml version="1.0" encoding="utf-8"?>][200908-3]]
+
 ** [[file:lecture-note/ai-lecture-kdh-200909-1.html::<?xml version="1.0" encoding="utf-8"?>][200909-1]]
+
 ** [[file:lecture-note/ai-lecture-kdh-200909-2.html::<?xml version="1.0" encoding="utf-8"?>][200909-2]]
+
 ** [[file:lecture-note/ai-lecture-kdh-200910.html::<?xml version="1.0" encoding="utf-8"?>][200910]]
+
+** [[file:lecture-note/ai-lecture-kdh-200911.html::<?xml version="1.0" encoding="utf-8"?>][200911]]
+
+** [[file:lecture-note/ai-lecture-kdh-200912.html::<?xml version="1.0" encoding="utf-8"?>][200912]]
 
 * pyenv은 파이썬 버전을 다양하게 사용할 수 있다
 * virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.
