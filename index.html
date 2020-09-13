@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-13 Sun 13:06 -->
+<!-- 2020-09-13 Sun 13:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Literate programming</title>
+<title>Literate AI programming with Python</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="srolisp" />
 <style type="text/css">
@@ -242,179 +242,74 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Literate programming
+<h1 class="title">Literate AI programming with Python
 <br />
 <span class="subtitle">elisp, lisp, python, bash</span>
 </h1>
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#org3b65cea">1. lectures</a>
-<ul>
-<li><a href="#org6fb6a0c">1.1. 200906</a></li>
-<li><a href="#org167861b">1.2. 200907</a></li>
-<li><a href="#org768abc6">1.3. 200908</a></li>
-<li><a href="#orgd9cd7f8">1.4. 200908-2</a></li>
-<li><a href="#orgb4fcdb7">1.5. 200908-3</a></li>
-<li><a href="#org012e0b8">1.6. 200909-1</a></li>
-<li><a href="#org5c74944">1.7. 200909-2</a></li>
-<li><a href="#org322549f">1.8. 200910</a></li>
-<li><a href="#org3584c7f">1.9. 200911</a></li>
-<li><a href="#org487662d">1.10. 200912</a></li>
-</ul>
-</li>
-<li><a href="#org9a63135">2. pyenv은 파이썬 버전을 다양하게 사용할 수 있다</a></li>
-<li><a href="#orgde00b3b">3. virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.</a></li>
-<li><a href="#org64b2ec8">4. pyvenv-create를 이용해서 virtualenv를 새로 생성하려 했으나 제대로 작동이 안되었다;;</a>
-<ul>
-<li><a href="#orgcc80a8a">4.1. pyenv가 작동하는지부터 확인</a></li>
-<li><a href="#orgd7d57cd">4.2. pyvenv-create.el 소스코드를 보며 원인을 찾아보다 virtualenv 에서 에러코드를 발생하는 것을 발견</a>
-<ul>
-<li><a href="#orgf2c6904">4.2.1. virtualenv 실행</a></li>
-<li><a href="#org1e77457">4.2.2. <span class="todo TODO">TODO</span> error code(에러를 새 버퍼에 띄우는데 바로 나타내는 방법은 없는걸까,  버퍼에 나타난 에러를 복사한후 소스코드 블럭안에 넣어놨다)</a></li>
-<li><a href="#org0abf564">4.2.3. PATH쪽 확인</a></li>
-<li><a href="#org4fd42ea">4.2.4. 구글링해보니 python@2 재설치로 해결했다는 걸 봄. 삭제하면 안된다는 글을 본것 같은데;; 포멧 각인가</a></li>
-<li><a href="#orgdf55133">4.2.5. virtualenv 실행</a></li>
-<li><a href="#org52eeff3">4.2.6. error code</a></li>
-<li><a href="#orgaf2a134">4.2.7. 구글링..구글링..</a></li>
-<li><a href="#org555974e">4.2.8. 다시 실행해보니 제대로 작동;; 파이썬과 친해지려면 한참 멀었구나</a></li>
-<li><a href="#org3e3e51c">4.2.9. <span class="todo TODO">TODO</span> 정상 작동! 일단 해결했는데 python@2 버전은 설치 안해놔도 되나;;</a></li>
-<li><a href="#org8b859a8">4.2.10. env에 uiap가 정상적으로 생성되었고, pyvenv-workon실행시키니 minibuffer에 해당 env가 표시되는것도 확인.</a></li>
-<li><a href="#org6a6ed8a">4.2.11. <span class="todo TODO">TODO</span> html로 export할때 RESULTS: 결과중 일부만 색상이나 밑줄등 바꾸려면 어떻게 해야할까?</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org07ae8a0">5. 웹으로 확인차 export할 때 블럭마다 confirm을 묻는데 매번 no 쳐야했다.</a>
-<ul>
-<li><a href="#orgc2e5426">5.1. The variable `org-babel-confirm-evaluate-answer-no' is used by</a></li>
-</ul>
-</li>
-<li><a href="#orgc5cf7b4">6. install jupyter</a>
-<ul>
-<li><a href="#orgd2829f3">6.1. uiap 활성화(pyvenv-workon -&gt; uiap)</a></li>
-<li><a href="#orgcf70b1e">6.2. version 확인</a></li>
-<li><a href="#org9965063">6.3. pip 업그레이드 (해야하나;;)</a></li>
-<li><a href="#orgac5c1e0">6.4. 최신버전이라는군. jupyter 설치</a></li>
-<li><a href="#org7dbcb8a">6.5. ipython 테스트</a></li>
-<li><a href="#org5e40186">6.6. org-babel 테스트</a></li>
-<li><a href="#orgbdeec9f">6.7. matplotlib 설치</a></li>
-</ul>
-</li>
-<li><a href="#org3e90f2b">7. anaconda 를 설치했으면 됐는데</a>
-<ul>
-<li><a href="#orgd3c94a6">7.1. install 가능한 버전 확인</a></li>
-<li><a href="#org0da064a">7.2. 새로 가상환경을 만들고 anaconda를 설치하자</a>
-<ul>
-<li><a href="#orgd56c29f">7.2.1. virtualenvs 확인</a></li>
-<li><a href="#orgcb88d8e">7.2.2. 잠깐 왜</a></li>
-<li><a href="#org8a48db2">7.2.3. pyvenv.el을 보니 exec-path를 참조한다고 해 있어서 <i>Users/sroh</i>.pyenv/shims 을 추가</a></li>
-<li><a href="#orgb18a8f4">7.2.4. M-x pyvenv-create 선택 후 test-anaconda로 이름을 설정하고 python 선택</a></li>
-<li><a href="#orgbdccb39">7.2.5. anaconda 설치</a></li>
-<li><a href="#org0b3a4d9">7.2.6. pyenv 버전 변경</a></li>
-<li><a href="#org6041ed0">7.2.7. pyvenv-create 테스트</a></li>
-<li><a href="#orgfc6d127">7.2.8. python 버전 밑 위치 확인</a></li>
-<li><a href="#orgb2c6769">7.2.9. virtualenv 설치</a></li>
-<li><a href="#org7473ce7">7.2.10. virtualenv 버전 확인</a></li>
-<li><a href="#org2e2330b">7.2.11. pyvenv-create 테스트</a></li>
-<li><a href="#org54fb06b">7.2.12. pyvenv-workon 으로 아나콘다 버전 설정하고 create 실행하니 경로가 선택한 아나콘다 버전을 가리킨다.</a></li>
-<li><a href="#org26f43ce">7.2.13. pyenv virtualenvs 확인해보자</a></li>
-<li><a href="#org3e9db05">7.2.14. workon으로 변경해보자</a></li>
-<li><a href="#org647f458">7.2.15. virtualenv를 anaconda버전으로 설정해도 create를 할때 shims/python으로 하면 3.8.5 버전으로 설치된다!</a></li>
-<li><a href="#orge894df9">7.2.16. 또다른 문제</a></li>
-<li><a href="#orgeec9cea">7.2.17. 결론 WORKFLOW</a></li>
-<li><a href="#orgc272b86">7.2.18. python-language-server 설치</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#orgaf22def">8. LSP mode in org-babel</a>
-<ul>
-<li><a href="#org00925c1">8.1. org file안에서 begin<sub>src</sub> ipython &#x2026;. :tangle "filename.py" 를 해준다</a></li>
-<li><a href="#org09a2b5a">8.2. filename.py를 열고 lsp server를 작동시킨다.</a></li>
-<li><a href="#orga478aa2">8.3. 다시 org file 을 열고 lsp-org 실행시킨다.</a></li>
-<li><a href="#org12e0a10">8.4. 2020-09-07 18:58:13,245 UTC - WARNING - pyls<sub>jsonrpc.endpoint</sub> - Received cancel notification for unknown message id 2</a></li>
-</ul>
-</li>
-<li><a href="#org5c107ac">9. lsp 에서 lsp-python-ms 로 갈아탔다</a>
-<ul>
-<li><a href="#org1f6b5b9">9.1. lsp 에선 code completion 이 조금 부족한 부분이 있어서 ms로 갈아탔다.</a>
-<ul>
-<li><a href="#org88ee0d6">9.1.1. <span class="todo TODO">TODO</span> 제대로 작동하다 안되다하는게 문제.. 몇번 재접속하다보면 제대로 작동한다. 왜 그럴까 &#x2013;;</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org5254e38">10. <span class="todo TODO">TODO</span> 소스블락이 여러개일때 lsp-org 가 제대로 작동하게 하는 방법?</a></li>
-<li><a href="#orge0e0a76">11. 출력 results 에 대해 좀 알아보자 출력이 헷갈린다. print(&#x2026; 그냥 print없이 변수 출력</a></li>
-</ul>
+<div id="outline-container-orge2f910b" class="outline-2">
+<h2 id="orge2f910b">lectures(TODO: 정리날짜임.. 수정하자)</h2>
+<div class="outline-text-2" id="text-orge2f910b">
 </div>
-</div>
-<div id="outline-container-org3b65cea" class="outline-2">
-<h2 id="org3b65cea"><span class="section-number-2">1</span> lectures</h2>
-<div class="outline-text-2" id="text-1">
-</div>
-<div id="outline-container-org6fb6a0c" class="outline-3">
-<h3 id="org6fb6a0c"><span class="section-number-3">1.1</span> <a href="lecture-note/synopsis-kdh-200906.html#MissingReference">200906</a></h3>
+<div id="outline-container-orgabe6fd6" class="outline-3">
+<h3 id="orgabe6fd6"><a href="lecture-note/synopsis-kdh-200906.html#MissingReference">200906</a></h3>
 </div>
 
-<div id="outline-container-org167861b" class="outline-3">
-<h3 id="org167861b"><span class="section-number-3">1.2</span> <a href="lecture-note/ai-methodology-???-200907.html#MissingReference">200907</a></h3>
+<div id="outline-container-orgb1e5ba0" class="outline-3">
+<h3 id="orgb1e5ba0"><a href="lecture-note/ai-methodology-unnamed.html#MissingReference">200907</a></h3>
 </div>
 
-<div id="outline-container-org768abc6" class="outline-3">
-<h3 id="org768abc6"><span class="section-number-3">1.3</span> <a href="lecture-note/ai-lecture-kdh-200908.html#MissingReference">200908</a></h3>
+<div id="outline-container-org4f8b1a9" class="outline-3">
+<h3 id="org4f8b1a9"><a href="lecture-note/ai-lecture-kdh-200908.html#MissingReference">200908</a></h3>
 </div>
 
-<div id="outline-container-orgd9cd7f8" class="outline-3">
-<h3 id="orgd9cd7f8"><span class="section-number-3">1.4</span> <a href="lecture-note/ai-lecture-kdh-200908-2.html#MissingReference">200908-2</a></h3>
+<div id="outline-container-org3819ea0" class="outline-3">
+<h3 id="org3819ea0"><a href="lecture-note/ai-lecture-kdh-200908-2.html#MissingReference">200908-2</a></h3>
 </div>
 
-<div id="outline-container-orgb4fcdb7" class="outline-3">
-<h3 id="orgb4fcdb7"><span class="section-number-3">1.5</span> <a href="lecture-note/ai-lecture-kdh-200908-3.html#MissingReference">200908-3</a></h3>
+<div id="outline-container-org941a0ec" class="outline-3">
+<h3 id="org941a0ec"><a href="lecture-note/ai-lecture-kdh-200908-3.html#MissingReference">200908-3</a></h3>
 </div>
 
-<div id="outline-container-org012e0b8" class="outline-3">
-<h3 id="org012e0b8"><span class="section-number-3">1.6</span> <a href="lecture-note/ai-lecture-kdh-200909-1.html#MissingReference">200909-1</a></h3>
+<div id="outline-container-org9761ec1" class="outline-3">
+<h3 id="org9761ec1"><a href="lecture-note/ai-lecture-kdh-200909-1.html#MissingReference">200909-1</a></h3>
 </div>
 
-<div id="outline-container-org5c74944" class="outline-3">
-<h3 id="org5c74944"><span class="section-number-3">1.7</span> <a href="lecture-note/ai-lecture-kdh-200909-2.html#MissingReference">200909-2</a></h3>
+<div id="outline-container-orgbd0f492" class="outline-3">
+<h3 id="orgbd0f492"><a href="lecture-note/ai-lecture-kdh-200909-2.html#MissingReference">200909-2</a></h3>
 </div>
 
-<div id="outline-container-org322549f" class="outline-3">
-<h3 id="org322549f"><span class="section-number-3">1.8</span> <a href="lecture-note/ai-lecture-kdh-200910.html#MissingReference">200910</a></h3>
+<div id="outline-container-orgaa9add6" class="outline-3">
+<h3 id="orgaa9add6"><a href="lecture-note/ai-lecture-kdh-200910.html#MissingReference">200910</a></h3>
 </div>
 
-<div id="outline-container-org3584c7f" class="outline-3">
-<h3 id="org3584c7f"><span class="section-number-3">1.9</span> <a href="lecture-note/ai-lecture-kdh-200911.html#MissingReference">200911</a></h3>
+<div id="outline-container-orgc9b48dd" class="outline-3">
+<h3 id="orgc9b48dd"><a href="lecture-note/ai-lecture-kdh-200911.html#MissingReference">200911</a></h3>
 </div>
 
-<div id="outline-container-org487662d" class="outline-3">
-<h3 id="org487662d"><span class="section-number-3">1.10</span> <a href="lecture-note/ai-lecture-kdh-200912.html#MissingReference">200912</a></h3>
+<div id="outline-container-orga220b57" class="outline-3">
+<h3 id="orga220b57"><a href="lecture-note/ai-lecture-kdh-200912.html#MissingReference">200912</a></h3>
 </div>
 </div>
 
-<div id="outline-container-org9a63135" class="outline-2">
-<h2 id="org9a63135"><span class="section-number-2">2</span> pyenv은 파이썬 버전을 다양하게 사용할 수 있다</h2>
+<div id="outline-container-orgb126b46" class="outline-2">
+<h2 id="orgb126b46">pyenv은 파이썬 버전을 다양하게 사용할 수 있다</h2>
 </div>
-<div id="outline-container-orgde00b3b" class="outline-2">
-<h2 id="orgde00b3b"><span class="section-number-2">3</span> virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-orgb4d038c" class="outline-2">
+<h2 id="orgb4d038c">virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.</h2>
+<div class="outline-text-2" id="text-orgb4d038c">
 <p>
 pyenv의 목록에 virtualenv가 들어가기 때문에 pyenv를 먼저 설치
 </p>
 </div>
 </div>
 
-<div id="outline-container-org64b2ec8" class="outline-2">
-<h2 id="org64b2ec8"><span class="section-number-2">4</span> pyvenv-create를 이용해서 virtualenv를 새로 생성하려 했으나 제대로 작동이 안되었다;;</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-org81950b0" class="outline-2">
+<h2 id="org81950b0">pyvenv-create를 이용해서 virtualenv를 새로 생성하려 했으나 제대로 작동이 안되었다;;</h2>
+<div class="outline-text-2" id="text-org81950b0">
 </div>
-<div id="outline-container-orgcc80a8a" class="outline-3">
-<h3 id="orgcc80a8a"><span class="section-number-3">4.1</span> pyenv가 작동하는지부터 확인</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-orga53e100" class="outline-3">
+<h3 id="orga53e100">pyenv가 작동하는지부터 확인</h3>
+<div class="outline-text-3" id="text-orga53e100">
 <p>
 잘 작동하는걸로 봐서는 다른 곳에 원인이 있는 것 같음
 </p>
@@ -478,13 +373,13 @@ For full documentation, see: https://github.com/pyenv/pyenv#readme
 </div>
 
 
-<div id="outline-container-orgd7d57cd" class="outline-3">
-<h3 id="orgd7d57cd"><span class="section-number-3">4.2</span> pyvenv-create.el 소스코드를 보며 원인을 찾아보다 virtualenv 에서 에러코드를 발생하는 것을 발견</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-org2e2801a" class="outline-3">
+<h3 id="org2e2801a">pyvenv-create.el 소스코드를 보며 원인을 찾아보다 virtualenv 에서 에러코드를 발생하는 것을 발견</h3>
+<div class="outline-text-3" id="text-org2e2801a">
 </div>
-<div id="outline-container-orgf2c6904" class="outline-4">
-<h4 id="orgf2c6904"><span class="section-number-4">4.2.1</span> virtualenv 실행</h4>
-<div class="outline-text-4" id="text-4-2-1">
+<div id="outline-container-orgf5a896b" class="outline-4">
+<h4 id="orgf5a896b">virtualenv 실행</h4>
+<div class="outline-text-4" id="text-orgf5a896b">
 <div class="org-src-container">
 <pre class="src src-bash">virtualenv
 </pre>
@@ -492,9 +387,9 @@ For full documentation, see: https://github.com/pyenv/pyenv#readme
 </div>
 </div>
 
-<div id="outline-container-org1e77457" class="outline-4">
-<h4 id="org1e77457"><span class="section-number-4">4.2.2</span> <span class="todo TODO">TODO</span> error code(에러를 새 버퍼에 띄우는데 바로 나타내는 방법은 없는걸까,  버퍼에 나타난 에러를 복사한후 소스코드 블럭안에 넣어놨다)</h4>
-<div class="outline-text-4" id="text-4-2-2">
+<div id="outline-container-org3adaeaf" class="outline-4">
+<h4 id="org3adaeaf"><span class="todo TODO">TODO</span> error code(에러를 새 버퍼에 띄우는데 바로 나타내는 방법은 없는걸까,  버퍼에 나타난 에러를 복사한후 소스코드 블럭안에 넣어놨다)</h4>
+<div class="outline-text-4" id="text-org3adaeaf">
 <ul class="org-ul">
 <li>파이썬 버전이 2.7.16 을 찾네..</li>
 <li>2.7.16은 맥에 기본적으로 깔려있는 버전이고, 현재 깔아놓은 파이썬 버전은 3.8.5 이다. 구글링..구글링..구글링..</li>
@@ -547,9 +442,9 @@ ValueError: unsupported hash type sha512
 </div>
 </div>
 
-<div id="outline-container-org0abf564" class="outline-4">
-<h4 id="org0abf564"><span class="section-number-4">4.2.3</span> PATH쪽 확인</h4>
-<div class="outline-text-4" id="text-4-2-3">
+<div id="outline-container-orgdbb0c91" class="outline-4">
+<h4 id="orgdbb0c91">PATH쪽 확인</h4>
+<div class="outline-text-4" id="text-orgdbb0c91">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'pyvenv)
 (pyvenv-mode 1)
@@ -574,9 +469,9 @@ ValueError: unsupported hash type sha512
 </div>
 </div>
 
-<div id="outline-container-org4fd42ea" class="outline-4">
-<h4 id="org4fd42ea"><span class="section-number-4">4.2.4</span> 구글링해보니 python@2 재설치로 해결했다는 걸 봄. 삭제하면 안된다는 글을 본것 같은데;; 포멧 각인가</h4>
-<div class="outline-text-4" id="text-4-2-4">
+<div id="outline-container-org18af1ce" class="outline-4">
+<h4 id="org18af1ce">구글링해보니 python@2 재설치로 해결했다는 걸 봄. 삭제하면 안된다는 글을 본것 같은데;; 포멧 각인가</h4>
+<div class="outline-text-4" id="text-org18af1ce">
 <div class="org-src-container">
 <pre class="src src-bash">brew uninstall python@2
 </pre>
@@ -584,9 +479,9 @@ ValueError: unsupported hash type sha512
 </div>
 </div>
 
-<div id="outline-container-orgdf55133" class="outline-4">
-<h4 id="orgdf55133"><span class="section-number-4">4.2.5</span> virtualenv 실행</h4>
-<div class="outline-text-4" id="text-4-2-5">
+<div id="outline-container-org423be17" class="outline-4">
+<h4 id="org423be17">virtualenv 실행</h4>
+<div class="outline-text-4" id="text-org423be17">
 <div class="org-src-container">
 <pre class="src src-bash">virtualenv
 </pre>
@@ -594,9 +489,9 @@ ValueError: unsupported hash type sha512
 </div>
 </div>
 
-<div id="outline-container-org52eeff3" class="outline-4">
-<h4 id="org52eeff3"><span class="section-number-4">4.2.6</span> error code</h4>
-<div class="outline-text-4" id="text-4-2-6">
+<div id="outline-container-org627caba" class="outline-4">
+<h4 id="org627caba">error code</h4>
+<div class="outline-text-4" id="text-org627caba">
 <div class="org-src-container">
 <pre class="src src-sh">/usr/local/Cellar/pyenv/1.2.20/libexec/pyenv-exec: /usr/local/bin/virtualenv: /usr/local/opt/python@2/bin/python2.7: bad interpreter: No such file or directory
 /usr/local/Cellar/pyenv/1.2.20/libexec/pyenv-exec: line 48: /usr/local/bin/virtualenv: Undefined error: 0
@@ -605,9 +500,9 @@ ValueError: unsupported hash type sha512
 </div>
 </div>
 
-<div id="outline-container-orgaf2a134" class="outline-4">
-<h4 id="orgaf2a134"><span class="section-number-4">4.2.7</span> 구글링..구글링..</h4>
-<div class="outline-text-4" id="text-4-2-7">
+<div id="outline-container-org08534f0" class="outline-4">
+<h4 id="org08534f0">구글링..구글링..</h4>
+<div class="outline-text-4" id="text-org08534f0">
 <p>
 virtualenv를 재설치 해보라네
 </p>
@@ -623,19 +518,19 @@ virtualenv를 재설치 해보라네
 
 <pre class="example">
 Requirement already satisfied: virtualenv in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (20.0.31)
-Requirement already satisfied: filelock&lt;4,&gt;=3.0.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (3.0.8)
 Requirement already satisfied: appdirs&lt;2,&gt;=1.4.3 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (1.4.3)
-Requirement already satisfied: six&lt;2,&gt;=1.9.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (1.15.0)
+Requirement already satisfied: filelock&lt;4,&gt;=3.0.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (3.0.8)
 Requirement already satisfied: distlib&lt;1,&gt;=0.3.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (0.3.1)
 Requirement already satisfied: importlib-metadata&lt;2,&gt;=0.12; python_version &lt; "3.8" in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (1.7.0)
+Requirement already satisfied: six&lt;2,&gt;=1.9.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (1.15.0)
 Requirement already satisfied: zipp&gt;=0.5 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from importlib-metadata&lt;2,&gt;=0.12; python_version &lt; "3.8"-&gt;virtualenv) (3.1.0)
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org555974e" class="outline-4">
-<h4 id="org555974e"><span class="section-number-4">4.2.8</span> 다시 실행해보니 제대로 작동;; 파이썬과 친해지려면 한참 멀었구나</h4>
-<div class="outline-text-4" id="text-4-2-8">
+<div id="outline-container-orgf062407" class="outline-4">
+<h4 id="orgf062407">다시 실행해보니 제대로 작동;; 파이썬과 친해지려면 한참 멀었구나</h4>
+<div class="outline-text-4" id="text-orgf062407">
 <div class="org-src-container">
 <pre class="src src-bash">virtualenv --version
 </pre>
@@ -647,9 +542,9 @@ virtualenv 20.0.31 from /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.
 </div>
 </div>
 
-<div id="outline-container-org3e3e51c" class="outline-4">
-<h4 id="org3e3e51c"><span class="section-number-4">4.2.9</span> <span class="todo TODO">TODO</span> 정상 작동! 일단 해결했는데 python@2 버전은 설치 안해놔도 되나;;</h4>
-<div class="outline-text-4" id="text-4-2-9">
+<div id="outline-container-org8139f79" class="outline-4">
+<h4 id="org8139f79"><span class="todo TODO">TODO</span> 정상 작동! 일단 해결했는데 python@2 버전은 설치 안해놔도 되나;;</h4>
+<div class="outline-text-4" id="text-org8139f79">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'pyvenv)
 (pyvenv-mode 1)
@@ -673,9 +568,9 @@ virtualenv 20.0.31 from /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.
 </div>
 </div>
 
-<div id="outline-container-org8b859a8" class="outline-4">
-<h4 id="org8b859a8"><span class="section-number-4">4.2.10</span> env에 uiap가 정상적으로 생성되었고, pyvenv-workon실행시키니 minibuffer에 해당 env가 표시되는것도 확인.</h4>
-<div class="outline-text-4" id="text-4-2-10">
+<div id="outline-container-orgd8ba5b2" class="outline-4">
+<h4 id="orgd8ba5b2">env에 uiap가 정상적으로 생성되었고, pyvenv-workon실행시키니 minibuffer에 해당 env가 표시되는것도 확인.</h4>
+<div class="outline-text-4" id="text-orgd8ba5b2">
 <pre class="example">
 3.8.5/envs/emacs (created from /Users/sroh/.pyenv/versions/3.8.5)
 3.8.5/envs/opencv (created from /Users/sroh/.pyenv/versions/3.8.5)
@@ -692,22 +587,22 @@ uiap (created from /usr/local/Cellar/python@3.8/3.8.5/Frameworks/Python.framewor
 </div>
 </div>
 
-<div id="outline-container-org6a6ed8a" class="outline-4">
-<h4 id="org6a6ed8a"><span class="section-number-4">4.2.11</span> <span class="todo TODO">TODO</span> html로 export할때 RESULTS: 결과중 일부만 색상이나 밑줄등 바꾸려면 어떻게 해야할까?</h4>
+<div id="outline-container-orgbe29b8e" class="outline-4">
+<h4 id="orgbe29b8e"><span class="todo TODO">TODO</span> html로 export할때 RESULTS: 결과중 일부만 색상이나 밑줄등 바꾸려면 어떻게 해야할까?</h4>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org07ae8a0" class="outline-2">
-<h2 id="org07ae8a0"><span class="section-number-2">5</span> 웹으로 확인차 export할 때 블럭마다 confirm을 묻는데 매번 no 쳐야했다.</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-orgb469400" class="outline-2">
+<h2 id="orgb469400">웹으로 확인차 export할 때 블럭마다 confirm을 묻는데 매번 no 쳐야했다.</h2>
+<div class="outline-text-2" id="text-orgb469400">
 <p>
 현재 해결된 문제의 코드를 다시 evaluate하면 다른 메세지를 나타내기 때문에 no를 해야했는데 ob-core.el 파일을 읽어보니 해결책이 있었다.
 </p>
 </div>
-<div id="outline-container-orgc2e5426" class="outline-3">
-<h3 id="orgc2e5426"><span class="section-number-3">5.1</span> The variable `org-babel-confirm-evaluate-answer-no' is used by</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-orgb7140c0" class="outline-3">
+<h3 id="orgb7140c0">The variable `org-babel-confirm-evaluate-answer-no' is used by</h3>
+<div class="outline-text-3" id="text-orgb7140c0">
 <p>
 the async export process, which requires a non-interactive
 environment, to override this check."
@@ -720,17 +615,17 @@ environment, to override this check."
 </div>
 </div>
 
-<div id="outline-container-orgc5cf7b4" class="outline-2">
-<h2 id="orgc5cf7b4"><span class="section-number-2">6</span> install jupyter</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-orgf4f79d3" class="outline-2">
+<h2 id="orgf4f79d3">install jupyter</h2>
+<div class="outline-text-2" id="text-orgf4f79d3">
 </div>
-<div id="outline-container-orgd2829f3" class="outline-3">
-<h3 id="orgd2829f3"><span class="section-number-3">6.1</span> uiap 활성화(pyvenv-workon -&gt; uiap)</h3>
+<div id="outline-container-orge24e8c0" class="outline-3">
+<h3 id="orge24e8c0">uiap 활성화(pyvenv-workon -&gt; uiap)</h3>
 </div>
 
-<div id="outline-container-orgcf70b1e" class="outline-3">
-<h3 id="orgcf70b1e"><span class="section-number-3">6.2</span> version 확인</h3>
-<div class="outline-text-3" id="text-6-2">
+<div id="outline-container-orge15a21d" class="outline-3">
+<h3 id="orge15a21d">version 확인</h3>
+<div class="outline-text-3" id="text-orge15a21d">
 <div class="org-src-container">
 <pre class="src src-bash">python -V
 </pre>
@@ -738,9 +633,9 @@ environment, to override this check."
 </div>
 </div>
 
-<div id="outline-container-org9965063" class="outline-3">
-<h3 id="org9965063"><span class="section-number-3">6.3</span> pip 업그레이드 (해야하나;;)</h3>
-<div class="outline-text-3" id="text-6-3">
+<div id="outline-container-orgf8e11b4" class="outline-3">
+<h3 id="orgf8e11b4">pip 업그레이드 (해야하나;;)</h3>
+<div class="outline-text-3" id="text-orgf8e11b4">
 <div class="org-src-container">
 <pre class="src src-bash">python3 -m pip install --upgrade pip
 </pre>
@@ -748,9 +643,9 @@ environment, to override this check."
 </div>
 </div>
 
-<div id="outline-container-orgac5c1e0" class="outline-3">
-<h3 id="orgac5c1e0"><span class="section-number-3">6.4</span> 최신버전이라는군. jupyter 설치</h3>
-<div class="outline-text-3" id="text-6-4">
+<div id="outline-container-org9d548d3" class="outline-3">
+<h3 id="org9d548d3">최신버전이라는군. jupyter 설치</h3>
+<div class="outline-text-3" id="text-org9d548d3">
 <div class="org-src-container">
 <pre class="src src-bash">python3 -m pip install jupyter
 </pre>
@@ -758,57 +653,57 @@ environment, to override this check."
 
 <pre class="example">
 Requirement already satisfied: jupyter in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (1.0.0)
-Requirement already satisfied: notebook in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter) (5.6.0)
-Requirement already satisfied: ipykernel in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter) (4.9.0)
-Requirement already satisfied: qtconsole in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter) (4.4.1)
 Requirement already satisfied: ipywidgets in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter) (7.4.1)
-Requirement already satisfied: nbconvert in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter) (5.4.0)
 Requirement already satisfied: jupyter-console in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter) (5.2.0)
-Requirement already satisfied: tornado&gt;=4 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (5.1)
-Requirement already satisfied: jupyter-core&gt;=4.4.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (4.4.0)
-Requirement already satisfied: ipython-genutils in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (0.2.0)
-Requirement already satisfied: nbformat in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (4.4.0)
-Requirement already satisfied: Send2Trash in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (1.5.0)
-Requirement already satisfied: traitlets&gt;=4.2.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (4.3.2)
-Requirement already satisfied: jupyter-client&gt;=5.2.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (5.2.3)
-Requirement already satisfied: terminado&gt;=0.8.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (0.8.1)
-Requirement already satisfied: jinja2 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (2.10)
-Requirement already satisfied: prometheus-client in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (0.3.1)
-Requirement already satisfied: pyzmq&gt;=17 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (17.1.2)
-Requirement already satisfied: ipython&gt;=4.0.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipykernel-&gt;jupyter) (6.5.0)
+Requirement already satisfied: nbconvert in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter) (5.4.0)
+Requirement already satisfied: notebook in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter) (5.6.0)
+Requirement already satisfied: qtconsole in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter) (4.4.1)
+Requirement already satisfied: ipykernel in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter) (4.9.0)
+Requirement already satisfied: traitlets&gt;=4.3.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipywidgets-&gt;jupyter) (4.3.2)
+Requirement already satisfied: nbformat&gt;=4.2.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipywidgets-&gt;jupyter) (4.4.0)
 Requirement already satisfied: widgetsnbextension~=3.4.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipywidgets-&gt;jupyter) (3.4.1)
+Requirement already satisfied: ipython&gt;=4.0.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipywidgets-&gt;jupyter) (6.5.0)
+Requirement already satisfied: jupyter-client in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter-console-&gt;jupyter) (5.2.3)
+Requirement already satisfied: pygments in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter-console-&gt;jupyter) (2.2.0)
+Requirement already satisfied: prompt-toolkit&lt;2.0.0,&gt;=1.0.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter-console-&gt;jupyter) (1.0.15)
 Requirement already satisfied: mistune&gt;=0.8.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbconvert-&gt;jupyter) (0.8.3)
-Requirement already satisfied: pygments in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbconvert-&gt;jupyter) (2.2.0)
+Requirement already satisfied: jinja2 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbconvert-&gt;jupyter) (2.10)
+Requirement already satisfied: jupyter_core in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbconvert-&gt;jupyter) (4.4.0)
 Requirement already satisfied: entrypoints&gt;=0.2.2 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbconvert-&gt;jupyter) (0.2.3)
 Requirement already satisfied: bleach in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbconvert-&gt;jupyter) (2.1.4)
 Requirement already satisfied: pandocfilters&gt;=1.4.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbconvert-&gt;jupyter) (1.4.2)
 Requirement already satisfied: testpath in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbconvert-&gt;jupyter) (0.3.1)
 Requirement already satisfied: defusedxml in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbconvert-&gt;jupyter) (0.5.0)
-Requirement already satisfied: prompt-toolkit&lt;2.0.0,&gt;=1.0.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter-console-&gt;jupyter) (1.0.15)
-Requirement already satisfied: jsonschema!=2.5.0,&gt;=2.4 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbformat-&gt;notebook-&gt;jupyter) (2.6.0)
-Requirement already satisfied: decorator in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from traitlets&gt;=4.2.1-&gt;notebook-&gt;jupyter) (4.3.0)
-Requirement already satisfied: six in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from traitlets&gt;=4.2.1-&gt;notebook-&gt;jupyter) (1.15.0)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter-client&gt;=5.2.0-&gt;notebook-&gt;jupyter) (2.7.3)
-Requirement already satisfied: MarkupSafe&gt;=0.23 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jinja2-&gt;notebook-&gt;jupyter) (1.0)
-Requirement already satisfied: simplegeneric&gt;0.8 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;jupyter) (0.8.1)
-Requirement already satisfied: appnope; sys_platform == "darwin" in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;jupyter) (0.1.0)
-Requirement already satisfied: jedi&gt;=0.10 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;jupyter) (0.17.2)
-Requirement already satisfied: backcall in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;jupyter) (0.1.0)
-Requirement already satisfied: pexpect; sys_platform != "win32" in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;jupyter) (4.6.0)
-Requirement already satisfied: pickleshare in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;jupyter) (0.7.4)
-Requirement already satisfied: setuptools&gt;=18.5 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;jupyter) (40.2.0)
-Requirement already satisfied: html5lib!=1.0b1,!=1.0b2,!=1.0b3,!=1.0b4,!=1.0b5,!=1.0b6,!=1.0b7,!=1.0b8,&gt;=0.99999999pre in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from bleach-&gt;nbconvert-&gt;jupyter) (1.0.1)
+Requirement already satisfied: terminado&gt;=0.8.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (0.8.1)
+Requirement already satisfied: pyzmq&gt;=17 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (17.1.2)
+Requirement already satisfied: tornado&gt;=4 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (5.1)
+Requirement already satisfied: Send2Trash in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (1.5.0)
+Requirement already satisfied: prometheus-client in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (0.3.1)
+Requirement already satisfied: ipython-genutils in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from notebook-&gt;jupyter) (0.2.0)
+Requirement already satisfied: decorator in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from traitlets&gt;=4.3.1-&gt;ipywidgets-&gt;jupyter) (4.3.0)
+Requirement already satisfied: six in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from traitlets&gt;=4.3.1-&gt;ipywidgets-&gt;jupyter) (1.15.0)
+Requirement already satisfied: jsonschema!=2.5.0,&gt;=2.4 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from nbformat&gt;=4.2.0-&gt;ipywidgets-&gt;jupyter) (2.6.0)
+Requirement already satisfied: setuptools&gt;=18.5 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipywidgets-&gt;jupyter) (40.2.0)
+Requirement already satisfied: appnope; sys_platform == "darwin" in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipywidgets-&gt;jupyter) (0.1.0)
+Requirement already satisfied: backcall in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipywidgets-&gt;jupyter) (0.1.0)
+Requirement already satisfied: pickleshare in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipywidgets-&gt;jupyter) (0.7.4)
+Requirement already satisfied: simplegeneric&gt;0.8 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipywidgets-&gt;jupyter) (0.8.1)
+Requirement already satisfied: jedi&gt;=0.10 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipywidgets-&gt;jupyter) (0.17.2)
+Requirement already satisfied: pexpect; sys_platform != "win32" in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from ipython&gt;=4.0.0-&gt;ipywidgets-&gt;jupyter) (4.6.0)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jupyter-client-&gt;jupyter-console-&gt;jupyter) (2.7.3)
 Requirement already satisfied: wcwidth in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from prompt-toolkit&lt;2.0.0,&gt;=1.0.0-&gt;jupyter-console-&gt;jupyter) (0.1.7)
-Requirement already satisfied: parso&lt;0.8.0,&gt;=0.7.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jedi&gt;=0.10-&gt;ipython&gt;=4.0.0-&gt;ipykernel-&gt;jupyter) (0.7.1)
-Requirement already satisfied: ptyprocess&gt;=0.5 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from pexpect; sys_platform != "win32"-&gt;ipython&gt;=4.0.0-&gt;ipykernel-&gt;jupyter) (0.6.0)
+Requirement already satisfied: MarkupSafe&gt;=0.23 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jinja2-&gt;nbconvert-&gt;jupyter) (1.0)
+Requirement already satisfied: html5lib!=1.0b1,!=1.0b2,!=1.0b3,!=1.0b4,!=1.0b5,!=1.0b6,!=1.0b7,!=1.0b8,&gt;=0.99999999pre in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from bleach-&gt;nbconvert-&gt;jupyter) (1.0.1)
+Requirement already satisfied: parso&lt;0.8.0,&gt;=0.7.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from jedi&gt;=0.10-&gt;ipython&gt;=4.0.0-&gt;ipywidgets-&gt;jupyter) (0.7.1)
+Requirement already satisfied: ptyprocess&gt;=0.5 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from pexpect; sys_platform != "win32"-&gt;ipython&gt;=4.0.0-&gt;ipywidgets-&gt;jupyter) (0.6.0)
 Requirement already satisfied: webencodings in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from html5lib!=1.0b1,!=1.0b2,!=1.0b3,!=1.0b4,!=1.0b5,!=1.0b6,!=1.0b7,!=1.0b8,&gt;=0.99999999pre-&gt;bleach-&gt;nbconvert-&gt;jupyter) (0.5.1)
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org7dbcb8a" class="outline-3">
-<h3 id="org7dbcb8a"><span class="section-number-3">6.5</span> ipython 테스트</h3>
-<div class="outline-text-3" id="text-6-5">
+<div id="outline-container-orgbc13c4b" class="outline-3">
+<h3 id="orgbc13c4b">ipython 테스트</h3>
+<div class="outline-text-3" id="text-orgbc13c4b">
 <div class="org-src-container">
 <pre class="src src-bash">ipython -V
 </pre>
@@ -820,9 +715,9 @@ Requirement already satisfied: webencodings in /Users/sroh/.pyenv/versions/anaco
 </div>
 </div>
 
-<div id="outline-container-org5e40186" class="outline-3">
-<h3 id="org5e40186"><span class="section-number-3">6.6</span> org-babel 테스트</h3>
-<div class="outline-text-3" id="text-6-6">
+<div id="outline-container-org002cc89" class="outline-3">
+<h3 id="org002cc89">org-babel 테스트</h3>
+<div class="outline-text-3" id="text-org002cc89">
 <div class="org-src-container">
 <pre class="src src-ipython">print("hello world")
 </pre>
@@ -837,9 +732,9 @@ import numpy as np
 </div>
 </div>
 
-<div id="outline-container-orgbdeec9f" class="outline-3">
-<h3 id="orgbdeec9f"><span class="section-number-3">6.7</span> matplotlib 설치</h3>
-<div class="outline-text-3" id="text-6-7">
+<div id="outline-container-org95fc446" class="outline-3">
+<h3 id="org95fc446">matplotlib 설치</h3>
+<div class="outline-text-3" id="text-org95fc446">
 <div class="org-src-container">
 <pre class="src src-bash">pip install matplotlib
 </pre>
@@ -858,84 +753,94 @@ import numpy as np
 </div>
 
 <pre class="example">
-(array([  1.,   1.,   0.,   0.,   0.,   0.,   0.,   0.,   1.,   4.,   0.,
-2.,   0.,   0.,   1.,   0.,   0.,   2.,   1.,   3.,   1.,   1.,
-3.,   2.,   8.,   3.,   2.,   4.,   4.,   2.,   7.,   7.,   8.,
-11.,  21.,  13.,  16.,  16.,  19.,  19.,  24.,  21.,  31.,  29.,
-30.,  36.,  38.,  43.,  43.,  43.,  56.,  50.,  59.,  67.,  75.,
-70.,  70.,  86.,  78.,  94., 102.,  92., 109., 126., 133., 127.,
-132., 126., 177., 137., 181., 171., 171., 184., 199., 189., 207.,
-226., 246., 238., 255., 260., 253., 272., 300., 269., 286., 302.,
-295., 298., 294., 297., 293., 307., 317., 310., 336., 286., 328.,
-348., 316., 311., 322., 306., 299., 331., 265., 293., 296., 259.,
-297., 297., 259., 274., 239., 247., 244., 243., 231., 242., 226.,
-202., 203., 213., 183., 177., 175., 163., 156., 141., 163., 126.,
-135., 148., 106., 112., 104.,  84.,  92.,  86.,  84.,  68.,  81.,
-59.,  69.,  53.,  52.,  41.,  45.,  57.,  33.,  36.,  41.,  24.,
-25.,  29.,  19.,  25.,  19.,  21.,  20.,  16.,   6.,  11.,  11.,
-5.,   8.,  10.,  11.,   6.,   4.,   2.,   2.,   4.,   5.,   2.,
-1.,   2.,   4.,   0.,   1.,   2.,   1.,   2.,   1.,   0.,   3.,
-1.,   2.,   0.,   0.,   0.,   1.,   0.,   1.,   1.,   1.,   0.,
+(array([  1.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,
+0.,   1.,   0.,   1.,   2.,   0.,   1.,   1.,   2.,   0.,   2.,
+1.,   1.,   4.,   2.,   5.,   1.,   2.,   4.,   2.,   2.,   6.,
+9.,  10.,   7.,   7.,  15.,   7.,   5.,   6.,  15.,   8.,  19.,
+15.,  17.,  24.,  23.,  27.,  28.,  29.,  44.,  38.,  43.,  43.,
+36.,  44.,  74.,  64.,  53.,  68.,  77.,  86.,  77.,  82., 104.,
+107., 110., 102., 112., 147., 116., 150., 130., 151., 179., 169.,
+191., 186., 201., 196., 200., 220., 253., 238., 238., 246., 261.,
+250., 239., 272., 294., 268., 284., 317., 301., 317., 299., 325.,
+312., 360., 327., 327., 313., 307., 307., 350., 302., 328., 334.,
+333., 290., 292., 286., 295., 285., 290., 289., 268., 244., 267.,
+289., 252., 225., 256., 208., 205., 226., 217., 164., 205., 170.,
+177., 150., 153., 136., 121., 134., 126., 109., 104., 109., 114.,
+97.,  79.,  81.,  67.,  68.,  55.,  52.,  40.,  49.,  55.,  49.,
+45.,  31.,  39.,  34.,  37.,  24.,  24.,  20.,  18.,  18.,  17.,
+8.,  16.,  14.,   8.,  10.,   9.,   7.,  10.,   4.,   5.,   6.,
+4.,   3.,   1.,   4.,   1.,   1.,   2.,   3.,   3.,   0.,   1.,
+1.,   2.,   3.,   0.,   0.,   0.,   0.,   0.,   2.,   0.,   2.,
 0.,   1.]),
-array([-3.931375  , -3.8915981 , -3.85182119, -3.81204429, -3.77226739,
--3.73249049, -3.69271359, -3.65293669, -3.61315978, -3.57338288,
--3.53360598, -3.49382908, -3.45405218, -3.41427528, -3.37449837,
--3.33472147, -3.29494457, -3.25516767, -3.21539077, -3.17561387,
--3.13583696, -3.09606006, -3.05628316, -3.01650626, -2.97672936,
--2.93695246, -2.89717555, -2.85739865, -2.81762175, -2.77784485,
--2.73806795, -2.69829105, -2.65851414, -2.61873724, -2.57896034,
--2.53918344, -2.49940654, -2.45962964, -2.41985274, -2.38007583,
--2.34029893, -2.30052203, -2.26074513, -2.22096823, -2.18119133,
--2.14141442, -2.10163752, -2.06186062, -2.02208372, -1.98230682,
--1.94252992, -1.90275301, -1.86297611, -1.82319921, -1.78342231,
--1.74364541, -1.70386851, -1.6640916 , -1.6243147 , -1.5845378 ,
--1.5447609 , -1.504984  , -1.4652071 , -1.42543019, -1.38565329,
--1.34587639, -1.30609949, -1.26632259, -1.22654569, -1.18676878,
--1.14699188, -1.10721498, -1.06743808, -1.02766118, -0.98788428,
--0.94810737, -0.90833047, -0.86855357, -0.82877667, -0.78899977,
--0.74922287, -0.70944596, -0.66966906, -0.62989216, -0.59011526,
--0.55033836, -0.51056146, -0.47078455, -0.43100765, -0.39123075,
--0.35145385, -0.31167695, -0.27190005, -0.23212314, -0.19234624,
--0.15256934, -0.11279244, -0.07301554, -0.03323864,  0.00653827,
-0.04631517,  0.08609207,  0.12586897,  0.16564587,  0.20542277,
-0.24519967,  0.28497658,  0.32475348,  0.36453038,  0.40430728,
-0.44408418,  0.48386108,  0.52363799,  0.56341489,  0.60319179,
-0.64296869,  0.68274559,  0.72252249,  0.7622994 ,  0.8020763 ,
-0.8418532 ,  0.8816301 ,  0.921407  ,  0.9611839 ,  1.00096081,
-1.04073771,  1.08051461,  1.12029151,  1.16006841,  1.19984531,
-1.23962222,  1.27939912,  1.31917602,  1.35895292,  1.39872982,
-1.43850672,  1.47828363,  1.51806053,  1.55783743,  1.59761433,
-1.63739123,  1.67716813,  1.71694504,  1.75672194,  1.79649884,
-1.83627574,  1.87605264,  1.91582954,  1.95560645,  1.99538335,
-2.03516025,  2.07493715,  2.11471405,  2.15449095,  2.19426786,
-2.23404476,  2.27382166,  2.31359856,  2.35337546,  2.39315236,
-2.43292927,  2.47270617,  2.51248307,  2.55225997,  2.59203687,
-2.63181377,  2.67159067,  2.71136758,  2.75114448,  2.79092138,
-2.83069828,  2.87047518,  2.91025208,  2.95002899,  2.98980589,
-3.02958279,  3.06935969,  3.10913659,  3.14891349,  3.1886904 ,
-3.2284673 ,  3.2682442 ,  3.3080211 ,  3.347798  ,  3.3875749 ,
-3.42735181,  3.46712871,  3.50690561,  3.54668251,  3.58645941,
-3.62623631,  3.66601322,  3.70579012,  3.74556702,  3.78534392,
-3.82512082,  3.86489772,  3.90467463,  3.94445153,  3.98422843,
-4.02400533]),
+array([-4.22743784e+00, -4.18675965e+00, -4.14608146e+00, -4.10540327e+00,
+-4.06472508e+00, -4.02404689e+00, -3.98336870e+00, -3.94269051e+00,
+-3.90201232e+00, -3.86133413e+00, -3.82065594e+00, -3.77997775e+00,
+-3.73929956e+00, -3.69862137e+00, -3.65794318e+00, -3.61726499e+00,
+-3.57658680e+00, -3.53590861e+00, -3.49523042e+00, -3.45455223e+00,
+-3.41387404e+00, -3.37319585e+00, -3.33251766e+00, -3.29183947e+00,
+-3.25116128e+00, -3.21048309e+00, -3.16980490e+00, -3.12912671e+00,
+-3.08844852e+00, -3.04777033e+00, -3.00709214e+00, -2.96641395e+00,
+-2.92573576e+00, -2.88505757e+00, -2.84437938e+00, -2.80370119e+00,
+-2.76302300e+00, -2.72234481e+00, -2.68166662e+00, -2.64098843e+00,
+-2.60031024e+00, -2.55963205e+00, -2.51895386e+00, -2.47827567e+00,
+-2.43759748e+00, -2.39691929e+00, -2.35624110e+00, -2.31556291e+00,
+-2.27488472e+00, -2.23420654e+00, -2.19352835e+00, -2.15285016e+00,
+-2.11217197e+00, -2.07149378e+00, -2.03081559e+00, -1.99013740e+00,
+-1.94945921e+00, -1.90878102e+00, -1.86810283e+00, -1.82742464e+00,
+-1.78674645e+00, -1.74606826e+00, -1.70539007e+00, -1.66471188e+00,
+-1.62403369e+00, -1.58335550e+00, -1.54267731e+00, -1.50199912e+00,
+-1.46132093e+00, -1.42064274e+00, -1.37996455e+00, -1.33928636e+00,
+-1.29860817e+00, -1.25792998e+00, -1.21725179e+00, -1.17657360e+00,
+-1.13589541e+00, -1.09521722e+00, -1.05453903e+00, -1.01386084e+00,
+-9.73182648e-01, -9.32504458e-01, -8.91826268e-01, -8.51148078e-01,
+-8.10469888e-01, -7.69791698e-01, -7.29113508e-01, -6.88435318e-01,
+-6.47757128e-01, -6.07078938e-01, -5.66400749e-01, -5.25722559e-01,
+-4.85044369e-01, -4.44366179e-01, -4.03687989e-01, -3.63009799e-01,
+-3.22331609e-01, -2.81653419e-01, -2.40975229e-01, -2.00297039e-01,
+-1.59618849e-01, -1.18940659e-01, -7.82624696e-02, -3.75842796e-02,
+3.09391027e-03,  4.37721002e-02,  8.44502901e-02,  1.25128480e-01,
+1.65806670e-01,  2.06484860e-01,  2.47163050e-01,  2.87841240e-01,
+3.28519430e-01,  3.69197620e-01,  4.09875809e-01,  4.50553999e-01,
+4.91232189e-01,  5.31910379e-01,  5.72588569e-01,  6.13266759e-01,
+6.53944949e-01,  6.94623139e-01,  7.35301329e-01,  7.75979519e-01,
+8.16657709e-01,  8.57335898e-01,  8.98014088e-01,  9.38692278e-01,
+9.79370468e-01,  1.02004866e+00,  1.06072685e+00,  1.10140504e+00,
+1.14208323e+00,  1.18276142e+00,  1.22343961e+00,  1.26411780e+00,
+1.30479599e+00,  1.34547418e+00,  1.38615237e+00,  1.42683056e+00,
+1.46750875e+00,  1.50818694e+00,  1.54886513e+00,  1.58954332e+00,
+1.63022151e+00,  1.67089970e+00,  1.71157789e+00,  1.75225608e+00,
+1.79293427e+00,  1.83361246e+00,  1.87429065e+00,  1.91496884e+00,
+1.95564703e+00,  1.99632522e+00,  2.03700341e+00,  2.07768160e+00,
+2.11835979e+00,  2.15903798e+00,  2.19971617e+00,  2.24039436e+00,
+2.28107255e+00,  2.32175074e+00,  2.36242893e+00,  2.40310712e+00,
+2.44378531e+00,  2.48446350e+00,  2.52514169e+00,  2.56581987e+00,
+2.60649806e+00,  2.64717625e+00,  2.68785444e+00,  2.72853263e+00,
+2.76921082e+00,  2.80988901e+00,  2.85056720e+00,  2.89124539e+00,
+2.93192358e+00,  2.97260177e+00,  3.01327996e+00,  3.05395815e+00,
+3.09463634e+00,  3.13531453e+00,  3.17599272e+00,  3.21667091e+00,
+3.25734910e+00,  3.29802729e+00,  3.33870548e+00,  3.37938367e+00,
+3.42006186e+00,  3.46074005e+00,  3.50141824e+00,  3.54209643e+00,
+3.58277462e+00,  3.62345281e+00,  3.66413100e+00,  3.70480919e+00,
+3.74548738e+00,  3.78616557e+00,  3.82684376e+00,  3.86752195e+00,
+3.90820014e+00]),
 &lt;BarContainer object of 200 artists&gt;)
 </pre>
 
 <div class="figure">
-<p><img src="./obipy-resources/k0uzNR.png" alt="k0uzNR.png" />
+<p><img src="./obipy-resources/4gALQ3.png" alt="4gALQ3.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3e90f2b" class="outline-2">
-<h2 id="org3e90f2b"><span class="section-number-2">7</span> anaconda 를 설치했으면 됐는데</h2>
-<div class="outline-text-2" id="text-7">
+<div id="outline-container-orga11ad81" class="outline-2">
+<h2 id="orga11ad81">anaconda 를 설치했으면 됐는데</h2>
+<div class="outline-text-2" id="text-orga11ad81">
 </div>
-<div id="outline-container-orgd3c94a6" class="outline-3">
-<h3 id="orgd3c94a6"><span class="section-number-3">7.1</span> install 가능한 버전 확인</h3>
-<div class="outline-text-3" id="text-7-1">
+<div id="outline-container-orgab88ac7" class="outline-3">
+<h3 id="orgab88ac7">install 가능한 버전 확인</h3>
+<div class="outline-text-3" id="text-orgab88ac7">
 <div class="org-src-container">
 <pre class="src src-bash">pyenv install -l
 </pre>
@@ -943,13 +848,13 @@ array([-3.931375  , -3.8915981 , -3.85182119, -3.81204429, -3.77226739,
 </div>
 </div>
 
-<div id="outline-container-org0da064a" class="outline-3">
-<h3 id="org0da064a"><span class="section-number-3">7.2</span> 새로 가상환경을 만들고 anaconda를 설치하자</h3>
-<div class="outline-text-3" id="text-7-2">
+<div id="outline-container-org4065ad5" class="outline-3">
+<h3 id="org4065ad5">새로 가상환경을 만들고 anaconda를 설치하자</h3>
+<div class="outline-text-3" id="text-org4065ad5">
 </div>
-<div id="outline-container-orgd56c29f" class="outline-4">
-<h4 id="orgd56c29f"><span class="section-number-4">7.2.1</span> virtualenvs 확인</h4>
-<div class="outline-text-4" id="text-7-2-1">
+<div id="outline-container-org1d9f12f" class="outline-4">
+<h4 id="org1d9f12f">virtualenvs 확인</h4>
+<div class="outline-text-4" id="text-org1d9f12f">
 <div class="org-src-container">
 <pre class="src src-bash">pyenv virtualenvs
 </pre>
@@ -957,22 +862,22 @@ array([-3.931375  , -3.8915981 , -3.85182119, -3.81204429, -3.77226739,
 </div>
 </div>
 
-<div id="outline-container-orgcb88d8e" class="outline-4">
-<h4 id="orgcb88d8e"><span class="section-number-4">7.2.2</span> 잠깐 왜</h4>
-<div class="outline-text-4" id="text-7-2-2">
+<div id="outline-container-org2bd6796" class="outline-4">
+<h4 id="org2bd6796">잠깐 왜</h4>
+<div class="outline-text-4" id="text-org2bd6796">
 <p>
 (created from /usr/local/Cellar/python@3.8/3.8.5/Frameworks/Python.framework/Versions/3.8) 이지?
 </p>
 </div>
 </div>
 
-<div id="outline-container-org8a48db2" class="outline-4">
-<h4 id="org8a48db2"><span class="section-number-4">7.2.3</span> pyvenv.el을 보니 exec-path를 참조한다고 해 있어서 <i>Users/sroh</i>.pyenv/shims 을 추가</h4>
+<div id="outline-container-orgac4d89a" class="outline-4">
+<h4 id="orgac4d89a">pyvenv.el을 보니 exec-path를 참조한다고 해 있어서 <i>Users/sroh</i>.pyenv/shims 을 추가</h4>
 </div>
 
-<div id="outline-container-orgb18a8f4" class="outline-4">
-<h4 id="orgb18a8f4"><span class="section-number-4">7.2.4</span> M-x pyvenv-create 선택 후 test-anaconda로 이름을 설정하고 python 선택</h4>
-<div class="outline-text-4" id="text-7-2-4">
+<div id="outline-container-org7633b25" class="outline-4">
+<h4 id="org7633b25">M-x pyvenv-create 선택 후 test-anaconda로 이름을 설정하고 python 선택</h4>
+<div class="outline-text-4" id="text-org7633b25">
 <pre class="example">
 created virtual environment CPython3.8.5.final.0-64 in 1074ms
 creator CPython3Posix(dest=/Users/sroh/.pyenv/versions/test-anaconda, clear=False, global=False)
@@ -984,9 +889,9 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </div>
 </div>
 
-<div id="outline-container-orgbdccb39" class="outline-4">
-<h4 id="orgbdccb39"><span class="section-number-4">7.2.5</span> anaconda 설치</h4>
-<div class="outline-text-4" id="text-7-2-5">
+<div id="outline-container-org7b409e4" class="outline-4">
+<h4 id="org7b409e4">anaconda 설치</h4>
+<div class="outline-text-4" id="text-org7b409e4">
 <div class="org-src-container">
 <pre class="src src-bash">pyenv install anaconda3-5.3.1
 </pre>
@@ -1010,9 +915,9 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </div>
 </div>
 
-<div id="outline-container-org0b3a4d9" class="outline-4">
-<h4 id="org0b3a4d9"><span class="section-number-4">7.2.6</span> pyenv 버전 변경</h4>
-<div class="outline-text-4" id="text-7-2-6">
+<div id="outline-container-org0232981" class="outline-4">
+<h4 id="org0232981">pyenv 버전 변경</h4>
+<div class="outline-text-4" id="text-org0232981">
 <div class="org-src-container">
 <pre class="src src-bash">pyenv global anaconda3-5.3.1
 </pre>
@@ -1048,9 +953,9 @@ Python 3.7.0 (default, Jun 28 2018, 07:39:16)
 </div>
 </div>
 
-<div id="outline-container-org6041ed0" class="outline-4">
-<h4 id="org6041ed0"><span class="section-number-4">7.2.7</span> pyvenv-create 테스트</h4>
-<div class="outline-text-4" id="text-7-2-7">
+<div id="outline-container-orgbb5746d" class="outline-4">
+<h4 id="orgbb5746d">pyvenv-create 테스트</h4>
+<div class="outline-text-4" id="text-orgbb5746d">
 <p>
 env로 test-anaconda 만들었음
 </p>
@@ -1083,9 +988,9 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </p>
 </div>
 </div>
-<div id="outline-container-orgfc6d127" class="outline-4">
-<h4 id="orgfc6d127"><span class="section-number-4">7.2.8</span> python 버전 밑 위치 확인</h4>
-<div class="outline-text-4" id="text-7-2-8">
+<div id="outline-container-orge7b0049" class="outline-4">
+<h4 id="orge7b0049">python 버전 밑 위치 확인</h4>
+<div class="outline-text-4" id="text-orge7b0049">
 <div class="org-src-container">
 <pre class="src src-bash">python -V
 </pre>
@@ -1108,9 +1013,9 @@ Python 3.7.0 (default, Jun 28 2018, 07:39:16)
 </div>
 </div>
 
-<div id="outline-container-orgb2c6769" class="outline-4">
-<h4 id="orgb2c6769"><span class="section-number-4">7.2.9</span> virtualenv 설치</h4>
-<div class="outline-text-4" id="text-7-2-9">
+<div id="outline-container-org9b21cfb" class="outline-4">
+<h4 id="org9b21cfb">virtualenv 설치</h4>
+<div class="outline-text-4" id="text-org9b21cfb">
 <div class="org-src-container">
 <pre class="src src-bash">pip install virtualenv
 </pre>
@@ -1118,19 +1023,19 @@ Python 3.7.0 (default, Jun 28 2018, 07:39:16)
 
 <pre class="example">
 Requirement already satisfied: virtualenv in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (20.0.31)
-Requirement already satisfied: importlib-metadata&lt;2,&gt;=0.12; python_version &lt; "3.8" in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (1.7.0)
-Requirement already satisfied: appdirs&lt;2,&gt;=1.4.3 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (1.4.3)
 Requirement already satisfied: filelock&lt;4,&gt;=3.0.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (3.0.8)
-Requirement already satisfied: six&lt;2,&gt;=1.9.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (1.15.0)
+Requirement already satisfied: appdirs&lt;2,&gt;=1.4.3 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (1.4.3)
+Requirement already satisfied: importlib-metadata&lt;2,&gt;=0.12; python_version &lt; "3.8" in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (1.7.0)
 Requirement already satisfied: distlib&lt;1,&gt;=0.3.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (0.3.1)
+Requirement already satisfied: six&lt;2,&gt;=1.9.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from virtualenv) (1.15.0)
 Requirement already satisfied: zipp&gt;=0.5 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages (from importlib-metadata&lt;2,&gt;=0.12; python_version &lt; "3.8"-&gt;virtualenv) (3.1.0)
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org7473ce7" class="outline-4">
-<h4 id="org7473ce7"><span class="section-number-4">7.2.10</span> virtualenv 버전 확인</h4>
-<div class="outline-text-4" id="text-7-2-10">
+<div id="outline-container-orgf0d5597" class="outline-4">
+<h4 id="orgf0d5597">virtualenv 버전 확인</h4>
+<div class="outline-text-4" id="text-orgf0d5597">
 <div class="org-src-container">
 <pre class="src src-bash">virtualenv --version
 </pre>
@@ -1146,17 +1051,17 @@ ok!
 </div>
 </div>
 
-<div id="outline-container-org2e2330b" class="outline-4">
-<h4 id="org2e2330b"><span class="section-number-4">7.2.11</span> pyvenv-create 테스트</h4>
-<div class="outline-text-4" id="text-7-2-11">
+<div id="outline-container-org0edd356" class="outline-4">
+<h4 id="org0edd356">pyvenv-create 테스트</h4>
+<div class="outline-text-4" id="text-org0edd356">
 <p>
 pyvenv-create 바로 사용하니 3.8.5버전으로 설치된다
 </p>
 </div>
 </div>
-<div id="outline-container-org54fb06b" class="outline-4">
-<h4 id="org54fb06b"><span class="section-number-4">7.2.12</span> pyvenv-workon 으로 아나콘다 버전 설정하고 create 실행하니 경로가 선택한 아나콘다 버전을 가리킨다.</h4>
-<div class="outline-text-4" id="text-7-2-12">
+<div id="outline-container-org55a7941" class="outline-4">
+<h4 id="org55a7941">pyvenv-workon 으로 아나콘다 버전 설정하고 create 실행하니 경로가 선택한 아나콘다 버전을 가리킨다.</h4>
+<div class="outline-text-4" id="text-org55a7941">
 <p>
 설치도 제대로 된거 같다.
 </p>
@@ -1169,9 +1074,9 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </pre>
 </div>
 </div>
-<div id="outline-container-org26f43ce" class="outline-4">
-<h4 id="org26f43ce"><span class="section-number-4">7.2.13</span> pyenv virtualenvs 확인해보자</h4>
-<div class="outline-text-4" id="text-7-2-13">
+<div id="outline-container-orgca7c3f3" class="outline-4">
+<h4 id="orgca7c3f3">pyenv virtualenvs 확인해보자</h4>
+<div class="outline-text-4" id="text-orgca7c3f3">
 <div class="org-src-container">
 <pre class="src src-bash">pyenv virtualenvs
 </pre>
@@ -1192,74 +1097,74 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </div>
 </div>
 
-<div id="outline-container-org3e9db05" class="outline-4">
-<h4 id="org3e9db05"><span class="section-number-4">7.2.14</span> workon으로 변경해보자</h4>
-<div class="outline-text-4" id="text-7-2-14">
+<div id="outline-container-org366a270" class="outline-4">
+<h4 id="org366a270">workon으로 변경해보자</h4>
+<div class="outline-text-4" id="text-org366a270">
 <p>
 제대로 작동된다.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org647f458" class="outline-4">
-<h4 id="org647f458"><span class="section-number-4">7.2.15</span> virtualenv를 anaconda버전으로 설정해도 create를 할때 shims/python으로 하면 3.8.5 버전으로 설치된다!</h4>
+<div id="outline-container-org25a85ce" class="outline-4">
+<h4 id="org25a85ce">virtualenv를 anaconda버전으로 설정해도 create를 할때 shims/python으로 하면 3.8.5 버전으로 설치된다!</h4>
 </div>
 
-<div id="outline-container-orge894df9" class="outline-4">
-<h4 id="orge894df9"><span class="section-number-4">7.2.16</span> 또다른 문제</h4>
-<div class="outline-text-4" id="text-7-2-16">
+<div id="outline-container-org2c2ef2c" class="outline-4">
+<h4 id="org2c2ef2c">또다른 문제</h4>
+<div class="outline-text-4" id="text-org2c2ef2c">
 <p>
 virtualenv 폴더가 아나콘다 밑에 생성이 안되네;;
 </p>
 </div>
 
-<ol class="org-ol">
-<li><a id="orge30191a"></a>WORKON<sub>HOME</sub> setenv<br />
-<div class="outline-text-5" id="text-7-2-16-1">
+<ul class="org-ul">
+<li><a id="org019f5a8"></a>WORKON<sub>HOME</sub> setenv<br />
+<div class="outline-text-5" id="text-org019f5a8">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setenv "WORKON_HOME" "/Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/")
 </pre>
 </div>
 </div>
 </li>
-</ol>
+</ul>
 </div>
 
-<div id="outline-container-orgeec9cea" class="outline-4">
-<h4 id="orgeec9cea"><span class="section-number-4">7.2.17</span> 결론 WORKFLOW</h4>
-<div class="outline-text-4" id="text-7-2-17">
+<div id="outline-container-orgdfee504" class="outline-4">
+<h4 id="orgdfee504">결론 WORKFLOW</h4>
+<div class="outline-text-4" id="text-orgdfee504">
 </div>
-<ol class="org-ol">
-<li><a id="orga4c9ced"></a>pyenv 로 python 버전 설치 (python2&#x2026; python3&#x2026; anaconda3&#x2026; 등등)<br />
-<div class="outline-text-5" id="text-7-2-17-1">
+<ul class="org-ul">
+<li><a id="orgac4391e"></a>pyenv 로 python 버전 설치 (python2&#x2026; python3&#x2026; anaconda3&#x2026; 등등)<br />
+<div class="outline-text-5" id="text-orgac4391e">
 <p>
 pyenv install anaconda3-5.3.1
 </p>
 </div>
 </li>
 
-<li><a id="org23bd331"></a>WORKON<sub>HOME</sub> 재설정<br /></li>
+<li><a id="org5aab45e"></a>WORKON<sub>HOME</sub> 재설정<br /></li>
 
-<li><a id="org40a7a28"></a>pyvenv-create 설정<br />
-<div class="outline-text-5" id="text-7-2-17-3">
+<li><a id="orgd88544e"></a>pyvenv-create 설정<br />
+<div class="outline-text-5" id="text-orgd88544e">
 <p>
 python 디렉토리는 anaconda 밑으로 수동으로 설정.(지금은 anaconda설치니깐..)
 </p>
 </div>
 
-<ol class="org-ol">
-<li><a id="org0295663"></a><span class="todo TODO">TODO</span> global로 anaconda버전이 잡혀있는데 왜 emacs에서는 3.8.5 로 되는 걸까<br />
-<div class="outline-text-6" id="text-7-2-17-3-1">
+<ul class="org-ul">
+<li><a id="org94583c1"></a><span class="todo TODO">TODO</span> global로 anaconda버전이 잡혀있는데 왜 emacs에서는 3.8.5 로 되는 걸까<br />
+<div class="outline-text-6" id="text-org94583c1">
 <p>
 여튼 아래 방법으로 수동으로 python위치 잡아주면 되기는 한다.
 </p>
 </div>
 </li>
-</ol>
+</ul>
 </li>
 
-<li><a id="orgefd54a1"></a>test<br />
-<div class="outline-text-5" id="text-7-2-17-4">
+<li><a id="orgd4e4a56"></a>test<br />
+<div class="outline-text-5" id="text-orgd4e4a56">
 <p>
 pyvenv-workon test-anaconda
 </p>
@@ -1274,12 +1179,12 @@ Requirement already satisfied: numpy in /Users/sroh/.pyenv/versions/anaconda3-5.
 </pre>
 </div>
 </li>
-</ol>
+</ul>
 </div>
 
-<div id="outline-container-orgc272b86" class="outline-4">
-<h4 id="orgc272b86"><span class="section-number-4">7.2.18</span> python-language-server 설치</h4>
-<div class="outline-text-4" id="text-7-2-18">
+<div id="outline-container-orgfda3b9d" class="outline-4">
+<h4 id="orgfda3b9d">python-language-server 설치</h4>
+<div class="outline-text-4" id="text-orgfda3b9d">
 <div class="org-src-container">
 <pre class="src src-bash">which pyls
 </pre>
@@ -1330,22 +1235,22 @@ ModuleNotFoundError: No module named 'jupyter_client'
 </div>
 </div>
 
-<div id="outline-container-orgaf22def" class="outline-2">
-<h2 id="orgaf22def"><span class="section-number-2">8</span> LSP mode in org-babel</h2>
-<div class="outline-text-2" id="text-8">
+<div id="outline-container-org4608322" class="outline-2">
+<h2 id="org4608322">LSP mode in org-babel</h2>
+<div class="outline-text-2" id="text-org4608322">
 </div>
 
-<div id="outline-container-org00925c1" class="outline-3">
-<h3 id="org00925c1"><span class="section-number-3">8.1</span> org file안에서 begin<sub>src</sub> ipython &#x2026;. :tangle "filename.py" 를 해준다</h3>
+<div id="outline-container-orgdc71b92" class="outline-3">
+<h3 id="orgdc71b92">org file안에서 begin<sub>src</sub> ipython &#x2026;. :tangle "filename.py" 를 해준다</h3>
 </div>
 
-<div id="outline-container-org09a2b5a" class="outline-3">
-<h3 id="org09a2b5a"><span class="section-number-3">8.2</span> filename.py를 열고 lsp server를 작동시킨다.</h3>
+<div id="outline-container-org9fa315c" class="outline-3">
+<h3 id="org9fa315c">filename.py를 열고 lsp server를 작동시킨다.</h3>
 </div>
 
-<div id="outline-container-orga478aa2" class="outline-3">
-<h3 id="orga478aa2"><span class="section-number-3">8.3</span> 다시 org file 을 열고 lsp-org 실행시킨다.</h3>
-<div class="outline-text-3" id="text-8-3">
+<div id="outline-container-org3dec5f0" class="outline-3">
+<h3 id="org3dec5f0">다시 org file 을 열고 lsp-org 실행시킨다.</h3>
+<div class="outline-text-3" id="text-org3dec5f0">
 <p>
 org babel 에서 잘 작동된다!!! YES!
 </p>
@@ -1356,9 +1261,9 @@ org babel 에서 잘 작동된다!!! YES!
 </div>
 </div>
 
-<div id="outline-container-org12e0a10" class="outline-3">
-<h3 id="org12e0a10"><span class="section-number-3">8.4</span> 2020-09-07 18:58:13,245 UTC - WARNING - pyls<sub>jsonrpc.endpoint</sub> - Received cancel notification for unknown message id 2</h3>
-<div class="outline-text-3" id="text-8-4">
+<div id="outline-container-org1e7fdbe" class="outline-3">
+<h3 id="org1e7fdbe">2020-09-07 18:58:13,245 UTC - WARNING - pyls<sub>jsonrpc.endpoint</sub> - Received cancel notification for unknown message id 2</h3>
+<div class="outline-text-3" id="text-org1e7fdbe">
 <p>
 에러가 발생하는데 버전 미스매치라고 한다. T.T
 pip upgrade를 해보자;;
@@ -1379,36 +1284,36 @@ T.T 죽갔군..
 </div>
 </div>
 
-<div id="outline-container-org5c107ac" class="outline-2">
-<h2 id="org5c107ac"><span class="section-number-2">9</span> lsp 에서 lsp-python-ms 로 갈아탔다</h2>
-<div class="outline-text-2" id="text-9">
+<div id="outline-container-org8d326ef" class="outline-2">
+<h2 id="org8d326ef">lsp 에서 lsp-python-ms 로 갈아탔다</h2>
+<div class="outline-text-2" id="text-org8d326ef">
 </div>
-<div id="outline-container-org1f6b5b9" class="outline-3">
-<h3 id="org1f6b5b9"><span class="section-number-3">9.1</span> lsp 에선 code completion 이 조금 부족한 부분이 있어서 ms로 갈아탔다.</h3>
-<div class="outline-text-3" id="text-9-1">
+<div id="outline-container-orgaedabf0" class="outline-3">
+<h3 id="orgaedabf0">lsp 에선 code completion 이 조금 부족한 부분이 있어서 ms로 갈아탔다.</h3>
+<div class="outline-text-3" id="text-orgaedabf0">
 <p>
 변수가 어떤 객체인지 인식을 못하는건지 인식 후 코드 컴플리션이 안되는건 지 모르겠다.
 ms는변수에 맞게 methods 등이 제대로 컴플리션 되었다.
 </p>
 </div>
 
-<div id="outline-container-org88ee0d6" class="outline-4">
-<h4 id="org88ee0d6"><span class="section-number-4">9.1.1</span> <span class="todo TODO">TODO</span> 제대로 작동하다 안되다하는게 문제.. 몇번 재접속하다보면 제대로 작동한다. 왜 그럴까 &#x2013;;</h4>
+<div id="outline-container-org2941053" class="outline-4">
+<h4 id="org2941053"><span class="todo TODO">TODO</span> 제대로 작동하다 안되다하는게 문제.. 몇번 재접속하다보면 제대로 작동한다. 왜 그럴까 &#x2013;;</h4>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5254e38" class="outline-2">
-<h2 id="org5254e38"><span class="section-number-2">10</span> <span class="todo TODO">TODO</span> 소스블락이 여러개일때 lsp-org 가 제대로 작동하게 하는 방법?</h2>
+<div id="outline-container-org6f4628b" class="outline-2">
+<h2 id="org6f4628b"><span class="todo TODO">TODO</span> 소스블락이 여러개일때 lsp-org 가 제대로 작동하게 하는 방법?</h2>
 </div>
 
-<div id="outline-container-orge0e0a76" class="outline-2">
-<h2 id="orge0e0a76"><span class="section-number-2">11</span> 출력 results 에 대해 좀 알아보자 출력이 헷갈린다. print(&#x2026; 그냥 print없이 변수 출력</h2>
+<div id="outline-container-orgc9d508f" class="outline-2">
+<h2 id="orgc9d508f">출력 results 에 대해 좀 알아보자 출력이 헷갈린다. print(&#x2026; 그냥 print없이 변수 출력</h2>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-09-13 Sun 13:06</p>
+<p class="date">Created: 2020-09-13 Sun 13:42</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

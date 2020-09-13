@@ -1,11 +1,11 @@
-#+title: Literate programming
+#+title: Literate AI programming with Python
 #+subtitle: elisp, lisp, python, bash
 #+author: srolisp
-* lectures
+* lectures(TODO: 정리날짜임.. 수정하자)h
 
 ** [[file:lecture-note/synopsis-kdh-200906.html::<?xml version="1.0" encoding="utf-8"?>][200906]]
 
-** [[file:lecture-note/ai-methodology-???-200907.html::<?xml version="1.0" encoding="utf-8"?>][200907]]
+** [[file:lecture-note/ai-methodology-unnamed.html::<?xml version="1.0" encoding="utf-8"?>][200907]]
 
 ** [[file:lecture-note/ai-lecture-kdh-200908.html::<?xml version="1.0" encoding="utf-8"?>][200908]]
 
