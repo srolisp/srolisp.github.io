@@ -1,0 +1,59 @@
+#+title: AI methodology
+#+subtitle: 2 weeks by ???
+#+date: <2020-09-07 Mon 16:00>
+#+tags: 신경망, 지도학습, 비지도학습, 강화학습
+#+author: srolisp
+
+* 인공지능(AI) \supset 머신러닝 \supset 딥러닝
+ :PROPERTIES:
+  :header-args:bash: :results verbatim :exports both
+  :header-args:elisp: :exports both
+  :header-args:ipython: :exports both
+  :END:
+** 인공지능
+
++ 인간이 가지고 있는 지적 능력을 컴퓨터에서 구현하는 다양한 기술이나 소프트웨어, 컴퓨터 시스템 등을 가리킴.
+
++ 행동의 자동화(weak AI)
+
++ 합리적으로 생각하는(추리할수있는) (weak AI)
+
++ (- 사람처럼: strong AI)
+
+*** 머신러닝
+
++ 컴퓨터를 인간처럼 학습시킴으로써 컴퓨터가 새로운 규칙을 생성할 수 있지 않을까 하는 시도에서 시작
+
++ 컴퓨터가 스스로 학습할 수 있도록 도와주는 알고리즘이나 기술을 개발하는 분야
+
+  1. 알고리즘을 이용하여 데이터를 분석
+
+  2. 결과를 스스로 학습
+
+  3. 기반으로 어떠한 판단이나 예측을 하는 것
+
++ 양질의 데이터를 많이 보유할수록 보다 높을 성능을 이끌어낼 수 있게 됨.
+
+**** 딥러닝
+
++ 생물학적 특성 중 뉴런의 연결 구조를 본떠서 인공신경망(Artificial Neural Network, ANN)이라는 머신러닝 모델을 만듬
+
++ 발전시켜서 인공신경망을 여러 개 연결하여 인간의 뇌와 유사한 정보 입출력 계층을 만듦으로써 데이터를 학습
+  
+***** 신경망
+#+begin_src ipython :session :results output :tangle "test.py"
+  import numpy as np
+
+  dim1 = np.array([1, 2, 3, 4])
+  
+  print(dim1)
+  print(dim1.ndim)
+  print(dim1.shape)
+  print(dim1.size)
+#+end_src
+
+#+RESULTS:
+: [1 2 3 4]
+: 1
+: (4,)
+: 4

@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-07 Mon 16:49 -->
+<!-- 2020-09-08 Tue 22:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AI lecture synopsis</title>
+<title>KNN Algorithm</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="srolisp" />
 <style type="text/css">
@@ -242,156 +242,148 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">AI lecture synopsis
+<h1 class="title">KNN Algorithm
 <br />
-<span class="subtitle">3 weeks by kdh</span>
+<span class="subtitle">4 weeks by kdh</span>
 </h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgbca97e7">1. 수업 방향</a>
+<li><a href="#orgb664241">1. K Nearest Neighbors (최근접 이웃 알고리즘)</a>
 <ul>
-<li><a href="#orgf86deb8">1.1. *지도학습*(답이 있다) 와 *비지도학습*(답이 없다)</a></li>
-<li><a href="#org2819751">1.2. [x]강화학습(보상을 준다)</a></li>
-</ul>
-</li>
-<li><a href="#org6f27172">2. ai service steps</a>
-<ul>
-<li><a href="#org6f4b39a">2.1. gathering data</a>
-<ul>
-<li><a href="#org0fe2141">2.1.1. crawling with images</a></li>
-</ul>
-</li>
-<li><a href="#org773f35c">2.2. refine the data (데이터 다듬기?)</a></li>
-<li><a href="#org5db7209">2.3. training the data</a></li>
-<li><a href="#org3df1153">2.4. apply a model made by the data to specific service</a></li>
-<li><a href="#org5cddfed">2.5. share through webpage</a></li>
-<li><a href="#org5e83a54">2.6. view webpage contents by mobile</a></li>
-</ul>
-</li>
-<li><a href="#org6d083cf">3. materials</a>
-<ul>
-<li><a href="#org3b60193">3.1. homepages</a>
-<ul>
-<li><a href="#orgb37c721">3.1.1. 수업 홈페이지</a></li>
-<li><a href="#org29a0b32">3.1.2. 참고자료</a></li>
-</ul>
-</li>
+<li><a href="#org83fb413">1.1. mglearn 패키지 설치</a></li>
+<li><a href="#orgbf34cde">1.2. 실습</a></li>
+<li><a href="#org161e472">1.3. 통상 k=1~15(1,3,5&#x2026;)까지 넣어보고 적합한 k 값을 결정하고 테스트하고 적합한지 검증하는 방식을 쓴다.</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgbca97e7" class="outline-2">
-<h2 id="orgbca97e7"><span class="section-number-2">1</span> 수업 방향</h2>
+<div id="outline-container-orgb664241" class="outline-2">
+<h2 id="orgb664241"><span class="section-number-2">1</span> K Nearest Neighbors (최근접 이웃 알고리즘)</h2>
 <div class="outline-text-2" id="text-1">
-</div>
-<div id="outline-container-orgf86deb8" class="outline-3">
-<h3 id="orgf86deb8"><span class="section-number-3">1.1</span> *지도학습*(답이 있다) 와 *비지도학습*(답이 없다)</h3>
-</div>
-
-<div id="outline-container-org2819751" class="outline-3">
-<h3 id="org2819751"><span class="section-number-3">1.2</span> [x]강화학습(보상을 준다)</h3>
-</div>
-</div>
-
-<div id="outline-container-org6f27172" class="outline-2">
-<h2 id="org6f27172"><span class="section-number-2">2</span> ai service steps</h2>
-<div class="outline-text-2" id="text-2">
-</div>
-<div id="outline-container-org6f4b39a" class="outline-3">
-<h3 id="org6f4b39a"><span class="section-number-3">2.1</span> gathering data</h3>
-<div class="outline-text-3" id="text-2-1">
-</div>
-<div id="outline-container-org0fe2141" class="outline-4">
-<h4 id="org0fe2141"><span class="section-number-4">2.1.1</span> crawling with images</h4>
-</div>
-</div>
-
-<div id="outline-container-org773f35c" class="outline-3">
-<h3 id="org773f35c"><span class="section-number-3">2.2</span> refine the data (데이터 다듬기?)</h3>
-</div>
-<div id="outline-container-org5db7209" class="outline-3">
-<h3 id="org5db7209"><span class="section-number-3">2.3</span> training the data</h3>
-</div>
-<div id="outline-container-org3df1153" class="outline-3">
-<h3 id="org3df1153"><span class="section-number-3">2.4</span> apply a model made by the data to specific service</h3>
-</div>
-<div id="outline-container-org5cddfed" class="outline-3">
-<h3 id="org5cddfed"><span class="section-number-3">2.5</span> share through webpage</h3>
-</div>
-<div id="outline-container-org5e83a54" class="outline-3">
-<h3 id="org5e83a54"><span class="section-number-3">2.6</span> view webpage contents by mobile</h3>
-</div>
-</div>
-
-<div id="outline-container-org6d083cf" class="outline-2">
-<h2 id="org6d083cf"><span class="section-number-2">3</span> materials</h2>
-<div class="outline-text-2" id="text-3">
-</div>
-<div id="outline-container-org3b60193" class="outline-3">
-<h3 id="org3b60193"><span class="section-number-3">3.1</span> homepages</h3>
-<div class="outline-text-3" id="text-3-1">
-</div>
-<div id="outline-container-orgb37c721" class="outline-4">
-<h4 id="orgb37c721"><span class="section-number-4">3.1.1</span> 수업 홈페이지</h4>
-<div class="outline-text-4" id="text-3-1-1">
-</div>
-<ol class="org-ol">
-<li><a id="org5f47ad3"></a><a href="https://ai-run.tistory.com">https://ai-run.tistory.com</a><br /></li>
-</ol>
-</div>
-
-<div id="outline-container-org29a0b32" class="outline-4">
-<h4 id="org29a0b32"><span class="section-number-4">3.1.2</span> 참고자료</h4>
-<div class="outline-text-4" id="text-3-1-2">
 <p>
-트렌디해지자. 시간내서 꼭 읽어봐라.
+가장 쉬운 알고리즘 중 하나이다. 지도학습에 속한다. 훈련하는 과정이 없다. lazy algorithm이라 표현하기도 한다. <code>분류</code> 의 기본적인 알고리즘이다. 
+새로운 데이터를 입력 받았을 때, 해당 데이터와 가장 가까운 데이터들을 확인하고, 그 중, 많은(빈도가 높은) 데이터의 종류에 따라 분류하는 알고리즘
+k값(사용자가 정함): 가장 가까운 이웃을 몇개 확인해 볼 것인가. 이 k값에서 가장 많은 이웃의 종류에 따라 새로운 데이터를 분류.
+k값을 전체값으로 할 경우는 새로운 데이러를 어느쪽 분류로 해야할까? 가장 가깝고 가장 많은 이웃으로.. 
+기본적으로(상식적으로) k는 통상 홀수를 따라 간다. 최소 3부터 시작한다. 이게 끝.
+데이터간 거리는 어떻게 구할 것인가? 피타고라스의 정리.. 단순히 거리 인가보다.
 </p>
 </div>
-<ol class="org-ol">
-<li><a id="org0d7b1f5"></a><a href="https://sapstoryhub.co.kr/%EA%B0%80%ED%8A%B8%EB%84%88-2020%EB%85%84-10%EB%8C%80-%EC%A0%84%EB%9E%B5-%EA%B8%B0%EC%88%A0-%ED%8A%B8%EB%A0%8C%EB%93%9C-%EC%A0%9C%EC%8B%9C/">https://sapstoryhub.co.kr/%EA%B0%80%ED%8A%B8%EB%84%88-2020%EB%85%84-10%EB%8C%80-%EC%A0%84%EB%9E%B5-%EA%B8%B0%EC%88%A0-%ED%8A%B8%EB%A0%8C%EB%93%9C-%EC%A0%9C%EC%8B%9C/</a><br /></li>
-<li><a id="orgd4205cc"></a><a href="pdf/Kiosk_Issue69_2020_2.pdf">pdf/Kiosk_Issue69_2020_2.pdf</a><br /></li>
-<li><a id="org475cd12"></a><a href="pdf/Insight-report-ai-trend.pdf">pdf/Insight-report-ai-trend.pdf</a><br /></li>
-<li><a id="org91b5ff3"></a><a href="pdf/It&amp;future-strategy-2019-nia-ai-index.pdf">pdf/It&amp;future-strategy-2019-nia-ai-index.pdf</a><br /></li>
-<li><a id="orgbb9514e"></a><a href="http://delab.cju.ac.kr/seminar/seminar_main.html">http://delab.cju.ac.kr/seminar/seminar_main.html</a><br />
-<ol class="org-ol">
-<li><a id="org432feaf"></a><a href="pdf/LG_ai.pdf">pdf/LG_ai.pdf</a><br /></li>
-<li><a id="orgd86cde7"></a><a href="pdf/LG_big.pdf">pdf/LG_big.pdf</a><br /></li>
-<li><a id="orgfe7ae8a"></a><a href="pdf/s20190528.pdf">pdf/s20190528.pdf</a><br /></li>
-<li><a id="org8322870"></a><a href="pdf/s20190430.pdf">pdf/s20190430.pdf</a><br /></li>
-</ol>
-</li>
 
-<li><a id="org7a7e8c0"></a>cf. 영화: 이미테이션 게임<br />
-<div class="outline-text-5" id="text-3-1-2-6">
+<div id="outline-container-org83fb413" class="outline-3">
+<h3 id="org83fb413"><span class="section-number-3">1.1</span> mglearn 패키지 설치</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-bash">pip install mglearn
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbf34cde" class="outline-3">
+<h3 id="orgbf34cde"><span class="section-number-3">1.2</span> 실습</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython"># mglearn 패키지를 임포트한다.
+import mglearn
+# matplotlib 패키지들내에 pyplot 패키지를 임포트해서 plt이름을 이용해서 쓰겠다.
+import matplotlib.pyplot as plt
+# /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages/sklearn/utils/deprecation.py:86:
+# FutureWarning: Function make_blobs is deprecated; Please import
+# make_blobs directly from scikit-learn warnings.warn(msg, category=FutureWarning)
+
+# 실행이 안되고 warning으로 sklearn 데이터셋에서 make_blobs 함수를 직접 임포트하라고 한다.
+
+
+# knn 알고리즘을 이용한 분류로 가장가까운 한개를 찾는다.
+mglearn.plots.plot_knn_classification(n_neighbors=1)
+
+</pre>
+</div>
+
 <p>
-weak AI(현재, 분야별) ---&#x2013;&#x2014;&gt; strong AI(추구)
+<img src="# Out[22]: [[file:./obipy-resources/w2PbD8.png" alt="w2PbD8.png" />]]
+<img src="./obipy-resources/RjdBGL.png" alt="RjdBGL.png" />]]
+<img src="./obipy-resources/VqFyVt.png" alt="VqFyVt.png" />]]
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython"># knn 알고리즘을 이용한 분류로 가장가까운 한개를 찾는다.
+mglearn.plots.plot_knn_classification(n_neighbors=3)
+</pre>
+</div>
+
+<p>
+<img src="# Out[23]: [[file:./obipy-resources/uhUYmN.png" alt="uhUYmN.png" />]]
+<img src="./obipy-resources/y9ruTg.png" alt="y9ruTg.png" />]]
+<img src="./obipy-resources/kMnBLa.png" alt="kMnBLa.png" />]]
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython"># train_test_split한수는 train셋과 test셋을 구분해준다.
+from sklearn.model_selection import train_test_split
+X, y = mglearn.datasets.make_forge()
+# random하게 나누지 않는다. 왜냐하면 같은 값이 나와야 비교가 되므로..
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
+
+from sklearn.neighbors import KNeighborsClassifier
+clf = KNeighborsClassifier(n_neighbors=3)
+# fit은 학습시키는 함수
+clf.fit(X_train, y_train)
+
+print("테스트 세트 예측:", clf.predict(X_test))
+
+print("테스트 세트 정확도: {:.2f}", clf.score(X_test, y_test))
+
+fig, axes = plt.subplots(1, 3, figsize=(10, 3))
+
+for n_neighbors, ax in zip([1, 3, 9], axes):
+    # fit 메소들는 self 오브젝트를 리턴합니다.
+    # 그래서 객체 생성과 fit 메소드를 한 줄에 쓸 수 있습니다.
+    clf = KNeighborsClassifier(n_neighbors=n_neighbors).fit(X, y)
+    mglearn.plots.plot_2d_separator(clf, X, fill=True, eps=0.5, ax=ax, alpha=.4)
+    mglearn.discrete_scatter(X[:, 1], y, ax=ax)
+    ax.set_title("{} 이웃".format(n_neighbors))
+    ax.set_xlabel("특성 0")
+    ax.set_ylabel("특성 1")
+axes[0].legend(loc=3)
+
+</pre>
+</div>
+
+<p>
+[[file:# Out[24]:
+</p>
+<pre class="example">
+&lt;matplotlib.legend.Legend at 0x7fe60a3f4ba8&gt;
+</pre>
+
+<p>
+<img src="./obipy-resources/RGQJk8.png" alt="RGQJk8.png" />]]
+</p>
+<pre class="example">
+&lt;matplotlib.legend.Legend at 0x7fe60a96b390&gt;
+</pre>
+
+<p>
+<img src="./obipy-resources/CIrww7.png" alt="CIrww7.png" />]]
 </p>
 </div>
-<ol class="org-ol">
-<li><a id="org13bf517"></a>인공지능 개념: 인간과 컴퓨터가 내놓은 결과가 구분안되게(가장 비슷하게) 해야한다. (strong AI)<br /></li>
-
-<li><a id="org63fb5d2"></a>(현재) 현대에서의 인공지능 개념: (weak AI)<br />
-<ol class="org-ol">
-<li><a id="orgb596c02"></a>지능적인 행동의 자동화<br /></li>
-<li><a id="org7366fed"></a>합리적으로 생각하는(추리할수있는)<br /></li>
-<li><a id="org372e6ef"></a>(- 사람처럼)<br /></li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
 </div>
+
+<div id="outline-container-org161e472" class="outline-3">
+<h3 id="org161e472"><span class="section-number-3">1.3</span> 통상 k=1~15(1,3,5&#x2026;)까지 넣어보고 적합한 k 값을 결정하고 테스트하고 적합한지 검증하는 방식을 쓴다.</h3>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Date: 2020-09-06 Sun 12:00</p>
+<p class="date">Date: 2020-09-08 Tue 18:00</p>
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-09-07 Mon 16:49</p>
+<p class="date">Created: 2020-09-08 Tue 22:16</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-12 Sat 18:28 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SVM, k-means</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="srolisp" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">SVM, k-means
+<br />
+<span class="subtitle">4 weeks by kdh</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5e048ff">1. 알고리즘보다는 파이썬에 익숙해지는데 시간을 들이고, 전체적인 flow를 익히자.</a></li>
+<li><a href="#orgd4a8463">2. SVM(Support Vector Machine)</a>
+<ul>
+<li><a href="#orgdc2cdcf">2.1. SVM 실습</a></li>
+</ul>
+</li>
+<li><a href="#org347b96e">3. k-means(k-평균 알고리즘)</a>
+<ul>
+<li><a href="#org9281f45">3.1. 실습</a></li>
+<li><a href="#orgd670d7f">3.2. make<sub>blobs</sub></a></li>
+</ul>
+</li>
+<li><a href="#org5be49c7">4. Apriori(연관규칙)</a>
+<ul>
+<li><a href="#org00929af">4.1. Apriori 알고리즘</a></li>
+</ul>
+</li>
+<li><a href="#org72819b0">5. 머신러닝 치트 시트</a>
+<ul>
+<li><a href="#orga9eacfd">5.1. https://docs.microsoft.com/en-us/azure/machine-learning/algorithm-cheat-sheet</a></li>
+<li><a href="#org7a9be92">5.2. https://blogs.sas.com/content/subconsciousmusings/2017/04/12/machine-learning-algorithm-use/</a></li>
+<li><a href="#org43adb3f">5.3. http://machinelearningmastery.com/a-tour-of-machine-learning-algorithms/</a></li>
+<li><a href="#org5a8e4c0">5.4. &#x2026;</a></li>
+</ul>
+</li>
+<li><a href="#org4fc65b6">6. Data Science Roadmap 2020</a>
+<ul>
+<li><a href="#orgfb56c12">6.1. </a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5e048ff" class="outline-2">
+<h2 id="org5e048ff"><span class="section-number-2">1</span> 알고리즘보다는 파이썬에 익숙해지는데 시간을 들이고, 전체적인 flow를 익히자.</h2>
+</div>
+
+<div id="outline-container-orgd4a8463" class="outline-2">
+<h2 id="orgd4a8463"><span class="section-number-2">2</span> SVM(Support Vector Machine)</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+광장히 많이 쓰여지고 있는 알고리즘이다. 지도학습이다. 결정된 점들의 최대 마진을 가지는 선을 찾는 알고리즘을 적용한 것이다. 
+</p>
+</div>
+
+<div id="outline-container-orgdc2cdcf" class="outline-3">
+<h3 id="orgdc2cdcf"><span class="section-number-3">2.1</span> SVM 실습</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import svm
+from sklearn.datasets import make_blobs
+</pre>
+</div>
+
+<p>
+랜덤스테이트 값이 정해지면 포인트도 매번 동일한가. 값이 값네..
+make<sub>blobs</sub>: 학습용 데이터셋을 만들어주는 함수라고 하네. 
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython"># we create 40 separable points
+X, y = make_blobs(n_samples=40, centers=2, random_state=6)
+X
+</pre>
+</div>
+
+<pre class="example">
+array([[  6.37734541, -10.61510727],
+[  6.50072722,  -3.82403586],
+[  4.29225906,  -8.99220442],
+[  7.39169472,  -3.1266933 ],
+[  7.64306311, -10.02356892],
+[  8.68185687,  -4.53683537],
+[  5.37042238,  -2.44715237],
+[  9.24223825,  -3.88003098],
+[  5.73005848,  -4.19481136],
+[  7.9683312 ,  -3.23125265],
+[  7.37578372,  -8.7241701 ],
+[  6.95292352,  -8.22624269],
+[  8.21201164,  -1.54781358],
+[  6.85086785,  -9.92422452],
+[  5.64443032,  -8.21045789],
+[ 10.48848359,  -2.75858164],
+[  7.27059007,  -4.84225716],
+[  6.29784608, -10.53468031],
+[  9.42169269,  -2.6476988 ],
+[  8.98426675,  -4.87449712],
+[  6.6008728 ,  -8.07144707],
+[  5.95313618,  -6.82945967],
+[  6.87151089, -10.18071547],
+[  6.26221548,  -8.43925752],
+[  7.97164446,  -3.38236058],
+[  7.67619643,  -2.82620437],
+[  7.92736799,  -9.7615272 ],
+[  5.86311158, -10.19958738],
+[  8.07502382,  -4.25949569],
+[  6.78335342,  -8.09238614],
+[  7.89359985,  -7.41655113],
+[  6.04907774,  -8.76969991],
+[  6.77811308,  -9.80940478],
+[  8.71445065,  -2.41730491],
+[  8.49142837,  -2.54974889],
+[  9.49649411,  -3.7902975 ],
+[  7.52132141,  -2.12266605],
+[  6.3883927 ,  -9.25691447],
+[  7.93333064,  -3.51553205],
+[  6.86866543, -10.02289012]])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython"># fit the model, don't regularize for illustration purposes
+clf = svm.SVC(kernel='linear', C=1000)
+clf.fit(X, y)
+</pre>
+</div>
+
+<pre class="example">
+SVC(C=1000, kernel='linear')
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.scatter(X[:, 0], X[:, 1], c=y, s=30, cmap=plt.cm.Paired)
+</pre>
+</div>
+
+<pre class="example">
+&lt;matplotlib.collections.PathCollection at 0x7ff9bf214780&gt;
+</pre>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/YFmwYW.png" alt="YFmwYW.png" />
+</p>
+</div>
+
+<p>
+좌표 x,y 수정작업
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython"># plot the decision function
+ax = plt.gca()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/6Ra6pR.png" alt="6Ra6pR.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">xlim = ax.get_xlim()
+ylim = ax.get_ylim()
+xlim
+</pre>
+</div>
+
+<pre class="example">
+(0.0, 1.0)
+</pre>
+<p>
+분리해서 실행하니 contour 에러가 떠서 결과물을 보려면 소스코드를 분리하지 말고 실행하자. 왜일까?
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython"># create grid to evaluate model
+xx = np.linspace(xlim[0], xlim[1], 30)
+yy = np.linspace(ylim[0], ylim[1], 30)
+YY, XX = np.meshgrid(yy, xx)
+xy = np.vstack([XX.ravel(), YY.ravel()]).T
+Z = clf.decision_function(xy).reshape(XX.shape)
+
+# plot decision boundary and margins
+ax.contour(XX, YY, Z, colors='k', levels=[-1, 0, 1], alpha=0.5, linestyles=['--', '-', '--'])
+# plot support vectors
+ax.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=100, linewidth=1, facecolor='none', edgecolors='k')
+
+plt.show()
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org347b96e" class="outline-2">
+<h2 id="org347b96e"><span class="section-number-2">3</span> k-means(k-평균 알고리즘)</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+주어진 데이터를 k개의 클러스터로 묶는 알고리즘이고 비지도 학습이다. 클러스티링용 알고리즘. 클래시파잉(A다 B다)은 아니다. 데이터를 군집화 하는 용도로 쓰이는 알고리즘이다.
+</p>
+</div>
+
+<div id="outline-container-org9281f45" class="outline-3">
+<h3 id="org9281f45"><span class="section-number-3">3.1</span> 실습</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.metrics import pairwise_distances_argmin
+from sklearn.datasets import load_sample_image
+from sklearn.utils import shuffle
+from time import time
+
+n_colors = 64
+
+# Load the Summer Palace photo
+china = load_sample_image("china.jpg")
+china
+</pre>
+</div>
+
+<pre class="example">
+array([[[174, 201, 231],
+[174, 201, 231],
+[174, 201, 231],
+...,
+[250, 251, 255],
+[250, 251, 255],
+[250, 251, 255]],
+
+[[172, 199, 229],
+[173, 200, 230],
+[173, 200, 230],
+...,
+[251, 252, 255],
+[251, 252, 255],
+[251, 252, 255]],
+
+[[174, 201, 231],
+[174, 201, 231],
+[174, 201, 231],
+...,
+[252, 253, 255],
+[252, 253, 255],
+[252, 253, 255]],
+
+...,
+
+[[ 88,  80,   7],
+[147, 138,  69],
+[122, 116,  38],
+...,
+[ 39,  42,  33],
+[  8,  14,   2],
+[  6,  12,   0]],
+
+[[122, 112,  41],
+[129, 120,  53],
+[118, 112,  36],
+...,
+[  9,  12,   3],
+[  9,  15,   3],
+[ 16,  24,   9]],
+
+[[116, 103,  35],
+[104,  93,  31],
+[108, 102,  28],
+...,
+[ 43,  49,  39],
+[ 13,  21,   6],
+[ 15,  24,   7]]], dtype=uint8)
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython"># Convert to floats instead of the default 8 bits integer coding. Dividing by
+# 255 is important so that plt.imshow behaves works well on float data (need to
+# be in the range [0-1])
+china = np.array(china, dtype=np.float64) / 255
+china
+</pre>
+</div>
+
+<pre class="example">
+array([[[0.68235294, 0.78823529, 0.90588235],
+[0.68235294, 0.78823529, 0.90588235],
+[0.68235294, 0.78823529, 0.90588235],
+...,
+[0.98039216, 0.98431373, 1.        ],
+[0.98039216, 0.98431373, 1.        ],
+[0.98039216, 0.98431373, 1.        ]],
+
+[[0.6745098 , 0.78039216, 0.89803922],
+[0.67843137, 0.78431373, 0.90196078],
+[0.67843137, 0.78431373, 0.90196078],
+...,
+[0.98431373, 0.98823529, 1.        ],
+[0.98431373, 0.98823529, 1.        ],
+[0.98431373, 0.98823529, 1.        ]],
+
+[[0.68235294, 0.78823529, 0.90588235],
+[0.68235294, 0.78823529, 0.90588235],
+[0.68235294, 0.78823529, 0.90588235],
+...,
+[0.98823529, 0.99215686, 1.        ],
+[0.98823529, 0.99215686, 1.        ],
+[0.98823529, 0.99215686, 1.        ]],
+
+...,
+
+[[0.34509804, 0.31372549, 0.02745098],
+[0.57647059, 0.54117647, 0.27058824],
+[0.47843137, 0.45490196, 0.14901961],
+...,
+[0.15294118, 0.16470588, 0.12941176],
+[0.03137255, 0.05490196, 0.00784314],
+[0.02352941, 0.04705882, 0.        ]],
+
+[[0.47843137, 0.43921569, 0.16078431],
+[0.50588235, 0.47058824, 0.20784314],
+[0.4627451 , 0.43921569, 0.14117647],
+...,
+[0.03529412, 0.04705882, 0.01176471],
+[0.03529412, 0.05882353, 0.01176471],
+[0.0627451 , 0.09411765, 0.03529412]],
+
+[[0.45490196, 0.40392157, 0.1372549 ],
+[0.40784314, 0.36470588, 0.12156863],
+[0.42352941, 0.4       , 0.10980392],
+...,
+[0.16862745, 0.19215686, 0.15294118],
+[0.05098039, 0.08235294, 0.02352941],
+[0.05882353, 0.09411765, 0.02745098]]])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">  # Load Image and transform to a 2D numpy array.
+  w, h, d = original_shape = tuple(china.shape)
+w
+</pre>
+</div>
+
+<pre class="example">
+427
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">assert d == 3
+image_array = np.reshape(china, (w * h, d))
+image_array
+</pre>
+</div>
+
+<pre class="example">
+array([[0.68235294, 0.78823529, 0.90588235],
+[0.68235294, 0.78823529, 0.90588235],
+[0.68235294, 0.78823529, 0.90588235],
+...,
+[0.16862745, 0.19215686, 0.15294118],
+[0.05098039, 0.08235294, 0.02352941],
+[0.05882353, 0.09411765, 0.02745098]])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">print("Fitting model on a small sub-sample of the data")
+t0 = time()
+image_array_sample = shuffle(image_array, random_state=0)[:1000]
+image_array_sample
+</pre>
+</div>
+
+<pre class="example">
+array([[0.92156863, 0.9254902 , 0.94509804],
+[0.37647059, 0.37647059, 0.14117647],
+[0.48235294, 0.42745098, 0.41568627],
+...,
+[0.96862745, 0.96862745, 0.97647059],
+[0.9372549 , 0.96470588, 1.        ],
+[0.11372549, 0.12156863, 0.07843137]])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">kmeans = KMeans(n_clusters=n_colors, random_state=0).fit(image_array_sample)
+kmeans
+</pre>
+</div>
+
+<pre class="example">
+KMeans(n_clusters=64, random_state=0)
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">print("done in %0.3fs." % (time() - t0))
+
+codebook_random = shuffle(image_array, random_state=0)[:n_colors]
+codebook_random
+</pre>
+</div>
+
+<pre class="example">
+array([[0.92156863, 0.9254902 , 0.94509804],
+[0.37647059, 0.37647059, 0.14117647],
+[0.48235294, 0.42745098, 0.41568627],
+[0.81960784, 0.81568627, 0.84705882],
+[0.98823529, 0.98823529, 0.98823529],
+[0.41568627, 0.16470588, 0.16862745],
+[0.94901961, 0.94901961, 0.95686275],
+[0.87843137, 0.92941176, 0.99215686],
+[0.24313725, 0.32156863, 0.17647059],
+[0.80784314, 0.88627451, 0.98039216],
+[0.07843137, 0.12941176, 0.01960784],
+[0.84705882, 0.91372549, 0.97647059],
+[0.75686275, 0.82745098, 0.91372549],
+[0.04313725, 0.04313725, 0.04313725],
+[0.38823529, 0.36470588, 0.23137255],
+[0.1254902 , 0.05490196, 0.05490196],
+[0.85490196, 0.92156863, 1.        ],
+[0.61568627, 0.58823529, 0.42352941],
+[0.80784314, 0.89411765, 0.98823529],
+[0.70196078, 0.75686275, 0.75686275],
+[0.86666667, 0.92941176, 0.98823529],
+[0.76078431, 0.81568627, 0.85882353],
+[0.03921569, 0.03921569, 0.03921569],
+[0.8       , 0.87843137, 0.97647059],
+[0.17647059, 0.25490196, 0.29019608],
+[0.94117647, 0.95294118, 0.98039216],
+[0.0745098 , 0.05882353, 0.05490196],
+[0.54117647, 0.52156863, 0.27058824],
+[0.74117647, 0.78431373, 0.76862745],
+[0.32156863, 0.14117647, 0.14901961],
+[0.89411765, 0.94901961, 1.        ],
+[0.02352941, 0.        , 0.00784314],
+[0.02352941, 0.03529412, 0.00784314],
+[0.41568627, 0.43529412, 0.17254902],
+[0.06666667, 0.03921569, 0.01568627],
+[0.89411765, 0.90980392, 0.92156863],
+[0.04313725, 0.04705882, 0.02352941],
+[0.81568627, 0.89803922, 0.98039216],
+[0.90588235, 0.90588235, 0.91372549],
+[0.16862745, 0.08235294, 0.09019608],
+[0.9372549 , 0.96470588, 0.98823529],
+[0.38431373, 0.25882353, 0.16862745],
+[0.9254902 , 0.94117647, 0.97647059],
+[0.23921569, 0.3254902 , 0.31764706],
+[0.59215686, 0.42352941, 0.34901961],
+[0.77254902, 0.80784314, 0.8745098 ],
+[0.89803922, 0.95294118, 1.        ],
+[0.71764706, 0.78823529, 0.83529412],
+[0.82745098, 0.90588235, 1.        ],
+[0.96470588, 0.96078431, 0.98431373],
+[0.87058824, 0.89803922, 0.9372549 ],
+[0.09411765, 0.09803922, 0.06666667],
+[0.21568627, 0.16078431, 0.10980392],
+[0.25490196, 0.16470588, 0.13333333],
+[0.56862745, 0.68627451, 0.69411765],
+[0.72941176, 0.82352941, 0.9254902 ],
+[0.81568627, 0.80784314, 0.85098039],
+[0.77647059, 0.82352941, 0.81568627],
+[0.32156863, 0.50588235, 0.48235294],
+[0.2627451 , 0.25490196, 0.10196078],
+[0.04313725, 0.0745098 , 0.02352941],
+[0.90588235, 0.94509804, 0.98431373],
+[0.40784314, 0.48235294, 0.12941176],
+[0.81568627, 0.86666667, 0.8       ]])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">print("Predicting color indices on the full image (random)")
+t0 = time()
+labels_random = pairwise_distances_argmin(codebook_random, image_array, axis=0)
+labels_random
+</pre>
+</div>
+
+<pre class="example">
+array([55, 55, 55, ..., 52, 60, 60])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">print("done in %0.3fs." % (time() - t0))
+
+def recreate_image(codebook, labels, w, h):
+  """Recreate the (compressed) image from the code book &amp; labels"""
+  d = codebook.shape[1]
+  image = np.zeros((w, h, d))
+  label_idx = 0
+  for i in range(w):
+    for j in range(h):
+      image[i][j] = codebook[labels[label_idx]]
+      label_idx += 1
+  return image
+# Display all results, alongside original image
+plt.figure(1)
+plt.clf()
+plt.axis('off')
+plt.title('Original image (96,615 colors)')
+plt.imshow(china)
+
+plt.figure(2)
+plt.clf()
+plt.axis('off')
+plt.title('Quantized image (64 colors, K-Means)')
+plt.imshow(recreate_image(kmeans.cluster_centers_, labels_random, w, h))
+
+plt.figure(3)
+plt.clf()
+plt.axis('off')
+plt.title('Quantized image (64 colors, Random)')
+plt.imshow(recreate_image(codebook_random, labels_random, w, h))
+
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/rFf0Ks.png" alt="rFf0Ks.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd670d7f" class="outline-3">
+<h3 id="orgd670d7f"><span class="section-number-3">3.2</span> make<sub>blobs</sub></h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+모든 방향으로 같은 성질을 가지는 정규분포를 이용해 가상 데이터 생성해주는 함수이다. 클러스트링 용 가상데이터를 생성하는데 사용.
+n<sub>samples</sub>: 표본 데이터 수
+n<sub>features</sub>: 독립 변수 수
+centers: 클러스터 수
+cluster<sub>std</sub>: 클러스터 표준 편차
+&#x2026;
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">from matplotlib import pyplot as plt
+from sklearn.datasets import make_blobs
+
+plt.title('3 clusters')
+X, y = make_blobs(n_samples=300, n_features=2, centers=3, random_state=3)
+plt.scatter(X[:, 0], X[:, 1], marker='o', c=y, s=30, edgecolor="k", linewidth=2)
+plt.xlabel("X1")
+plt.ylabel("X2")
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/O7Y1ft.png" alt="O7Y1ft.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5be49c7" class="outline-2">
+<h2 id="org5be49c7"><span class="section-number-2">4</span> Apriori(연관규칙)</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+비지도 학습. 연관규칙중 가장 먼저 개발. 높은 빈도를 가지는 조합을 찾아내는 목적. 
+</p>
+
+<p>
+장바구니 분석이라고도 함.
+</p>
+
+<p>
+세가지를 주의깊게 보자.
+</p>
+<ul class="org-ul">
+<li>지지도(Support): 아이템 A,B 모두 구매하는 비율
+조건이 일어날 확률(달걀을 살 확률, 라면을 살 확률, ..)</li>
+<li>신뢰도(Confidence): 아이템(A)을 구매한 경우, 아이템(B)를 얼마나 구매할 것인지(라면을 샀을 때 달결을 살 확률..)</li>
+<li>향상도(Lift): B만 구매할 때보다, A를 구매한 사람이 B를 구매할 확률이 얼마나 더 높은지(동시에 얼마나 발생하는지를 비율로) &lt;&#x2013; TODO: 다시 정리해보자</li>
+</ul>
+
+<p>
+ratsgo.github.io에 자세히 설명해둔게 있다.
+</p>
+
+<p>
+sparce matrix가 주로 된다(희소행렬). 희소행렬이 ai에선 많이 사용된다. 그래서 희소행렬관련 함수가 잘 만들어져있다.
+</p>
+</div>
+
+
+<div id="outline-container-org00929af" class="outline-3">
+<h3 id="org00929af"><span class="section-number-3">4.1</span> Apriori 알고리즘</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+빈발하지 않는 집합을 제거해간다. 최소지지도를 만족하지 못하는 탐색해볼 필요가 없다.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org72819b0" class="outline-2">
+<h2 id="org72819b0"><span class="section-number-2">5</span> 머신러닝 치트 시트</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orga9eacfd" class="outline-3">
+<h3 id="orga9eacfd"><span class="section-number-3">5.1</span> <a href="https://docs.microsoft.com/en-us/azure/machine-learning/algorithm-cheat-sheet">https://docs.microsoft.com/en-us/azure/machine-learning/algorithm-cheat-sheet</a></h3>
+</div>
+
+<div id="outline-container-org7a9be92" class="outline-3">
+<h3 id="org7a9be92"><span class="section-number-3">5.2</span> <a href="https://blogs.sas.com/content/subconsciousmusings/2017/04/12/machine-learning-algorithm-use/">https://blogs.sas.com/content/subconsciousmusings/2017/04/12/machine-learning-algorithm-use/</a></h3>
+</div>
+
+<div id="outline-container-org43adb3f" class="outline-3">
+<h3 id="org43adb3f"><span class="section-number-3">5.3</span> <a href="http://machinelearningmastery.com/a-tour-of-machine-learning-algorithms/">http://machinelearningmastery.com/a-tour-of-machine-learning-algorithms/</a></h3>
+</div>
+
+<div id="outline-container-org5a8e4c0" class="outline-3">
+<h3 id="org5a8e4c0"><span class="section-number-3">5.4</span> &#x2026;</h3>
+</div>
+</div>
+
+<div id="outline-container-org4fc65b6" class="outline-2">
+<h2 id="org4fc65b6"><span class="section-number-2">6</span> Data Science Roadmap 2020</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-orgfb56c12" class="outline-3">
+<h3 id="orgfb56c12"><span class="section-number-3">6.1</span> </h3>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2020-09-12 Sat 18:00</p>
+<p class="author">Author: srolisp</p>
+<p class="date">Created: 2020-09-12 Sat 18:28</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

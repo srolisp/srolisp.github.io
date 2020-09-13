@@ -1,8 +1,8 @@
 #+title: Literate programming
 #+subtitle: elisp, lisp, python, bash
 #+author: srolisp
-
 * pyenv은 파이썬 버전을 다양하게 사용할 수 있다
+
 
 * virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.
 pyenv의 목록에 virtualenv가 들어가기 때문에 pyenv를 먼저 설치
@@ -967,10 +967,10 @@ Available versions:
 *** M-x pyvenv-create 선택 후 test-anaconda로 이름을 설정하고 python 선택
 #+begin_example
   created virtual environment CPython3.8.5.final.0-64 in 1074ms
-    creator CPython3Posix(dest=/Users/sroh/.pyenv/versions/test-anaconda, clear=False, global=False)
-    seeder FromAppData(download=False, pip=bundle, setuptools=bundle, wheel=bundle, via=copy, app_data_dir=/Users/sroh/Library/Application Support/virtualenv)
-      added seed packages: pip==20.2.2, setuptools==49.6.0, wheel==0.35.1
-    activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,PythonActivator,XonshActivator
+  creator CPython3Posix(dest=/Users/sroh/.pyenv/versions/test-anaconda, clear=False, global=False)
+  seeder FromAppData(download=False, pip=bundle, setuptools=bundle, wheel=bundle, via=copy, app_data_dir=/Users/sroh/Library/Application Support/virtualenv)
+  added seed packages: pip==20.2.2, setuptools==49.6.0, wheel==0.35.1
+  activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,PythonActivator,XonshActivator
 
 #+end_example
 
@@ -1165,4 +1165,176 @@ pip install numpy
 : Installing collected packages: numpy
 : Successfully installed numpy-1.19.1
 
+*** python-language-server 설치
+#+begin_src bash :results verbatim :exports both
+which pyls
+#+end_src
 
+#+RESULTS:
+: /Users/sroh/.pyenv/shims/pyls
+global 하라는 메세지가 나온다.
+
+pyvenv-workon을 uiap로 설정하고 pyls설치
+#+begin_src bash :results verbatim :exports both
+  pip install 'python-language-server[all]'
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Collecting python-language-server[all]
+  Using cached python_language_server-0.34.1-py3-none-any.whl (49 kB)
+Collecting jedi<0.18.0,>=0.17.0
+  Using cached jedi-0.17.2-py2.py3-none-any.whl (1.4 MB)
+Collecting ujson<=1.35; platform_system != "Windows"
+  Using cached ujson-1.35.tar.gz (192 kB)
+Collecting python-jsonrpc-server>=0.3.2
+  Using cached python_jsonrpc_server-0.3.4-py3-none-any.whl (9.0 kB)
+Collecting pluggy
+  Using cached pluggy-0.13.1-py2.py3-none-any.whl (18 kB)
+Collecting pydocstyle>=2.0.0; extra == "all"
+  Using cached pydocstyle-5.1.1-py3-none-any.whl (35 kB)
+Collecting yapf; extra == "all"
+  Using cached yapf-0.30.0-py2.py3-none-any.whl (190 kB)
+Collecting rope>=0.10.5; extra == "all"
+  Using cached rope-0.17.0.tar.gz (248 kB)
+Collecting autopep8; extra == "all"
+  Using cached autopep8-1.5.4.tar.gz (121 kB)
+Collecting pyflakes<2.3.0,>=2.2.0; extra == "all"
+  Using cached pyflakes-2.2.0-py2.py3-none-any.whl (66 kB)
+Collecting mccabe<0.7.0,>=0.6.0; extra == "all"
+  Using cached mccabe-0.6.1-py2.py3-none-any.whl (8.6 kB)
+Collecting pylint; extra == "all"
+  Using cached pylint-2.6.0-py3-none-any.whl (325 kB)
+Collecting pycodestyle<2.7.0,>=2.6.0; extra == "all"
+  Using cached pycodestyle-2.6.0-py2.py3-none-any.whl (41 kB)
+Collecting flake8>=3.8.0; extra == "all"
+  Using cached flake8-3.8.3-py2.py3-none-any.whl (72 kB)
+Collecting parso<0.8.0,>=0.7.0
+  Using cached parso-0.7.1-py2.py3-none-any.whl (109 kB)
+Collecting importlib-metadata>=0.12; python_version < "3.8"
+  Using cached importlib_metadata-1.7.0-py2.py3-none-any.whl (31 kB)
+Collecting snowballstemmer
+  Using cached snowballstemmer-2.0.0-py2.py3-none-any.whl (97 kB)
+Collecting toml
+  Using cached toml-0.10.1-py2.py3-none-any.whl (19 kB)
+Collecting isort<6,>=4.2.5
+  Downloading isort-5.5.1-py3-none-any.whl (95 kB)
+Collecting astroid<=2.5,>=2.4.0
+  Using cached astroid-2.4.2-py3-none-any.whl (213 kB)
+Collecting zipp>=0.5
+  Using cached zipp-3.1.0-py3-none-any.whl (4.9 kB)
+Collecting typed-ast<1.5,>=1.4.0; implementation_name == "cpython" and python_version < "3.8"
+  Downloading typed_ast-1.4.1-cp37-cp37m-macosx_10_9_x86_64.whl (223 kB)
+Collecting lazy-object-proxy==1.4.*
+  Downloading lazy_object_proxy-1.4.3-cp37-cp37m-macosx_10_13_x86_64.whl (19 kB)
+Collecting six~=1.12
+  Using cached six-1.15.0-py2.py3-none-any.whl (10 kB)
+Collecting wrapt~=1.11
+  Using cached wrapt-1.12.1.tar.gz (27 kB)
+Building wheels for collected packages: ujson, rope, autopep8, wrapt
+  Building wheel for ujson (setup.py): started
+  Building wheel for ujson (setup.py): finished with status 'done'
+  Created wheel for ujson: filename=ujson-1.35-cp37-cp37m-macosx_10_7_x86_64.whl size=22276 sha256=54740bea9f10fccdc8d43ebaa837766f2583ba7d2ee3072810af447c5aac1d52
+  Stored in directory: /Users/sroh/Library/Caches/pip/wheels/55/e8/7e/e36b183f3e654b73fc04eb1b656ad3c2773077dd531cb35c4d
+  Building wheel for rope (setup.py): started
+  Building wheel for rope (setup.py): finished with status 'done'
+  Created wheel for rope: filename=rope-0.17.0-py3-none-any.whl size=180514 sha256=7fd9df819eecd34815f6a250a3d884e58fc4ef7e57baf1be9248ecbdf4ea3945
+  Stored in directory: /Users/sroh/Library/Caches/pip/wheels/fc/68/52/627ca0d67f266c203ff5ef7e441036cf2049cdbb3e030c9e0a
+  Building wheel for autopep8 (setup.py): started
+  Building wheel for autopep8 (setup.py): finished with status 'done'
+  Created wheel for autopep8: filename=autopep8-1.5.4-py2.py3-none-any.whl size=45287 sha256=f9f870975384bde1e9da0854f55fe54d912f1961d3db549653c613e831e943ca
+  Stored in directory: /Users/sroh/Library/Caches/pip/wheels/2c/ad/e2/f5322a230aedd0091b75ec899404e3562d8bb4e7ba0f025cbd
+  Building wheel for wrapt (setup.py): started
+  Building wheel for wrapt (setup.py): finished with status 'done'
+  Created wheel for wrapt: filename=wrapt-1.12.1-cp37-cp37m-macosx_10_7_x86_64.whl size=33328 sha256=e711ead91bd18695f264bae77724fafc65ebaefa74ca8cfb59f772994dca7137
+  Stored in directory: /Users/sroh/Library/Caches/pip/wheels/62/76/4c/aa25851149f3f6d9785f6c869387ad82b3fd37582fa8147ac6
+Successfully built ujson rope autopep8 wrapt
+Installing collected packages: parso, jedi, ujson, python-jsonrpc-server, zipp, importlib-metadata, pluggy, snowballstemmer, pydocstyle, yapf, rope, pycodestyle, toml, autopep8, pyflakes, mccabe, isort, typed-ast, lazy-object-proxy, six, wrapt, astroid, pylint, flake8, python-language-server
+Successfully installed astroid-2.4.2 autopep8-1.5.4 flake8-3.8.3 importlib-metadata-1.7.0 isort-5.5.1 jedi-0.17.2 lazy-object-proxy-1.4.3 mccabe-0.6.1 parso-0.7.1 pluggy-0.13.1 pycodestyle-2.6.0 pydocstyle-5.1.1 pyflakes-2.2.0 pylint-2.6.0 python-jsonrpc-server-0.3.4 python-language-server-0.34.1 rope-0.17.0 six-1.15.0 snowballstemmer-2.0.0 toml-0.10.1 typed-ast-1.4.1 ujson-1.35 wrapt-1.12.1 yapf-0.30.0 zipp-3.1.0
+#+end_example
+
+#+begin_src bash :results verbatim :exports both
+  which pyls
+#+end_src
+
+#+RESULTS:
+: /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/bin/pyls
+
+import numpy를 하니 jupyter_client 가 없다고 나온다
+#+begin_example
+Traceback (most recent call last):
+  File "/Users/sroh/.emacs.d/elpa/ob-ipython-20180224.953/client.py", line 1, in <module>
+    import jupyter_client as client
+ModuleNotFoundError: No module named 'jupyter_client'
+#+end_example
+
+#+begin_src bash :results verbatim 
+  pip install jupyter_client
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Collecting jupyter_client
+  Using cached jupyter_client-6.1.7-py3-none-any.whl (108 kB)
+Collecting python-dateutil>=2.1
+  Using cached python_dateutil-2.8.1-py2.py3-none-any.whl (227 kB)
+Collecting jupyter-core>=4.6.0
+  Using cached jupyter_core-4.6.3-py2.py3-none-any.whl (83 kB)
+Collecting tornado>=4.1
+  Using cached tornado-6.0.4.tar.gz (496 kB)
+Collecting traitlets
+  Downloading traitlets-5.0.4-py3-none-any.whl (98 kB)
+Collecting pyzmq>=13
+  Downloading pyzmq-19.0.2-cp37-cp37m-macosx_10_9_x86_64.whl (801 kB)
+Requirement already satisfied: six>=1.5 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from python-dateutil>=2.1->jupyter_client) (1.15.0)
+Collecting ipython-genutils
+  Using cached ipython_genutils-0.2.0-py2.py3-none-any.whl (26 kB)
+Building wheels for collected packages: tornado
+  Building wheel for tornado (setup.py): started
+  Building wheel for tornado (setup.py): finished with status 'done'
+  Created wheel for tornado: filename=tornado-6.0.4-cp37-cp37m-macosx_10_7_x86_64.whl size=417170 sha256=e3b56ea9052411f386e1f653e9204e2c4fe3235e48db7fb0cf5786f8680c80e4
+  Stored in directory: /Users/sroh/Library/Caches/pip/wheels/7d/14/fa/d88fb5da77d813ea0ffca38a2ab2a052874e9e1142bad0b348
+Successfully built tornado
+Installing collected packages: python-dateutil, ipython-genutils, traitlets, jupyter-core, tornado, pyzmq, jupyter-client
+Successfully installed ipython-genutils-0.2.0 jupyter-client-6.1.7 jupyter-core-4.6.3 python-dateutil-2.8.1 pyzmq-19.0.2 tornado-6.0.4 traitlets-5.0.4
+#+end_example
+
+* LSP mode in org-babel
+:PROPERTIES:
+:header-args: :eval never-export
+:header-args:bash: :results verbatim :exports both 
+:header-args:elisp: :exports both
+:header-args:ipython: :exports both 
+:END:
+
+** org file안에서 begin_src ipython .... :tangle "filename.py" 를 해준다
+
+** filename.py를 열고 lsp server를 작동시킨다. 
+
+** 다시 org file 을 열고 lsp-org 실행시킨다.
+org babel 에서 잘 작동된다!!! YES!
++ 이 순서가 맞는지는 확실치 않다
++ Org Src(C-c ') 버퍼안에서는 안된다. 
+
+** 2020-09-07 18:58:13,245 UTC - WARNING - pyls_jsonrpc.endpoint - Received cancel notification for unknown message id 2
+에러가 발생하는데 버전 미스매치라고 한다. T.T
+pip upgrade를 해보자;;
+#+begin_src bash
+  python -m pip install --upgrade pip
+#+end_src
+
+#+RESULTS:
+: Requirement already up-to-date: pip in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (20.2.2)
+T.T 죽갔군..
+
+* lsp 에서 lsp-python-ms 로 갈아탔다
+
+** lsp 에선 code completion 이 조금 부족한 부분이 있어서 ms로 갈아탔다.
+변수가 어떤 객체인지 인식을 못하는건지 인식 후 코드 컴플리션이 안되는건 지 모르겠다.
+ms는변수에 맞게 methods 등이 제대로 컴플리션 되었다.
+
+*** TODO 제대로 작동하다 안되다하는게 문제.. 몇번 재접속하다보면 제대로 작동한다. 왜 그럴까 --;
+
+* TODO 소스블락이 여러개일때 lsp-org 가 제대로 작동하게 하는 방법?
+
+* 출력 results 에 대해 좀 알아보자 출력이 헷갈린다. print(... 그냥 print없이 변수 출력

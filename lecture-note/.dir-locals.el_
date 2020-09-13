@@ -1,0 +1,1 @@
+((python-mode . ((lsp-python-ms-python-executable . "~/.pyenv/versions/anaconda3-5.3.1/envs/uiap/bin/python"))))

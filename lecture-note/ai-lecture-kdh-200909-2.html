@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-09 Wed 21:19 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KNN Algorithm</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="srolisp" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">KNN Algorithm
+<br />
+<span class="subtitle">4 weeks by kdh</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3e6bb17">1. Decision Tree(의사결정나무)</a>
+<ul>
+<li><a href="#org6e6a019">1.1. CART 분류, 회귀 다 쓰긴하지만 분류 목적으로 많이 사용한다 (예측에 대한 영역은 신경망, 회귀분석 알고리즘들이 더 우수한 경향을 보여서..)</a>
+<ul>
+<li><a href="#org9876d33">1.1.1. 이해하기 쉽고, 설명하기 용이함</a></li>
+<li><a href="#org2a2eaa3">1.1.2. 많은 데이터가 필요함</a></li>
+<li><a href="#orga5e1351">1.1.3. 속도가 느린편</a></li>
+</ul>
+</li>
+<li><a href="#org818634b">1.2. 실습</a></li>
+</ul>
+</li>
+<li><a href="#org829abfa">2. DecisionTree 분류기를 만든다.</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org0bab291">2.0.1. </a></li>
+<li><a href="#org62aaa52">2.0.2. y 값의 0이 나올 확률은 0이고, 1일 확률은 1이다.</a></li>
+<li><a href="#org1d8ee4e">2.0.3. 학습시켜서 모델을 만드므로 게이른 방식이 아닌다.</a></li>
+<li><a href="#org5a0236a">2.0.4. install graphviz</a></li>
+<li><a href="#org5578ca9">2.0.5. </a></li>
+</ul>
+</li>
+<li><a href="#orgef97f4a">2.1. 실습2</a>
+<ul>
+<li><a href="#org51713c8">2.1.1. 모듈들을 불러드린다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3e6bb17" class="outline-2">
+<h2 id="org3e6bb17"><span class="section-number-2">1</span> Decision Tree(의사결정나무)</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+지도학습 알고리즘 중의 하나이다. 지도학습은 정답이 있다. 정답 주는것을 레이블링 이라 한다.?
+변수를 기반으로 분류하거나 예측하는데 사용하는 알고리즘이다. 용도에 따라서 분류나무(범주형) 혹은 회귀나무(수치형)라고도 함. 회귀는 예측이라고도 한다.(?)
+종류로는 CART, C4.5, CHAID 이 있다. 각각 불순도알고리즘을 지니지수,엔트로피 지수, 카이제곱 통계량 을 쓴다. 수업에선 CART 를 사용해볼 것이다.
+</p>
+</div>
+
+<div id="outline-container-org6e6a019" class="outline-3">
+<h3 id="org6e6a019"><span class="section-number-3">1.1</span> CART 분류, 회귀 다 쓰긴하지만 분류 목적으로 많이 사용한다 (예측에 대한 영역은 신경망, 회귀분석 알고리즘들이 더 우수한 경향을 보여서..)</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-org9876d33" class="outline-4">
+<h4 id="org9876d33"><span class="section-number-4">1.1.1</span> 이해하기 쉽고, 설명하기 용이함</h4>
+</div>
+<div id="outline-container-org2a2eaa3" class="outline-4">
+<h4 id="org2a2eaa3"><span class="section-number-4">1.1.2</span> 많은 데이터가 필요함</h4>
+</div>
+<div id="outline-container-orga5e1351" class="outline-4">
+<h4 id="orga5e1351"><span class="section-number-4">1.1.3</span> 속도가 느린편</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+크게 성능차이가 안나는 경우, 위의 장점을 토대로 고객에게 Decision Tree를 쓰게 된다.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org818634b" class="outline-3">
+<h3 id="org818634b"><span class="section-number-3">1.2</span> 실습</h3>
+</div>
+</div>
+<div id="outline-container-org829abfa" class="outline-2">
+<h2 id="org829abfa"><span class="section-number-2">2</span> DecisionTree 분류기를 만든다.</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+CART 방식이다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">from sklearn import tree
+X=[[0, 0], [1, 1]]
+y = [0, 1]
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X, y)             # 학습시킨다.
+print(X)
+print(y)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org0bab291" class="outline-4">
+<h4 id="org0bab291"><span class="section-number-4">2.0.1</span> </h4>
+<div class="outline-text-4" id="text-2-0-1">
+<div class="org-src-container">
+<pre class="src src-ipython">clf.predict([[2, 2]])
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org62aaa52" class="outline-4">
+<h4 id="org62aaa52"><span class="section-number-4">2.0.2</span> y 값의 0이 나올 확률은 0이고, 1일 확률은 1이다.</h4>
+<div class="outline-text-4" id="text-2-0-2">
+<div class="org-src-container">
+<pre class="src src-ipython">clf.predict_proba([[2., 2]])
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1d8ee4e" class="outline-4">
+<h4 id="org1d8ee4e"><span class="section-number-4">2.0.3</span> 학습시켜서 모델을 만드므로 게이른 방식이 아닌다.</h4>
+<div class="outline-text-4" id="text-2-0-3">
+<div class="org-src-container">
+<pre class="src src-ipython">from sklearn.datasets import load_iris
+from sklearn import tree
+X, y = load_iris(return_X_y=True)
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X, y)              
+
+tree.plot_tree(clf)
+y
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5a0236a" class="outline-4">
+<h4 id="org5a0236a"><span class="section-number-4">2.0.4</span> install graphviz</h4>
+<div class="outline-text-4" id="text-2-0-4">
+<p>
+시각화를 좀 더 다르게 해보기 위해 graphviz 설치
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">pip install graphviz
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5578ca9" class="outline-4">
+<h4 id="org5578ca9"><span class="section-number-4">2.0.5</span> </h4>
+<div class="outline-text-4" id="text-2-0-5">
+<p>
+지니지수가 높으면 분류가 잘 안된 경우이다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">import graphviz
+iris = load_iris()
+dot_data = tree.export_graphviz(clf, out_file=None)
+graph = graphviz.Source(dot_data)
+graph.render("iris")
+
+dot_data = tree.export_graphviz(clf, feature_names=iris.feature_names,
+				class_names=iris.target_names, filled= True, rounded=True, special_characters=True)
+
+graph = graphviz.Source(dot_data)
+graph
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgef97f4a" class="outline-3">
+<h3 id="orgef97f4a"><span class="section-number-3">2.1</span> 실습2</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-org51713c8" class="outline-4">
+<h4 id="org51713c8"><span class="section-number-4">2.1.1</span> 모듈들을 불러드린다.</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<ul class="org-ul">
+<li>numpy - 데이터를 저장할 방법으로numpy array 사용하겠다.</li>
+<li>matplotlib.pyplot 그래프 표현을 위해 matplotlib모듈들 내에 pyplot 모듈을 사용하겠다.</li>
+<li>sklearn.datasets 모듈내 iris 데이터셋을 활용하게 위해 load<sub>iris</sub> 함수를 사용하겠다.</li>
+<li>sklearn.tree  모듈중 의사결정나무와, 표현방식으로 plot<sub>tree를</sub> 사용하겠다.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-ipython">import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">n_classes = 3
+plot_colors = "ryb"
+plot_step = 0.02
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">
+iris = load_iris()
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">
+for pairidx, pair in enumerate([[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]):
+   X = iris.data[:, pair] 
+   y = iris.target
+
+   clf = DecisionTreeClassifier().fit(X, y)
+   plt.subplot(2, 3, pairidx + 1)
+
+   x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+   y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+   xx, yy = np.meshgrid(np.arange(x_min, x_max, plot_step), np.arange(y_min, y_max, plot_step))
+   plt.tight_layout(h_pad=0.5, w_pad=0.5, pad=2.5)
+
+   Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+   Z = Z.reshape(xx.shape)
+   cs = plt.contourf(xx, yy, Z, cmap=plt.cm.RdYlBu)
+
+   plt.xlabel(iris.feature_names[pair[0]])
+   plt.ylabel(iris.feature_names[pair[1]])
+
+   for i, color in zip(range(n_classes), plot_colors):
+       idx = np.where(y == i)
+       plt.scatter(X[idx, 0], X[idx, 1], c=color, label=iris.target_names[i], cmap=plt.cm.RdYlBu, edgecolors='black', s=15)
+
+plt.suptitle("Decision")
+plt.legend(loc='lower right', borderpad=0, handletextpad=0)
+plt.axis("tight")
+
+plt.figure()
+
+</pre>
+</div>
+
+<pre class="example">
+&lt;Figure size 432x288 with 0 Axes&gt;
+</pre>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/6bE9Ic.png" alt="6bE9Ic.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">clf = DecisionTreeClassifier().fit(iris.data, iris.target)
+plot_tree(clf, filled=True)
+</pre>
+</div>
+
+<pre class="example">
+[Text(167.4, 199.32, 'X[3] &lt;= 0.8\ngini = 0.667\nsamples = 150\nvalue = [50, 50, 50]'),
+Text(141.64615384615385, 163.07999999999998, 'gini = 0.0\nsamples = 50\nvalue = [50, 0, 0]'),
+Text(193.15384615384616, 163.07999999999998, 'X[3] &lt;= 1.75\ngini = 0.5\nsamples = 100\nvalue = [0, 50, 50]'),
+Text(103.01538461538462, 126.83999999999999, 'X[2] &lt;= 4.95\ngini = 0.168\nsamples = 54\nvalue = [0, 49, 5]'),
+Text(51.50769230769231, 90.6, 'X[3] &lt;= 1.65\ngini = 0.041\nsamples = 48\nvalue = [0, 47, 1]'),
+Text(25.753846153846155, 54.359999999999985, 'gini = 0.0\nsamples = 47\nvalue = [0, 47, 0]'),
+Text(77.26153846153846, 54.359999999999985, 'gini = 0.0\nsamples = 1\nvalue = [0, 0, 1]'),
+Text(154.52307692307693, 90.6, 'X[3] &lt;= 1.55\ngini = 0.444\nsamples = 6\nvalue = [0, 2, 4]'),
+Text(128.76923076923077, 54.359999999999985, 'gini = 0.0\nsamples = 3\nvalue = [0, 0, 3]'),
+Text(180.27692307692308, 54.359999999999985, 'X[0] &lt;= 6.95\ngini = 0.444\nsamples = 3\nvalue = [0, 2, 1]'),
+Text(154.52307692307693, 18.119999999999976, 'gini = 0.0\nsamples = 2\nvalue = [0, 2, 0]'),
+Text(206.03076923076924, 18.119999999999976, 'gini = 0.0\nsamples = 1\nvalue = [0, 0, 1]'),
+Text(283.2923076923077, 126.83999999999999, 'X[2] &lt;= 4.85\ngini = 0.043\nsamples = 46\nvalue = [0, 1, 45]'),
+Text(257.53846153846155, 90.6, 'X[1] &lt;= 3.1\ngini = 0.444\nsamples = 3\nvalue = [0, 1, 2]'),
+Text(231.7846153846154, 54.359999999999985, 'gini = 0.0\nsamples = 2\nvalue = [0, 0, 2]'),
+Text(283.2923076923077, 54.359999999999985, 'gini = 0.0\nsamples = 1\nvalue = [0, 1, 0]'),
+Text(309.04615384615386, 90.6, 'gini = 0.0\nsamples = 43\nvalue = [0, 0, 43]')]
+</pre>
+
+<div class="figure">
+<p><img src="./obipy-resources/PAe7Sm.png" alt="PAe7Sm.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2020-09-09 Wed 18:00</p>
+<p class="author">Author: srolisp</p>
+<p class="date">Created: 2020-09-09 Wed 21:19</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

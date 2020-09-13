@@ -1,0 +1,1 @@
+(defconstant fail (error "error"))

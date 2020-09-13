@@ -1,0 +1,170 @@
+#+title: 타이타닉 생존자 예측
+#+subtitle: 4 weeks by kdh
+#+date: <2020-09-11 Tue 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+author: srolisp
+
+* 타이타닉 생존자 예측
+:PROPERTIES:
+:header-args:bash: :results verbatim
+:header-args:elisp: :exports both
+:header-args:ipython: :session mglearn200911 :tangle "mglearn200911.py" :results drawer :exports both
+:END:
+** 실습 CART
+훈련 점수와 정확도가 가장 비슷해지는 지점을 찾는게 일종의 과제다. (max_depth설정, train양을 늘릴 것인가..)
+많은 훈련은 항상 득일까?
+지니지수는 불순도 지수이다.
+depth를 얼마로 할것인가가 overfitting과 underfitting의 문제이다.
+일반적으로 급격하게 간격이 벌어지는 지점의 직전으로 설정하는게 일반적이다.(유리하다.) 
+트레이닝 점수와 테스트 점수가 높되 간격이 적은 지점을 선택하는 것이 합리적이다.?
+
+#+begin_src ipython 
+  import pandas as pd
+  df_train = pd.read_excel('data/titanic3.xls')
+
+  # 나이 컬럼 값이 널인경우 전체 나이의 평균으로 할당한다
+  df_train['age'] = df_train['age'].fillna(df_train['age'].mean())
+
+  df_train.drop(['cabin'], axis='columns', inplace=True)
+  df_train.drop(['embarked'], axis='columns', inplace=True)
+  df_train.drop(['boat'], axis='columns', inplace=True)
+  df_train.drop(['name'], axis='columns', inplace=True)
+  df_train.drop(['ticket'], axis='columns', inplace=True)
+  df_train.drop(['body'], axis='columns', inplace=True)
+  df_train.drop(['home.dest'], axis='columns', inplace=True)
+
+  df_train['fare'] = df_train['fare'].fillna(0)
+
+  # sex 컬럼을 범주형에서 수치형으로 변환한다.
+  df_train['sex'] = df_train['sex'].map({'female':0, 'male':1})
+
+  df_train.info()
+
+  df_X = df_train[['pclass', 'sex','age','sibsp', 'parch', 'fare']]
+  df_y = df_train[['survived']]
+
+  from sklearn.metrics import accuracy_score
+  from sklearn.model_selection import train_test_split
+  # test_size 90:10 의 비율로 train과test로 나눈다.
+  X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.1, random_state=0 )
+
+  from sklearn.tree import DecisionTreeClassifier
+
+  tree = DecisionTreeClassifier(max_depth=4, random_state=3)
+  tree.fit(X_train, y_train)
+  print('점수는 '+ str(tree.score(X_train, y_train)))
+
+  y_pred = tree.predict(X_test)
+  print('정확도는', accuracy_score(y_test, y_pred) * 100)
+
+  # ['pclass', 'sex', 'age', 'sibsp', 'parch', 'fare']
+  winslet = [1, 0, 17, 1, 2, 100]
+  dicaprio = [3, 1, 19, 0, 0, 5]
+
+  print('윈슬렛')
+  if tree.predict([winslet])[0] == 0:
+    print('사망', '--->', max(tree.predict_proba([winslet])[0]))
+  else:
+    print('생존', '--->', max(tree.predict_proba([winslet])[0]))
+  print('디카프리오')
+  if tree.predict([dicaprio])[0] == 0:
+    print('사망', '--->', max(tree.predict_proba([dicaprio])[0]))
+  else:
+    print('사망', '--->', max(tree.predict_proba([dicaprio])[0]))
+
+  from sklearn.tree import export_graphviz
+
+  export_graphviz(
+    tree,
+    out_file='titanic.dot',
+    feature_names=['pclass', 'sex', 'age', 'sibsp', 'parch', 'fare'],
+    class_names=['Unsurvived', 'Survived'],
+    filled=True,
+    rounded=True
+    )
+
+  import graphviz
+  with open('titanic.dot') as f: 
+    dot_graph = f.read()
+  dot = graphviz.Source(dot_graph)
+  dot.format='png'
+  dot.render(filename='titanic_tree', directory='dicision_tree', cleanup=True)
+  dot
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[23]:
+[[file:./obipy-resources/bQf0wa.svg]]
+:end:
+
+#+begin_src ipython
+  import matplotlib.pyplot as plt
+  training_accuracy = []
+  test_accuracy = []
+
+  depth_settings = range(1, 31)
+
+  for depth in depth_settings:
+    tree = DecisionTreeClassifier(max_depth=depth, random_state=3)
+    tree.fit(X_train, y_train)
+
+    training_accuracy.append(tree.score(X_train, y_train))
+    test_accuracy.append(tree.score(X_test, y_test))
+
+  plt.figure(figsize=[20,10])
+  plt.plot(depth_settings, training_accuracy, label="training_accuracy")
+  plt.plot(depth_settings, test_accuracy, label="test_accuracy")
+  plt.xlabel("depth")
+  plt.ylabel("accuracy")
+  plt.legend()
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[27]:
+: <matplotlib.legend.Legend at 0x7f8296b1af60>
+[[file:./obipy-resources/3RicrB.png]]
+:end:
+
+** KNN
+#+begin_src ipython
+  from sklearn.neighbors import KNeighborsClassifier
+  clf = KNeighborsClassifier()
+
+  clf.fit(X_train, y_train)
+
+  print('점수는 '+ str(tree.score(X_train, y_train)))
+
+  y_pred = tree.predict(X_test)
+  print('정확도는', accuracy_score(y_test, y_pred) * 100)
+
+  print('윈슬렛')
+  if clf.predict([winslet])[0] == 0:
+    print('사망', '--->', max(clf.predict_proba([winslet])[0]))
+  else:
+    print('생존', '--->', max(clf.predict_proba([winslet])[0]))
+
+    print('디카프리오')
+  if clf.predict([dicaprio])[0] == 0:
+    print('사망', '--->', max(clf.predict_proba([dicaprio])[0]))
+  else:
+    print('생존', '--->', max(clf.predict_proba([dicaprio])[0]))
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[32]:
+:end:
+
+* 나이브 베이즈 분류기 1
+:PROPERTIES:
+:header-args:bash: :results verbatim
+:header-args:elisp: :exports both
+:header-args:ipython: :session mglearn200911-2 :tangle "mglearn200911-2.py" :results drawer :exports both
+:END:
+성능자체는 나쁜 편은 아니다. 실제 적용사례에는 변형되어 쓰여지곤한다. 분류의 영역이다.
+여러 알고리즘의 정확한 이해도 좋지만, 이해가 안되어도 여러 알고리즘을 적용해보고 손에 익게끔 손코딩을 해보자.
+** 조건부 확률에 대해 설명
+** 완전한 베이즈 분류에 대해 설명
+** 나이브 베이즈 분류에 대해 설명
