@@ -25,35 +25,36 @@
 ;; args: ((compare-function state1 state2 ...) ..), compare function in args: (lambda (s))
 
 
-(defun srl (states goalp successors &key
-				      (combine #'append)
-				      (result #'car)
-				      (selector #'car)
-				      (post-process #'identity)
-				      (generate-new-states #'(lambda (s c a) (declare (ignore s a)) c)))
+(defun srl (states fgoalp fsuccessors &key
+					(fcombine #'append)
+					(fresult #'car)
+					(fselector #'car)
+					(f-post-process #'identity)
+					(ffilterer #'(lambda (s c f)
+						       (declare (ignore s c f)))))
   "Generic search function."
   (lambda (&rest args)
     (if (null states)
 	(error "starved states.")
-	(let ((state (funcall selector states)))
-	  (if (funcall goalp (funcall selector states))
-	      (funcall result states)
-	      (let* ((candidate-states (funcall successors state))
-		     (filtered-states (funcall state generate-new-states candidate-states args))
-		     (new-states (funcall combine
+	(let ((state (funcall fselector states)))
+	  (if (funcall fgoalp (funcall fselector states))
+	      (funcall fresult states)
+	      (let* ((candidate-states (funcall fsuccessors state))
+		     (filtered-states (generate-new-states state candidate-states args ffilterer))
+		     (new-states (funcall fcombine
 					  ;; pick candidate-states satisfied group justifying
 					  ;; if need, post processing (ex. order filtered states
-					  (funcall post-process filtered-states)
+					  (funcall f-post-process filtered-states)
 					  (cdr states))))
 		;; TODO: how to treat current state?
 		;; find proper group and update the group with the state.
-		(apply (funcall #'srl new-states goalp successors
-			 :result result :selector selector :combine combine
-			 :post-process post-process :generate-new-states generate-new-states)
+		(apply (funcall #'srl new-states fgoalp fsuccessors
+				:fresult fresult :fselector fselector :fcombine fcombine
+				:f-post-process f-post-process :ffilterer ffilterer)
 		       args)))))))
 
-(defstruct (filters (:type list))
-  type compare-fn update-fn states)
+(defstruct (filter (:type list))
+  type fcompare fupdate states)
 
 ;; reference args may be many, how to decide new-states's compare-function
 ;; as it is
@@ -62,28 +63,42 @@
 
 ;; selector choose one of states. (car states)
 ;; cf. when use &rest and &key parameter, use &allow-other-keys
-(defun generate-new-states (state candidate-states filters &optional passed) ; passed is acc
+;; filters: '((1 2 3..) (3 4 5).. ),
+;;          '((:t1 #'eq #'adjoin '(1 2 3..)), (:t2 #'eql #'append '(10 9 8..))..)
+;; passed is acc
+;; TODO: how to return updated filters with others.
+(defun generate-new-states (state candidate-states filters ffilterer &optional passed) 
   ""
   ;; TODO: assert type is struct of filters
   (cond ((null candidate-states) passed)
-	((justify-state state (car candidate-states) filters)
+	((justify-state state (car candidate-states) filters ffilterer)
 	 (generate-new-states state (cdr candidate-states) filters passed))
 	(t (generate-new-states state (cdr candidate-states) filters
 				(append passed (list (car candidate-states)))))))
 
 ;; must visit groups
 ;; return what? if result is nil, nil. otherwise, trivial, no meaning result for now.
-(defun justify-state (state c-state filters &optional result)
+;; fprocess return a function which have 3 arguments(state c-state states)
+(defun justify-state (state c-state filters ffilterer &optional result)
   (cond ((null filters) result)
-	
 	((null result) (justify-state state c-state (cdr filters)
-				      (funcall %justify-state state c-state (car filters))))
+				      (funcall ffilterer state c-state (car filters))))
 	(t (justify-state state c-state (cdr filters)
-			  (cons (funcall %justify-state state c-state (car filters)) result)))))
+			  (cons (funcall ffilterer state c-state (car filters)) result)))))
 
-;; specific
-(defun %justify-state (state c-state filter)
-  )
+;; specific filterer
+;; case: normal or using filter structure
+;; normal:
+;;   filter: '(1 2 3 4.. )
+;; filter structure
+;;   filter: '(type fcompare fupdate states)
+(defun fmake-filterer (&key (fget-states #'identity) (fcompare #'eq) (fupdate #'adjoin))
+  (lambda (state c-state filter)
+    (let ((old-states (funcall fget-states filter))
+	  (updated-states (funcall fupdate state (funcall fget-states filter)))
+	  (r nil)) ; r need for removeing c-state. That time, r is non-nil.
+      (dolist (old old-states (values r updated-states))
+		   (setf r (or r (funcall fcompare old c-state)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
