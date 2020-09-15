@@ -23,6 +23,8 @@
 
 ** [[file:lecture-note/ai-lecture-kdh-200912.html::<?xml version="1.0" encoding="utf-8"?>][200912]]
 
+** [[file:lecture-note/ai-lecture-lsk-200914.html::<h1 class="title">Anaconda &amp; pandas basic][200914]]
+
 * pyenv은 파이썬 버전을 다양하게 사용할 수 있다
 * virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.
 pyenv의 목록에 virtualenv가 들어가기 때문에 pyenv를 먼저 설치

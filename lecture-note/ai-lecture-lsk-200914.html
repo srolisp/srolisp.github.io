@@ -1,0 +1,1405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-15 Tue 17:37 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Anaconda &amp; pandas basic</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="srolisp" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Anaconda &amp; pandas basic
+<br />
+<span class="subtitle">5 weeks by lsk</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3798986">1. basic skillup</a></li>
+<li><a href="#org38a5dd2">2. 서울시의 인구와 cctv 와 범죄율의 상관관계</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3798986" class="outline-2">
+<h2 id="org3798986"><span class="section-number-2">1</span> basic skillup</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<pre class="src src-ipython">import pandas as pd
+import numpy as np
+
+s=pd.Series([1,3,5,np.nan, 6,8])
+s
+</pre>
+</div>
+
+<pre class="example">
+0    1.0
+1    3.0
+2    5.0
+3    NaN
+4    6.0
+5    8.0
+dtype: float64
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">dates = pd.date_range('20200722', periods=6)
+dates
+</pre>
+</div>
+
+<pre class="example">
+DatetimeIndex(['2020-07-22', '2020-07-23', '2020-07-24', '2020-07-25',
+'2020-07-26', '2020-07-27'],
+dtype='datetime64[ns]', freq='D')
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=['A', 'B', 'C', 'D'])
+df
+</pre>
+</div>
+
+<pre class="example">
+A         B         C         D
+2020-07-22 -1.082521  1.431459 -0.954550  0.130689
+2020-07-23  1.600452 -0.262099 -1.744103 -2.149103
+2020-07-24 -0.084129  0.646236  0.855273 -0.393017
+2020-07-25 -0.667936 -0.396331 -0.251334 -0.607353
+2020-07-26  1.558161 -2.230038  1.038638 -0.845755
+2020-07-27  0.015737  0.110290  0.056033  1.561020
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df = pd.DataFrame([[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6], [7, 55, 4, 2], [3, 5, 6, 2], [2, 3, 4, 4]], index=dates, columns=['A', 'B', 'C', 'D'])
+df
+</pre>
+</div>
+
+<pre class="example">
+A   B  C  D
+2020-07-22  1   2  3  4
+2020-07-23  2   3  4  5
+2020-07-24  3   4  5  6
+2020-07-25  7  55  4  2
+2020-07-26  3   5  6  2
+2020-07-27  2   3  4  4
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.index
+</pre>
+</div>
+
+<pre class="example">
+DatetimeIndex(['2020-07-22', '2020-07-23', '2020-07-24', '2020-07-25',
+'2020-07-26', '2020-07-27'],
+dtype='datetime64[ns]', freq='D')
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.columns
+</pre>
+</div>
+
+<pre class="example">
+Index(['A', 'B', 'C', 'D'], dtype='object')
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.values
+</pre>
+</div>
+
+<pre class="example">
+array([[ 1,  2,  3,  4],
+[ 2,  3,  4,  5],
+[ 3,  4,  5,  6],
+[ 7, 55,  4,  2],
+[ 3,  5,  6,  2],
+[ 2,  3,  4,  4]])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.info
+</pre>
+</div>
+
+<pre class="example">
+&lt;bound method DataFrame.info of             A   B  C  D
+2020-07-22  1   2  3  4
+2020-07-23  2   3  4  5
+2020-07-24  3   4  5  6
+2020-07-25  7  55  4  2
+2020-07-26  3   5  6  2
+2020-07-27  2   3  4  4&gt;
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.info()
+</pre>
+</div>
+
+<p>
+&lt;class 'pandas.core.frame.DataFrame'&gt;
+DatetimeIndex: 6 entries, 2020-07-22 to 2020-07-27
+Freq: D
+Data columns (total 4 columns):
+</p>
+
+<p>
+&#x2014;  -&#x2013;&#x2014;  ---------&#x2013;&#x2014;  &#x2013;&#x2014;
+ 0   A       6 non-null      int64
+ 1   B       6 non-null      int64
+ 2   C       6 non-null      int64
+ 3   D       6 non-null      int64
+dtypes: int64(4)
+memory usage: 240.0 bytes
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.describe()
+</pre>
+</div>
+
+<pre class="example">
+A          B         C         D
+count  6.000000   6.000000  6.000000  6.000000
+mean   3.000000  12.000000  4.333333  3.833333
+std    2.097618  21.090282  1.032796  1.602082
+min    1.000000   2.000000  3.000000  2.000000
+25%    2.000000   3.000000  4.000000  2.500000
+50%    2.500000   3.500000  4.000000  4.000000
+75%    3.000000   4.750000  4.750000  4.750000
+max    7.000000  55.000000  6.000000  6.000000
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df['A']
+</pre>
+</div>
+
+<pre class="example">
+2020-07-22    1
+2020-07-23    2
+2020-07-24    3
+2020-07-25    7
+2020-07-26    3
+2020-07-27    2
+Freq: D, Name: A, dtype: int64
+</pre>
+
+<p>
+0에서 3전까지
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">df[0:3]
+</pre>
+</div>
+
+<pre class="example">
+A  B  C  D
+2020-07-22  1  2  3  4
+2020-07-23  2  3  4  5
+2020-07-24  3  4  5  6
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df[2:5]
+</pre>
+</div>
+
+<pre class="example">
+A   B  C  D
+2020-07-24  3   4  5  6
+2020-07-25  7  55  4  2
+2020-07-26  3   5  6  2
+</pre>
+<p>
+인덱스로 검색할때는 끝부분 포함해서이다
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">df['20200723':'20200726']
+
+</pre>
+</div>
+
+<pre class="example">
+A   B  C  D
+2020-07-23  2   3  4  5
+2020-07-24  3   4  5  6
+2020-07-25  7  55  4  2
+2020-07-26  3   5  6  2
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">dates
+
+</pre>
+</div>
+
+
+
+
+<pre class="example">
+DatetimeIndex(['2020-07-22', '2020-07-23', '2020-07-24', '2020-07-25',
+'2020-07-26', '2020-07-27'],
+dtype='datetime64[ns]', freq='D')
+</pre>
+<p>
+TODO:다시 확인하자
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">df.loc[dates[0]]
+</pre>
+</div>
+
+<pre class="example">
+A    1
+B    2
+C    3
+D    4
+Name: 2020-07-22 00:00:00, dtype: int64
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.loc[:, ['A', 'B']]
+</pre>
+</div>
+
+<pre class="example">
+A   B
+2020-07-22  1   2
+2020-07-23  2   3
+2020-07-24  3   4
+2020-07-25  7  55
+2020-07-26  3   5
+2020-07-27  2   3
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.loc[:, ['A', 'B']]
+</pre>
+</div>
+
+<pre class="example">
+A   B
+2020-07-22  1   2
+2020-07-23  2   3
+2020-07-24  3   4
+2020-07-25  7  55
+2020-07-26  3   5
+2020-07-27  2   3
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.loc[:, 'A' : 'C']
+</pre>
+</div>
+
+<pre class="example">
+A   B  C
+2020-07-22  1   2  3
+2020-07-23  2   3  4
+2020-07-24  3   4  5
+2020-07-25  7  55  4
+2020-07-26  3   5  6
+2020-07-27  2   3  4
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.loc['20200723' : '20200726', 'B' : 'C']
+</pre>
+</div>
+
+<pre class="example">
+B  C
+2020-07-23   3  4
+2020-07-24   4  5
+2020-07-25  55  4
+2020-07-26   5  6
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.iloc[3:5, 0:2]
+</pre>
+</div>
+
+<pre class="example">
+A   B
+2020-07-25  7  55
+2020-07-26  3   5
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df.iloc[[1, 2, 4], [0, 2]]
+</pre>
+</div>
+
+<pre class="example">
+A  C
+2020-07-23  2  4
+2020-07-24  3  5
+2020-07-26  3  6
+</pre>
+<p>
+df.iloc 이게 된다고 생각해보면 밑에 꺼도 자연스레 이해가 되기도..
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">df[df['A']&gt;0]
+</pre>
+</div>
+
+<pre class="example">
+A   B  C  D
+2020-07-22  1   2  3  4
+2020-07-23  2   3  4  5
+2020-07-24  3   4  5  6
+2020-07-25  7  55  4  2
+2020-07-26  3   5  6  2
+2020-07-27  2   3  4  4
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df[df&gt;0]
+</pre>
+</div>
+
+<pre class="example">
+A   B  C  D
+2020-07-22  1   2  3  4
+2020-07-23  2   3  4  5
+2020-07-24  3   4  5  6
+2020-07-25  7  55  4  2
+2020-07-26  3   5  6  2
+2020-07-27  2   3  4  4
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython"># df2=df.copy() 복사하려면 이렇게..
+df2=pd.DataFrame(np.random.randn(6, 4), index=dates, columns=['A', 'B', 'C', 'D'])
+df2
+</pre>
+</div>
+
+<pre class="example">
+A         B         C         D
+2020-07-22  1.253255 -0.631853  0.343022  0.482475
+2020-07-23 -0.954370 -0.879541  0.329007 -1.426189
+2020-07-24 -1.159400 -0.368194 -0.035724  0.493927
+2020-07-25 -0.586345  0.084467  0.635105 -0.432846
+2020-07-26  1.050165 -1.236349 -1.496783 -0.901972
+2020-07-27  0.271583  0.437445  0.897095  0.344980
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df2['E'] = ['one', 'two', 'three', 'four', 'five', 'six']
+df2
+</pre>
+</div>
+
+<pre class="example">
+A         B         C         D      E
+2020-07-22  1.253255 -0.631853  0.343022  0.482475    one
+2020-07-23 -0.954370 -0.879541  0.329007 -1.426189    two
+2020-07-24 -1.159400 -0.368194 -0.035724  0.493927  three
+2020-07-25 -0.586345  0.084467  0.635105 -0.432846   four
+2020-07-26  1.050165 -1.236349 -1.496783 -0.901972   five
+2020-07-27  0.271583  0.437445  0.897095  0.344980    six
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df2['E'].isin(['two', 'four'])
+</pre>
+</div>
+
+<pre class="example">
+2020-07-22    False
+2020-07-23     True
+2020-07-24    False
+2020-07-25     True
+2020-07-26    False
+2020-07-27    False
+Freq: D, Name: E, dtype: bool
+</pre>
+<p>
+다시 연습해보자
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">df2[df2['E'].isin(['two', 'four'])]
+</pre>
+</div>
+
+<pre class="example">
+A         B         C         D     E
+2020-07-23 -0.954370 -0.879541  0.329007 -1.426189   two
+2020-07-25 -0.586345  0.084467  0.635105 -0.432846  four
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df2
+</pre>
+</div>
+
+<pre class="example">
+A         B         C         D      E
+2020-07-22  1.253255 -0.631853  0.343022  0.482475    one
+2020-07-23 -0.954370 -0.879541  0.329007 -1.426189    two
+2020-07-24 -1.159400 -0.368194 -0.035724  0.493927  three
+2020-07-25 -0.586345  0.084467  0.635105 -0.432846   four
+2020-07-26  1.050165 -1.236349 -1.496783 -0.901972   five
+2020-07-27  0.271583  0.437445  0.897095  0.344980    six
+</pre>
+
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">df2 = df2.iloc[:, :4]
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df2.apply(lambda x: x.max() - x.min())
+</pre>
+</div>
+
+<pre class="example">
+A    2.412655
+B    1.673795
+C    2.393878
+D    1.920116
+dtype: float64
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org38a5dd2" class="outline-2">
+<h2 id="org38a5dd2"><span class="section-number-2">2</span> 서울시의 인구와 cctv 와 범죄율의 상관관계</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+read<sub>excel함수안에</sub> encoding 파라메터 넣으니 에러가 난다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">import pandas as pd
+CCTV_Seoul = pd.read_excel('DataScience/data/aaaa.xlsx', thousands=',')
+CCTV_Seoul.head(25)
+</pre>
+</div>
+
+<pre class="example">
+기관명    소계  2011년 이전  2012년  2013년  2014년  2015년  2016년  2017년  2018년
+0     강 남 구  5221    1944.0  195.0  316.0    430    546    765    577    448
+1     강 동 구  1879     303.0  387.0  134.0     59    144    194    273    385
+2     강 북 구  1265     243.0   88.0  141.0     74    145    254      1    319
+3     강 서 구  1617     219.0  155.0  118.0    230    187    190    264    254
+4     관 악 구  3985     430.0   56.0  419.0    487    609    619    694    671
+5     광 진 구  1581     470.0   42.0   83.0     87     64     21    468    346
+6     구 로 구  3227     852.0  219.0  349.0    187    268    326    540    486
+7     금 천 구  1634      27.0   17.0  242.0    101    382    136    199    530
+8     노 원 구  1906     481.0  117.0  203.0     80    461    298    110    156
+9     도 봉 구   858     197.0   66.0    8.0    185     59    155    117     71
+10     동대문구  2003       NaN    NaN    NaN   1326    111    233    136    197
+11    동 작 구  1780     238.0   93.0   29.0    503    130    254    278    255
+12    마 포 구  1935     585.0  108.0   69.0     70    177    359    372    195
+13     서대문구  2121     565.0  233.0  214.0    114    109    277    415    194
+14    서 초 구  2835    1172.0   91.0  228.0    134    215    352    247    396
+15    성 동 구  2679     665.0  109.0  118.0    101    258    201    933    294
+16    성 북 구  3003     779.0   84.0  304.0    241    279    388    285    643
+17    송 파 구  1586     600.0   99.0   88.0     21    166    100    116    396
+18    양 천 구  2775     772.0  161.0  185.0    169    172    349    137    830
+19     영등포구  2495     132.0  121.0  206.0    217    366    289    371    793
+20    용 산 구  2063    1279.0  152.0  201.0    107    102     89     60     73
+21    은 평 구  2962    1365.0   83.0   99.0    343    180    296    229    367
+22    종 로 구  1471       8.0    7.0  599.0    132    195    148    281    101
+23  중     구  1544      25.0  165.0  114.0     80    245    270    317    328
+24    중 랑 구  1068       NaN    NaN    NaN    770    102    121     66      9
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">name_split =CCTV_Seoul["기관명"].str.split(" ")
+name_split
+</pre>
+</div>
+
+<pre class="example">
+0          [강, 남, 구]
+1          [강, 동, 구]
+2          [강, 북, 구]
+3          [강, 서, 구]
+4          [관, 악, 구]
+5          [광, 진, 구]
+6          [구, 로, 구]
+7          [금, 천, 구]
+8          [노, 원, 구]
+9          [도, 봉, 구]
+10            [동대문구]
+11         [동, 작, 구]
+12         [마, 포, 구]
+13            [서대문구]
+14         [서, 초, 구]
+15         [성, 동, 구]
+16         [성, 북, 구]
+17         [송, 파, 구]
+18         [양, 천, 구]
+19            [영등포구]
+20         [용, 산, 구]
+21         [은, 평, 구]
+22         [종, 로, 구]
+23    [중, , , , , 구]
+24         [중, 랑, 구]
+Name: 기관명, dtype: object
+</pre>
+<p>
+이렇게 해야하는 거 아닌가
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul['기관명'] = name_split.str.join(sep='')
+CCTV_Seoul.tail(20)
+</pre>
+</div>
+
+<pre class="example">
+기관명    소계  2011년 이전  2012년  2013년  2014년  2015년  2016년  2017년  2018년
+5    광진구  1581     470.0   42.0   83.0     87     64     21    468    346
+6    구로구  3227     852.0  219.0  349.0    187    268    326    540    486
+7    금천구  1634      27.0   17.0  242.0    101    382    136    199    530
+8    노원구  1906     481.0  117.0  203.0     80    461    298    110    156
+9    도봉구   858     197.0   66.0    8.0    185     59    155    117     71
+10  동대문구  2003       NaN    NaN    NaN   1326    111    233    136    197
+11   동작구  1780     238.0   93.0   29.0    503    130    254    278    255
+12   마포구  1935     585.0  108.0   69.0     70    177    359    372    195
+13  서대문구  2121     565.0  233.0  214.0    114    109    277    415    194
+14   서초구  2835    1172.0   91.0  228.0    134    215    352    247    396
+15   성동구  2679     665.0  109.0  118.0    101    258    201    933    294
+16   성북구  3003     779.0   84.0  304.0    241    279    388    285    643
+17   송파구  1586     600.0   99.0   88.0     21    166    100    116    396
+18   양천구  2775     772.0  161.0  185.0    169    172    349    137    830
+19  영등포구  2495     132.0  121.0  206.0    217    366    289    371    793
+20   용산구  2063    1279.0  152.0  201.0    107    102     89     60     73
+21   은평구  2962    1365.0   83.0   99.0    343    180    296    229    367
+22   종로구  1471       8.0    7.0  599.0    132    195    148    281    101
+23    중구  1544      25.0  165.0  114.0     80    245    270    317    328
+24   중랑구  1068       NaN    NaN    NaN    770    102    121     66      9
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul.rename(columns={CCTV_Seoul.columns[0]: '구별'}, inplace=True)
+CCTV_Seoul.head()
+</pre>
+</div>
+
+<pre class="example">
+구별    소계  2011년 이전  2012년  2013년  2014년  2015년  2016년  2017년  2018년
+0  강남구  5221    1944.0  195.0  316.0    430    546    765    577    448
+1  강동구  1879     303.0  387.0  134.0     59    144    194    273    385
+2  강북구  1265     243.0   88.0  141.0     74    145    254      1    319
+3  강서구  1617     219.0  155.0  118.0    230    187    190    264    254
+4  관악구  3985     430.0   56.0  419.0    487    609    619    694    671
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">pop_Seoul=pd.read_csv('DataScience/data/report.txt', sep='\t')
+pop_Seoul.head()
+</pre>
+</div>
+
+<pre class="example">
+기간  자치구         세대         인구       인구.1       인구.2       인구.3  \
+0        기간  자치구         세대         합계         합계         합계        한국인
+1        기간  자치구         세대          계         남자         여자          계
+2  2020.2/4   합계  4,384,076  9,985,652  4,859,501  5,126,151  9,720,846
+3  2020.2/4  종로구     74,497    160,520     77,745     82,775    150,383
+4  2020.2/4   중구     63,354    136,030     66,545     69,485    126,092
+
+인구.4       인구.5     인구.6     인구.7     인구.8  세대당인구   65세이상고령자
+0        한국인        한국인    등록외국인    등록외국인    등록외국인  세대당인구   65세이상고령자
+1         남자         여자        계       남자       여자  세대당인구   65세이상고령자
+2  4,732,275  4,988,571  264,806  127,226  137,580   2.22  1,534,957
+3     73,288     77,095   10,137    4,457    5,680   2.02     28,203
+4     61,697     64,395    9,938    4,848    5,090   1.99     24,035
+</pre>
+<p>
+thousands 는 콤마를 없애겠다는 설정이다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">pop_Seoul=pd.read_csv('DataScience/data/report.txt', sep='\t', header=2, thousands=',')
+pop_Seoul
+</pre>
+</div>
+
+<pre class="example">
+기간   자치구       세대        계       남자       여자      계.1     남자.1  \
+0   2020.2/4    합계  4384076  9985652  4859501  5126151  9720846  4732275
+1   2020.2/4   종로구    74497   160520    77745    82775   150383    73288
+2   2020.2/4    중구    63354   136030    66545    69485   126092    61697
+3   2020.2/4   용산구   111586   245362   119494   125868   229431   110527
+4   2020.2/4   성동구   135937   304851   148554   156297   297397   145258
+5   2020.2/4   광진구   166307   363925   175083   188842   349574   168879
+6   2020.2/4  동대문구   166451   360380   177237   183143   345593   171392
+7   2020.2/4   중랑구   183310   399415   197384   202031   394414   195349
+8   2020.2/4   성북구   195064   452290   217551   234739   441812   213431
+9   2020.2/4   강북구   145559   315395   153389   162006   311773   152028
+10  2020.2/4   도봉구   138966   331744   161724   170020   329560   160855
+11  2020.2/4   노원구   217897   533041   257473   275568   528887   255624
+12  2020.2/4   은평구   210664   483938   232423   251515   479524   230640
+13  2020.2/4  서대문구   143323   324224   153921   170303   312720   149920
+14  2020.2/4   마포구   177544   384957   180659   204298   374390   176664
+15  2020.2/4   양천구   179677   462034   226748   235286   457953   224908
+16  2020.2/4   강서구   265252   593203   286668   306535   586936   283697
+17  2020.2/4   구로구   178367   436707   218051   218656   405075   200098
+18  2020.2/4   금천구   112570   250554   128078   122476   232250   117762
+19  2020.2/4  영등포구   179787   405154   202648   202506   373349   184905
+20  2020.2/4   동작구   183537   406776   196479   210297   395165   191211
+21  2020.2/4   관악구   273715   516318   258740   257578   499740   250829
+22  2020.2/4   서초구   173998   433062   207095   225967   428919   205037
+23  2020.2/4   강남구   233484   546158   261187   284971   541233   258753
+24  2020.2/4   송파구   280135   678067   327383   350684   671512   324317
+25  2020.2/4   강동구   193095   461547   227242   234305   457164   225206
+
+여자.1     계.2    남자.2    여자.2  세대당인구  65세이상고령자
+0   4988571  264806  127226  137580   2.22   1534957
+1     77095   10137    4457    5680   2.02     28203
+2     64395    9938    4848    5090   1.99     24035
+3    118904   15931    8967    6964   2.06     39650
+4    152139    7454    3296    4158   2.19     45005
+5    180695   14351    6204    8147   2.10     49457
+6    174201   14787    5845    8942   2.08     60817
+7    199065    5001    2035    2966   2.15     67637
+8    228381   10478    4120    6358   2.26     72822
+9    159745    3622    1361    2261   2.14     62338
+10   168705    2184     869    1315   2.37     60784
+11   273263    4154    1849    2305   2.43     83636
+12   248884    4414    1783    2631   2.28     83272
+13   162800   11504    4001    7503   2.18     53468
+14   197726   10567    3995    6572   2.11     53694
+15   233045    4081    1840    2241   2.55     63824
+16   303239    6267    2971    3296   2.21     87032
+17   204977   31632   17953   13679   2.27     68280
+18   114488   18304   10316    7988   2.06     38950
+19   188444   31805   17743   14062   2.08     60071
+20   203954   11611    5268    6343   2.15     64039
+21   248911   16578    7911    8667   1.83     77341
+22   223882    4143    2058    2085   2.47     59063
+23   282480    4925    2434    2491   2.32     73097
+24   347195    6555    3066    3489   2.40     90700
+25   231958    4383    2036    2347   2.37     67742
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">pop_Seoul=pop_Seoul[['자치구','계', '계.1', '계.2', '65세이상고령자']]
+pop_Seoul
+</pre>
+</div>
+
+<pre class="example">
+자치구        계      계.1     계.2  65세이상고령자
+0     합계  9985652  9720846  264806   1534957
+1    종로구   160520   150383   10137     28203
+2     중구   136030   126092    9938     24035
+3    용산구   245362   229431   15931     39650
+4    성동구   304851   297397    7454     45005
+5    광진구   363925   349574   14351     49457
+6   동대문구   360380   345593   14787     60817
+7    중랑구   399415   394414    5001     67637
+8    성북구   452290   441812   10478     72822
+9    강북구   315395   311773    3622     62338
+10   도봉구   331744   329560    2184     60784
+11   노원구   533041   528887    4154     83636
+12   은평구   483938   479524    4414     83272
+13  서대문구   324224   312720   11504     53468
+14   마포구   384957   374390   10567     53694
+15   양천구   462034   457953    4081     63824
+16   강서구   593203   586936    6267     87032
+17   구로구   436707   405075   31632     68280
+18   금천구   250554   232250   18304     38950
+19  영등포구   405154   373349   31805     60071
+20   동작구   406776   395165   11611     64039
+21   관악구   516318   499740   16578     77341
+22   서초구   433062   428919    4143     59063
+23   강남구   546158   541233    4925     73097
+24   송파구   678067   671512    6555     90700
+25   강동구   461547   457164    4383     67742
+</pre>
+<div class="org-src-container">
+<pre class="src src-ipython">pop_Seoul.drop([0], inplace=True)
+pop_Seoul.head()
+</pre>
+</div>
+
+<pre class="example">
+자치구       계     계.1    계.2  65세이상고령자
+1  종로구  160520  150383  10137     28203
+2   중구  136030  126092   9938     24035
+3  용산구  245362  229431  15931     39650
+4  성동구  304851  297397   7454     45005
+5  광진구  363925  349574  14351     49457
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">pop_Seoul.rename(columns={pop_Seoul.columns[0]:'구별',
+pop_Seoul.columns[1]:'인구수',pop_Seoul.columns[2]:'한국인',pop_Seoul.columns[3]:'외국인',pop_Seoul.columns[4]:'고령자'}, inplace=True)
+
+pop_Seoul.head(30)
+</pre>
+</div>
+
+<pre class="example">
+구별     인구수     한국인    외국인    고령자
+1    종로구  160520  150383  10137  28203
+2     중구  136030  126092   9938  24035
+3    용산구  245362  229431  15931  39650
+4    성동구  304851  297397   7454  45005
+5    광진구  363925  349574  14351  49457
+6   동대문구  360380  345593  14787  60817
+7    중랑구  399415  394414   5001  67637
+8    성북구  452290  441812  10478  72822
+9    강북구  315395  311773   3622  62338
+10   도봉구  331744  329560   2184  60784
+11   노원구  533041  528887   4154  83636
+12   은평구  483938  479524   4414  83272
+13  서대문구  324224  312720  11504  53468
+14   마포구  384957  374390  10567  53694
+15   양천구  462034  457953   4081  63824
+16   강서구  593203  586936   6267  87032
+17   구로구  436707  405075  31632  68280
+18   금천구  250554  232250  18304  38950
+19  영등포구  405154  373349  31805  60071
+20   동작구  406776  395165  11611  64039
+21   관악구  516318  499740  16578  77341
+22   서초구  433062  428919   4143  59063
+23   강남구  546158  541233   4925  73097
+24   송파구  678067  671512   6555  90700
+25   강동구  461547  457164   4383  67742
+</pre>
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul.sort_values(by='소계', ascending=False).head(5)
+</pre>
+</div>
+
+<pre class="example">
+구별    소계  2011년 이전  2012년  2013년  2014년  2015년  2016년  2017년  2018년
+0   강남구  5221    1944.0  195.0  316.0    430    546    765    577    448
+4   관악구  3985     430.0   56.0  419.0    487    609    619    694    671
+6   구로구  3227     852.0  219.0  349.0    187    268    326    540    486
+16  성북구  3003     779.0   84.0  304.0    241    279    388    285    643
+21  은평구  2962    1365.0   83.0   99.0    343    180    296    229    367
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul['최근증가율']=(CCTV_Seoul['2018년']+CCTV_Seoul['2017년']+CCTV_Seoul['2016년']+CCTV_Seoul['2015년']+CCTV_Seoul['2014년'])/(CCTV_Seoul['2013년']+CCTV_Seoul['2012년']+CCTV_Seoul['2011년 이전'])*100
+CCTV_Seoul['최근증가율']
+</pre>
+</div>
+
+<pre class="example">
+0     112.668024
+1     128.033981
+2     168.008475
+3     228.658537
+4     340.331492
+5     165.714286
+6     127.253521
+7     471.328671
+8     137.952559
+9     216.605166
+10           NaN
+11    394.444444
+12    153.937008
+13    109.584980
+14     90.140845
+15    200.336323
+16    157.326478
+17    101.524778
+18    148.211091
+19    443.572985
+20     26.409314
+21     91.467356
+22    139.576547
+23    407.894737
+24           NaN
+Name: 최근증가율, dtype: float64
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul.sort_values(by='최근증가율', ascending=False).head(5)
+</pre>
+</div>
+
+<pre class="example">
+구별    소계  2011년 이전  2012년  2013년  2014년  2015년  2016년  2017년  2018년  \
+7    금천구  1634      27.0   17.0  242.0    101    382    136    199    530
+19  영등포구  2495     132.0  121.0  206.0    217    366    289    371    793
+23    중구  1544      25.0  165.0  114.0     80    245    270    317    328
+11   동작구  1780     238.0   93.0   29.0    503    130    254    278    255
+4    관악구  3985     430.0   56.0  419.0    487    609    619    694    671
+
+최근증가율
+7   471.328671
+19  443.572985
+23  407.894737
+11  394.444444
+4   340.331492
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">pop_Seoul['구별'].unique()
+</pre>
+</div>
+
+<pre class="example">
+array(['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구',
+'도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구',
+'영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구'], dtype=object)
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul['구별'].unique()
+</pre>
+</div>
+
+<pre class="example">
+array(['강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구', '노원구',
+'도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구', '성북구', '송파구',
+'양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'], dtype=object)
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul[CCTV_Seoul['구별'].isnull()]
+</pre>
+</div>
+
+<pre class="example">
+Empty DataFrame
+Columns: [구별, 소계, 2011년 이전, 2012년, 2013년, 2014년, 2015년, 2016년, 2017년, 2018년, 최근증가율]
+Index: []
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul
+</pre>
+</div>
+
+<pre class="example">
+구별    소계  2011년 이전  2012년  2013년  2014년  2015년  2016년  2017년  2018년  \
+0    강남구  5221    1944.0  195.0  316.0    430    546    765    577    448
+1    강동구  1879     303.0  387.0  134.0     59    144    194    273    385
+2    강북구  1265     243.0   88.0  141.0     74    145    254      1    319
+3    강서구  1617     219.0  155.0  118.0    230    187    190    264    254
+4    관악구  3985     430.0   56.0  419.0    487    609    619    694    671
+5    광진구  1581     470.0   42.0   83.0     87     64     21    468    346
+6    구로구  3227     852.0  219.0  349.0    187    268    326    540    486
+7    금천구  1634      27.0   17.0  242.0    101    382    136    199    530
+8    노원구  1906     481.0  117.0  203.0     80    461    298    110    156
+9    도봉구   858     197.0   66.0    8.0    185     59    155    117     71
+10  동대문구  2003       NaN    NaN    NaN   1326    111    233    136    197
+11   동작구  1780     238.0   93.0   29.0    503    130    254    278    255
+12   마포구  1935     585.0  108.0   69.0     70    177    359    372    195
+13  서대문구  2121     565.0  233.0  214.0    114    109    277    415    194
+14   서초구  2835    1172.0   91.0  228.0    134    215    352    247    396
+15   성동구  2679     665.0  109.0  118.0    101    258    201    933    294
+16   성북구  3003     779.0   84.0  304.0    241    279    388    285    643
+17   송파구  1586     600.0   99.0   88.0     21    166    100    116    396
+18   양천구  2775     772.0  161.0  185.0    169    172    349    137    830
+19  영등포구  2495     132.0  121.0  206.0    217    366    289    371    793
+20   용산구  2063    1279.0  152.0  201.0    107    102     89     60     73
+21   은평구  2962    1365.0   83.0   99.0    343    180    296    229    367
+22   종로구  1471       8.0    7.0  599.0    132    195    148    281    101
+23    중구  1544      25.0  165.0  114.0     80    245    270    317    328
+24   중랑구  1068       NaN    NaN    NaN    770    102    121     66      9
+
+최근증가율
+0   112.668024
+1   128.033981
+2   168.008475
+3   228.658537
+4   340.331492
+5   165.714286
+6   127.253521
+7   471.328671
+8   137.952559
+9   216.605166
+10         NaN
+11  394.444444
+12  153.937008
+13  109.584980
+14   90.140845
+15  200.336323
+16  157.326478
+17  101.524778
+18  148.211091
+19  443.572985
+20   26.409314
+21   91.467356
+22  139.576547
+23  407.894737
+24         NaN
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul.drop([10], inplace=True)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul[CCTV_Seoul['구별'].isnull()]
+</pre>
+</div>
+
+<pre class="example">
+Empty DataFrame
+Columns: [구별, 소계, 2011년 이전, 2012년, 2013년, 2014년, 2015년, 2016년, 2017년, 2018년, 최근증가율]
+Index: []
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul
+</pre>
+</div>
+
+<pre class="example">
+구별    소계  2011년 이전  2012년  2013년  2014년  2015년  2016년  2017년  2018년  \
+0    강남구  5221    1944.0  195.0  316.0    430    546    765    577    448
+1    강동구  1879     303.0  387.0  134.0     59    144    194    273    385
+2    강북구  1265     243.0   88.0  141.0     74    145    254      1    319
+3    강서구  1617     219.0  155.0  118.0    230    187    190    264    254
+4    관악구  3985     430.0   56.0  419.0    487    609    619    694    671
+5    광진구  1581     470.0   42.0   83.0     87     64     21    468    346
+6    구로구  3227     852.0  219.0  349.0    187    268    326    540    486
+7    금천구  1634      27.0   17.0  242.0    101    382    136    199    530
+8    노원구  1906     481.0  117.0  203.0     80    461    298    110    156
+9    도봉구   858     197.0   66.0    8.0    185     59    155    117     71
+11   동작구  1780     238.0   93.0   29.0    503    130    254    278    255
+12   마포구  1935     585.0  108.0   69.0     70    177    359    372    195
+13  서대문구  2121     565.0  233.0  214.0    114    109    277    415    194
+14   서초구  2835    1172.0   91.0  228.0    134    215    352    247    396
+15   성동구  2679     665.0  109.0  118.0    101    258    201    933    294
+16   성북구  3003     779.0   84.0  304.0    241    279    388    285    643
+17   송파구  1586     600.0   99.0   88.0     21    166    100    116    396
+18   양천구  2775     772.0  161.0  185.0    169    172    349    137    830
+19  영등포구  2495     132.0  121.0  206.0    217    366    289    371    793
+20   용산구  2063    1279.0  152.0  201.0    107    102     89     60     73
+21   은평구  2962    1365.0   83.0   99.0    343    180    296    229    367
+22   종로구  1471       8.0    7.0  599.0    132    195    148    281    101
+23    중구  1544      25.0  165.0  114.0     80    245    270    317    328
+24   중랑구  1068       NaN    NaN    NaN    770    102    121     66      9
+
+최근증가율
+0   112.668024
+1   128.033981
+2   168.008475
+3   228.658537
+4   340.331492
+5   165.714286
+6   127.253521
+7   471.328671
+8   137.952559
+9   216.605166
+11  394.444444
+12  153.937008
+13  109.584980
+14   90.140845
+15  200.336323
+16  157.326478
+17  101.524778
+18  148.211091
+19  443.572985
+20   26.409314
+21   91.467356
+22  139.576547
+23  407.894737
+24         NaN
+</pre>
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul.drop([24], inplace=True)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul[CCTV_Seoul['구별'].isnull()]
+</pre>
+</div>
+
+<pre class="example">
+Empty DataFrame
+Columns: [구별, 소계, 2011년 이전, 2012년, 2013년, 2014년, 2015년, 2016년, 2017년, 2018년, 최근증가율]
+Index: []
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">pop_Seoul
+</pre>
+</div>
+
+<pre class="example">
+구별     인구수     한국인    외국인    고령자
+1    종로구  160520  150383  10137  28203
+2     중구  136030  126092   9938  24035
+3    용산구  245362  229431  15931  39650
+4    성동구  304851  297397   7454  45005
+5    광진구  363925  349574  14351  49457
+6   동대문구  360380  345593  14787  60817
+7    중랑구  399415  394414   5001  67637
+8    성북구  452290  441812  10478  72822
+9    강북구  315395  311773   3622  62338
+10   도봉구  331744  329560   2184  60784
+11   노원구  533041  528887   4154  83636
+12   은평구  483938  479524   4414  83272
+13  서대문구  324224  312720  11504  53468
+14   마포구  384957  374390  10567  53694
+15   양천구  462034  457953   4081  63824
+16   강서구  593203  586936   6267  87032
+17   구로구  436707  405075  31632  68280
+18   금천구  250554  232250  18304  38950
+19  영등포구  405154  373349  31805  60071
+20   동작구  406776  395165  11611  64039
+21   관악구  516318  499740  16578  77341
+22   서초구  433062  428919   4143  59063
+23   강남구  546158  541233   4925  73097
+24   송파구  678067  671512   6555  90700
+25   강동구  461547  457164   4383  67742
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">pop_Seoul['외국인비율']=pop_Seoul['외국인']/pop_Seoul['인구수']*100
+pop_Seoul['고령자비율']=pop_Seoul['고령자']/pop_Seoul['인구수']*100
+pop_Seoul.head()
+</pre>
+</div>
+
+<pre class="example">
+구별     인구수     한국인    외국인    고령자     외국인비율      고령자비율
+1  종로구  160520  150383  10137  28203  6.315101  17.569773
+2   중구  136030  126092   9938  24035  7.305741  17.668897
+3  용산구  245362  229431  15931  39650  6.492855  16.159797
+4  성동구  304851  297397   7454  45005  2.445129  14.762950
+5  광진구  363925  349574  14351  49457  3.943395  13.589888
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">pop_Seoul.sort_values(['고령자비율'], ascending=False).head(10)
+</pre>
+</div>
+
+<pre class="example">
+구별     인구수     한국인    외국인    고령자     외국인비율      고령자비율
+9    강북구  315395  311773   3622  62338  1.148401  19.765057
+10   도봉구  331744  329560   2184  60784  0.658339  18.322562
+2     중구  136030  126092   9938  24035  7.305741  17.668897
+1    종로구  160520  150383  10137  28203  6.315101  17.569773
+12   은평구  483938  479524   4414  83272  0.912100  17.207163
+7    중랑구  399415  394414   5001  67637  1.252081  16.934016
+6   동대문구  360380  345593  14787  60817  4.103169  16.875798
+13  서대문구  324224  312720  11504  53468  3.548164  16.491068
+3    용산구  245362  229431  15931  39650  6.492855  16.159797
+8    성북구  452290  441812  10478  72822  2.316655  16.100732
+</pre>
+
+<p>
+구 이름중에 NaN 생기지 않게 제대로 출력되게끔 조금 수정했다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">CCTV_Seoul
+
+</pre>
+</div>
+
+<pre class="example">
+구별    소계  2011년 이전  2012년  2013년  2014년  2015년  2016년  2017년  2018년  \
+0    강남구  5221    1944.0  195.0  316.0    430    546    765    577    448
+1    강동구  1879     303.0  387.0  134.0     59    144    194    273    385
+2    강북구  1265     243.0   88.0  141.0     74    145    254      1    319
+3    강서구  1617     219.0  155.0  118.0    230    187    190    264    254
+4    관악구  3985     430.0   56.0  419.0    487    609    619    694    671
+5    광진구  1581     470.0   42.0   83.0     87     64     21    468    346
+6    구로구  3227     852.0  219.0  349.0    187    268    326    540    486
+7    금천구  1634      27.0   17.0  242.0    101    382    136    199    530
+8    노원구  1906     481.0  117.0  203.0     80    461    298    110    156
+9    도봉구   858     197.0   66.0    8.0    185     59    155    117     71
+11   동작구  1780     238.0   93.0   29.0    503    130    254    278    255
+12   마포구  1935     585.0  108.0   69.0     70    177    359    372    195
+13  서대문구  2121     565.0  233.0  214.0    114    109    277    415    194
+14   서초구  2835    1172.0   91.0  228.0    134    215    352    247    396
+15   성동구  2679     665.0  109.0  118.0    101    258    201    933    294
+16   성북구  3003     779.0   84.0  304.0    241    279    388    285    643
+17   송파구  1586     600.0   99.0   88.0     21    166    100    116    396
+18   양천구  2775     772.0  161.0  185.0    169    172    349    137    830
+19  영등포구  2495     132.0  121.0  206.0    217    366    289    371    793
+20   용산구  2063    1279.0  152.0  201.0    107    102     89     60     73
+21   은평구  2962    1365.0   83.0   99.0    343    180    296    229    367
+22   종로구  1471       8.0    7.0  599.0    132    195    148    281    101
+23    중구  1544      25.0  165.0  114.0     80    245    270    317    328
+
+최근증가율
+0   112.668024
+1   128.033981
+2   168.008475
+3   228.658537
+4   340.331492
+5   165.714286
+6   127.253521
+7   471.328671
+8   137.952559
+9   216.605166
+11  394.444444
+12  153.937008
+13  109.584980
+14   90.140845
+15  200.336323
+16  157.326478
+17  101.524778
+18  148.211091
+19  443.572985
+20   26.409314
+21   91.467356
+22  139.576547
+23  407.894737
+</pre>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2020-09-14 Mon 18:00</p>
+<p class="author">Author: srolisp</p>
+<p class="date">Created: 2020-09-15 Tue 17:37</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
