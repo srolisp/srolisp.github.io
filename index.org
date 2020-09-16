@@ -1,7 +1,7 @@
 #+title: Literate AI programming with Python
 #+subtitle: elisp, lisp, python, bash
 #+author: srolisp
-* lectures(TODO: 정리날짜임.. 수정하자)h
+* TODO lectures(기록날짜임.. 기록만 하지말고 정리를하자)
 
 ** [[file:lecture-note/synopsis-kdh-200906.html::<?xml version="1.0" encoding="utf-8"?>][200906]]
 
@@ -24,6 +24,8 @@
 ** [[file:lecture-note/ai-lecture-kdh-200912.html::<?xml version="1.0" encoding="utf-8"?>][200912]]
 
 ** [[file:lecture-note/ai-lecture-lsk-200914.html::<h1 class="title">Anaconda &amp; pandas basic][200914]]
+
+** [[file:lecture-note/ai-lecture-lsk-200915.html::<?xml version="1.0" encoding="utf-8"?>][200915]]
 
 * pyenv은 파이썬 버전을 다양하게 사용할 수 있다
 * virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.
@@ -1360,3 +1362,47 @@ ms는변수에 맞게 methods 등이 제대로 컴플리션 되었다.
 * TODO 소스블락이 여러개일때 lsp-org 가 제대로 작동하게 하는 방법?
 
 * 출력 results 에 대해 좀 알아보자 출력이 헷갈린다. print(... 그냥 print없이 변수 출력
+
+** TODO pd 데이터프레임 같은거 출력할때는 :results output 옵션에 print() 함수로 출력하는게 그나마 정렬이 되어 출력된다. 깔끔하진 않다.
+완전하게 정렬되게끔 하려면 함수를 만들어서 출력시키는 것 같았다.
+
+* ipynb to py
+:PROPERTIES:
+:header-args: :eval never-export
+:header-args:bash: :results verbatim :exports both 
+:header-args:elisp: :exports both
+:header-args:ipython: :exports both 
+:END:
+ipython nbconvert --to script 200915-class1.ipynb
+#+begin_src bash
+pip install nbconvert
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Requirement already satisfied: nbconvert in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (5.6.1)
+Requirement already satisfied: defusedxml in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (0.6.0)
+Requirement already satisfied: traitlets>=4.2 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (5.0.4)
+Requirement already satisfied: pygments in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (2.6.1)
+Requirement already satisfied: jinja2>=2.4 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (2.11.2)
+Requirement already satisfied: jupyter-core in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (4.6.3)
+Requirement already satisfied: testpath in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (0.4.4)
+Requirement already satisfied: bleach in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (3.1.5)
+Requirement already satisfied: mistune<2,>=0.8.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (0.8.4)
+Requirement already satisfied: nbformat>=4.4 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (5.0.7)
+Requirement already satisfied: entrypoints>=0.2.2 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (0.3)
+Requirement already satisfied: pandocfilters>=1.4.1 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbconvert) (1.4.2)
+Requirement already satisfied: ipython-genutils in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from traitlets>=4.2->nbconvert) (0.2.0)
+Requirement already satisfied: MarkupSafe>=0.23 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from jinja2>=2.4->nbconvert) (1.1.1)
+Requirement already satisfied: packaging in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from bleach->nbconvert) (20.4)
+Requirement already satisfied: webencodings in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from bleach->nbconvert) (0.5.1)
+Requirement already satisfied: six>=1.9.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from bleach->nbconvert) (1.15.0)
+Requirement already satisfied: jsonschema!=2.5.0,>=2.4 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from nbformat>=4.4->nbconvert) (3.2.0)
+Requirement already satisfied: pyparsing>=2.0.2 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from packaging->bleach->nbconvert) (2.4.7)
+Requirement already satisfied: importlib-metadata; python_version < "3.8" in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from jsonschema!=2.5.0,>=2.4->nbformat>=4.4->nbconvert) (1.7.0)
+Requirement already satisfied: pyrsistent>=0.14.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from jsonschema!=2.5.0,>=2.4->nbformat>=4.4->nbconvert) (0.16.0)
+Requirement already satisfied: setuptools in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from jsonschema!=2.5.0,>=2.4->nbformat>=4.4->nbconvert) (49.6.0)
+Requirement already satisfied: attrs>=17.4.0 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from jsonschema!=2.5.0,>=2.4->nbformat>=4.4->nbconvert) (20.2.0)
+Requirement already satisfied: zipp>=0.5 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from importlib-metadata; python_version < "3.8"->jsonschema!=2.5.0,>=2.4->nbformat>=4.4->nbconvert) (3.1.0)
+#+end_example
+

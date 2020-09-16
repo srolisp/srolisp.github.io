@@ -1,0 +1,1688 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-16 Wed 17:45 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>구글맵 api 연동해서 데이터 다뤄보기</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="srolisp" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">구글맵 api 연동해서 데이터 다뤄보기
+<br />
+<span class="subtitle">5 weeks by lsk</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org6b06170">1. basic skillup - 2</a></li>
+<li><a href="#org933de56">2. basic skillup - 3</a></li>
+<li><a href="#org9d4adda">3. 서울시의 인구와 cctv 와 범죄율의 상관관계 - 2</a></li>
+<li><a href="#orge4b810a">4. 서울시의 인구와 cctv 와 범죄율의 상관관계 - 3003</a></li>
+<li><a href="#org7b38fb6">5. 범죄율</a></li>
+<li><a href="#orgf2dc3ae">6. <span class="todo TODO">TODO</span> 테이블 제대로 표시하는 방법 알아보자</a></li>
+<li><a href="#org9cbf9bf">7. <span class="todo TODO">TODO</span> 노트 정리할 것</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6b06170" class="outline-2">
+<h2 id="org6b06170"><span class="section-number-2">1</span> basic skillup - 2</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+TODO: 만들어놓은 파일 가져오는 법 알아보자.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">import pandas as pd
+df1 = pd.DataFrame({'A' : ['A0', 'A1', 'A2', 'A3'],
+		    'B' : ['B0', 'B1', 'B2', 'B3'],
+		    'C' : ['C0', 'C1', 'C2', 'C3'],
+		    'D' : ['D0', 'D1', 'D2', 'D3']},
+		   index=[0, 1, 2, 3])
+
+df2 = pd.DataFrame({'A' : ['A4', 'A5', 'A2', 'A3'],
+		    'B' : ['B4', 'B5', 'B2', 'B3'],
+		    'C' : ['C4', 'C5', 'C2', 'C3'],
+		    'D' : ['D4', 'D5', 'D2', 'D3']},
+		   index=[4, 5, 6, 7])
+
+
+df3 = pd.DataFrame({'A' : ['A8', 'A9', 'A10', 'A11'],
+		    'B' : ['B8', 'B9', 'B10', 'B11'],
+		    'C' : ['C8', 'C9', 'C10', 'C11'],
+		    'D' : ['D8', 'D9', 'D10', 'D11']},
+		   index=[8, 9, 10, 11])
+
+result = pd.concat([df1, df2, df3])
+print(result)
+
+</pre>
+</div>
+
+<pre class="example">
+      A    B    C    D
+0    A0   B0   C0   D0
+1    A1   B1   C1   D1
+2    A2   B2   C2   D2
+3    A3   B3   C3   D3
+4    A4   B4   C4   D4
+5    A5   B5   C5   D5
+6    A2   B2   C2   D2
+7    A3   B3   C3   D3
+8    A8   B8   C8   D8
+9    A9   B9   C9   D9
+10  A10  B10  C10  D10
+11  A11  B11  C11  D11
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">df4 = pd.DataFrame({'B' : ['B2', 'B3', 'B6', 'B7'],
+		    'D' : ['C2', 'C3', 'C6', 'C7'],
+		    'F' : ['D2', 'D3', 'D6', 'D7']},
+		   index=[2, 3, 6, 7])
+
+result = pd.concat([df1, df4], axis=1)
+print(result)
+</pre>
+</div>
+
+<pre class="example">
+     A    B    C    D    B    D    F
+0   A0   B0   C0   D0  NaN  NaN  NaN
+1   A1   B1   C1   D1  NaN  NaN  NaN
+2   A2   B2   C2   D2   B2   C2   D2
+3   A3   B3   C3   D3   B3   C3   D3
+6  NaN  NaN  NaN  NaN   B6   C6   D6
+7  NaN  NaN  NaN  NaN   B7   C7   D7
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">result = pd.concat([df1, df4], axis=1, join='inner')
+print(result)
+</pre>
+</div>
+
+<pre class="example">
+    A   B   C   D   B   D   F
+2  A2  B2  C2  D2  B2  C2  D2
+3  A3  B3  C3  D3  B3  C3  D3
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">left = pd.DataFrame({'key': ['K0', 'K4', 'K2', 'K3'],
+		      'A': ['A0', 'A1', 'A2', 'A3'],
+		      'B': ['B0', 'B1', 'B2', 'B3']})
+
+right = pd.DataFrame({'key': ['K0', 'K1', 'K2', 'K3'],
+		      'C': ['C0', 'C1', 'C2', 'C3'],
+		      'D': ['D0', 'D1', 'D2', 'D3']})
+
+result = pd.concat([left, right], axis=1)
+print(result)
+</pre>
+</div>
+
+<pre class="example">
+  key   A   B key   C   D
+0  K0  A0  B0  K0  C0  D0
+1  K4  A1  B1  K1  C1  D1
+2  K2  A2  B2  K2  C2  D2
+3  K3  A3  B3  K3  C3  D3
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">result = pd.merge(left, right, on='key')
+print(result)
+</pre>
+</div>
+
+<pre class="example">
+  key   A   B   C   D
+0  K0  A0  B0  C0  D0
+1  K2  A2  B2  C2  D2
+2  K3  A3  B3  C3  D3
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org933de56" class="outline-2">
+<h2 id="org933de56"><span class="section-number-2">2</span> basic skillup - 3</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+파이썬이 아니고 쥬피터노트북 창에 바로 표시를 해라.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">import matplotlib.pyplot as plt
+%matplotlib inline 
+
+plt.figure()                    # 빈창을 그려라
+plt.plot([1,2,3,4,5,6,7,8,9,8,7,6,5,4,3,2,1,0])
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/VdmGUL.png" alt="VdmGUL.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">import numpy as np
+t = np.arange(0,12,0.01)        # 0~12범위를 0.01 단위로
+
+y = np.sin(t)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-nillangnilswitchesnilflags">nilbody
+</pre>
+</div>
+
+
+
+<div class="figure">
+<p><img src="./obipy-resources/goUuu1.png" alt="goUuu1.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(10,6))
+plt.plot(t, y)
+plt.grid()
+plt.xlabel('time')
+plt.ylabel('Amplitude')
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/1wrmKt.png" alt="1wrmKt.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(10,6))
+plt.plot(t, y)
+plt.grid()
+plt.xlabel('time')
+plt.ylabel('Amplitude')
+plt.title('Example of sinewave')
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/BsT9s5.png" alt="BsT9s5.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(10,6))
+plt.plot(t, np.sin(t))
+plt.plot(t, np.cos(t))
+plt.grid()
+plt.xlabel('time')
+plt.ylabel('Amplitude')
+plt.title('Example of sinewave')
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/9vHPcB.png" alt="9vHPcB.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(10,6))
+plt.plot(t, np.sin(t), label='sin')
+plt.plot(t, np.cos(t), label='cos')
+plt.grid()
+plt.legend()                    # 범례추가 (위에 라벨 설정)
+plt.xlabel('time')
+plt.ylabel('Amplitude')
+plt.title('Example of sinewave')
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/1qGTQ6.png" alt="1qGTQ6.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(10,6))
+plt.plot(t, np.sin(t), lw=3, label='sin') # lw는 선두께
+plt.plot(t, np.cos(t), 'r', label='cos')  # 선 색깔을 red로
+plt.grid()
+plt.legend()   
+plt.xlabel('time')
+plt.ylabel('Amplitude')
+plt.title('Example of sinewave')
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/4kW8kf.png" alt="4kW8kf.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(10,6))
+plt.plot(t, np.sin(t), lw=3, label='sin') # lw는 선두께
+plt.plot(t, np.cos(t), 'r', label='cos')  # 선 색깔을 red로
+plt.grid()
+plt.legend()   
+plt.xlabel('time')
+plt.ylabel('Amplitude')
+plt.title('Example of sinewave')
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/ehoNYq.png" alt="ehoNYq.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">t = np.arange(0, 5, 0.5)
+plt.figure(figsize=(10,6))
+plt.plot(t, t, 'r--')           # red, dash
+plt.plot(t, t**2, 'bs')
+plt.plot(t, t**3, 'g')        # g&lt; g&gt; g^ 삼각형 방향 바꾸기
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/Z32xt8.png" alt="Z32xt8.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">t = [0, 1, 2, 3, 4, 5, 6]
+y = [1, 4, 5, 8, 9, 5, 3]
+
+plt.figure(figsize=(10,6))
+plt.plot(t, y, color='green', linestyle='dashed', marker='o', markerfacecolor='red', markersize=12)  # linestyle, marker 모양,색상,크기
+plt.grid()
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/3Av4MT.png" alt="3Av4MT.png" />
+</p>
+</div>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">t = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+y = np.array([9, 8, 7, 9, 8, 3, 2, 4, 3, 4])
+plt.figure(figsize=(10,6))
+plt.scatter(t, y, marker='^')
+plt.show()
+
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/nnPsNo.png" alt="nnPsNo.png" />
+</p>
+</div>
+
+<p>
+화이트노이즈 시그널 만드는법(화이트노이즈가 뭐지)
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">s1 = np.random.normal(loc=0, scale=1, size=1000) # 0이 평균 편차1 사이즈1000
+s2 = np.random.normal(loc=5, scale=0.5, size=1000)
+s3 = np.random.normal(loc=10, scale=2, size=1000)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(10,6))
+plt.plot(s1, label='s1')
+plt.plot(s2, label='s2')
+plt.plot(s3, label='s3')
+plt.legend()
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/F77O7A.png" alt="F77O7A.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.boxplot((s1, s2, s3))       # 정보를 많이 전달해줌. 주황색은 중위값을 의미
+plt.grid()
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/2voWsM.png" alt="2voWsM.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9d4adda" class="outline-2">
+<h2 id="org9d4adda"><span class="section-number-2">3</span> 서울시의 인구와 cctv 와 범죄율의 상관관계 - 2</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-ipython">import pandas as pd
+CCTV_Seoul = pd.read_excel('DataScience/data/aaaa.xlsx', thousands=',')
+CCTV_Seoul.head(25)
+
+name_split =CCTV_Seoul["기관명"].str.split(" ")
+name_split
+
+CCTV_Seoul['기관명'] = name_split.str.join(sep='')
+CCTV_Seoul.tail(20)
+
+CCTV_Seoul.rename(columns={CCTV_Seoul.columns[0]: '구별'}, inplace=True)
+CCTV_Seoul.head()
+
+pop_Seoul=pd.read_csv('DataScience/data/report.txt', sep='\t')
+pop_Seoul.head()
+
+pop_Seoul=pd.read_csv('DataScience/data/report.txt', sep='\t', header=2, thousands=',')
+pop_Seoul
+
+pop_Seoul=pop_Seoul[['자치구','계', '계.1', '계.2', '65세이상고령자']]
+pop_Seoul
+
+pop_Seoul.drop([0], inplace=True)
+pop_Seoul.head()
+
+pop_Seoul.rename(columns={pop_Seoul.columns[0]:'구별',
+pop_Seoul.columns[1]:'인구수',pop_Seoul.columns[2]:'한국인',pop_Seoul.columns[3]:'외국인',pop_Seoul.columns[4]:'고령자'}, inplace=True)
+
+pop_Seoul.head(30)
+
+CCTV_Seoul.sort_values(by='소계', ascending=False).head(5)
+
+CCTV_Seoul['최근증가율']=(CCTV_Seoul['2018년']+CCTV_Seoul['2017년']+CCTV_Seoul['2016년']+CCTV_Seoul['2015년']+CCTV_Seoul['2014년'])/(CCTV_Seoul['2013년']+CCTV_Seoul['2012년']+CCTV_Seoul['2011년 이전'])*100
+CCTV_Seoul['최근증가율']
+
+CCTV_Seoul.sort_values(by='최근증가율', ascending=False).head(5)
+
+pop_Seoul['구별'].unique()
+
+CCTV_Seoul['구별'].unique()
+
+CCTV_Seoul[CCTV_Seoul['구별'].isnull()]
+
+CCTV_Seoul
+
+CCTV_Seoul.drop([10], inplace=True)
+
+CCTV_Seoul[CCTV_Seoul['구별'].isnull()]
+
+CCTV_Seoul
+
+CCTV_Seoul.drop([24], inplace=True)
+
+CCTV_Seoul[CCTV_Seoul['구별'].isnull()]
+
+pop_Seoul
+
+pop_Seoul['외국인비율']=pop_Seoul['외국인']/pop_Seoul['인구수']*100
+pop_Seoul['고령자비율']=pop_Seoul['고령자']/pop_Seoul['인구수']*100
+pop_Seoul.head()
+
+pop_Seoul.sort_values(['고령자비율'], ascending=False).head(10)
+
+print(CCTV_Seoul)
+
+</pre>
+</div>
+
+<pre class="example">
+      구별    소계  2011년 이전  2012년  2013년  2014년  2015년  2016년  2017년  2018년  \
+0    강남구  5221    1944.0  195.0  316.0    430    546    765    577    448   
+1    강동구  1879     303.0  387.0  134.0     59    144    194    273    385   
+2    강북구  1265     243.0   88.0  141.0     74    145    254      1    319   
+3    강서구  1617     219.0  155.0  118.0    230    187    190    264    254   
+4    관악구  3985     430.0   56.0  419.0    487    609    619    694    671   
+5    광진구  1581     470.0   42.0   83.0     87     64     21    468    346   
+6    구로구  3227     852.0  219.0  349.0    187    268    326    540    486   
+7    금천구  1634      27.0   17.0  242.0    101    382    136    199    530   
+8    노원구  1906     481.0  117.0  203.0     80    461    298    110    156   
+9    도봉구   858     197.0   66.0    8.0    185     59    155    117     71   
+11   동작구  1780     238.0   93.0   29.0    503    130    254    278    255   
+12   마포구  1935     585.0  108.0   69.0     70    177    359    372    195   
+13  서대문구  2121     565.0  233.0  214.0    114    109    277    415    194   
+14   서초구  2835    1172.0   91.0  228.0    134    215    352    247    396   
+15   성동구  2679     665.0  109.0  118.0    101    258    201    933    294   
+16   성북구  3003     779.0   84.0  304.0    241    279    388    285    643   
+17   송파구  1586     600.0   99.0   88.0     21    166    100    116    396   
+18   양천구  2775     772.0  161.0  185.0    169    172    349    137    830   
+19  영등포구  2495     132.0  121.0  206.0    217    366    289    371    793   
+20   용산구  2063    1279.0  152.0  201.0    107    102     89     60     73   
+21   은평구  2962    1365.0   83.0   99.0    343    180    296    229    367   
+22   종로구  1471       8.0    7.0  599.0    132    195    148    281    101   
+23    중구  1544      25.0  165.0  114.0     80    245    270    317    328   
+
+         최근증가율  
+0   112.668024  
+1   128.033981  
+2   168.008475  
+3   228.658537  
+4   340.331492  
+5   165.714286  
+6   127.253521  
+7   471.328671  
+8   137.952559  
+9   216.605166  
+11  394.444444  
+12  153.937008  
+13  109.584980  
+14   90.140845  
+15  200.336323  
+16  157.326478  
+17  101.524778  
+18  148.211091  
+19  443.572985  
+20   26.409314  
+21   91.467356  
+22  139.576547  
+23  407.894737  
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">data_result = pd.merge(CCTV_Seoul, pop_Seoul, on='구별')
+data_result.head(23)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">del data_result['2011년 이전']
+del data_result['2012년']
+del data_result['2013년']
+del data_result['2014년']
+del data_result['2015년']
+del data_result['2016년']
+del data_result['2017년']
+del data_result['2018년']
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">data_result.head()
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">data_result.set_index('구별', inplace=True)
+data_result.head()
+</pre>
+</div>
+
+<p>
+상관관계 여부를 확인해보자
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">import numpy as np
+np.corrcoef(data_result['고령자비율'], data_result['소계'])
+</pre>
+</div>
+
+<p>
+-는 음의 상관관계라고 하며, 약한 상관관계에 있다. 큰 의미가 없다.
+</p>
+<pre class="example">
+array([[ 1.        , -0.42580349],
+[-0.42580349,  1.        ]])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">np.corrcoef(data_result['외국인비율'], data_result['소계'])
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">np.corrcoef(data_result['인구수'], data_result['소계'])
+</pre>
+</div>
+
+<p>
+0.3정도면 약 상관관계라고 한다.(약한) &#x2026; 이건 의미있다고 얘기하시네.. 양수라 그런가..
+</p>
+<pre class="example">
+array([[1.        , 0.39010972],
+[0.39010972, 1.        ]])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">data_result
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge4b810a" class="outline-2">
+<h2 id="orge4b810a"><span class="section-number-2">4</span> 서울시의 인구와 cctv 와 범죄율의 상관관계 - 3003</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+최종적으로 만들어낸 데이터를 시각화를 해보자
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython"># import matplotlib.pyplot as plt
+# %matplotlib inline
+
+# import platform
+
+# from matplotlib import font_manager, rc(plt.rcParams['axes.unicode_minus'] = False
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure()
+data_result['소계'].plot(kind='barh', grid=True, figsize=(10,10))
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/VD79na.png" alt="VD79na.png" />
+</p>
+</div>
+<p>
+바 타입은 소팅이 되있어야 확인이 용이하다. 
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">data_result['소계'].sort_values().plot(kind='barh', grid=True, figsize=(10,10))
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/uCieQE.png" alt="uCieQE.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">data_result.head()
+</pre>
+</div>
+
+<pre class="example">
+소계       최근증가율     인구수     한국인    외국인    고령자     외국인비율      고령자비율
+구별
+강남구  5221  112.668024  546158  541233   4925  73097  0.901754  13.383856
+강동구  1879  128.033981  461547  457164   4383  67742  0.949632  14.677162
+강북구  1265  168.008475  315395  311773   3622  62338  1.148401  19.765057
+강서구  1617  228.658537  593203  586936   6267  87032  1.056468  14.671537
+관악구  3985  340.331492  516318  499740  16578  77341  3.210812  14.979334
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">data_result['CCTV비율'] = data_result['소계'] / data_result['인구수'] * 100
+data_result.head()
+</pre>
+</div>
+
+<pre class="example">
+소계       최근증가율     인구수     한국인    외국인    고령자     외국인비율      고령자비율  \
+구별
+강남구  5221  112.668024  546158  541233   4925  73097  0.901754  13.383856
+강동구  1879  128.033981  461547  457164   4383  67742  0.949632  14.677162
+강북구  1265  168.008475  315395  311773   3622  62338  1.148401  19.765057
+강서구  1617  228.658537  593203  586936   6267  87032  1.056468  14.671537
+관악구  3985  340.331492  516318  499740  16578  77341  3.210812  14.979334
+
+CCTV비율
+구별
+강남구  0.955950
+강동구  0.407109
+강북구  0.401084
+강서구  0.272588
+관악구  0.771811
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">data_result['CCTV비율'].sort_values().plot(kind='barh', grid=True, figsize=(10,6))
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/w65ne8.png" alt="w65ne8.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(6,6))
+plt.scatter(data_result['인구수'], data_result['소계'], s=50)
+plt.xlabel('인구수')
+plt.ylabel('CCTV')
+plt.grid()
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/Lft4Yq.png" alt="Lft4Yq.png" />
+</p>
+</div>
+
+<p>
+!!!! polyfit: 대표하는 선을 알고싶다 (= 회귀선) 정말 많이 쓰는 함수이다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">fp1 = np.polyfit(data_result['인구수'], data_result['소계'], 1)
+fp1
+</pre>
+</div>
+
+<pre class="example">
+array([2.86911006e-03, 1.12834786e+03])
+</pre>
+
+<p>
+return 값은 ax+b 의 a,b 이다
+</p>
+<pre class="example">
+array([2.86911006e-03, 1.12834786e+03])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">f1 = np.poly1d(fp1)
+fx = np.linspace(100000, 700000, 100)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(10,10))
+plt.scatter(data_result['인구수'], data_result['소계'], s=50)
+plt.plot(fx, f1(fx), ls='dashed', lw=3, color='g')
+plt.xlabel('인구수')
+plt.ylabel('CCTV')
+plt.grid()
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/2x3JJm.png" alt="2x3JJm.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">fp1 = np.polyfit(data_result['인구수'], data_result['소계'], 1)
+f1 = np.poly1d(fp1)
+fx = np.linspace(100000, 600000, 100)
+
+data_result['오차'] = np.abs(data_result['소계'] - f1(data_result['인구수']))
+
+df_sort = data_result.sort_values(by='오차', ascending=False)
+df_sort.head()
+</pre>
+</div>
+
+<pre class="example">
+소계       최근증가율     인구수     한국인    외국인    고령자     외국인비율      고령자비율  \
+구별
+강남구  5221  112.668024  546158  541233   4925  73097  0.901754  13.383856
+송파구  1586  101.524778  678067  671512   6555  90700  0.966719  13.376259
+관악구  3985  340.331492  516318  499740  16578  77341  3.210812  14.979334
+도봉구   858  216.605166  331744  329560   2184  60784  0.658339  18.322562
+강서구  1617  228.658537  593203  586936   6267  87032  1.056468  14.671537
+
+CCTV비율           오차
+구별
+강남구  0.955950  2525.664724
+송파구  0.233900  1487.796715
+관악구  0.771811  1375.278968
+도봉구  0.258633  1222.157912
+강서구  0.272588  1213.312559
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(14, 10))
+plt.scatter(data_result['인구수'], data_result['소계'], c=data_result['오차'], s=50)
+plt.colorbar()
+plt.grid()
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/ZPivzN.png" alt="ZPivzN.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(14, 10))
+plt.scatter(data_result['인구수'], data_result['소계'], c=data_result['오차'], s=50)
+plt.plot(fx, f1(fx), ls='dashed', lw=3, color='g')
+for n in range(10):
+  # 점선 약간 옆에 인덱스 네임을 보여주려고..
+  plt.text(df_sort['인구수'][n]*1.02, df_sort['소계'][n]*0.98, df_sort.index[n], fontsize=15) 
+plt.xlabel('인구수')
+plt.ylabel('인구당비율')
+plt.colorbar()
+plt.grid()
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/s5VngU.png" alt="s5VngU.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7b38fb6" class="outline-2">
+<h2 id="org7b38fb6"><span class="section-number-2">5</span> 범죄율</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-ipython">import numpy as np
+import pandas as pd
+crime_anal_police=pd.read_csv('DataScience/data/crimeSeoul.csv', thousands=',', encoding='euc-kr')
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(crime_anal_police)
+</pre>
+</div>
+
+<pre class="example">
+     관서명  살인 발생  살인 검거  강도 발생  강도 검거  강간 발생  강간 검거  절도 발생  절도 검거  폭력 발생  폭력 검거
+0    중부서      2      2      3      2    105     65   1395    477   1355   1170
+1    종로서      3      3      6      5    115     98   1070    413   1278   1070
+2   남대문서      1      0      6      4     65     46   1153    382    869    794
+3   서대문서      2      2      5      4    154    124   1812    738   2056   1711
+4    혜화서      3      2      5      4     96     63   1114    424   1015    861
+5    용산서      5      5     14     14    194    173   1557    587   2050   1704
+6    성북서      2      2      2      1     86     71    953    409   1194   1015
+7   동대문서      5      5     13     13    173    146   1981    814   2548   2227
+8    마포서      8      8     14     10    294    247   2555    813   2983   2519
+9   영등포서     14     12     22     20    295    183   2964    978   3572   2961
+10   성동서      4      4      9      8    126    119   1607    597   1612   1395
+11   동작서      5      5      9      5    285    139   1865    661   1910   1587
+12   광진서      4      4     14     26    240    220   3026   1277   2625   2180
+13   서부서      2      2      2      1     70     59    819    293   1192   1038
+14   강북서      7      8     14     13    153    126   1434    618   2649   2348
+15   금천서      3      4      6      6    151    122   1567    888   2054   1776
+16   중랑서     13     12     11      9    187    148   2135    829   2847   2407
+17   강남서      3      3     15     12    300    225   2411    984   2465   2146
+18   관악서      9      8     12     14    320    221   2706    827   3298   2642
+19   강서서      7      8     13     13    262    191   2096   1260   3207   2718
+20   강동서      4      3      6      8    156    123   2366    789   2712   2248
+21   종암서      3      3      3      3     64     53    832    332   1015    840
+22   구로서      8      6     15     11    281    164   2335    889   3007   2432
+23   서초서      7      4      8      5    334    193   1982    905   1852   1607
+24   양천서      3      5      6      3    120    105   1890    672   2509   2030
+25   송파서     11     10     13     10    220    178   3239   1129   3295   2786
+26   노원서     10     10      7      7    197    121   2193    801   2723   2329
+27   방배서      1      2      1      1     59     56    653    186    547    491
+28   은평서      1      1      7      5     96     82   1095    418   1461   1268
+29   도봉서      3      3      9     10    102    106   1063    478   1487   1303
+30   수서서     10      7      6      6    149    124   1439    666   1819   1559
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-bash">pip search google
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-bash">pip install googlemaps
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">import googlemaps
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">gmaps_key = 'AIzaSyCr3vC-BgvsbGGdbfB6wJsQOt1fFyV-09E'
+gmaps = googlemaps.Client(key=gmaps_key)
+print(gmaps)
+</pre>
+</div>
+
+<pre class="example">
+&lt;googlemaps.client.Client object at 0x7fed188c7748&gt;
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">gmaps.geocode('서울중부경찰서', language='ko')
+</pre>
+</div>
+
+
+
+<pre class="example">
+# Out[580]:
+#+BEGIN_EXAMPLE
+  [{'address_components': [{'long_name': '２７',
+  'short_name': '２７',
+  'types': ['premise']},
+  {'long_name': '수표로',
+  'short_name': '수표로',
+  'types': ['political', 'sublocality', 'sublocality_level_4']},
+  {'long_name': '을지로동',
+  'short_name': '을지로동',
+  'types': ['political', 'sublocality', 'sublocality_level_2']},
+  {'long_name': '중구',
+  'short_name': '중구',
+  'types': ['political', 'sublocality', 'sublocality_level_1']},
+  {'long_name': '서울특별시',
+  'short_name': '서울특별시',
+  'types': ['administrative_area_level_1', 'political']},
+  {'long_name': '대한민국',
+  'short_name': 'KR',
+  'types': ['country', 'political']},
+  {'long_name': '100-032',
+  'short_name': '100-032',
+  'types': ['postal_code']}],
+  'formatted_address': '대한민국 서울특별시 중구 을지로동 수표로 27',
+  'geometry': {'location': {'lat': 37.5636465, 'lng': 126.9895796},
+  'location_type': 'ROOFTOP',
+  'viewport': {'northeast': {'lat': 37.56499548029149,
+  'lng': 126.9909285802915},
+  'southwest': {'lat': 37.56229751970849, 'lng': 126.9882306197085}}},
+  'place_id': 'ChIJc-9q5uSifDURLhQmr5wkXmc',
+  'plus_code': {'compound_code': 'HX7Q+FR 대한민국 서울특별시',
+  'global_code': '8Q98HX7Q+FR'},
+  'types': ['establishment', 'point_of_interest', 'police']}]
+#+END_EXAMPLE
+</pre>
+
+<p>
+경찰서가 어느 구에 속한지에 대한 칼럼을 넣고자한다. 구글맵 API 활용법을 익히자
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">print(crime_anal_police['관서명'])
+</pre>
+</div>
+
+<pre class="example">
+0      중부서
+1      종로서
+2     남대문서
+3     서대문서
+4      혜화서
+5      용산서
+6      성북서
+7     동대문서
+8      마포서
+9     영등포서
+10     성동서
+11     동작서
+12     광진서
+13     서부서
+14     강북서
+15     금천서
+16     중랑서
+17     강남서
+18     관악서
+19     강서서
+20     강동서
+21     종암서
+22     구로서
+23     서초서
+24     양천서
+25     송파서
+26     노원서
+27     방배서
+28     은평서
+29     도봉서
+30     수서서
+Name: 관서명, dtype: object
+</pre>
+<p>
+구글맵api에서 검색할수 있게 경찰서명을 적절히 바꿔주자. 경찰서명이
+'중부서' 이렇게 표시되니 '중부' 만 따와서 '서울중부경찰서'로 만들자.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">a = "중부서"
+print(str(a[:-1]))
+</pre>
+</div>
+
+<pre class="example">
+중부
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">station_name = []
+for name in crime_anal_police['관서명']:
+  station_name.append('서울' + str(name[:-1]) + '경찰서')
+
+print(station_name)
+</pre>
+</div>
+
+<pre class="example">
+['서울중부경찰서', '서울종로경찰서', '서울남대문경찰서', '서울서대문경찰서', '서울혜화경찰서', '서울용산경찰서', '서울성북경찰서', '서울동대문경찰서', '서울마포경찰서', '서울영등포경찰서', '서울성동경찰서', '서울동작경찰서', '서울광진경찰서', '서울서부경찰서', '서울강북경찰서', '서울금천경찰서', '서울중랑경찰서', '서울강남경찰서', '서울관악경찰서', '서울강서경찰서', '서울강동경찰서', '서울종암경찰서', '서울구로경찰서', '서울서초경찰서', '서울양천경찰서', '서울송파경찰서', '서울노원경찰서', '서울방배경찰서', '서울은평경찰서', '서울도봉경찰서', '서울수서경찰서']
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">tmp = gmaps.geocode("서울중부경찰서", language='ko')
+print(tmp)
+</pre>
+</div>
+
+<pre class="example">
+[{'address_components': [{'long_name': '２７', 'short_name': '２７', 'types': ['premise']}, {'long_name': '수표로', 'short_name': '수표로', 'types': ['political', 'sublocality', 'sublocality_level_4']}, {'long_name': '을지로동', 'short_name': '을지로동', 'types': ['political', 'sublocality', 'sublocality_level_2']}, {'long_name': '중구', 'short_name': '중구', 'types': ['political', 'sublocality', 'sublocality_level_1']}, {'long_name': '서울특별시', 'short_name': '서울특별시', 'types': ['administrative_area_level_1', 'political']}, {'long_name': '대한민국', 'short_name': 'KR', 'types': ['country', 'political']}, {'long_name': '100-032', 'short_name': '100-032', 'types': ['postal_code']}], 'formatted_address': '대한민국 서울특별시 중구 을지로동 수표로 27', 'geometry': {'location': {'lat': 37.5636465, 'lng': 126.9895796}, 'location_type': 'ROOFTOP', 'viewport': {'northeast': {'lat': 37.56499548029149, 'lng': 126.9909285802915}, 'southwest': {'lat': 37.56229751970849, 'lng': 126.9882306197085}}}, 'place_id': 'ChIJc-9q5uSifDURLhQmr5wkXmc', 'plus_code': {'compound_code': 'HX7Q+FR 대한민국 서울특별시', 'global_code': '8Q98HX7Q+FR'}, 'types': ['establishment', 'point_of_interest', 'police']}]
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(tmp[0]['formatted_address'])
+</pre>
+</div>
+
+<pre class="example">
+대한민국 서울특별시 중구 을지로동 수표로 27
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">station_address = []
+station_lat = []
+station_lng = []
+for name in station_name:
+  tmp = gmaps.geocode(name, language='ko')
+  station_address.append(tmp[0].get('formatted_address'))
+
+  tmp_loc = tmp[0].get('geometry')
+  station_lat.append(tmp_loc['location']['lat'])
+  station_lng.append(tmp_loc['location']['lng'])
+
+  print(name + '--&gt;' + tmp[0].get('formatted_address'))
+</pre>
+</div>
+
+<pre class="example">
+서울중부경찰서--&gt;대한민국 서울특별시 중구 을지로동 수표로 27
+서울종로경찰서--&gt;대한민국 서울특별시 종로구 종로1.2.3.4가동 율곡로 46
+서울남대문경찰서--&gt;대한민국 서울특별시 중구 회현동 한강대로 410
+서울서대문경찰서--&gt;대한민국 서울특별시 서대문구 충현동 통일로 113
+서울혜화경찰서--&gt;대한민국 서울특별시 종로구 인의동 창경궁로 112-16
+서울용산경찰서--&gt;대한민국 서울특별시 용산구 원효로1가 백범로 329
+서울성북경찰서--&gt;대한민국 서울특별시 성북구 삼선동5가 301
+서울동대문경찰서--&gt;대한민국 서울특별시 동대문구 청량리동 약령시로21길 29
+서울마포경찰서--&gt;대한민국 서울특별시 마포구 아현동 마포대로 183
+서울영등포경찰서--&gt;대한민국 서울특별시 영등포구 영등포동1가 618-7
+서울성동경찰서--&gt;대한민국 서울특별시 성동구 행당동 왕십리광장로 9
+서울동작경찰서--&gt;대한민국 서울특별시 동작구 노량진1동 노량진로 148
+서울광진경찰서--&gt;대한민국 서울특별시 광진구 구의동 자양로 167
+서울서부경찰서--&gt;대한민국 서울특별시 은평구 신사2동 184-56
+서울강북경찰서--&gt;대한민국 서울특별시 강북구 번1동 오패산로 406
+서울금천경찰서--&gt;대한민국 서울특별시 금천구 시흥1동 시흥대로73길 50
+서울중랑경찰서--&gt;대한민국 서울특별시 중랑구 망우동 489-7
+서울강남경찰서--&gt;대한민국 서울특별시 강남구 대치동 998
+서울관악경찰서--&gt;대한민국 서울특별시 관악구 봉천동
+서울강서경찰서--&gt;대한민국 서울특별시 강서구 화곡6동 980-15
+서울강동경찰서--&gt;대한민국 서울특별시 강동구 성내1동 성내로 57
+서울종암경찰서--&gt;대한민국 서울특별시 성북구 종암동 종암로 135
+서울구로경찰서--&gt;대한민국 서울특별시 구로구 구로동 가마산로 235
+서울서초경찰서--&gt;대한민국 서울특별시 서초구 서초3동 반포대로 179
+서울양천경찰서--&gt;대한민국 서울특별시 양천구 신정6동 목동동로 99
+서울송파경찰서--&gt;대한민국 서울특별시 송파구 가락본동 9
+서울노원경찰서--&gt;대한민국 서울특별시 노원구 하계동 노원로 283
+서울방배경찰서--&gt;대한민국 서울특별시 서초구 방배본동 동작대로 204
+서울은평경찰서--&gt;대한민국 서울특별시 은평구 불광동 연서로 365
+서울도봉경찰서--&gt;대한민국 서울특별시 도봉구 창4동 노해로 403
+서울수서경찰서--&gt;대한민국 서울특별시 강남구 개포동 개포로 617
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(station_lat)
+</pre>
+</div>
+
+<pre class="example">
+[37.5636465, 37.5755578, 37.5547584, 37.5647848, 37.5718529, 37.5387099, 37.5897482, 37.58506149999999, 37.550814, 37.5153176, 37.5617309, 37.5130866, 37.542873, 37.591836, 37.63730390000001, 37.4568722, 37.5990885, 37.5094352, 37.4743789, 37.5516732, 37.528511, 37.6020592, 37.494931, 37.4956054, 37.5165667, 37.5019065, 37.6425238, 37.4945959, 37.6283597, 37.6533589, 37.49349]
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(station_lng)
+</pre>
+</div>
+
+<pre class="example">
+[126.9895796, 126.9848674, 126.9734981, 126.9667762, 126.9989143, 126.9659183, 127.0161353, 127.0457679, 126.954028, 126.905728, 127.0363806, 126.9428498, 127.083821, 126.9053648, 127.0273399, 126.8970429, 127.0956516, 127.0669578, 126.9509748, 126.8499269, 127.1268224, 127.0321577, 126.886731, 127.0052504, 126.8656763, 127.1271513, 127.0717076, 126.9831279, 126.9287226, 127.052682, 127.0772119]
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(station_address)
+</pre>
+</div>
+
+<pre class="example">
+['대한민국 서울특별시 중구 을지로동 수표로 27', '대한민국 서울특별시 종로구 종로1.2.3.4가동 율곡로 46', '대한민국 서울특별시 중구 회현동 한강대로 410', '대한민국 서울특별시 서대문구 충현동 통일로 113', '대한민국 서울특별시 종로구 인의동 창경궁로 112-16', '대한민국 서울특별시 용산구 원효로1가 백범로 329', '대한민국 서울특별시 성북구 삼선동5가 301', '대한민국 서울특별시 동대문구 청량리동 약령시로21길 29', '대한민국 서울특별시 마포구 아현동 마포대로 183', '대한민국 서울특별시 영등포구 영등포동1가 618-7', '대한민국 서울특별시 성동구 행당동 왕십리광장로 9', '대한민국 서울특별시 동작구 노량진1동 노량진로 148', '대한민국 서울특별시 광진구 구의동 자양로 167', '대한민국 서울특별시 은평구 신사2동 184-56', '대한민국 서울특별시 강북구 번1동 오패산로 406', '대한민국 서울특별시 금천구 시흥1동 시흥대로73길 50', '대한민국 서울특별시 중랑구 망우동 489-7', '대한민국 서울특별시 강남구 대치동 998', '대한민국 서울특별시 관악구 봉천동', '대한민국 서울특별시 강서구 화곡6동 980-15', '대한민국 서울특별시 강동구 성내1동 성내로 57', '대한민국 서울특별시 성북구 종암동 종암로 135', '대한민국 서울특별시 구로구 구로동 가마산로 235', '대한민국 서울특별시 서초구 서초3동 반포대로 179', '대한민국 서울특별시 양천구 신정6동 목동동로 99', '대한민국 서울특별시 송파구 가락본동 9', '대한민국 서울특별시 노원구 하계동 노원로 283', '대한민국 서울특별시 서초구 방배본동 동작대로 204', '대한민국 서울특별시 은평구 불광동 연서로 365', '대한민국 서울특별시 도봉구 창4동 노해로 403', '대한민국 서울특별시 강남구 개포동 개포로 617']
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">gu_name = []
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">name = '대한민국 서울특별시 중구 을지로동 수표로 27'
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">tmp = name.split()
+print(tmp)
+</pre>
+</div>
+
+<pre class="example">
+['대한민국', '서울특별시', '중구', '을지로동', '수표로', '27']
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython"># print(tmp[2])
+tmp_gu1 = [gu for gu in tmp if gu[-1] == '구']
+print(tmp_gu1)
+</pre>
+</div>
+
+<pre class="example">
+['중구']
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(crime_anal_police)
+</pre>
+</div>
+
+<pre class="example">
+     관서명  살인 발생  살인 검거  강도 발생  강도 검거  강간 발생  강간 검거  절도 발생  절도 검거  폭력 발생  폭력 검거
+0    중부서      2      2      3      2    105     65   1395    477   1355   1170
+1    종로서      3      3      6      5    115     98   1070    413   1278   1070
+2   남대문서      1      0      6      4     65     46   1153    382    869    794
+3   서대문서      2      2      5      4    154    124   1812    738   2056   1711
+4    혜화서      3      2      5      4     96     63   1114    424   1015    861
+5    용산서      5      5     14     14    194    173   1557    587   2050   1704
+6    성북서      2      2      2      1     86     71    953    409   1194   1015
+7   동대문서      5      5     13     13    173    146   1981    814   2548   2227
+8    마포서      8      8     14     10    294    247   2555    813   2983   2519
+9   영등포서     14     12     22     20    295    183   2964    978   3572   2961
+10   성동서      4      4      9      8    126    119   1607    597   1612   1395
+11   동작서      5      5      9      5    285    139   1865    661   1910   1587
+12   광진서      4      4     14     26    240    220   3026   1277   2625   2180
+13   서부서      2      2      2      1     70     59    819    293   1192   1038
+14   강북서      7      8     14     13    153    126   1434    618   2649   2348
+15   금천서      3      4      6      6    151    122   1567    888   2054   1776
+16   중랑서     13     12     11      9    187    148   2135    829   2847   2407
+17   강남서      3      3     15     12    300    225   2411    984   2465   2146
+18   관악서      9      8     12     14    320    221   2706    827   3298   2642
+19   강서서      7      8     13     13    262    191   2096   1260   3207   2718
+20   강동서      4      3      6      8    156    123   2366    789   2712   2248
+21   종암서      3      3      3      3     64     53    832    332   1015    840
+22   구로서      8      6     15     11    281    164   2335    889   3007   2432
+23   서초서      7      4      8      5    334    193   1982    905   1852   1607
+24   양천서      3      5      6      3    120    105   1890    672   2509   2030
+25   송파서     11     10     13     10    220    178   3239   1129   3295   2786
+26   노원서     10     10      7      7    197    121   2193    801   2723   2329
+27   방배서      1      2      1      1     59     56    653    186    547    491
+28   은평서      1      1      7      5     96     82   1095    418   1461   1268
+29   도봉서      3      3      9     10    102    106   1063    478   1487   1303
+30   수서서     10      7      6      6    149    124   1439    666   1819   1559
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">gu_name = []
+
+for name in station_address:
+  tmp = name.split()
+
+  tmp_gu = [gu for gu in tmp if gu[-1] == '구'][0]
+
+  gu_name.append(tmp_gu)
+crime_anal_police['구별'] = gu_name
+print(crime_anal_police)
+</pre>
+</div>
+
+<pre class="example">
+     관서명  살인 발생  살인 검거  강도 발생  강도 검거  강간 발생  강간 검거  절도 발생  절도 검거  폭력 발생  \
+0    중부서      2      2      3      2    105     65   1395    477   1355   
+1    종로서      3      3      6      5    115     98   1070    413   1278   
+2   남대문서      1      0      6      4     65     46   1153    382    869   
+3   서대문서      2      2      5      4    154    124   1812    738   2056   
+4    혜화서      3      2      5      4     96     63   1114    424   1015   
+5    용산서      5      5     14     14    194    173   1557    587   2050   
+6    성북서      2      2      2      1     86     71    953    409   1194   
+7   동대문서      5      5     13     13    173    146   1981    814   2548   
+8    마포서      8      8     14     10    294    247   2555    813   2983   
+9   영등포서     14     12     22     20    295    183   2964    978   3572   
+10   성동서      4      4      9      8    126    119   1607    597   1612   
+11   동작서      5      5      9      5    285    139   1865    661   1910   
+12   광진서      4      4     14     26    240    220   3026   1277   2625   
+13   서부서      2      2      2      1     70     59    819    293   1192   
+14   강북서      7      8     14     13    153    126   1434    618   2649   
+15   금천서      3      4      6      6    151    122   1567    888   2054   
+16   중랑서     13     12     11      9    187    148   2135    829   2847   
+17   강남서      3      3     15     12    300    225   2411    984   2465   
+18   관악서      9      8     12     14    320    221   2706    827   3298   
+19   강서서      7      8     13     13    262    191   2096   1260   3207   
+20   강동서      4      3      6      8    156    123   2366    789   2712   
+21   종암서      3      3      3      3     64     53    832    332   1015   
+22   구로서      8      6     15     11    281    164   2335    889   3007   
+23   서초서      7      4      8      5    334    193   1982    905   1852   
+24   양천서      3      5      6      3    120    105   1890    672   2509   
+25   송파서     11     10     13     10    220    178   3239   1129   3295   
+26   노원서     10     10      7      7    197    121   2193    801   2723   
+27   방배서      1      2      1      1     59     56    653    186    547   
+28   은평서      1      1      7      5     96     82   1095    418   1461   
+29   도봉서      3      3      9     10    102    106   1063    478   1487   
+30   수서서     10      7      6      6    149    124   1439    666   1819   
+
+    폭력 검거    구별  
+0    1170    중구  
+1    1070   종로구  
+2     794    중구  
+3    1711  서대문구  
+4     861   종로구  
+5    1704   용산구  
+6    1015   성북구  
+7    2227  동대문구  
+8    2519   마포구  
+9    2961  영등포구  
+10   1395   성동구  
+11   1587   동작구  
+12   2180   광진구  
+13   1038   은평구  
+14   2348   강북구  
+15   1776   금천구  
+16   2407   중랑구  
+17   2146   강남구  
+18   2642   관악구  
+19   2718   강서구  
+20   2248   강동구  
+21    840   성북구  
+22   2432   구로구  
+23   1607   서초구  
+24   2030   양천구  
+25   2786   송파구  
+26   2329   노원구  
+27    491   서초구  
+28   1268   은평구  
+29   1303   도봉구  
+30   1559   강남구  
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(crime_anal_police[crime_anal_police['관서명']=='금천서'])
+</pre>
+</div>
+
+<pre class="example">
+    관서명  살인 발생  살인 검거  강도 발생  강도 검거  강간 발생  강간 검거  절도 발생  절도 검거  폭력 발생  폭력 검거  \
+15  금천서      3      4      6      6    151    122   1567    888   2054   1776   
+
+     구별  
+15  금천구  
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(crime_anal_police.loc[crime_anal_police['관서명']=='금천서', ['구별']])
+</pre>
+</div>
+
+<pre class="example">
+     구별
+15  금천구
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython"># print(crime_anal_police.loc[crime_anal_police['관서명']=='금천서', ['구별']] = '금천구')
+print(crime_anal_police[crime_anal_police['관서명']=='금천서'])
+</pre>
+</div>
+
+<pre class="example">
+    관서명  살인 발생  살인 검거  강도 발생  강도 검거  강간 발생  강간 검거  절도 발생  절도 검거  폭력 발생  폭력 검거  \
+15  금천서      3      4      6      6    151    122   1567    888   2054   1776   
+
+     구별  
+15  금천구  
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">crime_anal_police.to_csv('data/200915-crime-in-seoul_include_gu_name.csv', sep=',', encoding='utf-8')
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(crime_anal_police.head())
+</pre>
+</div>
+
+<pre class="example">
+    관서명  살인 발생  살인 검거  강도 발생  강도 검거  강간 발생  강간 검거  절도 발생  절도 검거  폭력 발생  폭력 검거  \
+0   중부서      2      2      3      2    105     65   1395    477   1355   1170   
+1   종로서      3      3      6      5    115     98   1070    413   1278   1070   
+2  남대문서      1      0      6      4     65     46   1153    382    869    794   
+3  서대문서      2      2      5      4    154    124   1812    738   2056   1711   
+4   혜화서      3      2      5      4     96     63   1114    424   1015    861   
+
+     구별  
+0    중구  
+1   종로구  
+2    중구  
+3  서대문구  
+4   종로구  
+</pre>
+<p>
+index<sub>col</sub> 인덱스 칼럼 위치도 설정할 수 있나보다
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">crime_anal_raw = pd.read_csv('data/200915-crime-in-seoul_include_gu_name.csv', encoding='utf-8', index_col=0)
+print(crime_anal_raw)
+</pre>
+</div>
+
+<pre class="example">
+     관서명  살인 발생  살인 검거  강도 발생  강도 검거  강간 발생  강간 검거  절도 발생  절도 검거  폭력 발생  \
+0    중부서      2      2      3      2    105     65   1395    477   1355   
+1    종로서      3      3      6      5    115     98   1070    413   1278   
+2   남대문서      1      0      6      4     65     46   1153    382    869   
+3   서대문서      2      2      5      4    154    124   1812    738   2056   
+4    혜화서      3      2      5      4     96     63   1114    424   1015   
+5    용산서      5      5     14     14    194    173   1557    587   2050   
+6    성북서      2      2      2      1     86     71    953    409   1194   
+7   동대문서      5      5     13     13    173    146   1981    814   2548   
+8    마포서      8      8     14     10    294    247   2555    813   2983   
+9   영등포서     14     12     22     20    295    183   2964    978   3572   
+10   성동서      4      4      9      8    126    119   1607    597   1612   
+11   동작서      5      5      9      5    285    139   1865    661   1910   
+12   광진서      4      4     14     26    240    220   3026   1277   2625   
+13   서부서      2      2      2      1     70     59    819    293   1192   
+14   강북서      7      8     14     13    153    126   1434    618   2649   
+15   금천서      3      4      6      6    151    122   1567    888   2054   
+16   중랑서     13     12     11      9    187    148   2135    829   2847   
+17   강남서      3      3     15     12    300    225   2411    984   2465   
+18   관악서      9      8     12     14    320    221   2706    827   3298   
+19   강서서      7      8     13     13    262    191   2096   1260   3207   
+20   강동서      4      3      6      8    156    123   2366    789   2712   
+21   종암서      3      3      3      3     64     53    832    332   1015   
+22   구로서      8      6     15     11    281    164   2335    889   3007   
+23   서초서      7      4      8      5    334    193   1982    905   1852   
+24   양천서      3      5      6      3    120    105   1890    672   2509   
+25   송파서     11     10     13     10    220    178   3239   1129   3295   
+26   노원서     10     10      7      7    197    121   2193    801   2723   
+27   방배서      1      2      1      1     59     56    653    186    547   
+28   은평서      1      1      7      5     96     82   1095    418   1461   
+29   도봉서      3      3      9     10    102    106   1063    478   1487   
+30   수서서     10      7      6      6    149    124   1439    666   1819   
+
+    폭력 검거    구별  
+0    1170    중구  
+1    1070   종로구  
+2     794    중구  
+3    1711  서대문구  
+4     861   종로구  
+5    1704   용산구  
+6    1015   성북구  
+7    2227  동대문구  
+8    2519   마포구  
+9    2961  영등포구  
+10   1395   성동구  
+11   1587   동작구  
+12   2180   광진구  
+13   1038   은평구  
+14   2348   강북구  
+15   1776   금천구  
+16   2407   중랑구  
+17   2146   강남구  
+18   2642   관악구  
+19   2718   강서구  
+20   2248   강동구  
+21    840   성북구  
+22   2432   구로구  
+23   1607   서초구  
+24   2030   양천구  
+25   2786   송파구  
+26   2329   노원구  
+27    491   서초구  
+28   1268   은평구  
+29   1303   도봉구  
+30   1559   강남구  
+</pre>
+<p>
+인덱스를 '구별'로 했으니 index가 사라진것은 알겠는데, 관서명은 어디로 간거지..
+sum함수 적용 못하는 칼럼은 자동 삭제시키나?
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">crime_anal = pd.pivot_table(crime_anal_raw, index='구별', aggfunc=np.sum)
+print(crime_anal)
+</pre>
+</div>
+
+<pre class="example">
+      강간 검거  강간 발생  강도 검거  강도 발생  살인 검거  살인 발생  절도 검거  절도 발생  폭력 검거  폭력 발생
+구별                                                                        
+강남구     349    449     18     21     10     13   1650   3850   3705   4284
+강동구     123    156      8      6      3      4    789   2366   2248   2712
+강북구     126    153     13     14      8      7    618   1434   2348   2649
+강서구     191    262     13     13      8      7   1260   2096   2718   3207
+관악구     221    320     14     12      8      9    827   2706   2642   3298
+광진구     220    240     26     14      4      4   1277   3026   2180   2625
+구로구     164    281     11     15      6      8    889   2335   2432   3007
+금천구     122    151      6      6      4      3    888   1567   1776   2054
+노원구     121    197      7      7     10     10    801   2193   2329   2723
+도봉구     106    102     10      9      3      3    478   1063   1303   1487
+동대문구    146    173     13     13      5      5    814   1981   2227   2548
+동작구     139    285      5      9      5      5    661   1865   1587   1910
+마포구     247    294     10     14      8      8    813   2555   2519   2983
+서대문구    124    154      4      5      2      2    738   1812   1711   2056
+서초구     249    393      6      9      6      8   1091   2635   2098   2399
+성동구     119    126      8      9      4      4    597   1607   1395   1612
+성북구     124    150      4      5      5      5    741   1785   1855   2209
+송파구     178    220     10     13     10     11   1129   3239   2786   3295
+양천구     105    120      3      6      5      3    672   1890   2030   2509
+영등포구    183    295     20     22     12     14    978   2964   2961   3572
+용산구     173    194     14     14      5      5    587   1557   1704   2050
+은평구     141    166      6      9      3      3    711   1914   2306   2653
+종로구     161    211      9     11      5      6    837   2184   1931   2293
+중구      111    170      6      9      2      3    859   2548   1964   2224
+중랑구     148    187      9     11     12     13    829   2135   2407   2847
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf2dc3ae" class="outline-2">
+<h2 id="orgf2dc3ae"><span class="section-number-2">6</span> <span class="todo TODO">TODO</span> 테이블 제대로 표시하는 방법 알아보자</h2>
+</div>
+
+<div id="outline-container-org9cbf9bf" class="outline-2">
+<h2 id="org9cbf9bf"><span class="section-number-2">7</span> <span class="todo TODO">TODO</span> 노트 정리할 것</h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2020-09-15 Tue 18:00</p>
+<p class="author">Author: srolisp</p>
+<p class="date">Created: 2020-09-16 Wed 17:45</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
