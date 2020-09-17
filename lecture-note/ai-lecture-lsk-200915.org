@@ -131,8 +131,8 @@ TODO: 만들어놓은 파일 가져오는 법 알아보자.
 
 #+RESULTS:
 :results:
-# Out[395]:
-[[file:./obipy-resources/8uy3JM.png]]
+# Out[1]:
+[[file:./obipy-resources/UkMUa7.png]]
 :end:
 
 #+begin_src ipython

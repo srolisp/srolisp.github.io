@@ -1,0 +1,1537 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-17 Thu 17:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>구글맵 api 연동해서 데이터를 시각화하기</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="srolisp" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">구글맵 api 연동해서 데이터를 시각화하기
+<br />
+<span class="subtitle">5 weeks by lsk</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org1650987">1. basic skillup</a></li>
+<li><a href="#org9c774ab">2. folium</a>
+<ul>
+<li><a href="#orga0b709f">2.1. PROBLEM</a></li>
+<li><a href="#org1f0e6fd">2.2. 관련성 있는 values나 메소드를 추려봤다.</a></li>
+</ul>
+</li>
+<li><a href="#orgccb3e1a">3. 서울시 범죄율 시각화하기</a></li>
+<li><a href="#org10a5a94">4. 시각화</a></li>
+<li><a href="#org20ff54f">5. 크롤링</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1650987" class="outline-2">
+<h2 id="org1650987"><span class="section-number-2">1</span> basic skillup</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+seaborn을 이용한 시각화
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">import matplotlib.pyplot as plt
+%matplotlib inline
+
+import seaborn as sns
+import numpy as np
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">x = np.linspace(0, 14, 100)
+y1 = np.sin(x)
+y2 = 2*np.sin(x+0.5)
+y3 = 3*np.sin(x+1.0)
+y4 = 4*np.sin(x+1.5)
+
+plt.figure(figsize=(10,6))
+plt.plot(x,y1, x,y2, x,y3, x,y4)
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/ZegGFg.png" alt="ZegGFg.png" />
+</p>
+</div>
+<p>
+시본을 쓰면 다른 이페트도 넣어줄수 있다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">sns.set_style('white')
+
+plt.figure(figsize=(10,6))
+plt.plot(x,y1, x,y2, x,y3, x,y4)
+
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/nbgau1.png" alt="nbgau1.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">sns.set_style('dark')
+
+plt.figure(figsize=(10,6))
+plt.plot(x,y1, x,y2, x,y3, x,y4)
+
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/m2Yhea.png" alt="m2Yhea.png" />
+</p>
+</div>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">sns.set_style('whitegrid')
+get_ipython().run_line_magic('matplotlib', 'inline')
+
+tips=sns.load_dataset('tips')
+tips.head()
+</pre>
+</div>
+
+<pre class="example">
+total_bill   tip     sex smoker  day    time  size
+0       16.99  1.01  Female     No  Sun  Dinner     2
+1       10.34  1.66    Male     No  Sun  Dinner     3
+2       21.01  3.50    Male     No  Sun  Dinner     3
+3       23.68  3.31    Male     No  Sun  Dinner     2
+4       24.59  3.61  Female     No  Sun  Dinner     4
+</pre>
+<p>
+중위값
+위쪽 T부분은 150%
+박스윗부분은 75% 
+박스아랫부분은 25%
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(8,6))
+sns.boxplot(x='day', y='total_bill', data=tips)
+plt.show()
+
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/P9sqtY.png" alt="P9sqtY.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure(figsize=(8,6))
+sns.boxplot(x='day', y='total_bill', hue='smoker', data=tips, palette='Set3')
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/KYy6TL.png" alt="KYy6TL.png" />
+</p>
+</div>
+<p>
+기울기가 양. 양의 상관관계이다.
+허용범위도 표시되어있다.(조밀하다 아니다)
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">sns.set_style("darkgrid")
+sns.lmplot(x='total_bill', y='tip', data=tips, height=7)
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/5yEnEF.png" alt="5yEnEF.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">sns.set_style("darkgrid")
+sns.lmplot(x='total_bill', y='tip', hue='smoker', data=tips, height=7)
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/136NOQ.png" alt="136NOQ.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">sns.set_style("darkgrid")
+sns.lmplot(x='total_bill', y='tip', hue='day', data=tips, height=7)
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/Kj9AuH.png" alt="Kj9AuH.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">uniform_data = np.random.rand(10, 12)
+uniform_data
+</pre>
+</div>
+
+<pre class="example">
+array([[0.5975355 , 0.1553749 , 0.89631981, 0.91008193, 0.87534482,
+0.9262959 , 0.30053465, 0.91191681, 0.87225148, 0.64230221,
+0.70355298, 0.48083853],
+[0.5755758 , 0.42679195, 0.44088761, 0.77522565, 0.21397884,
+0.87151482, 0.66560129, 0.45943659, 0.70819887, 0.27723663,
+0.68796365, 0.85777813],
+[0.97749812, 0.34774138, 0.40008432, 0.08957556, 0.36695093,
+0.14436789, 0.53825943, 0.52735902, 0.22217306, 0.24803273,
+0.33842581, 0.65046296],
+[0.3286952 , 0.28805831, 0.8546322 , 0.33772942, 0.29857599,
+0.99896339, 0.90452893, 0.58888536, 0.98985216, 0.28765043,
+0.37417498, 0.17239375],
+[0.50897225, 0.52141607, 0.3185483 , 0.01416796, 0.5765803 ,
+0.44026656, 0.06940678, 0.11022575, 0.00969217, 0.21317065,
+0.5578023 , 0.40852611],
+[0.24651603, 0.99123077, 0.87873545, 0.15482492, 0.27117279,
+0.62232931, 0.13220707, 0.050231  , 0.11224911, 0.265369  ,
+0.69669597, 0.57104486],
+[0.55892378, 0.60204773, 0.04840395, 0.28271291, 0.505846  ,
+0.91713748, 0.02113966, 0.7054083 , 0.32732853, 0.20082028,
+0.80697506, 0.27645739],
+[0.81653887, 0.3531282 , 0.73153891, 0.76735207, 0.12499753,
+0.91246087, 0.83541595, 0.46505098, 0.07723461, 0.81798985,
+0.27573148, 0.70396719],
+[0.53035352, 0.86701045, 0.89429199, 0.48773568, 0.27355224,
+0.63692151, 0.58335583, 0.50519039, 0.60903983, 0.37667774,
+0.96324413, 0.40000047],
+[0.68192979, 0.67671488, 0.8061509 , 0.36525368, 0.27163165,
+0.04272377, 0.02945293, 0.74671431, 0.08471094, 0.52805274,
+0.56563017, 0.38229577]])
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">sns.heatmap(uniform_data)
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/hCUpdp.png" alt="hCUpdp.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">sns.set(style='ticks')
+iris = sns.load_dataset('iris')
+print(iris.head())
+</pre>
+</div>
+
+<p>
+   sepal<sub>length</sub>  sepal<sub>width</sub>  petal<sub>length</sub>  petal<sub>width</sub> species
+0           5.1          3.5           1.4          0.2  setosa
+1           4.9          3.0           1.4          0.2  setosa
+2           4.7          3.2           1.3          0.2  setosa
+3           4.6          3.1           1.5          0.2  setosa
+4           5.0          3.6           1.4          0.2  setosa
+</p>
+<p>
+무리지어져 있다는것은 구분하기 쉽다. 구분할 수 있다는 의미.
+산재되어있는 것은(ex. sepal<sub>length</sub> 와 sepal<sub>width로는</sub> 구분하기 어렵다 -&gt; 머신러닝으로 구분하게 하기 힘들다)
+이렇듯 시각화해서 머신러닝하면 의미가 있겠다 없겠다 알 수 있다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">sns.pairplot(iris, hue='species')
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/dRLkGJ.png" alt="dRLkGJ.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9c774ab" class="outline-2">
+<h2 id="org9c774ab"><span class="section-number-2">2</span> folium</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+root에도 설치해야 된단다.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">pip install folium
+</pre>
+</div>
+<p>
+안되는게 머이리 많아
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">import folium
+m = folium.Map(location=[45.5236, -122.6750])
+m
+</pre>
+</div>
+
+<pre class="example">
+&lt;folium.folium.Map at 0x7ff41cf0b5f8&gt;
+</pre>
+</div>
+
+<div id="outline-container-orga0b709f" class="outline-3">
+<h3 id="orga0b709f"><span class="section-number-3">2.1</span> PROBLEM</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+지도가 그려지는게 아니라 folium 오브젝트로만 나온다. 이걸 표시되게끔 해야하는데..
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">import folium
+m = folium.Map(location=[45.5236, -122.6750])
+m
+</pre>
+</div>
+
+<pre class="example">
+&lt;folium.folium.Map at 0x7ff4354bfa90&gt;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1f0e6fd" class="outline-3">
+<h3 id="org1f0e6fd"><span class="section-number-3">2.2</span> 관련성 있는 values나 메소드를 추려봤다.</h3>
+<div class="outline-text-3" id="text-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">m.__dir__()
+</pre>
+</div>
+
+<p>
+12 - 5dc87aa8-a60b-49ce-a580-ec72b2016530
+</p>
+
+<p>
+geckodriver PATH에러가 난다. folium.py 에서 옵션으로 firefox를 찾는데, firefox를 safari나 딴걸로 못 바꾸나?
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">m._to_png()
+</pre>
+</div>
+
+<p>
+13 - cb4154ac-bc8b-45b3-8730-8241af0521ca
+</p>
+
+<p>
+geckodriver와 chromedriver는   ~/.pyenv/versions/anaconda3-5.3.1/bin에 옮겨놨다. PATH 문제 해결
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">import os
+os.get_exec_path()
+</pre>
+</div>
+
+<p>
+14 - abe0d471-4493-4a95-b7d3-44e3c3f2f266
+</p>
+
+<p>
+아직 PATH에러가 나서 보니, shims폴더에 옮겨놔야겠다.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">mv ~/.pyenv/versions/anaconda3-5.3.1/bin/*driver ~/.pyenv/shims
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">m._to_png(5)
+</pre>
+</div>
+
+<p>
+15 - 770432f1-1a67-4041-8443-8533251f5e91
+</p>
+
+<p>
+이미지 파일이 아니고 png포멧 스트링이네
+구글링 구글링
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">import io
+import folium
+from PIL import Image
+
+def folium_map_to_png (m):
+  img_data = m._to_png(1)
+  img = Image.open(io.BytesIO(img_data))
+  return img
+</pre>
+</div>
+
+<p>
+16 - 5997071b-9838-4d61-9a85-d2f9ae367eb2
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">import io
+import folium
+from PIL import Image
+
+m = folium.Map(location=[45.5236, -122.6750], width=500, height=300)
+# img_data = m._to_png(5)
+# img = Image.open(io.BytesIO(img_data))
+
+def folium_map_to_png (m):
+  img_data = m._to_png(1)
+  img = Image.open(io.BytesIO(img_data))
+  return img
+folium_map_to_png(m)
+</pre>
+</div>
+
+<p>
+17 - b5afa68a-6ce2-4e31-8175-4344c550b65f
+</p>
+<p>
+일단 출력되는건 해결했다..
+근데 셀사이즈는 최대로 고정되있는데 설정을 어떻게 바꾸는지 아직 모르겠음.
+</p>
+
+
+
+<div class="org-src-container">
+<pre class="src src-bash">jupyter nbconvert --to script "DataScience/source_code/Class9_17.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/basic9_17.ipynb"
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">map_osm = folium.Map(location=[45, -122])
+folium_map_to_png(map_osm)
+</pre>
+</div>
+
+<p>
+18 - 094e197a-a13d-480c-9cd9-a65d8e17b4c1
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">map_osm = folium.Map(location=[45, -122], tiles='stamen toner', zoom_start=13, width=300, height=200)
+folium_map_to_png(map_osm)
+</pre>
+</div>
+
+<p>
+19 - 8f470bf7-4665-470d-a50f-02ee35a5bd65
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">map_osm = folium.Map(location=[45, -122], # tiles='stamen toner', 
+		     zoom_start=8, width=500, height=300)
+
+folium.Marker([45.3288, -121.6625], popup='Mt. Hood Meadows', icon=folium.Icon(icon='cloud')).add_to(map_osm)
+folium.Marker([45.3311, -121.7113], popup='Timberline Lodge', icon=folium.Icon(icon='cloud')).add_to(map_osm)
+
+folium_map_to_png(map_osm)
+</pre>
+</div>
+
+<p>
+20 - 61a6e189-9dbb-4c33-81e9-40b809d08b80
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">map_1 = folium.Map(location=[45.372, -121.6972], zoom_start=12, 
+		   tiles='Stamen Terrain')
+folium.Marker([45.3288, -121.6625], popup='Mt. Hood Meadows', 
+	      icon=folium.Icon(color='blue',icon='cloud')).add_to(map_1)
+folium.Marker([45.3311, -121.7113], popup='Timberline Lodge', 
+	      icon=folium.Icon(color='green')).add_to(map_1)
+folium.Marker([45.3300, -121.6823], popup='Some Other Location', 
+	      icon=folium.Icon(color='red',icon='info-sign')).add_to(map_1)
+folium_map_to_png(map_1)
+</pre>
+</div>
+
+<p>
+21 - 8b81aae9-df1a-418b-9fcd-e5e68a659f04
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">map_2 = folium.Map(location=[45.5236, -122.6750], tiles='Stamen Toner', 
+		   zoom_start=13)
+folium.Marker([45.5244, -122.6699], popup='The Waterfront' ).add_to(map_2)
+folium.CircleMarker([45.5215, -122.6261], radius=30, 
+		    popup='Laurelhurst Park', color='red', 
+		    fill_color='green', ).add_to(map_2)
+folium_map_to_png(map_2)
+
+</pre>
+</div>
+
+<p>
+22 - d1021a36-4bdd-4ce7-a44d-dadcc084adae
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">map_5 = folium.Map(location=[45.5236, -122.6750], zoom_start=13)
+folium.RegularPolygonMarker([45.5012, -122.6655], 
+			    popup='Ross Island Bridge', fill_color='#132b5e', 
+			    number_of_sides=3, radius=10).add_to(map_5)
+folium.RegularPolygonMarker([45.5132, -122.6708], 
+			    popup='Hawthorne Bridge', fill_color='#45647d', 
+			    number_of_sides=4, radius=10).add_to(map_5)
+folium.RegularPolygonMarker([45.5275, -122.6692], 
+			    popup='Steel Bridge', fill_color='#769d96', 
+			    number_of_sides=6, radius=10).add_to(map_5)
+folium.RegularPolygonMarker([45.5318, -122.6745], 
+			    popup='Broadway Bridge', fill_color='#769d96', 
+			    number_of_sides=8, radius=10).add_to(map_5)
+folium_map_to_png(map_5)
+
+</pre>
+</div>
+
+<p>
+23 - 7e96b7df-8e06-4bc7-bb87-adea58d940dc
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">state_unemployment = '~/pg/2020/python/uiap/lecture-note/DataScience/data/02-folium_US_Unemployment_Oct2012.csv'
+
+state_data = pd.read_csv(state_unemployment)
+state_data.head()
+
+state_geo = '/Users/sroh/pg/2020/python/uiap/lecture-note/DataScience/data/02-folium_us-states.json'
+
+map = folium.Map(location=[40, -98], zoom_start=4)
+map.choropleth(geo_data=state_geo, data=state_data,
+	     columns=['State', 'Unemployment'],
+	     key_on='feature.id',
+	     fill_color='YlGn',
+	     legend_name='Unemployment Rate (%)')
+folium_map_to_png(map)
+</pre>
+</div>
+
+<p>
+24 - e3112244-601a-483f-bced-e57d559b59e9
+</p>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgccb3e1a" class="outline-2">
+<h2 id="orgccb3e1a"><span class="section-number-2">3</span> 서울시 범죄율 시각화하기</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-bash">pip install scikit-learn
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-bash">jupyter nbconvert --to script "DataScience/source_code/Class9_16.ipynb"
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-bash">jupyter nbconvert --to script "DataScience/source_code/basic9_16.ipynb"
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython"># gmaps_key = 'AIzaSyCr3vC-BgvsbGGdbfB6wJsQOt1fFyV-09E'
+import numpy as np
+import pandas as pd
+</pre>
+</div>
+
+<p>
+csv 데이터에 index가 포함된 상태인데, 그래서 read<sub>csv함수를</sub> 쓰면 index가 중복으로 생기나?
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">crime_anal_police = pd.read_csv('data/200915-crime-in-seoul_include_gu_name.csv', encoding='utf-8')
+print(crime_anal_police)
+</pre>
+</div>
+
+<pre class="example">
+    Unnamed: 0   관서명  살인 발생  살인 검거  강도 발생  강도 검거  강간 발생  강간 검거  절도 발생  절도 검거  \
+0            0   중부서      2      2      3      2    105     65   1395    477   
+1            1   종로서      3      3      6      5    115     98   1070    413   
+2            2  남대문서      1      0      6      4     65     46   1153    382   
+3            3  서대문서      2      2      5      4    154    124   1812    738   
+4            4   혜화서      3      2      5      4     96     63   1114    424   
+5            5   용산서      5      5     14     14    194    173   1557    587   
+6            6   성북서      2      2      2      1     86     71    953    409   
+7            7  동대문서      5      5     13     13    173    146   1981    814   
+8            8   마포서      8      8     14     10    294    247   2555    813   
+9            9  영등포서     14     12     22     20    295    183   2964    978   
+10          10   성동서      4      4      9      8    126    119   1607    597   
+11          11   동작서      5      5      9      5    285    139   1865    661   
+12          12   광진서      4      4     14     26    240    220   3026   1277   
+13          13   서부서      2      2      2      1     70     59    819    293   
+14          14   강북서      7      8     14     13    153    126   1434    618   
+15          15   금천서      3      4      6      6    151    122   1567    888   
+16          16   중랑서     13     12     11      9    187    148   2135    829   
+17          17   강남서      3      3     15     12    300    225   2411    984   
+18          18   관악서      9      8     12     14    320    221   2706    827   
+19          19   강서서      7      8     13     13    262    191   2096   1260   
+20          20   강동서      4      3      6      8    156    123   2366    789   
+21          21   종암서      3      3      3      3     64     53    832    332   
+22          22   구로서      8      6     15     11    281    164   2335    889   
+23          23   서초서      7      4      8      5    334    193   1982    905   
+24          24   양천서      3      5      6      3    120    105   1890    672   
+25          25   송파서     11     10     13     10    220    178   3239   1129   
+26          26   노원서     10     10      7      7    197    121   2193    801   
+27          27   방배서      1      2      1      1     59     56    653    186   
+28          28   은평서      1      1      7      5     96     82   1095    418   
+29          29   도봉서      3      3      9     10    102    106   1063    478   
+30          30   수서서     10      7      6      6    149    124   1439    666   
+
+    폭력 발생  폭력 검거    구별  
+0    1355   1170    중구  
+1    1278   1070   종로구  
+2     869    794    중구  
+3    2056   1711  서대문구  
+4    1015    861   종로구  
+5    2050   1704   용산구  
+6    1194   1015   성북구  
+7    2548   2227  동대문구  
+8    2983   2519   마포구  
+9    3572   2961  영등포구  
+10   1612   1395   성동구  
+11   1910   1587   동작구  
+12   2625   2180   광진구  
+13   1192   1038   은평구  
+14   2649   2348   강북구  
+15   2054   1776   금천구  
+16   2847   2407   중랑구  
+17   2465   2146   강남구  
+18   3298   2642   관악구  
+19   3207   2718   강서구  
+20   2712   2248   강동구  
+21   1015    840   성북구  
+22   3007   2432   구로구  
+23   1852   1607   서초구  
+24   2509   2030   양천구  
+25   3295   2786   송파구  
+26   2723   2329   노원구  
+27    547    491   서초구  
+28   1461   1268   은평구  
+29   1487   1303   도봉구  
+30   1819   1559   강남구  
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">crime_anal_police = pd.read_csv('data/200915-crime-in-seoul_include_gu_name.csv', encoding='utf-8', index_col=0)
+print(crime_anal_police)
+</pre>
+</div>
+
+<pre class="example">
+     관서명  살인 발생  살인 검거  강도 발생  강도 검거  강간 발생  강간 검거  절도 발생  절도 검거  폭력 발생  \
+0    중부서      2      2      3      2    105     65   1395    477   1355   
+1    종로서      3      3      6      5    115     98   1070    413   1278   
+2   남대문서      1      0      6      4     65     46   1153    382    869   
+3   서대문서      2      2      5      4    154    124   1812    738   2056   
+4    혜화서      3      2      5      4     96     63   1114    424   1015   
+5    용산서      5      5     14     14    194    173   1557    587   2050   
+6    성북서      2      2      2      1     86     71    953    409   1194   
+7   동대문서      5      5     13     13    173    146   1981    814   2548   
+8    마포서      8      8     14     10    294    247   2555    813   2983   
+9   영등포서     14     12     22     20    295    183   2964    978   3572   
+10   성동서      4      4      9      8    126    119   1607    597   1612   
+11   동작서      5      5      9      5    285    139   1865    661   1910   
+12   광진서      4      4     14     26    240    220   3026   1277   2625   
+13   서부서      2      2      2      1     70     59    819    293   1192   
+14   강북서      7      8     14     13    153    126   1434    618   2649   
+15   금천서      3      4      6      6    151    122   1567    888   2054   
+16   중랑서     13     12     11      9    187    148   2135    829   2847   
+17   강남서      3      3     15     12    300    225   2411    984   2465   
+18   관악서      9      8     12     14    320    221   2706    827   3298   
+19   강서서      7      8     13     13    262    191   2096   1260   3207   
+20   강동서      4      3      6      8    156    123   2366    789   2712   
+21   종암서      3      3      3      3     64     53    832    332   1015   
+22   구로서      8      6     15     11    281    164   2335    889   3007   
+23   서초서      7      4      8      5    334    193   1982    905   1852   
+24   양천서      3      5      6      3    120    105   1890    672   2509   
+25   송파서     11     10     13     10    220    178   3239   1129   3295   
+26   노원서     10     10      7      7    197    121   2193    801   2723   
+27   방배서      1      2      1      1     59     56    653    186    547   
+28   은평서      1      1      7      5     96     82   1095    418   1461   
+29   도봉서      3      3      9     10    102    106   1063    478   1487   
+30   수서서     10      7      6      6    149    124   1439    666   1819   
+
+    폭력 검거    구별  
+0    1170    중구  
+1    1070   종로구  
+2     794    중구  
+3    1711  서대문구  
+4     861   종로구  
+5    1704   용산구  
+6    1015   성북구  
+7    2227  동대문구  
+8    2519   마포구  
+9    2961  영등포구  
+10   1395   성동구  
+11   1587   동작구  
+12   2180   광진구  
+13   1038   은평구  
+14   2348   강북구  
+15   1776   금천구  
+16   2407   중랑구  
+17   2146   강남구  
+18   2642   관악구  
+19   2718   강서구  
+20   2248   강동구  
+21    840   성북구  
+22   2432   구로구  
+23   1607   서초구  
+24   2030   양천구  
+25   2786   송파구  
+26   2329   노원구  
+27    491   서초구  
+28   1268   은평구  
+29   1303   도봉구  
+30   1559   강남구  
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">crime_anal = pd.pivot_table(crime_anal_police, index='구별', aggfunc=np.sum)
+print(crime_anal)
+</pre>
+</div>
+
+<pre class="example">
+      강간 검거  강간 발생  강도 검거  강도 발생  살인 검거  살인 발생  절도 검거  절도 발생  폭력 검거  폭력 발생
+구별                                                                        
+강남구     349    449     18     21     10     13   1650   3850   3705   4284
+강동구     123    156      8      6      3      4    789   2366   2248   2712
+강북구     126    153     13     14      8      7    618   1434   2348   2649
+강서구     191    262     13     13      8      7   1260   2096   2718   3207
+관악구     221    320     14     12      8      9    827   2706   2642   3298
+광진구     220    240     26     14      4      4   1277   3026   2180   2625
+구로구     164    281     11     15      6      8    889   2335   2432   3007
+금천구     122    151      6      6      4      3    888   1567   1776   2054
+노원구     121    197      7      7     10     10    801   2193   2329   2723
+도봉구     106    102     10      9      3      3    478   1063   1303   1487
+동대문구    146    173     13     13      5      5    814   1981   2227   2548
+동작구     139    285      5      9      5      5    661   1865   1587   1910
+마포구     247    294     10     14      8      8    813   2555   2519   2983
+서대문구    124    154      4      5      2      2    738   1812   1711   2056
+서초구     249    393      6      9      6      8   1091   2635   2098   2399
+성동구     119    126      8      9      4      4    597   1607   1395   1612
+성북구     124    150      4      5      5      5    741   1785   1855   2209
+송파구     178    220     10     13     10     11   1129   3239   2786   3295
+양천구     105    120      3      6      5      3    672   1890   2030   2509
+영등포구    183    295     20     22     12     14    978   2964   2961   3572
+용산구     173    194     14     14      5      5    587   1557   1704   2050
+은평구     141    166      6      9      3      3    711   1914   2306   2653
+종로구     161    211      9     11      5      6    837   2184   1931   2293
+중구      111    170      6      9      2      3    859   2548   1964   2224
+중랑구     148    187      9     11     12     13    829   2135   2407   2847
+</pre>
+<p>
+검거율을 넣어보자
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">crime_anal['강간검거율'] = crime_anal['강간 검거'] / crime_anal['강간 발생'] * 100
+crime_anal['강도검거율'] = crime_anal['강도 검거'] / crime_anal['강도 발생'] * 100
+crime_anal['살인검거율'] = crime_anal['살인 검거'] / crime_anal['살인 발생'] * 100
+crime_anal['절도검거율'] = crime_anal['절도 검거'] / crime_anal['절도 발생'] * 100
+crime_anal['폭력검거율'] = crime_anal['폭력 검거'] / crime_anal['폭력 발생'] * 100
+
+del crime_anal['강간 검거'] 
+del crime_anal['강도 검거'] 
+del crime_anal['살인 검거']
+del crime_anal['절도 검거']
+del crime_anal['폭력 검거']
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(crime_anal)
+</pre>
+</div>
+
+<pre class="example">
+      강간 발생  강도 발생  살인 발생  절도 발생  폭력 발생       강간검거율       강도검거율       살인검거율  \
+구별                                                                            
+강남구     449     21     13   3850   4284   77.728285   85.714286   76.923077   
+강동구     156      6      4   2366   2712   78.846154  133.333333   75.000000   
+강북구     153     14      7   1434   2649   82.352941   92.857143  114.285714   
+강서구     262     13      7   2096   3207   72.900763  100.000000  114.285714   
+관악구     320     12      9   2706   3298   69.062500  116.666667   88.888889   
+광진구     240     14      4   3026   2625   91.666667  185.714286  100.000000   
+구로구     281     15      8   2335   3007   58.362989   73.333333   75.000000   
+금천구     151      6      3   1567   2054   80.794702  100.000000  133.333333   
+노원구     197      7     10   2193   2723   61.421320  100.000000  100.000000   
+도봉구     102      9      3   1063   1487  103.921569  111.111111  100.000000   
+동대문구    173     13      5   1981   2548   84.393064  100.000000  100.000000   
+동작구     285      9      5   1865   1910   48.771930   55.555556  100.000000   
+마포구     294     14      8   2555   2983   84.013605   71.428571  100.000000   
+서대문구    154      5      2   1812   2056   80.519481   80.000000  100.000000   
+서초구     393      9      8   2635   2399   63.358779   66.666667   75.000000   
+성동구     126      9      4   1607   1612   94.444444   88.888889  100.000000   
+성북구     150      5      5   1785   2209   82.666667   80.000000  100.000000   
+송파구     220     13     11   3239   3295   80.909091   76.923077   90.909091   
+양천구     120      6      3   1890   2509   87.500000   50.000000  166.666667   
+영등포구    295     22     14   2964   3572   62.033898   90.909091   85.714286   
+용산구     194     14      5   1557   2050   89.175258  100.000000  100.000000   
+은평구     166      9      3   1914   2653   84.939759   66.666667  100.000000   
+종로구     211     11      6   2184   2293   76.303318   81.818182   83.333333   
+중구      170      9      3   2548   2224   65.294118   66.666667   66.666667   
+중랑구     187     11     13   2135   2847   79.144385   81.818182   92.307692   
+
+          절도검거율      폭력검거율  
+구별                          
+강남구   42.857143  86.484594  
+강동구   33.347422  82.890855  
+강북구   43.096234  88.637222  
+강서구   60.114504  84.752105  
+관악구   30.561715  80.109157  
+광진구   42.200925  83.047619  
+구로구   38.072805  80.877951  
+금천구   56.668794  86.465433  
+노원구   36.525308  85.530665  
+도봉구   44.967074  87.626093  
+동대문구  41.090358  87.401884  
+동작구   35.442359  83.089005  
+마포구   31.819961  84.445189  
+서대문구  40.728477  83.219844  
+서초구   41.404175  87.453105  
+성동구   37.149969  86.538462  
+성북구   41.512605  83.974649  
+송파구   34.856437  84.552352  
+양천구   35.555556  80.908729  
+영등포구  32.995951  82.894737  
+용산구   37.700706  83.121951  
+은평구   37.147335  86.920467  
+종로구   38.324176  84.212822  
+중구    33.712716  88.309353  
+중랑구   38.829040  84.545135  
+</pre>
+
+<p>
+loc 은 컬럼을 지정
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">con_list = ['강간검거율', '강도검거율', '살인검거율', '절도검거율', '폭력검거율']
+
+for column in con_list:
+  crime_anal.loc[crime_anal[column] &gt; 100, column] = 100
+print(crime_anal)
+</pre>
+</div>
+
+<pre class="example">
+      강간 발생  강도 발생  살인 발생  절도 발생  폭력 발생       강간검거율       강도검거율       살인검거율  \
+구별                                                                            
+강남구     449     21     13   3850   4284   77.728285   85.714286   76.923077   
+강동구     156      6      4   2366   2712   78.846154  100.000000   75.000000   
+강북구     153     14      7   1434   2649   82.352941   92.857143  100.000000   
+강서구     262     13      7   2096   3207   72.900763  100.000000  100.000000   
+관악구     320     12      9   2706   3298   69.062500  100.000000   88.888889   
+광진구     240     14      4   3026   2625   91.666667  100.000000  100.000000   
+구로구     281     15      8   2335   3007   58.362989   73.333333   75.000000   
+금천구     151      6      3   1567   2054   80.794702  100.000000  100.000000   
+노원구     197      7     10   2193   2723   61.421320  100.000000  100.000000   
+도봉구     102      9      3   1063   1487  100.000000  100.000000  100.000000   
+동대문구    173     13      5   1981   2548   84.393064  100.000000  100.000000   
+동작구     285      9      5   1865   1910   48.771930   55.555556  100.000000   
+마포구     294     14      8   2555   2983   84.013605   71.428571  100.000000   
+서대문구    154      5      2   1812   2056   80.519481   80.000000  100.000000   
+서초구     393      9      8   2635   2399   63.358779   66.666667   75.000000   
+성동구     126      9      4   1607   1612   94.444444   88.888889  100.000000   
+성북구     150      5      5   1785   2209   82.666667   80.000000  100.000000   
+송파구     220     13     11   3239   3295   80.909091   76.923077   90.909091   
+양천구     120      6      3   1890   2509   87.500000   50.000000  100.000000   
+영등포구    295     22     14   2964   3572   62.033898   90.909091   85.714286   
+용산구     194     14      5   1557   2050   89.175258  100.000000  100.000000   
+은평구     166      9      3   1914   2653   84.939759   66.666667  100.000000   
+종로구     211     11      6   2184   2293   76.303318   81.818182   83.333333   
+중구      170      9      3   2548   2224   65.294118   66.666667   66.666667   
+중랑구     187     11     13   2135   2847   79.144385   81.818182   92.307692   
+
+          절도검거율      폭력검거율  
+구별                          
+강남구   42.857143  86.484594  
+강동구   33.347422  82.890855  
+강북구   43.096234  88.637222  
+강서구   60.114504  84.752105  
+관악구   30.561715  80.109157  
+광진구   42.200925  83.047619  
+구로구   38.072805  80.877951  
+금천구   56.668794  86.465433  
+노원구   36.525308  85.530665  
+도봉구   44.967074  87.626093  
+동대문구  41.090358  87.401884  
+동작구   35.442359  83.089005  
+마포구   31.819961  84.445189  
+서대문구  40.728477  83.219844  
+서초구   41.404175  87.453105  
+성동구   37.149969  86.538462  
+성북구   41.512605  83.974649  
+송파구   34.856437  84.552352  
+양천구   35.555556  80.908729  
+영등포구  32.995951  82.894737  
+용산구   37.700706  83.121951  
+은평구   37.147335  86.920467  
+종로구   38.324176  84.212822  
+중구    33.712716  88.309353  
+중랑구   38.829040  84.545135  
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">crime_anal.rename(columns = {'강간 발생':'강간', 
+			     '강도 발생':'강도', 
+			     '살인 발생':'살인', 
+			     '절도 발생':'절도', 
+			     '폭력 발생':'폭력'}, inplace=True)
+print(crime_anal.head())
+</pre>
+</div>
+
+<pre class="example">
+      강간  강도  살인    절도    폭력      강간검거율       강도검거율       살인검거율      절도검거율  \
+구별                                                                           
+강남구  449  21  13  3850  4284  77.728285   85.714286   76.923077  42.857143   
+강동구  156   6   4  2366  2712  78.846154  100.000000   75.000000  33.347422   
+강북구  153  14   7  1434  2649  82.352941   92.857143  100.000000  43.096234   
+강서구  262  13   7  2096  3207  72.900763  100.000000  100.000000  60.114504   
+관악구  320  12   9  2706  3298  69.062500  100.000000   88.888889  30.561715   
+
+         폭력검거율  
+구별              
+강남구  86.484594  
+강동구  82.890855  
+강북구  88.637222  
+강서구  84.752105  
+관악구  80.109157  
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">from sklearn import preprocessing
+
+col = ['강간', '강도', '살인', '절도', '폭력']
+
+x = crime_anal[col].values
+min_max_scaler = preprocessing.MinMaxScaler()
+
+x_scaled = min_max_scaler.fit_transform(x.astype(float))
+crime_anal_norm = pd.DataFrame(x_scaled, columns = col, index = crime_anal.index)
+
+col2 = ['강간검거율', '강도검거율', '살인검거율', '절도검거율', '폭력검거율']
+crime_anal_norm[col2] = crime_anal[col2]
+print(crime_anal_norm.head())
+</pre>
+</div>
+
+<pre class="example">
+           강간        강도        살인        절도        폭력      강간검거율       강도검거율  \
+구별                                                                             
+강남구  1.000000  0.941176  0.916667  1.000000  1.000000  77.728285   85.714286   
+강동구  0.155620  0.058824  0.166667  0.467528  0.437969  78.846154  100.000000   
+강북구  0.146974  0.529412  0.416667  0.133118  0.415445  82.352941   92.857143   
+강서구  0.461095  0.470588  0.416667  0.370649  0.614945  72.900763  100.000000   
+관악구  0.628242  0.411765  0.583333  0.589523  0.647479  69.062500  100.000000   
+
+          살인검거율      절도검거율      폭력검거율  
+구별                                     
+강남구   76.923077  42.857143  86.484594  
+강동구   75.000000  33.347422  82.890855  
+강북구  100.000000  43.096234  88.637222  
+강서구  100.000000  60.114504  84.752105  
+관악구   88.888889  30.561715  80.109157  
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">result_CCTV = pd.read_csv('DataScience/data/01. CCTV_result.csv', encoding='UTF-8', 
+			  index_col='구별')
+crime_anal_norm[['인구수', 'CCTV']] = result_CCTV[['인구수', '소계']]
+print(crime_anal_norm.head())
+</pre>
+</div>
+
+<pre class="example">
+           강간        강도        살인        절도        폭력      강간검거율       강도검거율  \
+구별                                                                             
+강남구  1.000000  0.941176  0.916667  1.000000  1.000000  77.728285   85.714286   
+강동구  0.155620  0.058824  0.166667  0.467528  0.437969  78.846154  100.000000   
+강북구  0.146974  0.529412  0.416667  0.133118  0.415445  82.352941   92.857143   
+강서구  0.461095  0.470588  0.416667  0.370649  0.614945  72.900763  100.000000   
+관악구  0.628242  0.411765  0.583333  0.589523  0.647479  69.062500  100.000000   
+
+          살인검거율      절도검거율      폭력검거율       인구수  CCTV  
+구별                                                     
+강남구   76.923077  42.857143  86.484594  570500.0  2780  
+강동구   75.000000  33.347422  82.890855  453233.0   773  
+강북구  100.000000  43.096234  88.637222  330192.0   748  
+강서구  100.000000  60.114504  84.752105  603772.0   884  
+관악구   88.888889  30.561715  80.109157  525515.0  1496  
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">
+col = ['강간','강도','살인','절도','폭력']
+crime_anal_norm['범죄'] = np.sum(crime_anal_norm[col], axis=1)
+#=a+b+c+e
+print(crime_anal_norm.head())
+</pre>
+</div>
+
+<pre class="example">
+           강간        강도        살인        절도        폭력      강간검거율       강도검거율  \
+구별                                                                             
+강남구  1.000000  0.941176  0.916667  1.000000  1.000000  77.728285   85.714286   
+강동구  0.155620  0.058824  0.166667  0.467528  0.437969  78.846154  100.000000   
+강북구  0.146974  0.529412  0.416667  0.133118  0.415445  82.352941   92.857143   
+강서구  0.461095  0.470588  0.416667  0.370649  0.614945  72.900763  100.000000   
+관악구  0.628242  0.411765  0.583333  0.589523  0.647479  69.062500  100.000000   
+
+          살인검거율      절도검거율      폭력검거율       인구수  CCTV        범죄  
+구별                                                               
+강남구   76.923077  42.857143  86.484594  570500.0  2780  4.857843  
+강동구   75.000000  33.347422  82.890855  453233.0   773  1.286607  
+강북구  100.000000  43.096234  88.637222  330192.0   748  1.641616  
+강서구  100.000000  60.114504  84.752105  603772.0   884  2.333944  
+관악구   88.888889  30.561715  80.109157  525515.0  1496  2.860342  
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">
+col = ['강간검거율','강도검거율','살인검거율','절도검거율','폭력검거율']
+crime_anal_norm['검거'] = np.sum(crime_anal_norm[col], axis=1)
+crime_anal_norm.head()
+
+print(crime_anal_norm)
+</pre>
+</div>
+
+<pre class="example">
+            강간        강도        살인        절도        폭력       강간검거율  \
+구별                                                                   
+강남구   1.000000  0.941176  0.916667  1.000000  1.000000   77.728285   
+강동구   0.155620  0.058824  0.166667  0.467528  0.437969   78.846154   
+강북구   0.146974  0.529412  0.416667  0.133118  0.415445   82.352941   
+강서구   0.461095  0.470588  0.416667  0.370649  0.614945   72.900763   
+관악구   0.628242  0.411765  0.583333  0.589523  0.647479   69.062500   
+광진구   0.397695  0.529412  0.166667  0.704342  0.406864   91.666667   
+구로구   0.515850  0.588235  0.500000  0.456405  0.543439   58.362989   
+금천구   0.141210  0.058824  0.083333  0.180840  0.202717   80.794702   
+노원구   0.273775  0.117647  0.666667  0.405454  0.441902   61.421320   
+도봉구   0.000000  0.235294  0.083333  0.000000  0.000000  100.000000   
+동대문구  0.204611  0.470588  0.250000  0.329386  0.379335   84.393064   
+동작구   0.527378  0.235294  0.250000  0.287765  0.151233   48.771930   
+마포구   0.553314  0.529412  0.500000  0.535343  0.534859   84.013605   
+서대문구  0.149856  0.000000  0.000000  0.268748  0.203432   80.519481   
+서초구   0.838617  0.235294  0.500000  0.564047  0.326064   63.358779   
+성동구   0.069164  0.235294  0.166667  0.195192  0.044691   94.444444   
+성북구   0.138329  0.000000  0.250000  0.259060  0.258134   82.666667   
+송파구   0.340058  0.470588  0.750000  0.780768  0.646407   80.909091   
+양천구   0.051873  0.058824  0.083333  0.296735  0.365391   87.500000   
+영등포구  0.556196  1.000000  1.000000  0.682095  0.745442   62.033898   
+용산구   0.265130  0.529412  0.250000  0.177252  0.201287   89.175258   
+은평구   0.184438  0.235294  0.083333  0.305346  0.416875   84.939759   
+종로구   0.314121  0.352941  0.333333  0.402225  0.288166   76.303318   
+중구    0.195965  0.235294  0.083333  0.532831  0.263497   65.294118   
+중랑구   0.244957  0.352941  0.916667  0.384643  0.486235   79.144385   
+
+           강도검거율       살인검거율      절도검거율      폭력검거율       인구수  CCTV        범죄  \
+구별                                                                             
+강남구    85.714286   76.923077  42.857143  86.484594  570500.0  2780  4.857843   
+강동구   100.000000   75.000000  33.347422  82.890855  453233.0   773  1.286607   
+강북구    92.857143  100.000000  43.096234  88.637222  330192.0   748  1.641616   
+강서구   100.000000  100.000000  60.114504  84.752105  603772.0   884  2.333944   
+관악구   100.000000   88.888889  30.561715  80.109157  525515.0  1496  2.860342   
+광진구   100.000000  100.000000  42.200925  83.047619  372164.0   707  2.204979   
+구로구    73.333333   75.000000  38.072805  80.877951  447874.0  1561  2.603930   
+금천구   100.000000  100.000000  56.668794  86.465433  255082.0  1015  0.666924   
+노원구   100.000000  100.000000  36.525308  85.530665  569384.0  1265  1.905445   
+도봉구   100.000000  100.000000  44.967074  87.626093  348646.0   485  0.318627   
+동대문구  100.000000  100.000000  41.090358  87.401884  369496.0  1294  1.633921   
+동작구    55.555556  100.000000  35.442359  83.089005  412520.0  1091  1.451670   
+마포구    71.428571  100.000000  31.819961  84.445189  389649.0   574  2.652927   
+서대문구   80.000000  100.000000  40.728477  83.219844  327163.0   962  0.622036   
+서초구    66.666667   75.000000  41.404175  87.453105  450310.0  1930  2.464022   
+성동구    88.888889  100.000000  37.149969  86.538462  311244.0  1062  0.711008   
+성북구    80.000000  100.000000  41.512605  83.974649  461260.0  1464  0.905522   
+송파구    76.923077   90.909091  34.856437  84.552352  667483.0   618  2.987821   
+양천구    50.000000  100.000000  35.555556  80.908729  479978.0  2034  0.856156   
+영등포구   90.909091   85.714286  32.995951  82.894737  402985.0   904  3.983733   
+용산구   100.000000  100.000000  37.700706  83.121951  244203.0  1624  1.423080   
+은평구    66.666667  100.000000  37.147335  86.920467  494388.0  1873  1.225287   
+종로구    81.818182   83.333333  38.324176  84.212822  162820.0  1002  1.690786   
+중구     66.666667   66.666667  33.712716  88.309353  133240.0   671  1.310920   
+중랑구    81.818182   92.307692  38.829040  84.545135  414503.0   660  2.385443   
+
+              검거  
+구별                
+강남구   369.707384  
+강동구   370.084431  
+강북구   406.943540  
+강서구   417.767372  
+관악구   368.622261  
+광진구   416.915211  
+구로구   325.647079  
+금천구   423.928929  
+노원구   383.477292  
+도봉구   432.593167  
+동대문구  412.885306  
+동작구   322.858850  
+마포구   371.707327  
+서대문구  384.467802  
+서초구   333.882725  
+성동구   407.021764  
+성북구   388.153921  
+송파구   368.150048  
+양천구   353.964284  
+영등포구  354.547963  
+용산구   409.997915  
+은평구   375.674229  
+종로구   363.991830  
+중구    320.649519  
+중랑구   376.644434  
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">import matplotlib.pyplot as plt
+import seaborn as sns
+
+get_ipython().run_line_magic('matplotlib', 'inline')
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org10a5a94" class="outline-2">
+<h2 id="org10a5a94"><span class="section-number-2">4</span> 시각화</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+<pre class="src src-ipython">sns.pairplot(crime_anal_norm, vars=["강도", "살인", "폭력"], kind='reg', height=3)
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/HhIzzy.png" alt="HhIzzy.png" />
+</p>
+</div>
+
+<p>
+#+end<sub>example</sub>
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">sns.pairplot(crime_anal_norm, vars=["강도", "살인", "폭력"], kind='reg', height=3)
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/lpL7eJ.png" alt="lpL7eJ.png" />
+</p>
+</div>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">sns.pairplot(crime_anal_norm, x_vars=["인구수", "CCTV"], 
+	     y_vars=["살인검거율", "폭력검거율"], kind='reg', height=3)
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/pg4Sae.png" alt="pg4Sae.png" />
+</p>
+</div>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">tmp_max = crime_anal_norm['검거'].max()
+crime_anal_norm['검거'] = crime_anal_norm['검거'] / tmp_max * 100
+crime_anal_norm_sort = crime_anal_norm.sort_values(by='검거', ascending=False)
+print(crime_anal_norm_sort)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">target_col = ['강간검거율', '강도검거율', '살인검거율', '절도검거율', '폭력검거율']
+
+crime_anal_norm_sort = crime_anal_norm.sort_values(by='검거', ascending=False)
+
+plt.figure(figsize = (10,10))
+sns.heatmap(crime_anal_norm_sort[target_col], annot=True, fmt='f', 
+		    linewidths=.5, cmap='RdPu')
+plt.title('범죄 검거 비율 (정규화된 검거의 합으로 정렬)')
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/IAGjdm.png" alt="IAGjdm.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">crime_anal_norm.to_csv('data/200916-crime-in-seoul_final.csv', sep=',', 
+		       encoding='utf-8')
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">import folium
+import json
+
+geo_path = './Datascience/data/02-skorea_municipalities_geo_simple.json'
+geo_str = json.load(open(geo_path, encoding='utf-8'))
+
+map = folium.Map(location=[37.5502, 126.982], zoom_start=11, 
+		 tiles='Stamen Terrain')
+
+map.choropleth(geo_data = geo_str,
+	       data = crime_anal_norm['범죄'],
+	       columns = [crime_anal_norm.index, crime_anal_norm['범죄']],
+	       fill_color = 'PuRd', #PuRd, YlGnBu
+	       key_on = 'feature.id')
+folium_map_to_png(map)
+
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/L3z9Zx.png" alt="L3z9Zx.png" />
+</p>
+</div>
+
+<p>
+여기서부터 기록할 것
+</p>
+</div>
+</div>
+
+<div id="outline-container-org20ff54f" class="outline-2">
+<h2 id="org20ff54f"><span class="section-number-2">5</span> 크롤링</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-bash">pip install selenium
+</pre>
+</div>
+
+<p>
+안되는게 뭐이리 많아
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">from selenium import webdriver
+driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver')
+# http://www.opinet.co.kr/searRgSelect.do
+# http://www.opinet.co.kr/user/main/mainView.do
+driver.get("http://www.opinet.co.kr/searRgSelect.do")
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">import os
+os.get_exec_path()
+</pre>
+</div>
+
+
+<pre class="example">
+['/Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/bin',
+'/Users/sroh/.pyenv/shims',
+'/usr/local/opt/python@3.8/libexec/bin',
+'/usr/local/bin',
+'/usr/bin',
+'/bin',
+'/usr/sbin',
+'/sbin']
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2020-09-16 Wed 18:00</p>
+<p class="author">Author: srolisp</p>
+<p class="date">Created: 2020-09-17 Thu 17:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+#+title: 구글맵 api 연동해서 데이터를 시각화하기
+#+subtitle: 5 weeks by lsk
+#+date: <2020-09-17 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+author: srolisp
+
+* folium setup
+:PROPERTIES:
+:header-args:bash: :results verbatim
+:header-args:elisp: :exports both
+:header-args:ipython: :session mglearn17 :tangle "mglearn200917.py" :exports both
+:END:
+
+#+begin_src bash
+jupyter nbconvert --to script 'DataScience/source_code/class9_16_2.ipynb'
+#+end_src
+
+#+RESULTS:
