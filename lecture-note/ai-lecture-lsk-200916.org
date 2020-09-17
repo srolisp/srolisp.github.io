@@ -306,7 +306,7 @@ Successfully installed branca-0.4.1 folium-0.11.0
 :PROPERTIES:
 :header-args:bash: :results verbatim
 :header-args:elisp: :exports both
-:header-args:ipython: :session mglearn0 :tangle "mglearn200916.py" :results raw drawer  :exports both :async t
+:header-args:ipython: :session mglearn0 :tangle "mglearn200916.py" :results raw drawer  :exports both 
 :END:
 # [m._env, m.control_scale, m.get_name(), m.get_root(), m.global_switches, m.location,  m.options, m.png_enabled, m.__dir__, m._png_image, m.__repr__(), m._to_png()]
 #+begin_src ipython
