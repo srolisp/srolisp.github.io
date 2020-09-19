@@ -227,19 +227,19 @@ $y_{i}$ 와 $\hat{y_{i}}$ 의 차이는  $(\ y-\hat{y}\ )^2$, $\left\lvert\ y - 
 
 $y_{i}$ 와 $\hat{y_{i}}$ 의 제곱오차는 
 \begin{equation*}
-  SE = \sum_{i=0}^{i-1} (y_{i} - \hat{y_{i}})^2
+  SE = \sum_{i=0}^{n-1} (y_{i} - \hat{y_{i}})^2
 \end{equation*}
 
 알고자하는 w, b 로 나타내보면,
 \begin{equation*}
 \begin{split}
-  SE & = \sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b})^2 \\
-     & = ({x_{0}}^2 + \dots + {x_{i-1}}^2)w^2 + \dots \\
-     & = \frac{1}{i}(ib^2 + \dots)
+  SE & = \sum_{i=0}^{n-1} ({y_{i} - wx_{i} + b})^2 \\
+     & = ({x_{0}}^2 + \dots + {x_{n-1}}^2)w^2 + \dots \\
+     & = nb^2 + \dots
 \end{split}
 \end{equation*}
 
-$w$ 에 대해 간략히 해보면 $w$ 의 이차방정식임을 알 수 있고, 이차항의 계수가 ${x_{0}}^2 + \dots + {x_{i-1}}^2$ 인 양수이므로 아래쪽으로 볼록한 최소값이 존재하는 함수임을 알 수 있다. 최소값이 되는 지점의 w값을 찾으면 된다. 최소값을 찾아가는 방법이라 할 수 있는데, 이차방정식 포물선의 성질을 이용한다고 보면 된다.
+$w$ 에 대해 간략히 해보면 $w$ 의 이차방정식임을 알 수 있고, 이차항의 계수가 ${x_{0}}^2 + \dots + {x_{n-1}}^2$ 인 양수이므로 아래쪽으로 볼록한 최소값이 존재하는 함수임을 알 수 있다. 최소값이 되는 지점의 w값을 찾으면 된다. 최소값을 찾아가는 방법이라 할 수 있는데, 이차방정식 포물선의 성질을 이용한다고 보면 된다.
 
 $ax^2+bx+c$ $(a>0)$ 인 포물선에 대해,
 
@@ -252,54 +252,86 @@ $ax^2+bx+c$ $(a>0)$ 인 포물선에 대해,
 
 이것을 수식으로 표현해보면,
 \begin{equation*}
-  x_{n+1} = x_{n} -\frac{\partial y}{\partial x_{n}}
+  x_{j+1} = x_{j} -\frac{\partial y}{\partial x_{j}}
 \end{equation*}
 
 대충 이런 배경으로 만들어진 게 Gradient descent 이고,
 
 \begin{align*}
-  x_{n+1} = x_{n} -\gamma_{n}\frac{\partial y}{\partial x_{n}},\ &&n \geq 0
+  x_{j+1} = x_{j} -\gamma_{j}\frac{\partial y}{\partial x_{j}},\ &&n \geq 0
 \end{align*}
 
-적절한 $\gamma_{n}$ 은 기울기값만으로 접근하는것보다 매 step마다 더 효율적으로 접근하게 해줄 것이다. $\gamma_{n}$ 가 $( y - \hat{y}\ )$ 인줄 알았는데 아닌가보다.
-일단 r 변수는 없다치고 .. 나중에 확인해보자
+적절한 $\gamma_{j}$ 은 기울기값만으로 접근하는것보다 매 step마다 더 효율적으로 접근하게 해줄 것이다. $\gamma_{j}$ 가 $( y - \hat{y}\ )$ 인줄 알았는데 아닌가보다.
+일단 $\gamma$ 변수는 없다치고 .. 나중에 $\gamma$ 변수에 대한 함수도 공부해보자.
 
-이것을 위의 제곱 오차식으로 다시 적어보면,
+제곱오차식의 $w$ 에 대해 gradient descent를 적용시켜보자.
+
 \begin{align}
-  w_{n+1} = w_{n} -\frac{\partial SE}{\partial w_{n}},\ &&i \geq 0
+  w_{j+1} = w_{j} -\frac{\partial SE}{\partial w_{j}},\ &&j \geq 0
 \end{align}
 
 
-이제 다시, 제곱 오차식을 보자
+$\frac{\partial SE}{\partial w_{j}}$ 를 구해보자. 이제 다시, 제곱 오차식($SE$)을 보자
 \begin{equation*}
 \begin{split}
-  SE & = \sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b})^2 \\
-     & = ({x_{0}}^2 + \dots + {x_{i-1}}^2)w^2 + \dots \\
-     & = \frac{1}{i}(ib^2 + \dots)
+  SE & = \sum_{i=0}^{n-1} ({y_{i} - wx_{i} + b})^2 \\
+     & = ({x_{0}}^2 + \dots + {x_{n-1}}^2)w^2 + \dots \\
+     & = nb^2 + \dots
 \end{split}
 \end{equation*}
 이고, 이 제곱 오차식을 w에 대해 미분하면,
 
-\begin{equation*}
+\begin{equation}
 \begin{split}
-  \frac{\partial{SE}}{\partial{w}} & =  \frac{\partial{\sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b})^2}} {\partial{w}} \\
-                                   & = 2\sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b}) \frac{\partial{({y_{i} - wx_{i} + b})}}{\partial{w}} \\
-                                   & = 2\sum_{i=0}^{i-1} ({y_{i} - \hat{y_{i}}}) \frac{\partial{({y_{i} - wx_{i} + b})}}{\partial{w}} \\
-                                   & = 2\sum_{i=0}^{i-1} ({y_{i} - \hat{y_{i}}})x_{i} 
+  \frac{\partial{SE}}{\partial{w}} & =  \frac{\partial{\sum_{i=0}^{n-1} ({y_{i} - wx_{i} + b})^2}} {\partial{w}} \\
+                                   & = 2\sum_{i=0}^{n-1} ({y_{i} - wx_{i} + b}) \frac{\partial{({y_{i} - wx_{i} + b})}}{\partial{w}} \\
+                                   & = 2\sum_{i=0}^{n-1} ({y_{i} - \hat{y_{i}}}) \frac{\partial{({y_{i} - wx_{i} + b})}}{\partial{w}} \\
+                                   & = 2\sum_{i=0}^{n-1} ({y_{i} - \hat{y_{i}}})(-x_{i}) \\
+                                   & = 2\sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})x_{i}
 \end{split}
-\end{equation*}
+\end{equation}
 
-(1)식에 의해 나온 식에서 summation 앞의 2는 $\gamma_{n}$ 에 의해 보정한다치고(크거나 작게, 스텝마다 다르게..) 우선 제거하자.(내 마음대로..)
+(2)식에 의해 나온 식에서 summation 앞의 2는 $\gamma_{j}$ 에 의해 보정한다치고(크거나 작게, 스텝마다 다르게..) 우선 제거하자.(내 마음대로..)
 
 \begin{equation*}
-w_{n+1} = w_{n} - \sum_{i=0}^{i-1} ({y_{i} - \hat{y_{i}}})x_{i} 
+w_{j+1} = w_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})x_{i} 
 \end{equation*}
 
-루프가 왜 두번 도는지 이해가 되는군.. 좀 헷갈렸었다. w 값을 한번 업데이트하려면 i개의 데이터를 매 i번을 순회해야한다.
+루프가 왜 두번 도는지 이해가 되는군.. 좀 헷갈렸었다. w 값을 한번 업데이트하려면 n개의 데이터를 매번 순회해야한다.
 
-오늘은 여기까지.. 
+오늘은 여기까지.. 이해가 안되서 적어보면서 정리중인데 제대로 이해하고 있는지..
+
+정리를 하고 다시 코드를 봤는데.. 내가 잘못 이해하고있나보다..T.T 코드와 다르네..
 
 #+end_latex
+
+#+begin_src ipython :exports code
+class Neuron:
+    
+    def __init__(self):
+        self.w = 1.0     # 가중치를 초기화합니다
+        self.b = 1.0     # 절편을 초기화합니다
+    
+    def forpass(self, x):
+        y_hat = x * self.w + self.b       # 직선 방정식을 계산합니다
+        return y_hat
+    
+    def backprop(self, x, err):
+        w_grad = x * err    # 가중치에 대한 그래디언트를 계산합니다
+        b_grad = 1 * err    # 절편에 대한 그래디언트를 계산합니다
+        return w_grad, b_grad
+
+    def fit(self, x, y, epochs=100):
+        for i in range(epochs):           # 에포크만큼 반복합니다
+            for x_i, y_i in zip(x, y):    # 모든 샘플에 대해 반복합니다
+                y_hat = self.forpass(x_i) # 정방향 계산
+                err = -(y_i - y_hat)      # 오차 계산
+                w_grad, b_grad = self.backprop(x_i, err)  # 역방향 계산
+                self.w -= w_grad          # 가중치 업데이트
+                self.b -= b_grad          # 절편 업데이트
+#+end_src
+
+데이터한개 확인할때마다 기울기가 조정되네.. T.T
 
 ** 경사 하강법으로 학습하는 방법
 :PROPERTIES:

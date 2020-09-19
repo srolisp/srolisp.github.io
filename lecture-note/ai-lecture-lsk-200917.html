@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-19 Sat 18:42 -->
+<!-- 2020-09-19 Sat 20:51 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>신경망 회로</title>
@@ -272,29 +272,29 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgcae8e53">1. 선형 회귀</a>
+<li><a href="#org33cb72c">1. 선형 회귀</a>
 <ul>
-<li><a href="#orgc8e20a8">1.1. 자료</a></li>
-<li><a href="#org193e549">1.2. 간단 예시</a></li>
-<li><a href="#org1af38f7">1.3. 경사 하강법으로 학습하는 방법</a></li>
-<li><a href="#org8ada98b">1.4. 선형 회귀 심플 뉴런</a></li>
-<li><a href="#org390fff5">1.5. 분류하는 뉴런</a></li>
+<li><a href="#org4090c77">1.1. 자료</a></li>
+<li><a href="#org09738af">1.2. 간단 예시</a></li>
+<li><a href="#org41b81ab">1.3. 경사 하강법으로 학습하는 방법</a></li>
+<li><a href="#org7431646">1.4. 선형 회귀 심플 뉴런</a></li>
+<li><a href="#org9da133c">1.5. 분류하는 뉴런</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgcae8e53" class="outline-2">
-<h2 id="orgcae8e53"><span class="section-number-2">1</span> 선형 회귀</h2>
+<div id="outline-container-org33cb72c" class="outline-2">
+<h2 id="org33cb72c"><span class="section-number-2">1</span> 선형 회귀</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 통계학에서, 선형 회귀(線型回歸, 영어: linear regression)는 종속 변수 y와 한 개 이상의 독립 변수 (또는 설명 변수) X와의 선형 상관 관계를 모델링하는 회귀분석 기법이다. 한 개의 설명 변수에 기반한 경우에는 <b>단순 선형 회귀</b>, 둘 이상의 설명 변수에 기반한 경우에는 <b>다중 선형 회귀</b> 라고 한다. 참고로, <b>다변량 선형 회귀</b> 는 종속 변수가 두 개 이상의 경우를 의미한다. <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>
 </p>
 </div>
 
-<div id="outline-container-orgc8e20a8" class="outline-3">
-<h3 id="orgc8e20a8"><span class="section-number-3">1.1</span> 자료</h3>
+<div id="outline-container-org4090c77" class="outline-3">
+<h3 id="org4090c77"><span class="section-number-3">1.1</span> 자료</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
 <pre class="src src-bash">jupyter nbconvert --to script "DataScience/source_code/Ch02.ipynb" 
@@ -310,8 +310,8 @@ jupyter nbconvert --to script "DataScience/source_code/Ch09.ipynb"
 </div>
 </div>
 
-<div id="outline-container-org193e549" class="outline-3">
-<h3 id="org193e549"><span class="section-number-3">1.2</span> 간단 예시</h3>
+<div id="outline-container-org09738af" class="outline-3">
+<h3 id="org09738af"><span class="section-number-3">1.2</span> 간단 예시</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-ipython">from sklearn.datasets import load_diabetes 
@@ -511,7 +511,7 @@ plt.show()
 
 
 <div class="figure">
-<p><img src="./obipy-resources/Etz4ki.png" alt="Etz4ki.png" />
+<p><img src="./obipy-resources/LIcVF6.png" alt="LIcVF6.png" />
 </p>
 </div>
 
@@ -537,7 +537,7 @@ plt.show()
 \(y_{i}\) 와 \(\hat{y_{i}}\) 의 제곱오차는 
 </p>
 \begin{equation*}
-  SE = \sum_{i=0}^{i-1} (y_{i} - \hat{y_{i}})^2
+  SE = \sum_{i=0}^{n-1} (y_{i} - \hat{y_{i}})^2
 \end{equation*}
 
 <p>
@@ -545,14 +545,14 @@ plt.show()
 </p>
 \begin{equation*}
 \begin{split}
-  SE & = \sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b})^2 \\
-     & = ({x_{0}}^2 + \dots + {x_{i-1}}^2)w^2 + \dots \\
-     & = \frac{1}{i}(ib^2 + \dots)
+  SE & = \sum_{i=0}^{n-1} ({y_{i} - wx_{i} + b})^2 \\
+     & = ({x_{0}}^2 + \dots + {x_{n-1}}^2)w^2 + \dots \\
+     & = nb^2 + \dots
 \end{split}
 \end{equation*}
 
 <p>
-\(w\) 에 대해 간략히 해보면 \(w\) 의 이차방정식임을 알 수 있고, 이차항의 계수가 \({x_{0}}^2 + \dots + {x_{i-1}}^2\) 인 양수이므로 아래쪽으로 볼록한 최소값이 존재하는 함수임을 알 수 있다. 최소값이 되는 지점의 w값을 찾으면 된다. 최소값을 찾아가는 방법이라 할 수 있는데, 이차방정식 포물선의 성질을 이용한다고 보면 된다.
+\(w\) 에 대해 간략히 해보면 \(w\) 의 이차방정식임을 알 수 있고, 이차항의 계수가 \({x_{0}}^2 + \dots + {x_{n-1}}^2\) 인 양수이므로 아래쪽으로 볼록한 최소값이 존재하는 함수임을 알 수 있다. 최소값이 되는 지점의 w값을 찾으면 된다. 최소값을 찾아가는 방법이라 할 수 있는데, 이차방정식 포물선의 성질을 이용한다고 보면 된다.
 </p>
 
 <p>
@@ -576,7 +576,7 @@ plt.show()
 이것을 수식으로 표현해보면,
 </p>
 \begin{equation*}
-  x_{n+1} = x_{n} -\frac{\partial y}{\partial x_{n}}
+  x_{j+1} = x_{j} -\frac{\partial y}{\partial x_{j}}
 \end{equation*}
 
 <p>
@@ -584,67 +584,104 @@ plt.show()
 </p>
 
 \begin{align*}
-  x_{n+1} = x_{n} -\gamma_{n}\frac{\partial y}{\partial x_{n}},\ &&n \geq 0
+  x_{j+1} = x_{j} -\gamma_{j}\frac{\partial y}{\partial x_{j}},\ &&n \geq 0
 \end{align*}
 
 <p>
-적절한 \(\gamma_{n}\) 은 기울기값만으로 접근하는것보다 매 step마다 더 효율적으로 접근하게 해줄 것이다. \(\gamma_{n}\) 가 \(( y - \hat{y}\ )\) 인줄 알았는데 아닌가보다.
-일단 r 변수는 없다치고 .. 나중에 확인해보자
+적절한 \(\gamma_{j}\) 은 기울기값만으로 접근하는것보다 매 step마다 더 효율적으로 접근하게 해줄 것이다. \(\gamma_{j}\) 가 \(( y - \hat{y}\ )\) 인줄 알았는데 아닌가보다.
+일단 \(\gamma\) 변수는 없다치고 .. 나중에 \(\gamma\) 변수에 대한 함수도 공부해보자.
 </p>
 
 <p>
-이것을 위의 제곱 오차식으로 다시 적어보면,
+제곱오차식의 \(w\) 에 대해 gradient descent를 적용시켜보자.
 </p>
+
 \begin{align}
-  w_{n+1} = w_{n} -\frac{\partial SE}{\partial w_{n}},\ &&i \geq 0
+  w_{j+1} = w_{j} -\frac{\partial SE}{\partial w_{j}},\ &&j \geq 0
 \end{align}
 
 
 <p>
-이제 다시, 제곱 오차식을 보자
+\(\frac{\partial SE}{\partial w_{j}}\) 를 구해보자. 이제 다시, 제곱 오차식(\(SE\))을 보자
 </p>
 \begin{equation*}
 \begin{split}
-  SE & = \sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b})^2 \\
-     & = ({x_{0}}^2 + \dots + {x_{i-1}}^2)w^2 + \dots \\
-     & = \frac{1}{i}(ib^2 + \dots)
+  SE & = \sum_{i=0}^{n-1} ({y_{i} - wx_{i} + b})^2 \\
+     & = ({x_{0}}^2 + \dots + {x_{n-1}}^2)w^2 + \dots \\
+     & = nb^2 + \dots
 \end{split}
 \end{equation*}
 <p>
 이고, 이 제곱 오차식을 w에 대해 미분하면,
 </p>
 
-\begin{equation*}
+\begin{equation}
 \begin{split}
-  \frac{\partial{SE}}{\partial{w}} & =  \frac{\partial{\sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b})^2}} {\partial{w}} \\
-                                   & = 2\sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b}) \frac{\partial{({y_{i} - wx_{i} + b})}}{\partial{w}} \\
-                                   & = 2\sum_{i=0}^{i-1} ({y_{i} - \hat{y_{i}}}) \frac{\partial{({y_{i} - wx_{i} + b})}}{\partial{w}} \\
-                                   & = 2\sum_{i=0}^{i-1} ({y_{i} - \hat{y_{i}}})x_{i} 
+  \frac{\partial{SE}}{\partial{w}} & =  \frac{\partial{\sum_{i=0}^{n-1} ({y_{i} - wx_{i} + b})^2}} {\partial{w}} \\
+                                   & = 2\sum_{i=0}^{n-1} ({y_{i} - wx_{i} + b}) \frac{\partial{({y_{i} - wx_{i} + b})}}{\partial{w}} \\
+                                   & = 2\sum_{i=0}^{n-1} ({y_{i} - \hat{y_{i}}}) \frac{\partial{({y_{i} - wx_{i} + b})}}{\partial{w}} \\
+                                   & = 2\sum_{i=0}^{n-1} ({y_{i} - \hat{y_{i}}})(-x_{i}) \\
+                                   & = 2\sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})x_{i}
 \end{split}
-\end{equation*}
+\end{equation}
 
 <p>
-(1)식에 의해 나온 식에서 summation 앞의 2는 \(\gamma_{n}\) 에 의해 보정한다치고(크거나 작게, 스텝마다 다르게..) 우선 제거하자.(내 마음대로..)
+(2)식에 의해 나온 식에서 summation 앞의 2는 \(\gamma_{j}\) 에 의해 보정한다치고(크거나 작게, 스텝마다 다르게..) 우선 제거하자.(내 마음대로..)
 </p>
 
 \begin{equation*}
-w_{n+1} = w_{n} - \sum_{i=0}^{i-1} ({y_{i} - \hat{y_{i}}})x_{i} 
+w_{j+1} = w_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})x_{i} 
 \end{equation*}
 
 <p>
-루프가 왜 두번 도는지 이해가 되는군.. 좀 헷갈렸었다. w 값을 한번 업데이트하려면 i개의 데이터를 매 i번을 순회해야한다.
+루프가 왜 두번 도는지 이해가 되는군.. 좀 헷갈렸었다. w 값을 한번 업데이트하려면 n개의 데이터를 매번 순회해야한다.
 </p>
 
 <p>
-오늘은 여기까지.. 
+오늘은 여기까지.. 이해가 안되서 적어보면서 정리중인데 제대로 이해하고 있는지..
+</p>
+
+<p>
+정리를 하고 다시 코드를 봤는데.. 내가 잘못 이해하고있나보다..T.T 코드와 다르네..
 </p>
 
 </div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">class Neuron:
+
+    def __init__(self):
+	self.w = 1.0     # 가중치를 초기화합니다
+	self.b = 1.0     # 절편을 초기화합니다
+
+    def forpass(self, x):
+	y_hat = x * self.w + self.b       # 직선 방정식을 계산합니다
+	return y_hat
+
+    def backprop(self, x, err):
+	w_grad = x * err    # 가중치에 대한 그래디언트를 계산합니다
+	b_grad = 1 * err    # 절편에 대한 그래디언트를 계산합니다
+	return w_grad, b_grad
+
+    def fit(self, x, y, epochs=100):
+	for i in range(epochs):           # 에포크만큼 반복합니다
+	    for x_i, y_i in zip(x, y):    # 모든 샘플에 대해 반복합니다
+		y_hat = self.forpass(x_i) # 정방향 계산
+		err = -(y_i - y_hat)      # 오차 계산
+		w_grad, b_grad = self.backprop(x_i, err)  # 역방향 계산
+		self.w -= w_grad          # 가중치 업데이트
+		self.b -= b_grad          # 절편 업데이트
+</pre>
+</div>
+
+<p>
+데이터한개 확인할때마다 기울기가 조정되네.. T.T
+</p>
 </div>
 </div>
 
-<div id="outline-container-org1af38f7" class="outline-3">
-<h3 id="org1af38f7"><span class="section-number-3">1.3</span> 경사 하강법으로 학습하는 방법</h3>
+<div id="outline-container-org41b81ab" class="outline-3">
+<h3 id="org41b81ab"><span class="section-number-3">1.3</span> 경사 하강법으로 학습하는 방법</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 polyfit을 쓰면 안되나? 쓰면 된다. 하지만, 함수를 만들줄 알고 설계도 해볼 목적으로..
@@ -656,7 +693,7 @@ y = diabetes.target
 </div>
 
 <pre class="example">
-# Out[747]:
+# Out[156]:
 </pre>
 
 
@@ -720,8 +757,8 @@ print(w_rate)
 </div>
 </div>
 
-<div id="outline-container-org8ada98b" class="outline-3">
-<h3 id="org8ada98b"><span class="section-number-3">1.4</span> 선형 회귀 심플 뉴런</h3>
+<div id="outline-container-org7431646" class="outline-3">
+<h3 id="org7431646"><span class="section-number-3">1.4</span> 선형 회귀 심플 뉴런</h3>
 <div class="outline-text-3" id="text-1-4">
 <div class="org-src-container">
 <pre class="src src-ipython">
@@ -755,8 +792,8 @@ print(w_rate)
 </div>
 </div>
 
-<div id="outline-container-org390fff5" class="outline-3">
-<h3 id="org390fff5"><span class="section-number-3">1.5</span> 분류하는 뉴런</h3>
+<div id="outline-container-org9da133c" class="outline-3">
+<h3 id="org9da133c"><span class="section-number-3">1.5</span> 분류하는 뉴런</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 이진 분류
@@ -780,7 +817,7 @@ print(w_rate)
 <div id="postamble" class="status">
 <p class="date">Date: 2020-09-17 Thu 18:00</p>
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-09-19 Sat 18:42</p>
+<p class="date">Created: 2020-09-19 Sat 20:51</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
