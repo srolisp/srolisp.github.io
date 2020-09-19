@@ -1,21 +1,52 @@
-import folium
-m = folium.Map(location=[45.5236, -122.6750])
-m
+from sklearn.datasets import load_diabetes 
+diabetes = load_diabetes()
 
-m.__dir__()
+print(diabetes)
 
-m._to_png()
+print(diabetes.data.shape, diabetes.target.shape)
 
-import os
-os.get_exec_path()
+print(diabetes.data[0:3])
 
-m._to_png(5)
+print(diabetes.target[:3])
 
-import io
-import folium
-from PIL import Image
+print(diabetes.data[:, 2])
 
-m = folium.Map(location=[45.5236, -122.6750], width=500, height=300)
-img_data = m._to_png(5)
-img = Image.open(io.BytesIO(img_data))
-img
+import matplotlib.pyplot as plt
+
+plt.scatter(diabetes.data[:, 2], diabetes.target)
+plt.plot([-0.10, 0.15], [0, 350], 'r')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
+
+x = diabetes.data[:, 2]
+y = diabetes.target
+
+w = 1.0
+b = 1.0
+
+y_hat = x[0] * w + b
+print(y_hat)
+
+print(y[0])
+
+w_inc = w + 0.1
+y_hat_inc = w_inc * x[0] + b
+print(y_hat_inc)
+
+w_rate = (y_hat_inc - y_hat) / (w_inc - w)
+print(w_rate)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

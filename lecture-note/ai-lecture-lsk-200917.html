@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-17 Thu 16:42 -->
+<!-- 2020-09-19 Sat 18:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>구글맵 api 연동해서 데이터를 시각화하기</title>
+<title>신경망 회로</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="srolisp" />
 <style type="text/css">
@@ -239,10 +239,32 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
-<h1 class="title">구글맵 api 연동해서 데이터를 시각화하기
+<h1 class="title">신경망 회로
 <br />
 <span class="subtitle">5 weeks by lsk</span>
 </h1>
@@ -250,25 +272,515 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgc31492b">1. folium setup</a></li>
+<li><a href="#orgcae8e53">1. 선형 회귀</a>
+<ul>
+<li><a href="#orgc8e20a8">1.1. 자료</a></li>
+<li><a href="#org193e549">1.2. 간단 예시</a></li>
+<li><a href="#org1af38f7">1.3. 경사 하강법으로 학습하는 방법</a></li>
+<li><a href="#org8ada98b">1.4. 선형 회귀 심플 뉴런</a></li>
+<li><a href="#org390fff5">1.5. 분류하는 뉴런</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgc31492b" class="outline-2">
-<h2 id="orgc31492b"><span class="section-number-2">1</span> folium setup</h2>
+<div id="outline-container-orgcae8e53" class="outline-2">
+<h2 id="orgcae8e53"><span class="section-number-2">1</span> 선형 회귀</h2>
 <div class="outline-text-2" id="text-1">
+<p>
+통계학에서, 선형 회귀(線型回歸, 영어: linear regression)는 종속 변수 y와 한 개 이상의 독립 변수 (또는 설명 변수) X와의 선형 상관 관계를 모델링하는 회귀분석 기법이다. 한 개의 설명 변수에 기반한 경우에는 <b>단순 선형 회귀</b>, 둘 이상의 설명 변수에 기반한 경우에는 <b>다중 선형 회귀</b> 라고 한다. 참고로, <b>다변량 선형 회귀</b> 는 종속 변수가 두 개 이상의 경우를 의미한다. <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>
+</p>
+</div>
+
+<div id="outline-container-orgc8e20a8" class="outline-3">
+<h3 id="orgc8e20a8"><span class="section-number-3">1.1</span> 자료</h3>
+<div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
-<pre class="src src-bash">jupyter nbconvert --to script 'DataScience/source_code/class9_16_2.ipynb'
+<pre class="src src-bash">jupyter nbconvert --to script "DataScience/source_code/Ch02.ipynb" 
+jupyter nbconvert --to script "DataScience/source_code/Ch03.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch04.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch05.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch06.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch07.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch08.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch09.ipynb"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org193e549" class="outline-3">
+<h3 id="org193e549"><span class="section-number-3">1.2</span> 간단 예시</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">from sklearn.datasets import load_diabetes 
+diabetes = load_diabetes()
+
+print(diabetes)
+</pre>
+</div>
+
+<pre class="example">
+{'data': array([[ 0.03807591,  0.05068012,  0.06169621, ..., -0.00259226,
+         0.01990842, -0.01764613],
+       [-0.00188202, -0.04464164, -0.05147406, ..., -0.03949338,
+        -0.06832974, -0.09220405],
+       [ 0.08529891,  0.05068012,  0.04445121, ..., -0.00259226,
+         0.00286377, -0.02593034],
+       ...,
+       [ 0.04170844,  0.05068012, -0.01590626, ..., -0.01107952,
+        -0.04687948,  0.01549073],
+       [-0.04547248, -0.04464164,  0.03906215, ...,  0.02655962,
+         0.04452837, -0.02593034],
+       [-0.04547248, -0.04464164, -0.0730303 , ..., -0.03949338,
+        -0.00421986,  0.00306441]]), 'target': array([151.,  75., 141., 206., 135.,  97., 138.,  63., 110., 310., 101.,
+        69., 179., 185., 118., 171., 166., 144.,  97., 168.,  68.,  49.,
+        68., 245., 184., 202., 137.,  85., 131., 283., 129.,  59., 341.,
+        87.,  65., 102., 265., 276., 252.,  90., 100.,  55.,  61.,  92.,
+       259.,  53., 190., 142.,  75., 142., 155., 225.,  59., 104., 182.,
+       128.,  52.,  37., 170., 170.,  61., 144.,  52., 128.,  71., 163.,
+       150.,  97., 160., 178.,  48., 270., 202., 111.,  85.,  42., 170.,
+       200., 252., 113., 143.,  51.,  52., 210.,  65., 141.,  55., 134.,
+        42., 111.,  98., 164.,  48.,  96.,  90., 162., 150., 279.,  92.,
+        83., 128., 102., 302., 198.,  95.,  53., 134., 144., 232.,  81.,
+       104.,  59., 246., 297., 258., 229., 275., 281., 179., 200., 200.,
+       173., 180.,  84., 121., 161.,  99., 109., 115., 268., 274., 158.,
+       107.,  83., 103., 272.,  85., 280., 336., 281., 118., 317., 235.,
+        60., 174., 259., 178., 128.,  96., 126., 288.,  88., 292.,  71.,
+       197., 186.,  25.,  84.,  96., 195.,  53., 217., 172., 131., 214.,
+        59.,  70., 220., 268., 152.,  47.,  74., 295., 101., 151., 127.,
+       237., 225.,  81., 151., 107.,  64., 138., 185., 265., 101., 137.,
+       143., 141.,  79., 292., 178.,  91., 116.,  86., 122.,  72., 129.,
+       142.,  90., 158.,  39., 196., 222., 277.,  99., 196., 202., 155.,
+        77., 191.,  70.,  73.,  49.,  65., 263., 248., 296., 214., 185.,
+        78.,  93., 252., 150.,  77., 208.,  77., 108., 160.,  53., 220.,
+       154., 259.,  90., 246., 124.,  67.,  72., 257., 262., 275., 177.,
+        71.,  47., 187., 125.,  78.,  51., 258., 215., 303., 243.,  91.,
+       150., 310., 153., 346.,  63.,  89.,  50.,  39., 103., 308., 116.,
+       145.,  74.,  45., 115., 264.,  87., 202., 127., 182., 241.,  66.,
+        94., 283.,  64., 102., 200., 265.,  94., 230., 181., 156., 233.,
+        60., 219.,  80.,  68., 332., 248.,  84., 200.,  55.,  85.,  89.,
+        31., 129.,  83., 275.,  65., 198., 236., 253., 124.,  44., 172.,
+       114., 142., 109., 180., 144., 163., 147.,  97., 220., 190., 109.,
+       191., 122., 230., 242., 248., 249., 192., 131., 237.,  78., 135.,
+       244., 199., 270., 164.,  72.,  96., 306.,  91., 214.,  95., 216.,
+       263., 178., 113., 200., 139., 139.,  88., 148.,  88., 243.,  71.,
+        77., 109., 272.,  60.,  54., 221.,  90., 311., 281., 182., 321.,
+        58., 262., 206., 233., 242., 123., 167.,  63., 197.,  71., 168.,
+       140., 217., 121., 235., 245.,  40.,  52., 104., 132.,  88.,  69.,
+       219.,  72., 201., 110.,  51., 277.,  63., 118.,  69., 273., 258.,
+        43., 198., 242., 232., 175.,  93., 168., 275., 293., 281.,  72.,
+       140., 189., 181., 209., 136., 261., 113., 131., 174., 257.,  55.,
+        84.,  42., 146., 212., 233.,  91., 111., 152., 120.,  67., 310.,
+        94., 183.,  66., 173.,  72.,  49.,  64.,  48., 178., 104., 132.,
+       220.,  57.]), 'frame': None, 'DESCR': '.. _diabetes_dataset:\n\nDiabetes dataset\n----------------\n\nTen baseline variables, age, sex, body mass index, average blood\npressure, and six blood serum measurements were obtained for each of n =\n442 diabetes patients, as well as the response of interest, a\nquantitative measure of disease progression one year after baseline.\n\n**Data Set Characteristics:**\n\n  :Number of Instances: 442\n\n  :Number of Attributes: First 10 columns are numeric predictive values\n\n  :Target: Column 11 is a quantitative measure of disease progression one year after baseline\n\n  :Attribute Information:\n      - age     age in years\n      - sex\n      - bmi     body mass index\n      - bp      average blood pressure\n      - s1      tc, T-Cells (a type of white blood cells)\n      - s2      ldl, low-density lipoproteins\n      - s3      hdl, high-density lipoproteins\n      - s4      tch, thyroid stimulating hormone\n      - s5      ltg, lamotrigine\n      - s6      glu, blood sugar level\n\nNote: Each of these 10 feature variables have been mean centered and scaled by the standard deviation times `n_samples` (i.e. the sum of squares of each column totals 1).\n\nSource URL:\nhttps://www4.stat.ncsu.edu/~boos/var.select/diabetes.html\n\nFor more information see:\nBradley Efron, Trevor Hastie, Iain Johnstone and Robert Tibshirani (2004) "Least Angle Regression," Annals of Statistics (with discussion), 407-499.\n(https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf)', 'feature_names': ['age', 'sex', 'bmi', 'bp', 's1', 's2', 's3', 's4', 's5', 's6'], 'data_filename': '/Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages/sklearn/datasets/data/diabetes_data.csv.gz', 'target_filename': '/Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages/sklearn/datasets/data/diabetes_target.csv.gz'}
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(diabetes.data.shape, diabetes.target.shape)
+</pre>
+</div>
+
+<pre class="example">
+(442, 10) (442,)
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(diabetes.data[0:3])
+</pre>
+</div>
+
+<pre class="example">
+[[ 0.03807591  0.05068012  0.06169621  0.02187235 -0.0442235  -0.03482076
+  -0.04340085 -0.00259226  0.01990842 -0.01764613]
+ [-0.00188202 -0.04464164 -0.05147406 -0.02632783 -0.00844872 -0.01916334
+   0.07441156 -0.03949338 -0.06832974 -0.09220405]
+ [ 0.08529891  0.05068012  0.04445121 -0.00567061 -0.04559945 -0.03419447
+  -0.03235593 -0.00259226  0.00286377 -0.02593034]]
+</pre>
+
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(diabetes.target[:3])
+</pre>
+</div>
+
+<pre class="example">
+[151.  75. 141.]
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(diabetes.data[:, 2])
+</pre>
+</div>
+
+<pre class="example">
+[ 0.06169621 -0.05147406  0.04445121 -0.01159501 -0.03638469 -0.04069594
+ -0.04716281 -0.00189471  0.06169621  0.03906215 -0.08380842  0.01750591
+ -0.02884001 -0.00189471 -0.02560657 -0.01806189  0.04229559  0.01211685
+ -0.0105172  -0.01806189 -0.05686312 -0.02237314 -0.00405033  0.06061839
+  0.03582872 -0.01267283 -0.07734155  0.05954058 -0.02129532 -0.00620595
+  0.04445121 -0.06548562  0.12528712 -0.05039625 -0.06332999 -0.03099563
+  0.02289497  0.01103904  0.07139652  0.01427248 -0.00836158 -0.06764124
+ -0.0105172  -0.02345095  0.06816308 -0.03530688 -0.01159501 -0.0730303
+ -0.04177375  0.01427248 -0.00728377  0.0164281  -0.00943939 -0.01590626
+  0.0250506  -0.04931844  0.04121778 -0.06332999 -0.06440781 -0.02560657
+ -0.00405033  0.00457217 -0.00728377 -0.0374625  -0.02560657 -0.02452876
+ -0.01806189 -0.01482845 -0.02991782 -0.046085   -0.06979687  0.03367309
+ -0.00405033 -0.02021751  0.00241654 -0.03099563  0.02828403 -0.03638469
+ -0.05794093 -0.0374625   0.01211685 -0.02237314 -0.03530688  0.00996123
+ -0.03961813  0.07139652 -0.07518593 -0.00620595 -0.04069594 -0.04824063
+ -0.02560657  0.0519959   0.00457217 -0.06440781 -0.01698407 -0.05794093
+  0.00996123  0.08864151 -0.00512814 -0.06440781  0.01750591 -0.04500719
+  0.02828403  0.04121778  0.06492964 -0.03207344 -0.07626374  0.04984027
+  0.04552903 -0.00943939 -0.03207344  0.00457217  0.02073935  0.01427248
+  0.11019775  0.00133873  0.05846277 -0.02129532 -0.0105172  -0.04716281
+  0.00457217  0.01750591  0.08109682  0.0347509   0.02397278 -0.00836158
+ -0.06117437 -0.00189471 -0.06225218  0.0164281   0.09618619 -0.06979687
+ -0.02129532 -0.05362969  0.0433734   0.05630715 -0.0816528   0.04984027
+  0.11127556  0.06169621  0.01427248  0.04768465  0.01211685  0.00564998
+  0.04660684  0.12852056  0.05954058  0.09295276  0.01535029 -0.00512814
+  0.0703187  -0.00405033 -0.00081689 -0.04392938  0.02073935  0.06061839
+ -0.0105172  -0.03315126 -0.06548562  0.0433734  -0.06225218  0.06385183
+  0.03043966  0.07247433 -0.0191397  -0.06656343 -0.06009656  0.06924089
+  0.05954058 -0.02668438 -0.02021751 -0.046085    0.07139652 -0.07949718
+  0.00996123 -0.03854032  0.01966154  0.02720622 -0.00836158 -0.01590626
+  0.00457217 -0.04285156  0.00564998 -0.03530688  0.02397278 -0.01806189
+  0.04229559 -0.0547075  -0.00297252 -0.06656343 -0.01267283 -0.04177375
+ -0.03099563 -0.00512814 -0.05901875  0.0250506  -0.046085    0.00349435
+  0.05415152 -0.04500719 -0.05794093 -0.05578531  0.00133873  0.03043966
+  0.00672779  0.04660684  0.02612841  0.04552903  0.04013997 -0.01806189
+  0.01427248  0.03690653  0.00349435 -0.07087468 -0.03315126  0.09403057
+  0.03582872  0.03151747 -0.06548562 -0.04177375 -0.03961813 -0.03854032
+ -0.02560657 -0.02345095 -0.06656343  0.03259528 -0.046085   -0.02991782
+ -0.01267283 -0.01590626  0.07139652 -0.03099563  0.00026092  0.03690653
+  0.03906215 -0.01482845  0.00672779 -0.06871905 -0.00943939  0.01966154
+  0.07462995 -0.00836158 -0.02345095 -0.046085    0.05415152 -0.03530688
+ -0.03207344 -0.0816528   0.04768465  0.06061839  0.05630715  0.09834182
+  0.05954058  0.03367309  0.05630715 -0.06548562  0.16085492 -0.05578531
+ -0.02452876 -0.03638469 -0.00836158 -0.04177375  0.12744274 -0.07734155
+  0.02828403 -0.02560657 -0.06225218 -0.00081689  0.08864151 -0.03207344
+  0.03043966  0.00888341  0.00672779 -0.02021751 -0.02452876 -0.01159501
+  0.02612841 -0.05901875 -0.03638469 -0.02452876  0.01858372 -0.0902753
+ -0.00512814 -0.05255187 -0.02237314 -0.02021751 -0.0547075  -0.00620595
+ -0.01698407  0.05522933  0.07678558  0.01858372 -0.02237314  0.09295276
+ -0.03099563  0.03906215 -0.06117437 -0.00836158 -0.0374625  -0.01375064
+  0.07355214 -0.02452876  0.03367309  0.0347509  -0.03854032 -0.03961813
+ -0.00189471 -0.03099563 -0.046085    0.00133873  0.06492964  0.04013997
+ -0.02345095  0.05307371  0.04013997 -0.02021751  0.01427248 -0.03422907
+  0.00672779  0.00457217  0.03043966  0.0519959   0.06169621 -0.00728377
+  0.00564998  0.05415152 -0.00836158  0.114509    0.06708527 -0.05578531
+  0.03043966 -0.02560657  0.10480869 -0.00620595 -0.04716281 -0.04824063
+  0.08540807 -0.01267283 -0.03315126 -0.00728377 -0.01375064  0.05954058
+  0.02181716  0.01858372 -0.01159501 -0.00297252  0.01750591 -0.02991782
+ -0.02021751 -0.05794093  0.06061839 -0.04069594 -0.07195249 -0.05578531
+  0.04552903 -0.00943939 -0.03315126  0.04984027 -0.08488624  0.00564998
+  0.02073935 -0.00728377  0.10480869 -0.02452876 -0.00620595 -0.03854032
+  0.13714305  0.17055523  0.00241654  0.03798434 -0.05794093 -0.00943939
+ -0.02345095 -0.0105172  -0.03422907 -0.00297252  0.06816308  0.00996123
+  0.00241654 -0.03854032  0.02612841 -0.08919748  0.06061839 -0.02884001
+ -0.02991782 -0.0191397  -0.04069594  0.01535029 -0.02452876  0.00133873
+  0.06924089 -0.06979687 -0.02991782 -0.046085    0.01858372  0.00133873
+ -0.03099563 -0.00405033  0.01535029  0.02289497  0.04552903 -0.04500719
+ -0.03315126  0.097264    0.05415152  0.12313149 -0.08057499  0.09295276
+ -0.05039625 -0.01159501 -0.0277622   0.05846277  0.08540807 -0.00081689
+  0.00672779  0.00888341  0.08001901  0.07139652 -0.02452876 -0.0547075
+ -0.03638469  0.0164281   0.07786339 -0.03961813  0.01103904 -0.04069594
+ -0.03422907  0.00564998  0.08864151 -0.03315126 -0.05686312 -0.03099563
+  0.05522933 -0.06009656  0.00133873 -0.02345095 -0.07410811  0.01966154
+ -0.01590626 -0.01590626  0.03906215 -0.0730303 ]
+</pre>
+
+<p>
+데이터중 세번째 컬럼자료와 타겟값으로 그래프를 그려보자
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">import matplotlib.pyplot as plt
+
+plt.scatter(diabetes.data[:, 2], diabetes.target)
+plt.plot([-0.10, 0.15], [0, 350], 'r')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/Etz4ki.png" alt="Etz4ki.png" />
+</p>
+</div>
+
+<p>
+이 그래프에서 보여주고 있는 빨간색 선처럼 데이터를 가장 잘 표현할 수 있는 선형 함수를 알고 싶은 거다.
+</p>
+<div class="latex">
+<p>
+임의의 선을 하나 생각해보자.
+</p>
+\begin{equation*}
+  y = wx + b
+\end{equation*}
+<p>
+데이터가 나타내는 값은 \(x_{i}\) 일 때 \(y_{i}\) 이지만 모델링한 이 선형 함수가 나타내는 \(x_{i}\) 일 때 \(y\) 값은 \(wx_{i}+b\) 이다. 이 값을 \(\hat{y_{i}}\) 이라 할 때, \(x_{i}\) 에 대한 \(\hat{y_{i}}\) 인 점은 \((wx+b)\) 에 의해서 내가 구한 값이 된다. 각 점 \(x\) 에 대해, 내가 구한 이 값 \(\hat{y}\) 과 실제 데이터 \(y\) 의 차이를 줄여나간다면 가장 이상적인 선형 함수를 찾을 수 있을 것이다. 합리적인가? 
+</p>
+
+<p>
+\(y_{i}\) 와 \(\hat{y_{i}}\) 의 차이는  \((\ y-\hat{y}\ )^2\), \(\left\lvert\ y - \hat{y}\ \right\rvert\) 등으로 나타낼 수 있다.
+</p>
+
+<p>
+\(y_{i}\) 와 \(\hat{y_{i}}\) 의 제곱오차는 
+</p>
+\begin{equation*}
+  SE = \sum_{i=0}^{i-1} (y_{i} - \hat{y_{i}})^2
+\end{equation*}
+
+<p>
+알고자하는 w, b 로 나타내보면,
+</p>
+\begin{equation*}
+\begin{split}
+  SE & = \sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b})^2 \\
+     & = ({x_{0}}^2 + \dots + {x_{i-1}}^2)w^2 + \dots \\
+     & = \frac{1}{i}(ib^2 + \dots)
+\end{split}
+\end{equation*}
+
+<p>
+\(w\) 에 대해 간략히 해보면 \(w\) 의 이차방정식임을 알 수 있고, 이차항의 계수가 \({x_{0}}^2 + \dots + {x_{i-1}}^2\) 인 양수이므로 아래쪽으로 볼록한 최소값이 존재하는 함수임을 알 수 있다. 최소값이 되는 지점의 w값을 찾으면 된다. 최소값을 찾아가는 방법이라 할 수 있는데, 이차방정식 포물선의 성질을 이용한다고 보면 된다.
+</p>
+
+<p>
+\(ax^2+bx+c\) \((a>0)\) 인 포물선에 대해,
+</p>
+
+<p>
+한 점에서 기울기가 음수면, \(x\) 값이 커져감에 따라 최소값을 향해 가고있는 중이다. 반대로 기울기가 양수이고, x값이 커져간다면 최소값에서 멀어지고 있는 중일 것이다.
+</p>
+
+<p>
+또 다른 성질로 포물선을 보면, 기울기가 상대적으로 급하게 기울어져 있다면 최소값에서 멀리있다고 볼 수 있다. 반대로 기울기가 완만해져간다면 최소값에 가까워져가는 중이다. 
+</p>
+
+
+<p>
+우리는 최소값을 향해 가야하므로 x값이 최소값 방향으로 움직이려면 기울기와 반대방향으로 가야할 것이고, 최소값과 먼거리에서는 빠르게 해가 접근하려면 크게 움직이는게 좋을 것이고 가까워질수록 섬세하게 접근하는게 좋을 것이다.
+</p>
+
+<p>
+이것을 수식으로 표현해보면,
+</p>
+\begin{equation*}
+  x_{n+1} = x_{n} -\frac{\partial y}{\partial x_{n}}
+\end{equation*}
+
+<p>
+대충 이런 배경으로 만들어진 게 Gradient descent 이고,
+</p>
+
+\begin{align*}
+  x_{n+1} = x_{n} -\gamma_{n}\frac{\partial y}{\partial x_{n}},\ &&n \geq 0
+\end{align*}
+
+<p>
+적절한 \(\gamma_{n}\) 은 기울기값만으로 접근하는것보다 매 step마다 더 효율적으로 접근하게 해줄 것이다. \(\gamma_{n}\) 가 \(( y - \hat{y}\ )\) 인줄 알았는데 아닌가보다.
+일단 r 변수는 없다치고 .. 나중에 확인해보자
+</p>
+
+<p>
+이것을 위의 제곱 오차식으로 다시 적어보면,
+</p>
+\begin{align}
+  w_{n+1} = w_{n} -\frac{\partial SE}{\partial w_{n}},\ &&i \geq 0
+\end{align}
+
+
+<p>
+이제 다시, 제곱 오차식을 보자
+</p>
+\begin{equation*}
+\begin{split}
+  SE & = \sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b})^2 \\
+     & = ({x_{0}}^2 + \dots + {x_{i-1}}^2)w^2 + \dots \\
+     & = \frac{1}{i}(ib^2 + \dots)
+\end{split}
+\end{equation*}
+<p>
+이고, 이 제곱 오차식을 w에 대해 미분하면,
+</p>
+
+\begin{equation*}
+\begin{split}
+  \frac{\partial{SE}}{\partial{w}} & =  \frac{\partial{\sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b})^2}} {\partial{w}} \\
+                                   & = 2\sum_{i=0}^{i-1} ({y_{i} - wx_{i} + b}) \frac{\partial{({y_{i} - wx_{i} + b})}}{\partial{w}} \\
+                                   & = 2\sum_{i=0}^{i-1} ({y_{i} - \hat{y_{i}}}) \frac{\partial{({y_{i} - wx_{i} + b})}}{\partial{w}} \\
+                                   & = 2\sum_{i=0}^{i-1} ({y_{i} - \hat{y_{i}}})x_{i} 
+\end{split}
+\end{equation*}
+
+<p>
+(1)식에 의해 나온 식에서 summation 앞의 2는 \(\gamma_{n}\) 에 의해 보정한다치고(크거나 작게, 스텝마다 다르게..) 우선 제거하자.(내 마음대로..)
+</p>
+
+\begin{equation*}
+w_{n+1} = w_{n} - \sum_{i=0}^{i-1} ({y_{i} - \hat{y_{i}}})x_{i} 
+\end{equation*}
+
+<p>
+루프가 왜 두번 도는지 이해가 되는군.. 좀 헷갈렸었다. w 값을 한번 업데이트하려면 i개의 데이터를 매 i번을 순회해야한다.
+</p>
+
+<p>
+오늘은 여기까지.. 
+</p>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1af38f7" class="outline-3">
+<h3 id="org1af38f7"><span class="section-number-3">1.3</span> 경사 하강법으로 학습하는 방법</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+polyfit을 쓰면 안되나? 쓰면 된다. 하지만, 함수를 만들줄 알고 설계도 해볼 목적으로..
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">x = diabetes.data[:, 2]
+y = diabetes.target
+</pre>
+</div>
+
+<pre class="example">
+# Out[747]:
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">w = 1.0
+b = 1.0
+</pre>
+</div>
+
+<p>
+x[0]에서 w와 b를 임의로 정했을 때 y<sub>hat</sub>(예상값)을 출력해본다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">y_hat = x[0] * w + b
+print(y_hat)
+</pre>
+</div>
+
+<pre class="example">
+1.0616962065186886
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">print(y[0])
+</pre>
+</div>
+
+<pre class="example">
+151.0
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">w_inc = w + 0.1
+y_hat_inc = w_inc * x[0] + b
+print(y_hat_inc)
+</pre>
+</div>
+
+<pre class="example">
+1.0678658271705574
+</pre>
+
+<p>
+w의 변화량에 대한 예측값의 변화량
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">w_rate = (y_hat_inc - y_hat) / (w_inc - w)
+print(w_rate)
+</pre>
+</div>
+
+<pre class="example">
+0.061696206518688734
+</pre>
+
+<p>
+&#x2026;
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8ada98b" class="outline-3">
+<h3 id="org8ada98b"><span class="section-number-3">1.4</span> 선형 회귀 심플 뉴런</h3>
+<div class="outline-text-3" id="text-1-4">
+<div class="org-src-container">
+<pre class="src src-ipython">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org390fff5" class="outline-3">
+<h3 id="org390fff5"><span class="section-number-3">1.5</span> 분류하는 뉴런</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+이진 분류
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">
 </pre>
 </div>
 </div>
 </div>
 </div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">wikipedia</p></div></div>
+
+
+</div>
+</div></div>
 <div id="postamble" class="status">
 <p class="date">Date: 2020-09-17 Thu 18:00</p>
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-09-17 Thu 16:42</p>
+<p class="date">Created: 2020-09-19 Sat 18:42</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

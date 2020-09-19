@@ -1,0 +1,339 @@
+#+title: 분류하는 뉴런
+#+subtitle: 5 weeks by lsk
+#+date: <2020-09-18 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn18 :tangle "mglearn200918.py" :exports both
+
+#+author: srolisp
+
+#+begin_src bash
+jupyter nbconvert --to script "DataScience/source_code/text분류.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/의류분류.ipynb" 
+#+end_src
+
+* 로지스틱 손실 함수를 이용
+로지스틱 회귀의 목표는 올바르게 분류되는 데이터의 비율을 높이는 것이다. 이 비율은 미분 가능하지 않기 때문에 경사 하강법의 손실 함수로 사용할 수 없다. 로지스틱 손실 함수를 손실 함수로 대신 사용한다.
+
+* 미분의 연쇄 법칙
+
+* 실습
+
+** 데이터 세트 준비하기
+#+begin_src ipython :results output
+  from sklearn.datasets import load_breast_cancer
+  cancer = load_breast_cancer()
+  print(cancer)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+{'data': array([[1.799e+01, 1.038e+01, 1.228e+02, ..., 2.654e-01, 4.601e-01,
+        1.189e-01],
+       [2.057e+01, 1.777e+01, 1.329e+02, ..., 1.860e-01, 2.750e-01,
+        8.902e-02],
+       [1.969e+01, 2.125e+01, 1.300e+02, ..., 2.430e-01, 3.613e-01,
+        8.758e-02],
+       ...,
+       [1.660e+01, 2.808e+01, 1.083e+02, ..., 1.418e-01, 2.218e-01,
+        7.820e-02],
+       [2.060e+01, 2.933e+01, 1.401e+02, ..., 2.650e-01, 4.087e-01,
+        1.240e-01],
+       [7.760e+00, 2.454e+01, 4.792e+01, ..., 0.000e+00, 2.871e-01,
+        7.039e-02]]), 'target': array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+       0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0,
+       1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0,
+       1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1,
+       1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0,
+       0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1,
+       1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0,
+       0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0,
+       1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1,
+       1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0,
+       0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+       0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0,
+       1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1,
+       1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1,
+       1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+       1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1,
+       1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1,
+       1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1]), 'frame': None, 'target_names': array(['malignant', 'benign'], dtype='<U9'), 'DESCR': '.. _breast_cancer_dataset:\n\nBreast cancer wisconsin (diagnostic) dataset\n--------------------------------------------\n\n**Data Set Characteristics:**\n\n    :Number of Instances: 569\n\n    :Number of Attributes: 30 numeric, predictive attributes and the class\n\n    :Attribute Information:\n        - radius (mean of distances from center to points on the perimeter)\n        - texture (standard deviation of gray-scale values)\n        - perimeter\n        - area\n        - smoothness (local variation in radius lengths)\n        - compactness (perimeter^2 / area - 1.0)\n        - concavity (severity of concave portions of the contour)\n        - concave points (number of concave portions of the contour)\n        - symmetry\n        - fractal dimension ("coastline approximation" - 1)\n\n        The mean, standard error, and "worst" or largest (mean of the three\n        worst/largest values) of these features were computed for each image,\n        resulting in 30 features.  For instance, field 0 is Mean Radius, field\n        10 is Radius SE, field 20 is Worst Radius.\n\n        - class:\n                - WDBC-Malignant\n                - WDBC-Benign\n\n    :Summary Statistics:\n\n    ===================================== ====== ======\n                                           Min    Max\n    ===================================== ====== ======\n    radius (mean):                        6.981  28.11\n    texture (mean):                       9.71   39.28\n    perimeter (mean):                     43.79  188.5\n    area (mean):                          143.5  2501.0\n    smoothness (mean):                    0.053  0.163\n    compactness (mean):                   0.019  0.345\n    concavity (mean):                     0.0    0.427\n    concave points (mean):                0.0    0.201\n    symmetry (mean):                      0.106  0.304\n    fractal dimension (mean):             0.05   0.097\n    radius (standard error):              0.112  2.873\n    texture (standard error):             0.36   4.885\n    perimeter (standard error):           0.757  21.98\n    area (standard error):                6.802  542.2\n    smoothness (standard error):          0.002  0.031\n    compactness (standard error):         0.002  0.135\n    concavity (standard error):           0.0    0.396\n    concave points (standard error):      0.0    0.053\n    symmetry (standard error):            0.008  0.079\n    fractal dimension (standard error):   0.001  0.03\n    radius (worst):                       7.93   36.04\n    texture (worst):                      12.02  49.54\n    perimeter (worst):                    50.41  251.2\n    area (worst):                         185.2  4254.0\n    smoothness (worst):                   0.071  0.223\n    compactness (worst):                  0.027  1.058\n    concavity (worst):                    0.0    1.252\n    concave points (worst):               0.0    0.291\n    symmetry (worst):                     0.156  0.664\n    fractal dimension (worst):            0.055  0.208\n    ===================================== ====== ======\n\n    :Missing Attribute Values: None\n\n    :Class Distribution: 212 - Malignant, 357 - Benign\n\n    :Creator:  Dr. William H. Wolberg, W. Nick Street, Olvi L. Mangasarian\n\n    :Donor: Nick Street\n\n    :Date: November, 1995\n\nThis is a copy of UCI ML Breast Cancer Wisconsin (Diagnostic) datasets.\nhttps://goo.gl/U2Uwz2\n\nFeatures are computed from a digitized image of a fine needle\naspirate (FNA) of a breast mass.  They describe\ncharacteristics of the cell nuclei present in the image.\n\nSeparating plane described above was obtained using\nMultisurface Method-Tree (MSM-T) [K. P. Bennett, "Decision Tree\nConstruction Via Linear Programming." Proceedings of the 4th\nMidwest Artificial Intelligence and Cognitive Science Society,\npp. 97-101, 1992], a classification method which uses linear\nprogramming to construct a decision tree.  Relevant features\nwere selected using an exhaustive search in the space of 1-4\nfeatures and 1-3 separating planes.\n\nThe actual linear program used to obtain the separating plane\nin the 3-dimensional space is that described in:\n[K. P. Bennett and O. L. Mangasarian: "Robust Linear\nProgramming Discrimination of Two Linearly Inseparable Sets",\nOptimization Methods and Software 1, 1992, 23-34].\n\nThis database is also available through the UW CS ftp server:\n\nftp ftp.cs.wisc.edu\ncd math-prog/cpo-dataset/machine-learn/WDBC/\n\n.. topic:: References\n\n   - W.N. Street, W.H. Wolberg and O.L. Mangasarian. Nuclear feature extraction \n     for breast tumor diagnosis. IS&T/SPIE 1993 International Symposium on \n     Electronic Imaging: Science and Technology, volume 1905, pages 861-870,\n     San Jose, CA, 1993.\n   - O.L. Mangasarian, W.N. Street and W.H. Wolberg. Breast cancer diagnosis and \n     prognosis via linear programming. Operations Research, 43(4), pages 570-577, \n     July-August 1995.\n   - W.H. Wolberg, W.N. Street, and O.L. Mangasarian. Machine learning techniques\n     to diagnose breast cancer from fine-needle aspirates. Cancer Letters 77 (1994) \n     163-171.', 'feature_names': array(['mean radius', 'mean texture', 'mean perimeter', 'mean area',
+       'mean smoothness', 'mean compactness', 'mean concavity',
+       'mean concave points', 'mean symmetry', 'mean fractal dimension',
+       'radius error', 'texture error', 'perimeter error', 'area error',
+       'smoothness error', 'compactness error', 'concavity error',
+       'concave points error', 'symmetry error',
+       'fractal dimension error', 'worst radius', 'worst texture',
+       'worst perimeter', 'worst area', 'worst smoothness',
+       'worst compactness', 'worst concavity', 'worst concave points',
+       'worst symmetry', 'worst fractal dimension'], dtype='<U23'), 'filename': '/Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages/sklearn/datasets/data/breast_cancer.csv'}
+#+end_example
+
+#+begin_src ipython :results output
+  print(cancer.data)
+#+end_src
+
+#+RESULTS:
+: [[1.799e+01 1.038e+01 1.228e+02 ... 2.654e-01 4.601e-01 1.189e-01]
+:  [2.057e+01 1.777e+01 1.329e+02 ... 1.860e-01 2.750e-01 8.902e-02]
+:  [1.969e+01 2.125e+01 1.300e+02 ... 2.430e-01 3.613e-01 8.758e-02]
+:  ...
+:  [1.660e+01 2.808e+01 1.083e+02 ... 1.418e-01 2.218e-01 7.820e-02]
+:  [2.060e+01 2.933e+01 1.401e+02 ... 2.650e-01 4.087e-01 1.240e-01]
+:  [7.760e+00 2.454e+01 4.792e+01 ... 0.000e+00 2.871e-01 7.039e-02]]
+
+** 그래프로 데이터 파악하기
+#+begin_src ipython :results raw drawer
+import matplotlib.pyplot as plt
+plt.boxplot(cancer.data)
+plt.xlabel('features')
+plt.ylabel('value')
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[5]:
+[[file:./obipy-resources/XXIYuX.png]]
+:end:
+
+#+begin_src ipython :results output
+print(cancer.feature_names[[3, 13, 23]])
+#+end_src
+
+#+RESULTS:
+: ['mean area' 'area error' 'worst area']
+
+** 타깃 데이터 확인하고 훈련 데이터 준비하기
+return_counts=True : 비율을 나타내라는 옵션
+#+begin_src ipython :results output
+  import numpy as np
+  print(np.unique(cancer.target, return_counts=True))
+#+end_src
+
+#+RESULTS:
+: (array([0, 1]), array([212, 357]))
+
+#+begin_src ipython :results output
+x = cancer.data
+y = cancer.target
+#+end_src
+
+** 로지스틱 회귀를 이용한 뉴런을 만들어보자
+#+begin_quote
+훈련 -> 검증 -> 테스트
+#+end_quote
+데이터셋으로 훈련세트와 테스트 세트, 검증 세트를 만들어야겠다. (실제 데이터를 더 구할 수 없으므로)
+1. 테스트 세트보다 훈련 세트가 많아야 한다.
+2. 양성, 음성 클래스가 훈련세트나 테스트 세트의 어느 한쪽에 몰리지 않도록 골고루 섞어야 한다.
+
+*** 훈련세트와 테스트 세트 나누기
+stratify : y가 가지고 있는 비율로 나눠달라
+random_state : 나중에 다시 확인 할때 똑같은 값을 뿌리게 state를 기억(42)
+#+begin_src ipython :results output
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y, stratify=y, test_size=0.2, random_state=42)
+print(x_train, x_test, y_train, y_test)
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[[1.032e+01 1.635e+01 6.531e+01 ... 2.381e-02 2.681e-01 7.399e-02]
+ [2.018e+01 1.954e+01 1.338e+02 ... 2.173e-01 3.032e-01 8.075e-02]
+ [1.066e+01 1.515e+01 6.749e+01 ... 0.000e+00 2.710e-01 6.164e-02]
+ ...
+ [1.546e+01 2.395e+01 1.038e+02 ... 2.163e-01 3.013e-01 1.067e-01]
+ [1.705e+01 1.908e+01 1.134e+02 ... 2.543e-01 3.109e-01 9.061e-02]
+ [1.088e+01 1.562e+01 7.041e+01 ... 7.966e-02 2.581e-01 1.080e-01]] [[1.955e+01 2.877e+01 1.336e+02 ... 1.941e-01 2.818e-01 1.005e-01]
+ [1.113e+01 1.662e+01 7.047e+01 ... 4.044e-02 2.383e-01 7.083e-02]
+ [1.382e+01 2.449e+01 9.233e+01 ... 1.521e-01 3.651e-01 1.183e-01]
+ ...
+ [1.532e+01 1.727e+01 1.032e+02 ... 2.229e-01 3.258e-01 1.191e-01]
+ [1.262e+01 2.397e+01 8.135e+01 ... 1.180e-01 2.826e-01 9.585e-02]
+ [1.168e+01 1.617e+01 7.549e+01 ... 9.815e-02 2.804e-01 8.024e-02]] [1 0 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 1 0 0 0 1 1 0 1 1 1 0 1 1 1 0 1 1 0 0 0
+ 1 0 1 1 1 0 1 0 1 1 0 1 0 0 0 1 1 1 1 1 0 1 1 1 1 0 1 1 1 0 1 1 0 0 1 1 0
+ 1 1 1 1 1 0 0 0 0 0 1 1 0 0 1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 0 1 1 1 0 1 1 1
+ 0 0 0 1 1 1 0 0 1 1 1 1 0 1 0 0 1 0 1 1 1 0 1 1 0 1 0 1 1 0 1 1 0 1 1 1 0
+ 1 0 1 1 1 0 0 1 1 0 1 1 0 1 1 1 0 1 0 0 0 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1
+ 0 1 1 0 1 0 1 1 1 0 1 1 0 0 1 0 1 0 1 1 0 1 1 1 1 1 1 1 1 1 0 0 1 0 1 1 1
+ 1 1 1 0 1 0 0 1 1 1 0 1 1 1 0 1 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 0 0 1 1 1 0
+ 0 0 1 1 1 0 1 1 1 1 1 1 0 0 1 0 1 0 0 0 1 1 1 0 1 0 0 1 0 1 1 1 0 1 1 1 0
+ 0 0 0 1 1 1 0 1 1 1 1 1 1 0 1 0 1 1 1 1 1 0 1 1 1 0 1 0 0 1 1 1 1 1 1 1 0
+ 1 0 1 1 1 1 0 1 1 0 0 1 1 1 0 1 1 0 1 0 0 1 1 0 0 0 1 0 1 1 1 1 0 0 1 1 1
+ 0 1 0 1 0 0 1 1 1 1 1 0 1 1 1 0 0 1 1 1 1 1 0 1 0 1 1 0 0 1 1 1 1 0 1 0 1
+ 1 1 0 1 1 1 0 1 0 0 0 1 1 1 1 0 0 0 1 0 1 1 1 0 0 0 1 0 1 1 1 1 0 0 0 1 1
+ 1 1 0 1 0 0 0 0 0 0 1] [0 1 0 1 0 1 1 0 0 0 1 0 1 0 0 1 1 1 1 1 0 0 1 1 1 1 0 1 1 1 1 1 1 1 0 0 1
+ 1 1 0 1 1 1 0 0 1 1 1 1 0 1 1 1 0 1 1 1 0 0 1 1 1 1 1 0 0 1 1 1 1 1 1 1 0
+ 0 0 0 1 1 1 1 1 0 1 0 1 1 1 1 1 1 1 0 0 0 1 0 1 0 1 0 0 0 1 0 0 1 0 1 0 1
+ 0 1 1]
+#+end_example
+
+#+begin_src ipython :results output
+print(x_train.shape, x_test.shape)
+#+end_src
+
+#+RESULTS:
+: (455, 30) (114, 30)
+
+#+begin_src ipython :results output
+print(np.unique(y_train, return_counts=True))
+#+end_src
+
+#+RESULTS:
+: (array([0, 1]), array([170, 285]))
+
+#+begin_src ipython :results output
+print(np.unique(y_test, return_counts=True))
+#+end_src
+
+#+RESULTS:
+: (array([0, 1]), array([42, 72]))
+
+#+begin_src ipython :results output
+class LogisticNeuron:
+  def __init__(self):
+    self.w = None
+    self.b = None
+
+  def forpass(self, x):
+    z = np.sum(x * self.w) + self.b
+    return z
+
+  def backprop(self, x, err):
+    w_grad = x * err
+    b_grad = 1 * err
+    return w_grad, b_grad
+
+  def activation(self, z):
+    z = np.clip(z, -100, None)
+    a = 1 / (1 + np.exp(-z))
+    return a
+
+  def fit(self, x, y, epochs=100):
+    self.w = np.ones(x.shape[1])
+    self.b = 0
+    for i in range(epochs):
+      for x_i, y_i in zip(x, y):
+        z = self.forpass(x_i)
+        a = self.activation(z)
+        err = -(y_i - a)
+        w_grad, b_grad = self.backprop(x_i, err)
+        self.w -= w_grad
+        self.b -= b_grad
+
+  def predict(self, x):
+    z = [self.forpass(x_i) for x_i in x]
+    a = self.activation(np.array(z))
+    return a > 0.5
+#+end_src
+
+#+RESULTS:
+
+#+begin_src ipython :results output
+neuron = LogisticNeuron()
+neuron.fit(x_train, y_train, 1000)
+
+#+end_src
+
+#+RESULTS:
+
+#+begin_src ipython :results output
+print(np.mean(neuron.predict(x_test) == y_test))
+#+end_src
+
+#+RESULTS:
+: 0.8947368421052632
+
+#+begin_src ipython :results output
+print(neuron.w, neuron.b)
+#+end_src
+
+#+RESULTS:
+: [ 1.81086044e+04 -1.24739236e+04  6.15479592e+04  2.29708006e+03
+:  -2.36374580e+02 -1.55925367e+03 -2.29217368e+03 -9.00954111e+02
+:  -5.29003854e+02 -6.23364384e+01  1.95660848e+02  1.49599975e+03
+:  -4.23463727e+03 -1.14675592e+04 -4.85204916e+01 -4.54812331e+02
+:  -6.30236381e+02 -1.43944877e+02 -1.32761289e+02 -4.12155554e+01
+:   1.72585155e+04 -2.21131568e+04  1.12605908e+04 -9.86149886e+03
+:  -5.55641094e+02 -5.50388907e+03 -6.83560328e+03 -1.89790258e+03
+:  -1.70994065e+03 -4.88775942e+02] 2266.000816493729
+
+** 로지스틱 회귀 뉴런으로 단일층 신경망
+#+begin_src ipython :results outptu
+class SingleLayer:
+  def __init__(self):
+    self.w = None
+    self.b = None
+    self.loss = []
+
+  def forpass(self, x):
+    z = np.sum(x * self.w) + self.b
+    return z
+
+  def backprop(self, x, err):
+    w_grad = x * err
+    b_grad = 1 * err
+    return w_grad, b_grad
+
+  def activation(self, z):
+    z = np.clip(z, -100, None)
+    a = 1 / (1 + np.exp(-z))
+    return a
+
+  def fit(self, x, y, epochs=100):
+    self.w = np.ones(x.shape[1])
+    self.b = 0
+    for i in range(epochs):
+      loss = 0
+
+      indexes = np.random.permutation(np.arange(len(x)))
+      for i in indexes:
+        z = self.forpass(x[i])
+        a = self.activation(z)
+        err = -(y[i] - a)
+        w_grad, b_grad = self.backprop(x[i], err)
+        self.w -= w_grad
+        self.b -= b_grad
+        a = np.clip(a, 1e-10, 1-1e-10)
+        loss += -(y[i]*np.log(a)+(1-y[i])*np.log(1-a))
+      self.losses.append(loss/len(y))  
+
+  def predict(self, x):
+    z = [self.forpass(x_i) for x_i in x]
+    a = self.activation(np.array(z))
+    return a > 0.5
+  def score(self, x, y):
+    return np.mean(self.predict(x) == y)
+#+end_src
+
+** 사이킷런으로 로지스틱 회귀를 수행
+#+begin_src ipython :results output
+from sklearn.linear_model import SGDClassifier
+sgd = SGDClassifier(loss='log', max_iter=100, tol=1e-3, random_state=42)
+
+sgd.fit(x_train, y_train)
+print(sgd.score(x_test, y_test))
+print(sgd.predict(x_test[0:10]))
+#+end_src
+
+#+RESULTS:
+: 0.8333333333333334
+: [0 1 0 0 0 0 1 0 0 0]
+
+** yolo 를 많이 쓴다. 다른 알고리즘은 2stage인데 yolo는 1stage라 속도가 엄청 빠르다. 그래서 yolo 알고리즘을 많이 쓴다.
+
+** 얼굴인식을 할 정도가 되려면 60000장정도는 있어야..
+
+** 텐서플로우도 버전을 많이탄다.
+- 1.0버전대와 2.0대 버전 호환 안된다. 버전 확인해보고 쓰자.
+- 텐서플로우때문에 설치하다 컴터 뿌술수있다.
