@@ -1,41 +1,65 @@
-#+title: 신경망 기초
-#+subtitle: 5 weeks by lsk
-#+date: <2020-09-17 Wed 18:00>
-#+tags: python, bash, elisp, lisp, zoom
-#+property: header-args:bash :results verbatim
-#+property: header-args:elisp :exports both
-#+property: header-args:ipython :session mglearn17 :tangle "mglearn200917.py" :exports both
+% Created 2020-09-20 Sun 09:48
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{srolisp}
+\date{\textit{<2020-09-17 Thu 18:00>}}
+\title{신경망 기초\\\medskip
+\large 5 weeks by lsk}
+\hypersetup{
+ pdfauthor={srolisp},
+ pdftitle={신경망 기초},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 28.0.50 (Org mode 9.3)}, 
+ pdflang={English}}
+\begin{document}
 
-#+author: srolisp
+\maketitle
+\tableofcontents
 
 게으름에 기록만 해놓다가 막히는 부분도 있거니와 관심가는 부분이기에 주말에 들여다보고 정리해보고 있다.
 
-* 선형 회귀
-통계학에서, 선형 회귀(線型回歸, 영어: linear regression)는 종속 변수 y와 한 개 이상의 독립 변수 (또는 설명 변수) X와의 선형 상관 관계를 모델링하는 회귀분석 기법이다. 한 개의 설명 변수에 기반한 경우에는 *단순 선형 회귀*, 둘 이상의 설명 변수에 기반한 경우에는 *다중 선형 회귀* 라고 한다. 참고로, *다변량 선형 회귀* 는 종속 변수가 두 개 이상의 경우를 의미한다. [fn:: wikipedia]
+\section{선형 회귀}
+\label{sec:org56bea04}
+통계학에서, 선형 회귀(線型回歸, 영어: linear regression)는 종속 변수 y와 한 개 이상의 독립 변수 (또는 설명 변수) X와의 선형 상관 관계를 모델링하는 회귀분석 기법이다. 한 개의 설명 변수에 기반한 경우에는 \textbf{단순 선형 회귀}, 둘 이상의 설명 변수에 기반한 경우에는 \textbf{다중 선형 회귀} 라고 한다. 참고로, \textbf{다변량 선형 회귀} 는 종속 변수가 두 개 이상의 경우를 의미한다. \footnote{wikipedia}
 
-** 자료
-#+begin_src bash 
-  jupyter nbconvert --to script "DataScience/source_code/Ch02.ipynb" 
-  jupyter nbconvert --to script "DataScience/source_code/Ch03.ipynb"
-  jupyter nbconvert --to script "DataScience/source_code/Ch04.ipynb"
-  jupyter nbconvert --to script "DataScience/source_code/Ch05.ipynb"
-  jupyter nbconvert --to script "DataScience/source_code/Ch06.ipynb"
-  jupyter nbconvert --to script "DataScience/source_code/Ch07.ipynb"
-  jupyter nbconvert --to script "DataScience/source_code/Ch08.ipynb"
-  jupyter nbconvert --to script "DataScience/source_code/Ch09.ipynb"
-#+end_src
+\subsection{자료}
+\label{sec:org36d574c}
+\begin{verbatim}
+jupyter nbconvert --to script "DataScience/source_code/Ch02.ipynb" 
+jupyter nbconvert --to script "DataScience/source_code/Ch03.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch04.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch05.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch06.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch07.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch08.ipynb"
+jupyter nbconvert --to script "DataScience/source_code/Ch09.ipynb"
+\end{verbatim}
 
-** 당뇨병에 대한 데이터 구경하기
+\subsection{당뇨병에 대한 데이터 구경하기}
+\label{sec:orgb873888}
 
-#+begin_src ipython :results output
-  from sklearn.datasets import load_diabetes 
-  diabetes = load_diabetes()
+\begin{verbatim}
+from sklearn.datasets import load_diabetes 
+diabetes = load_diabetes()
 
-  print(diabetes)
-#+end_src
+print(diabetes)
+\end{verbatim}
 
-#+RESULTS:
-#+begin_example
+\begin{verbatim}
 {'data': array([[ 0.03807591,  0.05068012,  0.06169621, ..., -0.00259226,
          0.01990842, -0.01764613],
        [-0.00188202, -0.04464164, -0.05147406, ..., -0.03949338,
@@ -89,41 +113,46 @@
         84.,  42., 146., 212., 233.,  91., 111., 152., 120.,  67., 310.,
         94., 183.,  66., 173.,  72.,  49.,  64.,  48., 178., 104., 132.,
        220.,  57.]), 'frame': None, 'DESCR': '.. _diabetes_dataset:\n\nDiabetes dataset\n----------------\n\nTen baseline variables, age, sex, body mass index, average blood\npressure, and six blood serum measurements were obtained for each of n =\n442 diabetes patients, as well as the response of interest, a\nquantitative measure of disease progression one year after baseline.\n\n**Data Set Characteristics:**\n\n  :Number of Instances: 442\n\n  :Number of Attributes: First 10 columns are numeric predictive values\n\n  :Target: Column 11 is a quantitative measure of disease progression one year after baseline\n\n  :Attribute Information:\n      - age     age in years\n      - sex\n      - bmi     body mass index\n      - bp      average blood pressure\n      - s1      tc, T-Cells (a type of white blood cells)\n      - s2      ldl, low-density lipoproteins\n      - s3      hdl, high-density lipoproteins\n      - s4      tch, thyroid stimulating hormone\n      - s5      ltg, lamotrigine\n      - s6      glu, blood sugar level\n\nNote: Each of these 10 feature variables have been mean centered and scaled by the standard deviation times `n_samples` (i.e. the sum of squares of each column totals 1).\n\nSource URL:\nhttps://www4.stat.ncsu.edu/~boos/var.select/diabetes.html\n\nFor more information see:\nBradley Efron, Trevor Hastie, Iain Johnstone and Robert Tibshirani (2004) "Least Angle Regression," Annals of Statistics (with discussion), 407-499.\n(https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf)', 'feature_names': ['age', 'sex', 'bmi', 'bp', 's1', 's2', 's3', 's4', 's5', 's6'], 'data_filename': '/Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages/sklearn/datasets/data/diabetes_data.csv.gz', 'target_filename': '/Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages/sklearn/datasets/data/diabetes_target.csv.gz'}
-#+end_example
+\end{verbatim}
 
-#+begin_src ipython :results output
+\begin{verbatim}
 print(diabetes.data.shape, diabetes.target.shape)
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: (442, 10) (442,)
+\begin{verbatim}
+(442, 10) (442,)
+\end{verbatim}
 
-#+begin_src ipython :results output
+
+\begin{verbatim}
 print(diabetes.data[0:3])
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: [[ 0.03807591  0.05068012  0.06169621  0.02187235 -0.0442235  -0.03482076
-:   -0.04340085 -0.00259226  0.01990842 -0.01764613]
-:  [-0.00188202 -0.04464164 -0.05147406 -0.02632783 -0.00844872 -0.01916334
-:    0.07441156 -0.03949338 -0.06832974 -0.09220405]
-:  [ 0.08529891  0.05068012  0.04445121 -0.00567061 -0.04559945 -0.03419447
-:   -0.03235593 -0.00259226  0.00286377 -0.02593034]]
+\begin{verbatim}
+[[ 0.03807591  0.05068012  0.06169621  0.02187235 -0.0442235  -0.03482076
+  -0.04340085 -0.00259226  0.01990842 -0.01764613]
+ [-0.00188202 -0.04464164 -0.05147406 -0.02632783 -0.00844872 -0.01916334
+   0.07441156 -0.03949338 -0.06832974 -0.09220405]
+ [ 0.08529891  0.05068012  0.04445121 -0.00567061 -0.04559945 -0.03419447
+  -0.03235593 -0.00259226  0.00286377 -0.02593034]]
+\end{verbatim}
 
 
-#+begin_src ipython :results output
+
+\begin{verbatim}
 print(diabetes.target[:3])
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: [151.  75. 141.]
+\begin{verbatim}
+[151.  75. 141.]
+\end{verbatim}
 
-#+begin_src ipython :results output
+
+\begin{verbatim}
 print(diabetes.data[:, 2])
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-#+begin_example
+\begin{verbatim}
 [ 0.06169621 -0.05147406  0.04445121 -0.01159501 -0.03638469 -0.04069594
  -0.04716281 -0.00189471  0.06169621  0.03906215 -0.08380842  0.01750591
  -0.02884001 -0.00189471 -0.02560657 -0.01806189  0.04229559  0.01211685
@@ -198,10 +227,10 @@ print(diabetes.data[:, 2])
  -0.03422907  0.00564998  0.08864151 -0.03315126 -0.05686312 -0.03099563
   0.05522933 -0.06009656  0.00133873 -0.02345095 -0.07410811  0.01966154
  -0.01590626 -0.01590626  0.03906215 -0.0730303 ]
-#+end_example
+\end{verbatim}
 
 데이터중 세번째 컬럼자료와 타겟값으로 그래프를 그려보자
-#+begin_src ipython :results raw drawer
+\begin{verbatim}
 import matplotlib.pyplot as plt
 
 plt.scatter(diabetes.data[:, 2], diabetes.target)
@@ -209,31 +238,34 @@ plt.plot([-0.10, 0.15], [0, 350], 'r')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-:results:
-# Out[56]:
-[[file:./obipy-resources/HIa6vM.png]]
-:end:
+\begin{center}
+\includegraphics[width=.9\linewidth]{./obipy-resources/iHIRsI.png}
+\end{center}
 
-** 주어진 데이터와 값들에 대해 의미있는 하나의 선(모델)을 찾고, 결과값을 모르는 데이터를 넣었을 때 예측할 수 있다면?
+\subsection{주어진 데이터와 값들에 대해 의미있는 하나의 선(모델)을 찾고, 결과값을 모르는 데이터를 넣었을 때 예측할 수 있다면?}
+\label{sec:org252a5af}
 
 위 그래프에서 보여주고 있는 빨간색 선처럼 데이터를 가장 잘 표현할 수 있는 선형 함수를 알고 싶은 거다. 적절한 예시인진 모르겠지만.. 느낌적인 느낌으로 ㅋㅋ 넘어가자
 
-*** 직선방정식
-임의의 선을 하나 생각해보자. $y=ax+b$ 로 많이 쓰지만 머신러닝쪽에서는 weight(가중치)와 bias(편향)으로 많이 표현하므로 $w$ 와 $b$ 를 써서 표현해보면,
+\subsubsection{직선방정식}
+\label{sec:org74f8487}
+임의의 선을 하나 생각해보자. \(y=ax+b\) 로 많이 쓰지만 머신러닝쪽에서는 weight(가중치)와 bias(편향)으로 많이 표현하므로 \(w\) 와 \(b\) 를 써서 표현해보면,
 \begin{equation*}
   y = wx + b
 \end{equation*}
-데이터가 나타내는 값은 $x_{i}$ 일 때 $y_{i}$ 이지만 모델링한 이 선형 함수가 나타내는 $x_{i}$ 일 때 $y_{i}$ 값은 $wx_{i}+b$ 이다. 이 값을 $\hat{y_{i}}$ 이라 할 때, $x_{i}$ 에 대한 $\hat{y_{i}}$ 인 점은 $(wx+b)$ 에 의해서 내가 구한 값이 된다. 각 점 $x$ 에 대해, 내가 구한 이 값 $\hat{y}$ 과 실제 데이터 $y$ 의 차이를 줄여나간다면 가장 이상적인 선형 함수를 찾을 수 있을 것이다. 합리적인가? 
+데이터가 나타내는 값은 \(x_{i}\) 일 때 \(y_{i}\) 이지만 모델링한 이 선형 함수가 나타내는 \(x_{i}\) 일 때 \(y_{i}\) 값은 \(wx_{i}+b\) 이다. 이 값을 \(\hat{y_{i}}\) 이라 할 때, \(x_{i}\) 에 대한 \(\hat{y_{i}}\) 인 점은 \((wx+b)\) 에 의해서 내가 구한 값이 된다. 각 점 \(x\) 에 대해, 내가 구한 이 값 \(\hat{y}\) 과 실제 데이터 \(y\) 의 차이를 줄여나간다면 가장 이상적인 선형 함수를 찾을 수 있을 것이다. 합리적인가? 
 
-- [ ] 데이터의 점과 직선과의 거리는 연산이 많아서 이용이 안되는걸까?
+\begin{itemize}
+\item[{$\square$}] 데이터의 점과 직선과의 거리는 연산이 많아서 이용이 안되는걸까?
+\end{itemize}
 
-$y_{i}$ 와 $\hat{y_{i}}$ 의 차이는  $(\ y-\hat{y}\ )^2$, $\left\lvert\ y - \hat{y}\ \right\rvert$ 등으로 나타낼 수 있다.
+\(y_{i}\) 와 \(\hat{y_{i}}\) 의 차이는  \((\ y-\hat{y}\ )^2\), \(\left\lvert\ y - \hat{y}\ \right\rvert\) 등으로 나타낼 수 있다.
 
-*** 제곱오차(SE) 와 포물선
-$y_{i}$ 와 $\hat{y_{i}}$ 의 제곱오차는 
+\subsubsection{제곱오차(SE) 와 포물선}
+\label{sec:org18603d0}
+\(y_{i}\) 와 \(\hat{y_{i}}\) 의 제곱오차는 
 \begin{equation*}
   SE = \sum_{i=0}^{n-1} (y_{i} - \hat{y_{i}})^2
 \end{equation*}
@@ -247,9 +279,9 @@ $y_{i}$ 와 $\hat{y_{i}}$ 의 제곱오차는
 \end{split}
 \end{equation*}
 
-$w$ 에 대해 간략히 해보면 $w$ 의 이차방정식임을 알 수 있고, 이차항의 계수가 ${x_{0}}^2 + \dots + {x_{n-1}}^2$ 인 양수이므로 아래쪽으로 볼록한 최소값이 존재하는 함수임을 알 수 있다. 최소값이 되는 지점의 w값을 찾으면 된다. 최소값을 찾아가는 방법이라 할 수 있는데, 이차방정식 포물선의 성질을 이용한다고 보면 된다.
+\(w\) 에 대해 간략히 해보면 \(w\) 의 이차방정식임을 알 수 있고, 이차항의 계수가 \({x_{0}}^2 + \dots + {x_{n-1}}^2\) 인 양수이므로 아래쪽으로 볼록한 최소값이 존재하는 함수임을 알 수 있다. 최소값이 되는 지점의 w값을 찾으면 된다. 최소값을 찾아가는 방법이라 할 수 있는데, 이차방정식 포물선의 성질을 이용한다고 보면 된다.
 
-$ax^2+bx+c$ $(a>0)$ 인 포물선에 대해,
+\(ax^2+bx+c\) \((a>0)\) 인 포물선에 대해,
 \begin{equation}
 한 점에서 기울기가 음수면, x 값이 커져감에 따라 최소값을 향해 간다. 반대로 기울기가 양수이고, x값이 커져간다면 최소값에서 멀어지고 있는 중이다.
 \end{equation}
@@ -257,10 +289,11 @@ $ax^2+bx+c$ $(a>0)$ 인 포물선에 대해,
 기울기가 상대적으로 급하게 기울어져 있다면 최소값에서 멀리있다고 볼 수 있다. 반대로 기울기가 완만해져간다면 최소값에 가까워져가는 중이다. 
 \end{equation}
 
-이 성질들을 이용하면, $w_{j}$ 에서 다음 $w_{j+1}$ 가 얼마만큼 어느방향으로 갈지를 기울기자체 그대로 활용할 수 있다. 
+이 성질들을 이용하면, \(w_{j}\) 에서 다음 \(w_{j+1}\) 가 얼마만큼 어느방향으로 갈지를 기울기자체 그대로 활용할 수 있다. 
 
-*** Gradient Descent
-우리는 최소값을 향해 가야하므로 x값이 최소값 방향으로 움직이려면 기울기부호와 반대방향으로 가야할 것이고$(1)$, 최소값과 먼거리에서는 크게 움직여 효율적이고 빠르게 접근하는게 좋을 것이고 가까워질수록 섬세하게 접근하는게 좋을 것이다$(2)$. 즉, 기울기의 크기와 부호를 둘다 적절하게 활용할 수 있다.
+\subsubsection{Gradient Descent}
+\label{sec:orgd69b2e0}
+우리는 최소값을 향해 가야하므로 x값이 최소값 방향으로 움직이려면 기울기부호와 반대방향으로 가야할 것이고\((1)\), 최소값과 먼거리에서는 크게 움직여 효율적이고 빠르게 접근하는게 좋을 것이고 가까워질수록 섬세하게 접근하는게 좋을 것이다\((2)\). 즉, 기울기의 크기와 부호를 둘다 적절하게 활용할 수 있다.
 
 포물선 성질을 활용한 이것을 수식으로 표현해보면,
 \begin{equation*}
@@ -273,19 +306,24 @@ $ax^2+bx+c$ $(a>0)$ 인 포물선에 대해,
   x_{j+1} = x_{j} -\gamma_{j}\frac{\partial y}{\partial x_{j}},\ &&n \geq 0
 \end{align*}
 
-이다. 적절한 $\gamma_{j}$ 은 기울기값만으로 접근하는것보다 매 step마다 더 효율적으로 접근하게 해줄 것이다. $( y - \hat{y}\ )$ 가 $\gamma_{j}$ 역할을 하는 걸로 생각했는데 정리하면서 보니 아니다. 일단 $\gamma$ 변수는 없다치고 .. 나중에 $\gamma$ 값을 적절하게 변형시키는 함수도 공부해보자. 두야..
-- [ ] $\gamma$ step size 함수 공부해보기
-  
-**** SE가 최소가 되는 w를 찾기 위해 Gradient Descent를 SE와 w의 관계에 적용
-제곱오차식의 $w$ 에 대해 gradient descent를 적용시켜보자.
+이다. 적절한 \(\gamma_{j}\) 은 기울기값만으로 접근하는것보다 매 step마다 더 효율적으로 접근하게 해줄 것이다. \(( y - \hat{y}\ )\) 가 \(\gamma_{j}\) 역할을 하는 걸로 생각했는데 정리하면서 보니 아니다. 일단 \(\gamma\) 변수는 없다치고 .. 나중에 \(\gamma\) 값을 적절하게 변형시키는 함수도 공부해보자. 두야..
+\begin{itemize}
+\item[{$\square$}] \(\gamma\) step size 함수 공부해보기
+\end{itemize}
+
+\begin{enumerate}
+\item SE가 최소가 되는 w를 찾기 위해 Gradient Descent를 SE와 w의 관계에 적용
+\label{sec:org63865a6}
+제곱오차식의 \(w\) 에 대해 gradient descent를 적용시켜보자.
 
 \begin{align}
   w_{j+1} = w_{j} -\frac{\partial SE}{\partial w_{j}},\ &&j \geq 0
 \end{align}
 
-**** $w_{j}$ 에서의 $\bigtriangledown SE$ (SE의 변화량)을 가지고 있는 정보로 표현해보자.
-$\bigtriangledown SE$ 인 $\frac{\partial SE}{\partial w_{j}}$ 를 구해보자. 
-다시, 제곱 오차식($SE$)을 보자.
+\item \(w_{j}\) 에서의 \(\bigtriangledown SE\) (SE의 변화량)을 가지고 있는 정보로 표현해보자.
+\label{sec:org456507c}
+\(\bigtriangledown SE\) 인 \(\frac{\partial SE}{\partial w_{j}}\) 를 구해보자. 
+다시, 제곱 오차식(\(SE\))을 보자.
 \begin{equation*}
 \begin{split}
   SE & = \sum_{i=0}^{n-1} ({y_{i} - wx_{i} - b})^2 \\
@@ -305,14 +343,16 @@ $\bigtriangledown SE$ 인 $\frac{\partial SE}{\partial w_{j}}$ 를 구해보자.
 \end{split}
 \end{equation}
 
-**** se변화량을 Gradient Descent에 적용
-(4)식에 의해 나온 식에서 summation 앞의 2는 $\gamma_{j}$ 에 의해 보정한다치고(크거나 작게, 스텝마다 다르게..) 우선 제거하자.(내 마음대로..)
+\item se변화량을 Gradient Descent에 적용
+\label{sec:org850767f}
+(4)식에 의해 나온 식에서 summation 앞의 2는 \(\gamma_{j}\) 에 의해 보정한다치고(크거나 작게, 스텝마다 다르게..) 우선 제거하자.(내 마음대로..)
 
 \begin{equation*}
 w_{j+1} = w_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})x_{i} 
 \end{equation*}
 
-**** 마찬가지로 $b$ 도 적용해보자
+\item 마찬가지로 \(b\) 도 적용해보자
+\label{sec:org675433b}
 \begin{equation*}
 \begin{split}
   SE & = \sum_{i=0}^{n-1} ({y_{i} - wx_{i} - b})^2 \\
@@ -320,7 +360,7 @@ w_{j+1} = w_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})x_{i}
 \end{split}
 \end{equation*}
 
-$n$ 은 양의 정수이므로 $w$ 와 마찬가지로 아래쪽으로 볼록한 포물선이므로 동일하게 적용할 수 있다.
+\(n\) 은 양의 정수이므로 \(w\) 와 마찬가지로 아래쪽으로 볼록한 포물선이므로 동일하게 적용할 수 있다.
 
 \begin{equation}
 \begin{split}
@@ -332,258 +372,117 @@ $n$ 은 양의 정수이므로 $w$ 와 마찬가지로 아래쪽으로 볼록한
 \end{split}
 \end{equation}
 
-**** w, b 에 대한 gradient Descent
+\item w, b 에 대한 gradient Descent
+\label{sec:orgf38a252}
 \begin{equation*}
 w_{j+1} = w_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})x_{i} \\
 b_{j+1} = b_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})
 \end{equation*}
-$y = wx + b$ 인 1차함수가 ($w_{1}$, $b_{1}$), ($w_{2}$, $b_{2}$), $\dots$, iterate 할 수록 찾고자하는 $SE$ 의 최소값에 점점 가까워질 것이다. 
+\(y = wx + b\) 인 1차함수가 (\(w_{1}\), \(b_{1}\)), (\(w_{2}\), \(b_{2}\)), \(\dots\), iterate 할 수록 찾고자하는 \(SE\) 의 최소값에 점점 가까워질 것이다. 
 
-**** 작성된 코드와 비교
+\item 작성된 코드와 비교
+\label{sec:orgbf0293c}
 루프가 왜 두번 도는지 이해가 되는군.. 좀 헷갈렸었다. w 값을 한번 업데이트하려면 n개의 데이터를 매번 순회해야한다.
 
 오늘은 여기까지.. 이해가 안되서 적어보면서 정리중인데 제대로 이해하고 있는지..
 
-- [ ] 정리를 하고 다시 코드를 봤는데.. 내가 잘못 이해하고있나보다..T.T 코드와 다르네..
-  + 이론식하곤 다른데, 최소값에 더 빠르게 수렴하는 트릭인가? 
+\begin{itemize}
+\item[{$\square$}] 정리를 하고 다시 코드를 봤는데.. 내가 잘못 이해하고있나보다..T.T 코드와 다르네..
+\end{itemize}
 
-#+begin_src ipython :exports code
-  class Neuron:
+\begin{verbatim}
+class Neuron:
 
-      def __init__(self):
-          self.w = 1.0     # 가중치를 초기화합니다
-          self.b = 1.0     # 절편을 초기화합니다
+    def __init__(self):
+	self.w = 1.0     # 가중치를 초기화합니다
+	self.b = 1.0     # 절편을 초기화합니다
 
-      def forpass(self, x):
-          y_hat = x * self.w + self.b       # 직선 방정식을 계산합니다
-          return y_hat
+    def forpass(self, x):
+	y_hat = x * self.w + self.b       # 직선 방정식을 계산합니다
+	return y_hat
 
-      def backprop(self, x, err):
-          w_grad = x * err    # 가중치에 대한 그래디언트를 계산합니다
-          b_grad = 1 * err    # 절편에 대한 그래디언트를 계산합니다
-          return w_grad, b_grad
+    def backprop(self, x, err):
+	w_grad = x * err    # 가중치에 대한 그래디언트를 계산합니다
+	b_grad = 1 * err    # 절편에 대한 그래디언트를 계산합니다
+	return w_grad, b_grad
 
-      def fit(self, x, y, epochs=100):
-          for i in range(epochs):           # 에포크만큼 반복합니다
-              for x_i, y_i in zip(x, y):    # 모든 샘플에 대해 반복합니다
-                  y_hat = self.forpass(x_i) # 정방향 계산
-                  err = -(y_i - y_hat)      # 오차 계산
-                  w_grad, b_grad = self.backprop(x_i, err)  # 역방향 계산
-                  self.w -= w_grad          # 가중치 업데이트
-                  self.b -= b_grad          # 절편 업데이트
-              if (i % 2 == 0):
-                  plt.scatter(x, [self.forpass(x_i) for x_i in x])
+    def fit(self, x, y, epochs=100):
+	for i in range(epochs):           # 에포크만큼 반복합니다
+	    for x_i, y_i in zip(x, y):    # 모든 샘플에 대해 반복합니다
+		y_hat = self.forpass(x_i) # 정방향 계산
+		err = -(y_i - y_hat)      # 오차 계산
+		w_grad, b_grad = self.backprop(x_i, err)  # 역방향 계산
+		self.w -= w_grad          # 가중치 업데이트
+		self.b -= b_grad          # 절편 업데이트
+\end{verbatim}
 
-#+end_src
+데이터한개 확인할때마다 기울기가 조정되네..
+\end{enumerate}
 
-#+RESULTS:
-: # Out[923]:
-
-**** review
-데이터한개 확인할때마다 w와 b가 조정되네..
-w만 비교해보면,
-\begin{equation*}
-\begin{split}
-w_{j+1} & = w_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - y_{i})x_{i} \\
-        & = w_{j} - \sum_{i=0}^{n-1} (w_{j}x_{i} + b_{j} - y_{i}) \\
-\end{split}
-\end{equation*}
-평균값에 대한 기울기를 구할 때까지 같은 기울기를 쓴다.
-\begin{equation*}
-\begin{split}
-w_{i+1} & = w_{i} - (\hat{y_{i}} - y_{i})x_{i} \\
-        & = w_{i} - (w_{i}x_{i} + b_{i} - y_{i})x_{i} \\
-\end{split}
-\end{equation*}
-매번 기울기가 i번째 점 따라 변한다. 그 변화량이 다음 점에 영향을 준다.
-
-좀 더 생각해보자 코드를 수식으로 변환 못하겠다;;
-**** 시각화해서 비교해보자.
-- [ ] 여러개의 그래프로 어떻게 나타내지? 
-#+begin_src ipython :results raw drawer
-  x = diabetes.data[:, 2]
-  y = diabetes.target
-
-  plt.scatter(x, y)
-  neuron = Neuron()
-  neuron.fit(x, y)
-  plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-# Out[875]:
-[[file:./obipy-resources/LYQUyc.png]]
-:end:
-
-#+begin_src ipython :results raw drawer  
-  import matplotlib.pyplot as plt
-  import numpy as np
-
-  class Neuron2:
-
-      def __init__(self):
-          self.w = 1.0     # 가중치를 초기화합니다
-          self.b = 1.0     # 절편을 초기화합니다
-
-      def forpass(self, x):
-          y_hat = x * self.w + self.b       # 직선 방정식을 계산합니다
-          return y_hat
-
-      def backprop(self, x, err):
-          w_grad = x * err    # 가중치에 대한 그래디언트를 계산합니다
-          b_grad = 1 * err    # 절편에 대한 그래디언트를 계산합니다
-          return w_grad, b_grad
-
-      def fit(self, x, y, epochs=1000):
-          for i in range(epochs):           # 에포크만큼 반복합니다
-              w_grad = 0
-              b_grad = 0
-              for x_i, y_i in zip(x, y):    # 모든 샘플에 대해 반복합니다
-                  y_hat = self.forpass(x_i) # 정방향 계산
-                  err = -(y_i - y_hat)      # 오차 계산
-                  w_grad_seg, b_grad_seg = self.backprop(x_i, err)  # 역방향 계산
-                  # w_grad, b_grad = self.backprop(x_i, err)  # 역방향 계산
-
-                  # self.w -= w_grad  
-                  # self.b -= b_grad
-                  w_grad += w_grad_seg 
-                  b_grad += b_grad_seg
-              w_grad = w_grad / len(x)
-              b_grad = b_grad / len(x)
-              self.w -= w_grad          # 가중치 업데이트
-              self.b -= b_grad          # 절편 업데이트
-
-              if (i % 2 == 0):
-                  plt.scatter(x, [self.forpass(x_i) for x_i in x])
-
-  plt.scatter(x, y)
-  neuron2.fit(x, y)
-  plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-# Out[876]:
-[[file:./obipy-resources/tjrQye.png]]
-:end:
-
-너무 천천히 수렴하는 거 같은데.. 그리고 summation 결과값에 평균을 내야 제대로 표현되는거 같다.
-
-#+begin_src ipython :results output
-  y2 = y.copy()
-  y2[-1] = 500
-print(y2[-1])
-#+end_src
-
-#+RESULTS:
-: 500.0
-
-
-#+begin_src ipython :results raw drawer
-  plt.scatter(x, y2)
-  neuron = Neuron()
-  neuron.fit(x, y2)
-  plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-# Out[885]:
-[[file:./obipy-resources/g58hcY.png]]
-:end:
-첫번째 코드는 예상했던대로 마지막 $y$가 이상값이면 이 값이 영향을 준다. weght 영향은 크게 안 받나? bias 값에 영향을 많이 주는군. 기울기는 변화가 없네..
-
-#+begin_src ipython :results raw drawer
-  plt.scatter(x, y2)
-  neuron2.fit(x, y2)
-  plt.show()
-#+end_src
-
-#+RESULTS:
-:results:
-# Out[886]:
-[[file:./obipy-resources/nYebC9.png]]
-:end:
-두번째 코드는 평균값에 대한 기울기라서 크게 영향을 받지 않는다. 
-
-** 경사 하강법으로 학습하는 방법
-:PROPERTIES:
-:header-args:bash: :results verbatim
-:header-args:elisp: :exports both
-:header-args:ipython: :session mglearn17 :tangle "mglearn200917.py" :exports both
-:END:
+\subsection{경사 하강법으로 학습하는 방법}
+\label{sec:org7fd264e}
 polyfit을 쓰면 안되나? 쓰면 된다. 하지만, 함수를 만들줄 알고 설계도 해볼 목적으로..
-#+begin_src ipython
+\begin{verbatim}
 x = diabetes.data[:, 2]
 y = diabetes.target
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: # Out[28]:
+\begin{verbatim}
+# Out[624]:
+\end{verbatim}
 
-#+begin_src ipython :results output
+
+\begin{verbatim}
 w = 1.0
 b = 1.0
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-x[0]에서 w와 b를 임의로 정했을 때 y_hat(예상값)을 출력해본다.
-#+begin_src ipython :results output
+x[0]에서 w와 b를 임의로 정했을 때 y\textsubscript{hat}(예상값)을 출력해본다.
+\begin{verbatim}
 y_hat = x[0] * w + b
 print(y_hat)
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: 1.0616962065186886
+\begin{verbatim}
+1.0616962065186886
+\end{verbatim}
 
-#+begin_src ipython :results output
+
+\begin{verbatim}
 print(y[0])
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: 151.0
+\begin{verbatim}
+151.0
+\end{verbatim}
 
-#+begin_src ipython :results output
+
+\begin{verbatim}
 w_inc = w + 0.1
 y_hat_inc = w_inc * x[0] + b
 print(y_hat_inc)
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: 1.0678658271705574
+\begin{verbatim}
+1.0678658271705574
+\end{verbatim}
+
 w의 변화량에 대한 예측값의 변화량
-#+begin_src ipython :results output
+\begin{verbatim}
 w_rate = (y_hat_inc - y_hat) / (w_inc - w)
 print(w_rate)
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: 0.061696206518688734
-...
+\begin{verbatim}
+0.061696206518688734
+\end{verbatim}
 
-** 선형 회귀 심플 뉴런
-#+begin_src ipython :results output
+\ldots{}
 
-#+end_src
-#+begin_src ipython :results output
+\subsection{선형 회귀 심플 뉴런}
+\label{sec:org462ee5e}
 
-#+end_src
-#+begin_src ipython :results output
-
-#+end_src
-#+begin_src ipython :results output
-
-#+end_src
-#+begin_src ipython :results output
-
-#+end_src
-#+begin_src ipython :results output
-
-#+end_src
-
-** 분류하는 뉴런
+\subsection{분류하는 뉴런}
+\label{sec:org3e77c32}
 이진 분류
-#+begin_src ipython :results output
-
-#+end_src
+\end{document}
