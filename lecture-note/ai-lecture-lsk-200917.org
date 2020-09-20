@@ -345,7 +345,8 @@ $y = wx + b$ 인 1차함수가 ($w_{1}$, $b_{1}$), ($w_{2}$, $b_{2}$), $\dots$, 
 오늘은 여기까지.. 이해가 안되서 적어보면서 정리중인데 제대로 이해하고 있는지..
 
 - [ ] 정리를 하고 다시 코드를 봤는데.. 내가 잘못 이해하고있나보다..T.T 코드와 다르네..
-  + 이론식하곤 다른데, 최소값에 더 빠르게 수렴하는 트릭인가? 
+  + 이론식하곤 다른데, 최소값에 더 빠르게 수렴하는 트릭인가?
+  + 이상점을 필터링 잘 해놓은 자료라면 이 방법이 유의미하나?
 
 #+begin_src ipython :exports code
   class Neuron:
@@ -468,12 +469,12 @@ w_{i+1} & = w_{i} - (\hat{y_{i}} - y_{i})x_{i} \\
 [[file:./obipy-resources/tjrQye.png]]
 :end:
 
-너무 천천히 수렴하는 거 같은데.. 그리고 summation 결과값에 평균을 내야 제대로 표현되는거 같다.
+summation 결과값에 평균을 내야 제대로 표현되는거 같다.
 
 #+begin_src ipython :results output
   y2 = y.copy()
   y2[-1] = 500
-print(y2[-1])
+  print(y2[-1])
 #+end_src
 
 #+RESULTS:

@@ -98,7 +98,7 @@ neuron2.fit(x, y)
 plt.show()
 
 y2 = y.copy()
-  y2[-1] = 500
+y2[-1] = 500
 print(y2[-1])
 
 plt.scatter(x, y2)
