@@ -1,0 +1,8 @@
+*.npy
+/lecture-note/DataScience/data/lamp_classification/
+/lecture-note/model/
+/lecture-note/mglearn200922-2.py
+/lecture-note/mglearn200922.py
+/lecture-note/mglearn2009222.py
+/lecture-note/mglearn200924.py
+/lecture-note/mglearn200925.py
