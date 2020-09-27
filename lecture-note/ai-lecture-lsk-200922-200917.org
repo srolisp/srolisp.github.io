@@ -1,0 +1,121 @@
+#+title: Logistic Regression
+#+subtitle: 5 weeks by lsk
+#+date: <2020-09-22 Wed 16:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn222 :tangle "mglearn2009222.py" :exports both
+
+#+author: srolisp
+
+* Logistic Regression
+$a$, $b$, .. 파라메터에 의해 $x$ 에 대해 $y$ 값이 종속적인 경우는 Linear Regression 으로 추정하면 되지만, 
+중간 범주가 없는 0, 1의 값으로 y값을 표현하고 싶다면 어떻게 해야할까? 에 대한 해답으로 제안된게 Logistic Regression 이다.
+
+이 Logistic Regression 에 쓰이는 함수로 로지스틱 함수인 sigmoid 함수가 있는데,
+
+\begin{equation*}
+  y = \frac{1}{1 + e^{-x}}
+\end{equation*}
+
+# #+begin_src ipython :results raw drawer :exports results
+#   import matplotlib.pyplot as plt
+#   import numpy as np
+#   import math
+
+#   x = np.linspace(-10,10,100)
+#   def sigmoid(x):
+#     return (1 / (1 + math.exp(-1 * x)))
+
+#   plt.scatter(x, [sigmoid(x_i) for x_i in x])
+#   plt.show()
+
+# #+end_src
+
+#+RESULTS:
+:results:
+# Out[39]:
+[[file:./obipy-resources/Wuse7l.png]]
+:end:
+
+** 위에서 언급한 상황으로 인해 logistic regression 쓰기로 결정했다고 하자.
+인풋은 여러가지 특성들($x_{1}$, $x_{2}$, $\dots$, $x_{n-1}$, $x_{n}$)이고 아웃풋은 1 이거나 0 인 경우이다.
+확률적 접근으로 
+
+\begin{equation*}
+\begin{split}
+  P(Y=1|X=\overrightarrow{x}) & = b + w_{1}x_{1} + w_{2}x_{2} + w_{3}x_{3} ... + w_{n}x_{n} \\
+                              & = b + \overrightarrow{w^{T}}\overrightarrow{x}
+\end{split}
+\end{equation*}
+
+여기서 Y=1 인 확률을 다른것들에 비해 좀 더 돋보이게 해주는 작업을 해준다. 거기에 쓰이는 방법으로 $odds$ 가 있는데
+\begin{equation*}
+odds = \frac{P(A)}{1 - P(A)}
+\end{equation*}
+
+# #+begin_src ipython :results raw drawer :exports results
+#   x_odds = np.linspace(0.0,0.9999,1000)
+#   def odds(x):
+#     return (x / (1 - x))
+
+#   plt.scatter(x_odds, [odds(x_i) for x_i in x_odds])
+#   plt.show()
+
+# #+end_src
+
+# #+RESULTS:
+# :results:
+# # Out[43]:
+# [[file:./obipy-resources/t4LhhO.png]]
+# :end:
+
+
+\begin{equation*}
+\begin{split}
+  \frac{P(Y=1|X=\overrightarrow{x})}{1-P(Y=1|X=\overrightarrow{x})} = b + \overrightarrow{w^{T}}\overrightarrow{x}
+\end{split}
+\end{equation*}
+
+좌우변의 도메인(?) 범위를 맞춰주기 위해 log를 좌변에 취해주자. 로그함수 형태가 결과값에 영향을 주진 않을 것이다.
+
+\begin{equation*}
+\begin{split}
+  \log(\frac{P(Y=1|X=\overrightarrow{x})}{1-P(Y=1|X=\overrightarrow{x})}) = b + \overrightarrow{w^{T}}\overrightarrow{x}
+\end{split}
+\end{equation*}
+
+좌변 $p(\overrightarrow{x})$ 와 우변 $a$ 로 치환해서 정리해보자
+
+\begin{equation*}
+\begin{split}
+        \frac{p(x)}{1-p(x)} & = e^a \\
+                       p(x) & = e^a(1-p(x)) \\
+                            & = e^a - e^ap(x) \\
+                p(x)(1+e^a) & = e^a
+\end{split}
+\end{equation*}
+
+
+\begin{equation*}
+\begin{split}
+                p(x) & = \frac{e^a}{(1+e^a)} \\
+                     & = \frac{1}{1+e^{-a}} \\ \\
+P(Y=1|X=\overrightarrow{x}) & = \frac{1}{1+e^{-\overrightarrow{w^{T}}\overrightarrow{x}}}   
+\end{split}
+\end{equation*}
+
+** Gradient 계산
+파라메터($w$)를 조정해서 주어진 데이터를 가장 잘 설명해줄 수 있는 모양을 찾아보기위해 MLE 를 써보자.
+
+이미 데이터와 모델은 주어져 있다.
+
+\begin{equation*}
+\begin{split}
+& D=((x_{i}, y_{i}), (x_{2}, y_{2}),\dots , (x_{n}, y_{n})), \ x_{i}\in R, \ y_{i}\in\{0,1\} \\
+& y_{i}\sim Bernoulli(\sigma(w^{T}x_{i}))\ indep. \\
+& \sigma(a) = \frac{1}{1 + e^{-a}}  & \alpha_{i} = \sigma(w^{T}x_{i}) \\
+& W_{MLE} \in argmax_{w} p(D|w)
+\end{split}
+\end{equation*}
+

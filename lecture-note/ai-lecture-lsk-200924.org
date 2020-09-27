@@ -1,0 +1,23 @@
+#+title: 중소벤처기업부 - ai 경진대회 2020
+#+subtitle: 6 weeks by ???
+#+date: <2020-09-22 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn24 :tangle "mglearn200924.py" :exports both
+
+#+author: srolisp
+
+* 컨텐츠기반 유사 영화 추천
+https://blog.naver.com/myincizor/221823747607
+
+** 사이킷런을 활용하여 TF-IDF 및 코사인 유사도를 구현할 예정
+[출처] [실습 예제로 배우는 자연어 처리]TF-IDF, 코사인 유사도 (4) - 영화 추천 시스템|작성자 인사이저
+
+*** 한글, 숫자, 영어 빼고 전부 제거
+#+begin_src ipython :results output
+  import re
+
+  def sub_special(s): 
+    return re.sub(r'[^ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z ]','', s)
+#+end_src

@@ -1,0 +1,823 @@
+#+title: 
+#+subtitle: 6 weeks by ???
+#+date: <2020-09-22 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn25 :tangle "mglearn200925.py" :exports both
+
+#+author: srolisp
+
+* 자연어처리
+KObert Rbert 등등 최신 트렌드  
+GPT-3
+
+* 실습 예제 완성본
+#+begin_src bash :results verbatim
+  jupyter nbconvert --to script "DataScience/data/lamp_classification/신호등분류해보기.ipynb"
+  jupyter nbconvert --to script "DataScience/data/lamp_classification/.ipynb_checkpoints/신호등분류해보기-checkpoint.ipynb"
+#+end_src
+
+#+RESULTS:
+
+
+* 실습
+
+** 파일로부터 데이터 받아오기
+#+begin_src ipython :results output
+  from PIL import Image
+  import os, glob, numpy as np
+  from sklearn.model_selection import train_test_split
+  caltech_dir = "DataScience/data/lamp_classification/Seperate"
+  categories = ['GREEN', 'GREEN_LEFT', 'RED', 'RED_REFT', 'ORANGE', 'OFF']
+  nb_classes = len(categories)
+
+  image_w = 64
+  image_h = 64
+
+  pixels = image_h * image_w * 3
+
+  X = []
+  y = []
+
+  for idx, cat in enumerate(categories):
+    label = [0 for i in range(nb_classes)]
+    label[idx] = 1                # [1, 0, 0, ..] [0, 1, ....] [0, 0, 1, ...]
+
+    image_dir = caltech_dir + "/" + cat
+    files = glob.glob(image_dir+"/*.jpg")
+
+    print(cat, " 파일 길이 : ", len(files))
+
+    for i, f in enumerate(files):
+      img = Image.open(f)
+      img = img.convert("RGB")
+      img = img.resize((image_w, image_h))
+      data = np.asarray(img)
+
+      X.append(data)            # [..]
+      y.append(label)           # [0, ... , 1, 0,..]
+
+      if i % 700 == 0:
+        print(cat, ": ", f)
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+GREEN  파일 길이 :  410
+GREEN :  DataScience/data/lamp_classification/Seperate/GREEN/ft_1201_1.jpg
+GREEN_LEFT  파일 길이 :  120
+GREEN_LEFT :  DataScience/data/lamp_classification/Seperate/GREEN_LEFT/ft_0163_2.jpg
+RED  파일 길이 :  262
+RED :  DataScience/data/lamp_classification/Seperate/RED/ft_1145_1.jpg
+RED_REFT  파일 길이 :  0
+ORANGE  파일 길이 :  51
+ORANGE :  DataScience/data/lamp_classification/Seperate/ORANGE/ft_0067_3.jpg
+OFF  파일 길이 :  29
+OFF :  DataScience/data/lamp_classification/Seperate/OFF/ft_0145_1.jpg
+#+end_example
+
+** np array 에 데이터 넣고 train, test 셋 나누기
+#+begin_src ipython :results output
+  X = np.array(X)
+  y = np.array(y)
+
+  X_train, X_test, y_train, y_test = train_test_split(X, y) # test_size rate: 0.25
+  xy = (X_train, X_test, y_train, y_test)
+  np.save("DataScience/data/lamp_classification/Seperate", xy)
+
+  print("ok", len(y))
+#+end_src
+
+#+RESULTS:
+: ok 872
+
+** tensorflow
+#+begin_src ipython :results output
+  import os, glob, numpy as np
+  from keras.models import Sequential
+  from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
+  from keras.callbacks import EarlyStopping, ModelCheckpoint
+  import matplotlib.pyplot as train_test_split
+  # import keras.backend.tensorflow_backend as K
+  import tensorflow as tf
+
+  gpus = tf.config.experimental.list_physical_devices('GPU')
+
+  if gpus:
+    try:
+      tf.config.experimental.set_virtual_device_configuration(gpus[0], [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=1024)])
+    except RuntimeError as e:
+      print(e)
+
+  X_train = X_train.astype(float) / 255
+  X_test = X_test.astype(float) / 255
+  print(X_train[1])
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[[[0.43529412 0.43137255 0.48235294]
+  [0.43529412 0.43529412 0.48235294]
+  [0.43921569 0.42745098 0.47843137]
+  ...
+  [0.44705882 0.48627451 0.51764706]
+  [0.43529412 0.48235294 0.5254902 ]
+  [0.41960784 0.4627451  0.50980392]]
+
+ [[0.4        0.42352941 0.4627451 ]
+  [0.41176471 0.41960784 0.4627451 ]
+  [0.41960784 0.40784314 0.45882353]
+  ...
+  [0.43529412 0.47843137 0.51372549]
+  [0.42745098 0.47058824 0.51372549]
+  [0.40784314 0.45098039 0.49803922]]
+
+ [[0.36078431 0.40392157 0.43137255]
+  [0.37647059 0.39215686 0.43137255]
+  [0.38431373 0.38039216 0.42745098]
+  ...
+  [0.43921569 0.47843137 0.51372549]
+  [0.42745098 0.46666667 0.50588235]
+  [0.40392157 0.45098039 0.49803922]]
+
+ ...
+
+ [[0.96470588 0.96470588 0.96470588]
+  [0.96078431 0.96470588 0.97254902]
+  [0.95686275 0.96078431 0.97647059]
+  ...
+  [0.4        0.43137255 0.45490196]
+  [0.38431373 0.41176471 0.43921569]
+  [0.38823529 0.41176471 0.42745098]]
+
+ [[0.96470588 0.96470588 0.96470588]
+  [0.96470588 0.96470588 0.96470588]
+  [0.96078431 0.96078431 0.96470588]
+  ...
+  [0.40392157 0.42745098 0.44705882]
+  [0.42352941 0.44313725 0.4627451 ]
+  [0.44705882 0.46666667 0.48235294]]
+
+ [[0.96470588 0.96470588 0.96470588]
+  [0.96470588 0.96470588 0.96470588]
+  [0.96078431 0.96078431 0.95686275]
+  ...
+  [0.40784314 0.42745098 0.44313725]
+  [0.4627451  0.48235294 0.49803922]
+  [0.50980392 0.52941176 0.54509804]]]
+#+end_example
+
+#+begin_src ipython :results output
+  with tf.device('/device:CPU:0'):
+    model = Sequential()
+    model.add(Conv2D(32, (3,3), padding='same', input_shape=X_train.shape[1:], activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(64, (3,3), padding="same", activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Flatten())
+    model.add(Dense(256, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Dense(nb_classes, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model_dir = './model'
+
+    if not os.path.exists(model_dir):
+      os.mkdir(model_dir)
+
+    model_path = model_dir + '/multi_img_classfication.model'
+    checkpoint = ModelCheckpoint(filepath=model_path, monitor='val_loss', verbose=1, save_best_only=True)
+    early_stopping = EarlyStopping(monitor='val_loss', patience=6)
+
+  model.summary()
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d (Conv2D)              (None, 64, 64, 32)        896       
+_________________________________________________________________
+max_pooling2d (MaxPooling2D) (None, 32, 32, 32)        0         
+_________________________________________________________________
+dropout (Dropout)            (None, 32, 32, 32)        0         
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 32, 32, 64)        18496     
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 16, 16, 64)        0         
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 16, 16, 64)        0         
+_________________________________________________________________
+flatten (Flatten)            (None, 16384)             0         
+_________________________________________________________________
+dense (Dense)                (None, 256)               4194560   
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 256)               0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 6)                 1542      
+=================================================================
+Total params: 4,215,494
+Trainable params: 4,215,494
+Non-trainable params: 0
+_________________________________________________________________
+#+end_example
+
+#+begin_src ipython :results output
+  from tensorflow.keras.preprocessing.image import *
+  datagen = ImageDataGenerator(featurewise_center=True,
+  featurewise_std_normalization=True,
+  rotation_range=20,
+  width_shift_range=0.2,
+  height_shift_range=0.2,
+  horizontal_flip=True)
+
+  datagen.fit(X_train)
+  
+#+end_src
+
+#+RESULTS:
+
+#+begin_src ipython :results value :async t
+history = model.fit(X_train, y_train, batch_size=32, epochs=10, validation_data=(X_test, y_test), callbacks=[checkpoint, early_stopping])
+
+print("정확도 : %.4f" % (model.evaluate(X_test, y_test)[1]))
+#+end_src
+
+#+RESULTS:
+: # Out[6]:
+
+#+begin_src ipython :results raw drawer
+import matplotlib.pyplot as plt
+y_vloss = history.history['val_loss']
+y_loss = history.history['loss']
+
+x_len = np.arange(len(y_loss))
+
+plt.plot(x_len, y_vloss, marker='.', c='red', label='val_set_loss')
+plt.plot(x_len, y_loss, marker='.', c='blue', label='train_set_loss')
+plt.legend()
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.grid()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[7]:
+[[file:./obipy-resources/XHPgjm.png]]
+:end:
+
+
+
+#+begin_src ipython :results output
+  with tf.device('/device:CPU:0'):
+    model = Sequential()
+    model.add(Conv2D(32, (3,3), padding='same', input_shape=X_train.shape[1:], activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(64, (3,3), padding="same", activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Flatten())
+    model.add(Dense(256, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Dense(nb_classes, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='nadam', metrics=['accuracy'])
+    model_dir = './model'
+
+    if not os.path.exists(model_dir):
+      os.mkdir(model_dir)
+
+    model_path = model_dir + '/multi_img_classfication.model'
+    checkpoint = ModelCheckpoint(filepath=model_path, monitor='val_loss', verbose=1, save_best_only=True)
+    early_stopping = EarlyStopping(monitor='val_loss', patience=6)
+
+  model.summary()
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Model: "sequential_1"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_2 (Conv2D)            (None, 64, 64, 32)        896       
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 32, 32, 32)        0         
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 32, 32, 32)        0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 32, 32, 64)        18496     
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 16, 16, 64)        0         
+_________________________________________________________________
+dropout_4 (Dropout)          (None, 16, 16, 64)        0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 16384)             0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 256)               4194560   
+_________________________________________________________________
+dropout_5 (Dropout)          (None, 256)               0         
+_________________________________________________________________
+dense_3 (Dense)              (None, 6)                 1542      
+=================================================================
+Total params: 4,215,494
+Trainable params: 4,215,494
+Non-trainable params: 0
+_________________________________________________________________
+#+end_example
+
+#+begin_src ipython :results output
+  from tensorflow.keras.preprocessing.image import *
+  datagen = ImageDataGenerator(featurewise_center=True,
+  featurewise_std_normalization=True,
+  rotation_range=20,
+  width_shift_range=0.2,
+  height_shift_range=0.2,
+  horizontal_flip=True)
+
+  datagen.fit(X_train)
+  
+#+end_src
+
+#+RESULTS:
+
+#+begin_src ipython :results value :async t
+history = model.fit(X_train, y_train, batch_size=32, epochs=10, validation_data=(X_test, y_test), callbacks=[checkpoint, early_stopping])
+
+print("정확도 : %.4f" % (model.evaluate(X_test, y_test)[1]))
+#+end_src
+
+#+RESULTS:
+: # Out[10]:
+
+#+begin_src ipython :results raw drawer
+import matplotlib.pyplot as plt
+y_vloss = history.history['val_loss']
+y_loss = history.history['loss']
+
+x_len = np.arange(len(y_loss))
+
+plt.plot(x_len, y_vloss, marker='.', c='red', label='val_set_loss')
+plt.plot(x_len, y_loss, marker='.', c='blue', label='train_set_loss')
+plt.legend()
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.grid()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[11]:
+[[file:./obipy-resources/CgQRLR.png]]
+:end:
+
+spd
+
+#+begin_src ipython :results output
+  with tf.device('/device:CPU:0'):
+    model = Sequential()
+    model.add(Conv2D(32, (3,3), padding='same', input_shape=X_train.shape[1:], activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(64, (3,3), padding="same", activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Flatten())
+    model.add(Dense(256, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Dense(nb_classes, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
+    model_dir = './model'
+
+    if not os.path.exists(model_dir):
+      os.mkdir(model_dir)
+
+    model_path = model_dir + '/multi_img_classfication.model'
+    checkpoint = ModelCheckpoint(filepath=model_path, monitor='val_loss', verbose=1, save_best_only=True)
+    early_stopping = EarlyStopping(monitor='val_loss', patience=6)
+
+  model.summary()
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Model: "sequential_3"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_6 (Conv2D)            (None, 64, 64, 32)        896       
+_________________________________________________________________
+max_pooling2d_6 (MaxPooling2 (None, 32, 32, 32)        0         
+_________________________________________________________________
+dropout_9 (Dropout)          (None, 32, 32, 32)        0         
+_________________________________________________________________
+conv2d_7 (Conv2D)            (None, 32, 32, 64)        18496     
+_________________________________________________________________
+max_pooling2d_7 (MaxPooling2 (None, 16, 16, 64)        0         
+_________________________________________________________________
+dropout_10 (Dropout)         (None, 16, 16, 64)        0         
+_________________________________________________________________
+flatten_3 (Flatten)          (None, 16384)             0         
+_________________________________________________________________
+dense_6 (Dense)              (None, 256)               4194560   
+_________________________________________________________________
+dropout_11 (Dropout)         (None, 256)               0         
+_________________________________________________________________
+dense_7 (Dense)              (None, 6)                 1542      
+=================================================================
+Total params: 4,215,494
+Trainable params: 4,215,494
+Non-trainable params: 0
+_________________________________________________________________
+#+end_example
+
+#+begin_src ipython :results output
+  from tensorflow.keras.preprocessing.image import *
+  datagen = ImageDataGenerator(featurewise_center=True,
+  featurewise_std_normalization=True,
+  rotation_range=20,
+  width_shift_range=0.2,
+  height_shift_range=0.2,
+  horizontal_flip=True)
+
+  datagen.fit(X_train)
+  
+#+end_src
+
+#+RESULTS:
+
+#+begin_src ipython :results value :async t
+history = model.fit(X_train, y_train, batch_size=32, epochs=10, validation_data=(X_test, y_test), callbacks=[checkpoint, early_stopping])
+
+print("정확도 : %.4f" % (model.evaluate(X_test, y_test)[1]))
+#+end_src
+
+#+RESULTS:
+: # Out[15]:
+
+#+begin_src ipython :results raw drawer
+import matplotlib.pyplot as plt
+y_vloss = history.history['val_loss']
+y_loss = history.history['loss']
+
+x_len = np.arange(len(y_loss))
+
+plt.plot(x_len, y_vloss, marker='.', c='red', label='val_set_loss')
+plt.plot(x_len, y_loss, marker='.', c='blue', label='train_set_loss')
+plt.legend()
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.grid()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[16]:
+[[file:./obipy-resources/oQYDUN.png]]
+:end:
+
+sgd
+
+#+begin_src ipython :results output
+  with tf.device('/device:CPU:0'):
+    model = Sequential()
+    model.add(Conv2D(128, (3,3), padding='same', input_shape=X_train.shape[1:], activation='sigmoid'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(64, (3,3), padding="same", activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Flatten())
+    model.add(Dense(256, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Dense(nb_classes, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
+    model_dir = './model'
+
+    if not os.path.exists(model_dir):
+      os.mkdir(model_dir)
+
+    model_path = model_dir + '/multi_img_classfication.model'
+    checkpoint = ModelCheckpoint(filepath=model_path, monitor='val_loss', verbose=1, save_best_only=True)
+    early_stopping = EarlyStopping(monitor='val_loss', patience=6)
+
+  model.summary()
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Model: "sequential_4"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_8 (Conv2D)            (None, 64, 64, 128)       3584      
+_________________________________________________________________
+max_pooling2d_8 (MaxPooling2 (None, 32, 32, 128)       0         
+_________________________________________________________________
+dropout_12 (Dropout)         (None, 32, 32, 128)       0         
+_________________________________________________________________
+conv2d_9 (Conv2D)            (None, 32, 32, 64)        73792     
+_________________________________________________________________
+max_pooling2d_9 (MaxPooling2 (None, 16, 16, 64)        0         
+_________________________________________________________________
+dropout_13 (Dropout)         (None, 16, 16, 64)        0         
+_________________________________________________________________
+flatten_4 (Flatten)          (None, 16384)             0         
+_________________________________________________________________
+dense_8 (Dense)              (None, 256)               4194560   
+_________________________________________________________________
+dropout_14 (Dropout)         (None, 256)               0         
+_________________________________________________________________
+dense_9 (Dense)              (None, 6)                 1542      
+=================================================================
+Total params: 4,273,478
+Trainable params: 4,273,478
+Non-trainable params: 0
+_________________________________________________________________
+#+end_example
+
+#+begin_src ipython :results output
+  from tensorflow.keras.preprocessing.image import *
+  datagen = ImageDataGenerator(featurewise_center=True,
+  featurewise_std_normalization=True,
+  rotation_range=20,
+  width_shift_range=0.2,
+  height_shift_range=0.2,
+  horizontal_flip=True)
+
+  datagen.fit(X_train)
+  
+#+end_src
+
+#+RESULTS:
+
+#+begin_src ipython :results value :async t
+history = model.fit(X_train, y_train, batch_size=32, epochs=10, validation_data=(X_test, y_test), callbacks=[checkpoint, early_stopping])
+
+print("정확도 : %.4f" % (model.evaluate(X_test, y_test)[1]))
+#+end_src
+
+#+RESULTS:
+: # Out[20]:
+
+#+begin_src ipython :results raw drawer
+import matplotlib.pyplot as plt
+y_vloss = history.history['val_loss']
+y_loss = history.history['loss']
+
+x_len = np.arange(len(y_loss))
+
+plt.plot(x_len, y_vloss, marker='.', c='red', label='val_set_loss')
+plt.plot(x_len, y_loss, marker='.', c='blue', label='train_set_loss')
+plt.legend()
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.grid()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[21]:
+[[file:./obipy-resources/AofEVO.png]]
+:end:
+
+adam+sigmoid
+
+#+begin_src ipython :results output
+  with tf.device('/device:CPU:0'):
+    model = Sequential()
+    model.add(Conv2D(128, (3,3), padding='same', input_shape=X_train.shape[1:], activation='sigmoid'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(64, (3,3), padding="same", activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Flatten())
+    model.add(Dense(256, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Dense(nb_classes, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model_dir = './model'
+
+    if not os.path.exists(model_dir):
+      os.mkdir(model_dir)
+
+    model_path = model_dir + '/multi_img_classfication.model'
+    checkpoint = ModelCheckpoint(filepath=model_path, monitor='val_loss', verbose=1, save_best_only=True)
+    early_stopping = EarlyStopping(monitor='val_loss', patience=6)
+
+  model.summary()
+
+  from tensorflow.keras.preprocessing.image import *
+  datagen = ImageDataGenerator(featurewise_center=True,
+  featurewise_std_normalization=True,
+  rotation_range=20,
+  width_shift_range=0.2,
+  height_shift_range=0.2,
+  horizontal_flip=True)
+
+  datagen.fit(X_train)
+  
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Model: "sequential_5"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_10 (Conv2D)           (None, 64, 64, 128)       3584      
+_________________________________________________________________
+max_pooling2d_10 (MaxPooling (None, 32, 32, 128)       0         
+_________________________________________________________________
+dropout_15 (Dropout)         (None, 32, 32, 128)       0         
+_________________________________________________________________
+conv2d_11 (Conv2D)           (None, 32, 32, 64)        73792     
+_________________________________________________________________
+max_pooling2d_11 (MaxPooling (None, 16, 16, 64)        0         
+_________________________________________________________________
+dropout_16 (Dropout)         (None, 16, 16, 64)        0         
+_________________________________________________________________
+flatten_5 (Flatten)          (None, 16384)             0         
+_________________________________________________________________
+dense_10 (Dense)             (None, 256)               4194560   
+_________________________________________________________________
+dropout_17 (Dropout)         (None, 256)               0         
+_________________________________________________________________
+dense_11 (Dense)             (None, 6)                 1542      
+=================================================================
+Total params: 4,273,478
+Trainable params: 4,273,478
+Non-trainable params: 0
+_________________________________________________________________
+#+end_example
+
+#+begin_src ipython :results value :async t
+history = model.fit(X_train, y_train, batch_size=32, epochs=10, validation_data=(X_test, y_test), callbacks=[checkpoint, early_stopping])
+
+print("정확도 : %.4f" % (model.evaluate(X_test, y_test)[1]))
+#+end_src
+
+#+RESULTS:
+: # Out[23]:
+
+#+begin_src ipython :results raw drawer
+import matplotlib.pyplot as plt
+y_vloss = history.history['val_loss']
+y_loss = history.history['loss']
+
+x_len = np.arange(len(y_loss))
+
+plt.plot(x_len, y_vloss, marker='.', c='red', label='val_set_loss')
+plt.plot(x_len, y_loss, marker='.', c='blue', label='train_set_loss')
+plt.legend()
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.grid()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[24]:
+[[file:./obipy-resources/G7TFRT.png]]
+:end:
+
+#+begin_src ipython :results output
+print(history.history)
+#+end_src
+
+#+RESULTS:
+: {'loss': [2.6224076747894287, 1.6969141960144043, 1.6018831729888916, 1.5017980337142944, 1.4113733768463135, 1.3444989919662476, 1.3065850734710693, 1.2839797735214233, 1.2757294178009033, 1.2713767290115356], 'accuracy': [0.44342508912086487, 0.4724770784378052, 0.47400611639022827, 0.47400611639022827, 0.47400611639022827, 0.47400611639022827, 0.47400611639022827, 0.47400611639022827, 0.47400611639022827, 0.47400611639022827], 'val_loss': [1.7421473264694214, 1.658633828163147, 1.5677424669265747, 1.481945514678955, 1.4158519506454468, 1.3788706064224243, 1.3610682487487793, 1.3557803630828857, 1.3549448251724243, 1.3543859720230103], 'val_accuracy': [0.4587155878543854, 0.4587155878543854, 0.4587155878543854, 0.4587155878543854, 0.4587155878543854, 0.4587155878543854, 0.4587155878543854, 0.4587155878543854, 0.4587155878543854, 0.4587155878543854]}
+
+adam+sigmoid
+
+#+begin_src ipython :results output
+  with tf.device('/device:CPU:0'):
+    model = Sequential()
+    model.add(Conv2D(32, (3,3), padding='same', input_shape=X_train.shape[1:], activation='sigmoid'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(16, (3,3), padding="same", activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Dropout(0.25))
+
+    model.add(Flatten())
+    model.add(Dense(256, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Dense(nb_classes, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model_dir = './model'
+
+    if not os.path.exists(model_dir):
+      os.mkdir(model_dir)
+
+    model_path = model_dir + '/multi_img_classfication.model'
+    checkpoint = ModelCheckpoint(filepath=model_path, monitor='val_loss', verbose=1, save_best_only=True)
+    early_stopping = EarlyStopping(monitor='val_loss', patience=6)
+
+  model.summary()
+
+  from tensorflow.keras.preprocessing.image import *
+  datagen = ImageDataGenerator(featurewise_center=True,
+  featurewise_std_normalization=True,
+  rotation_range=20,
+  width_shift_range=0.2,
+  height_shift_range=0.2,
+  horizontal_flip=True)
+
+  datagen.fit(X_train)
+  
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Model: "sequential_6"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_12 (Conv2D)           (None, 64, 64, 32)        896       
+_________________________________________________________________
+max_pooling2d_12 (MaxPooling (None, 32, 32, 32)        0         
+_________________________________________________________________
+dropout_18 (Dropout)         (None, 32, 32, 32)        0         
+_________________________________________________________________
+conv2d_13 (Conv2D)           (None, 32, 32, 16)        4624      
+_________________________________________________________________
+max_pooling2d_13 (MaxPooling (None, 16, 16, 16)        0         
+_________________________________________________________________
+dropout_19 (Dropout)         (None, 16, 16, 16)        0         
+_________________________________________________________________
+flatten_6 (Flatten)          (None, 4096)              0         
+_________________________________________________________________
+dense_12 (Dense)             (None, 256)               1048832   
+_________________________________________________________________
+dropout_20 (Dropout)         (None, 256)               0         
+_________________________________________________________________
+dense_13 (Dense)             (None, 6)                 1542      
+=================================================================
+Total params: 1,055,894
+Trainable params: 1,055,894
+Non-trainable params: 0
+_________________________________________________________________
+#+end_example
+
+#+begin_src ipython :results value :async t
+history = model.fit(X_train, y_train, batch_size=32, epochs=10, validation_data=(X_test, y_test), callbacks=[checkpoint, early_stopping])
+
+print("정확도 : %.4f" % (model.evaluate(X_test, y_test)[1]))
+#+end_src
+
+#+RESULTS:
+: # Out[28]:
+
+#+begin_src ipython :results raw drawer
+import matplotlib.pyplot as plt
+y_vloss = history.history['val_loss']
+y_loss = history.history['loss']
+
+x_len = np.arange(len(y_loss))
+
+plt.plot(x_len, y_vloss, marker='.', c='red', label='val_set_loss')
+plt.plot(x_len, y_loss, marker='.', c='blue', label='train_set_loss')
+plt.legend()
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.grid()
+plt.show()
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[29]:
+[[file:./obipy-resources/GX3ZDM.png]]
+:end:
+
+

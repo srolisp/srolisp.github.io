@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-20 Sun 14:56 -->
+<!-- 2020-09-27 Sun 10:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>신경망 기초</title>
@@ -272,20 +272,17 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org5ca052b">1. 선형 회귀</a>
+<li><a href="#orgf53828e">1. 선형 회귀</a>
 <ul>
-<li><a href="#org589253a">1.1. 자료</a></li>
-<li><a href="#org819f9d8">1.2. 당뇨병에 대한 데이터 구경하기</a></li>
-<li><a href="#org5d0f98c">1.3. 주어진 데이터와 값들에 대해 의미있는 하나의 선(모델)을 찾고, 결과값을 모르는 데이터를 넣었을 때 예측할 수 있다면?</a>
+<li><a href="#orgd673e3f">1.1. 자료</a></li>
+<li><a href="#org9f78a1f">1.2. 당뇨병에 대한 데이터 구경하기</a></li>
+<li><a href="#org930a6c6">1.3. 주어진 데이터와 값들에 대해 의미있는 하나의 선(모델)을 찾고, 결과값을 모르는 데이터를 넣었을 때 예측할 수 있다면?</a>
 <ul>
-<li><a href="#org7f59b7d">1.3.1. 직선방정식</a></li>
-<li><a href="#org2cf94f8">1.3.2. 제곱오차(SE) 와 포물선</a></li>
-<li><a href="#org1dccd5d">1.3.3. Gradient Descent</a></li>
+<li><a href="#orge6fcc26">1.3.1. 직선방정식</a></li>
+<li><a href="#org7b7c118">1.3.2. 제곱오차(SE) 와 포물선</a></li>
+<li><a href="#org5284962">1.3.3. Gradient Descent</a></li>
 </ul>
 </li>
-<li><a href="#orgea5bd57">1.4. 경사 하강법으로 학습하는 방법</a></li>
-<li><a href="#org604cfa2">1.5. 선형 회귀 심플 뉴런</a></li>
-<li><a href="#orge47c533">1.6. 분류하는 뉴런</a></li>
 </ul>
 </li>
 </ul>
@@ -295,16 +292,16 @@ for the JavaScript code in this tag.
 게으름에 기록만 해놓다가 막히는 부분도 있거니와 관심가는 부분이기에 주말에 들여다보고 정리해보고 있다.
 </p>
 
-<div id="outline-container-org5ca052b" class="outline-2">
-<h2 id="org5ca052b"><span class="section-number-2">1</span> 선형 회귀</h2>
+<div id="outline-container-orgf53828e" class="outline-2">
+<h2 id="orgf53828e"><span class="section-number-2">1</span> 선형 회귀</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 통계학에서, 선형 회귀(線型回歸, 영어: linear regression)는 종속 변수 y와 한 개 이상의 독립 변수 (또는 설명 변수) X와의 선형 상관 관계를 모델링하는 회귀분석 기법이다. 한 개의 설명 변수에 기반한 경우에는 <b>단순 선형 회귀</b>, 둘 이상의 설명 변수에 기반한 경우에는 <b>다중 선형 회귀</b> 라고 한다. 참고로, <b>다변량 선형 회귀</b> 는 종속 변수가 두 개 이상의 경우를 의미한다. <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>
 </p>
 </div>
 
-<div id="outline-container-org589253a" class="outline-3">
-<h3 id="org589253a"><span class="section-number-3">1.1</span> 자료</h3>
+<div id="outline-container-orgd673e3f" class="outline-3">
+<h3 id="orgd673e3f"><span class="section-number-3">1.1</span> 자료</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
 <pre class="src src-bash">jupyter nbconvert --to script "DataScience/source_code/Ch02.ipynb" 
@@ -320,8 +317,8 @@ jupyter nbconvert --to script "DataScience/source_code/Ch09.ipynb"
 </div>
 </div>
 
-<div id="outline-container-org819f9d8" class="outline-3">
-<h3 id="org819f9d8"><span class="section-number-3">1.2</span> 당뇨병에 대한 데이터 구경하기</h3>
+<div id="outline-container-org9f78a1f" class="outline-3">
+<h3 id="org9f78a1f"><span class="section-number-3">1.2</span> 당뇨병에 대한 데이터 구경하기</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-ipython">from sklearn.datasets import load_diabetes 
@@ -521,22 +518,22 @@ plt.show()
 
 
 <div class="figure">
-<p><img src="./obipy-resources/WhjhNR.png" alt="WhjhNR.png" />
+<p><img src="./obipy-resources/QXMrUq.png" alt="QXMrUq.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5d0f98c" class="outline-3">
-<h3 id="org5d0f98c"><span class="section-number-3">1.3</span> 주어진 데이터와 값들에 대해 의미있는 하나의 선(모델)을 찾고, 결과값을 모르는 데이터를 넣었을 때 예측할 수 있다면?</h3>
+<div id="outline-container-org930a6c6" class="outline-3">
+<h3 id="org930a6c6"><span class="section-number-3">1.3</span> 주어진 데이터와 값들에 대해 의미있는 하나의 선(모델)을 찾고, 결과값을 모르는 데이터를 넣었을 때 예측할 수 있다면?</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 위 그래프에서 보여주고 있는 빨간색 선처럼 데이터를 가장 잘 표현할 수 있는 선형 함수를 알고 싶은 거다. 적절한 예시인진 모르겠지만.. 느낌적인 느낌으로 ㅋㅋ 넘어가자
 </p>
 </div>
 
-<div id="outline-container-org7f59b7d" class="outline-4">
-<h4 id="org7f59b7d"><span class="section-number-4">1.3.1</span> 직선방정식</h4>
+<div id="outline-container-orge6fcc26" class="outline-4">
+<h4 id="orge6fcc26"><span class="section-number-4">1.3.1</span> 직선방정식</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <p>
 임의의 선을 하나 생각해보자. \(y=ax+b\) 로 많이 쓰지만 머신러닝쪽에서는 weight(가중치)와 bias(편향)으로 많이 표현하므로 \(w\) 와 \(b\) 를 써서 표현해보면,
@@ -558,8 +555,8 @@ plt.show()
 </div>
 </div>
 
-<div id="outline-container-org2cf94f8" class="outline-4">
-<h4 id="org2cf94f8"><span class="section-number-4">1.3.2</span> 제곱오차(SE) 와 포물선</h4>
+<div id="outline-container-org7b7c118" class="outline-4">
+<h4 id="org7b7c118"><span class="section-number-4">1.3.2</span> 제곱오차(SE) 와 포물선</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <p>
 \(y_{i}\) 와 \(\hat{y_{i}}\) 의 제곱오차는 
@@ -599,8 +596,8 @@ plt.show()
 </div>
 </div>
 
-<div id="outline-container-org1dccd5d" class="outline-4">
-<h4 id="org1dccd5d"><span class="section-number-4">1.3.3</span> Gradient Descent</h4>
+<div id="outline-container-org5284962" class="outline-4">
+<h4 id="org5284962"><span class="section-number-4">1.3.3</span> Gradient Descent</h4>
 <div class="outline-text-4" id="text-1-3-3">
 <p>
 우리는 최소값을 향해 가야하므로 x값이 최소값 방향으로 움직이려면 기울기부호와 반대방향으로 가야할 것이고\((1)\), 최소값과 먼거리에서는 크게 움직여 효율적이고 빠르게 접근하는게 좋을 것이고 가까워질수록 섬세하게 접근하는게 좋을 것이다\((2)\). 즉, 기울기의 크기와 부호를 둘다 적절하게 활용할 수 있다.
@@ -630,7 +627,7 @@ plt.show()
 </div>
 
 <ol class="org-ol">
-<li><a id="org457210f"></a>SE가 최소가 되는 w를 찾기 위해 Gradient Descent를 SE와 w의 관계에 적용<br />
+<li><a id="org7301839"></a>SE가 최소가 되는 w를 찾기 위해 Gradient Descent를 SE와 w의 관계에 적용<br />
 <div class="outline-text-5" id="text-1-3-3-1">
 <p>
 제곱오차식의 \(w\) 에 대해 gradient descent를 적용시켜보자.
@@ -642,7 +639,7 @@ plt.show()
 </div>
 </li>
 
-<li><a id="orgc586cdd"></a>\(w_{j}\) 에서의 \(\bigtriangledown SE\) (SE의 변화량)을 가지고 있는 정보로 표현해보자.<br />
+<li><a id="orgb40325c"></a>\(w_{j}\) 에서의 \(\bigtriangledown SE\) (SE의 변화량)을 가지고 있는 정보로 표현해보자.<br />
 <div class="outline-text-5" id="text-1-3-3-2">
 <p>
 \(\bigtriangledown SE\) 인 \(\frac{\partial SE}{\partial w_{j}}\) 를 구해보자. 
@@ -671,7 +668,7 @@ plt.show()
 </div>
 </li>
 
-<li><a id="org639764a"></a>se변화량을 Gradient Descent에 적용<br />
+<li><a id="orgca9c022"></a>se변화량을 Gradient Descent에 적용<br />
 <div class="outline-text-5" id="text-1-3-3-3">
 <p>
 (4)식에 의해 나온 식에서 summation 앞의 2는 \(\gamma_{j}\) 에 의해 보정한다치고(크거나 작게, 스텝마다 다르게..) 우선 제거하자.(내 마음대로..)
@@ -683,7 +680,7 @@ w_{j+1} = w_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})x_{i}
 </div>
 </li>
 
-<li><a id="org2440203"></a>마찬가지로 \(b\) 도 적용해보자<br />
+<li><a id="orgb5ec106"></a>마찬가지로 \(b\) 도 적용해보자<br />
 <div class="outline-text-5" id="text-1-3-3-4">
 \begin{equation*}
 \begin{split}
@@ -708,7 +705,7 @@ w_{j+1} = w_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})x_{i}
 </div>
 </li>
 
-<li><a id="orgb6ed03a"></a>w, b 에 대한 gradient Descent<br />
+<li><a id="org4bdec70"></a>w, b 에 대한 gradient Descent<br />
 <div class="outline-text-5" id="text-1-3-3-5">
 \begin{equation*}
 w_{j+1} = w_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})x_{i} \\
@@ -720,7 +717,7 @@ b_{j+1} = b_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})
 </div>
 </li>
 
-<li><a id="orgb5b9e23"></a>작성된 코드와 비교<br />
+<li><a id="org4f87da2"></a>작성된 코드와 비교<br />
 <div class="outline-text-5" id="text-1-3-3-6">
 <p>
 루프가 왜 두번 도는지 이해가 되는군.. 좀 헷갈렸었다. w 값을 한번 업데이트하려면 n개의 데이터를 매번 순회해야한다.
@@ -770,7 +767,7 @@ b_{j+1} = b_{j} - \sum_{i=0}^{n-1} (\hat{y_{i}} - {y_{i}})
 </div>
 </li>
 
-<li><a id="orgec679c5"></a>review<br />
+<li><a id="orga7a5483"></a>review<br />
 <div class="outline-text-5" id="text-1-3-3-7">
 <p>
 데이터한개 확인할때마다 w와 b가 조정되네..
@@ -800,7 +797,7 @@ w_{i+1} & = w_{i} - (\hat{y_{i}} - y_{i})x_{i} \\
 </p>
 </div>
 </li>
-<li><a id="orgafae41a"></a>시각화해서 비교해보자.<br />
+<li><a id="org6f59471"></a>시각화해서 비교해보자.<br />
 <div class="outline-text-5" id="text-1-3-3-8">
 <ul class="org-ul">
 <li class="off"><code>[&#xa0;]</code> 여러개의 그래프로 어떻게 나타내지?</li>
@@ -818,7 +815,7 @@ plt.show()
 
 
 <div class="figure">
-<p><img src="./obipy-resources/JjhcYg.png" alt="JjhcYg.png" />
+<p><img src="./obipy-resources/JT0TNS.png" alt="JT0TNS.png" />
 </p>
 </div>
 
@@ -863,6 +860,7 @@ class Neuron2:
 	    if (i % 2 == 0):
 		plt.scatter(x, [self.forpass(x_i) for x_i in x])
 
+neuron2 = Neuron2()
 plt.scatter(x, y)
 neuron2.fit(x, y)
 plt.show()
@@ -871,7 +869,7 @@ plt.show()
 
 
 <div class="figure">
-<p><img src="./obipy-resources/3m6w0C.png" alt="3m6w0C.png" />
+<p><img src="./obipy-resources/MapzJ7.png" alt="MapzJ7.png" />
 </p>
 </div>
 
@@ -902,7 +900,7 @@ plt.show()
 
 
 <div class="figure">
-<p><img src="./obipy-resources/U7FGFH.png" alt="U7FGFH.png" />
+<p><img src="./obipy-resources/ALTGqr.png" alt="ALTGqr.png" />
 </p>
 </div>
 <p>
@@ -918,7 +916,7 @@ plt.show()
 
 
 <div class="figure">
-<p><img src="./obipy-resources/MMMpDv.png" alt="MMMpDv.png" />
+<p><img src="./obipy-resources/AZBxIR.png" alt="AZBxIR.png" />
 </p>
 </div>
 <p>
@@ -927,131 +925,6 @@ plt.show()
 </div>
 </li>
 </ol>
-</div>
-</div>
-
-<div id="outline-container-orgea5bd57" class="outline-3">
-<h3 id="orgea5bd57"><span class="section-number-3">1.4</span> 경사 하강법으로 학습하는 방법</h3>
-<div class="outline-text-3" id="text-1-4">
-<p>
-polyfit을 쓰면 안되나? 쓰면 된다. 하지만, 함수를 만들줄 알고 설계도 해볼 목적으로..
-</p>
-<div class="org-src-container">
-<pre class="src src-ipython">x = diabetes.data[:, 2]
-y = diabetes.target
-</pre>
-</div>
-
-<pre class="example">
-# Out[972]:
-</pre>
-
-
-<div class="org-src-container">
-<pre class="src src-ipython">w = 1.0
-b = 1.0
-</pre>
-</div>
-
-<p>
-x[0]에서 w와 b를 임의로 정했을 때 y<sub>hat</sub>(예상값)을 출력해본다.
-</p>
-<div class="org-src-container">
-<pre class="src src-ipython">y_hat = x[0] * w + b
-print(y_hat)
-</pre>
-</div>
-
-<pre class="example">
-1.0616962065186886
-</pre>
-
-
-<div class="org-src-container">
-<pre class="src src-ipython">print(y[0])
-</pre>
-</div>
-
-<pre class="example">
-151.0
-</pre>
-
-
-<div class="org-src-container">
-<pre class="src src-ipython">w_inc = w + 0.1
-y_hat_inc = w_inc * x[0] + b
-print(y_hat_inc)
-</pre>
-</div>
-
-<pre class="example">
-1.0678658271705574
-</pre>
-
-<p>
-w의 변화량에 대한 예측값의 변화량
-</p>
-<div class="org-src-container">
-<pre class="src src-ipython">w_rate = (y_hat_inc - y_hat) / (w_inc - w)
-print(w_rate)
-</pre>
-</div>
-
-<pre class="example">
-0.061696206518688734
-</pre>
-
-<p>
-&#x2026;
-</p>
-</div>
-</div>
-
-<div id="outline-container-org604cfa2" class="outline-3">
-<h3 id="org604cfa2"><span class="section-number-3">1.5</span> 선형 회귀 심플 뉴런</h3>
-<div class="outline-text-3" id="text-1-5">
-<div class="org-src-container">
-<pre class="src src-ipython">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-ipython">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-ipython">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-ipython">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-ipython">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-ipython">
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orge47c533" class="outline-3">
-<h3 id="orge47c533"><span class="section-number-3">1.6</span> 분류하는 뉴런</h3>
-<div class="outline-text-3" id="text-1-6">
-<p>
-이진 분류
-</p>
-<div class="org-src-container">
-<pre class="src src-ipython">
-</pre>
-</div>
 </div>
 </div>
 </div>
@@ -1067,7 +940,7 @@ print(w_rate)
 <div id="postamble" class="status">
 <p class="date">Date: 2020-09-17 Thu 18:00</p>
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-09-20 Sun 14:56</p>
+<p class="date">Created: 2020-09-27 Sun 10:59</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

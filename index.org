@@ -31,6 +31,8 @@
 
 ** [[file:lecture-note/ai-lecture-lsk-200917.html::<?xml version="1.0" encoding="utf-8"?>][200917]]
 
+** [[file:lecture-note/ai-lecture-lsk-200917<-200927-logistic-reggression.html::<?xml version="1.0" encoding="utf-8"?>][200927 Logistic Regression]]
+
 * pyenv은 파이썬 버전을 다양하게 사용할 수 있다
 * virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.
 pyenv의 목록에 virtualenv가 들어가기 때문에 pyenv를 먼저 설치
@@ -1410,3 +1412,20 @@ Requirement already satisfied: attrs>=17.4.0 in /Users/sroh/.pyenv/versions/anac
 Requirement already satisfied: zipp>=0.5 in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (from importlib-metadata; python_version < "3.8"->jsonschema!=2.5.0,>=2.4->nbformat>=4.4->nbconvert) (3.1.0)
 #+end_example
 
+* latex
+#+begin_src bash :exports code :results verbatim
+brew cask install basictex
+#+end_src
+
+#+RESULTS:
+
+* update tex live update
+#+begin_src bash :exports code :results verbatim
+tlmgr update --self
+#+end_src
+
+* for fixing error, install wrapfig, capt-of
+#+begin_src bash :exports code :results verbatim
+tlmgr install wrapfig
+tlmgr install capt-of
+#+end_src

@@ -1,0 +1,10 @@
+#+title: 
+#+subtitle: 6 weeks by ???
+#+date: <2020-09-22 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn25 :tangle "mglearn200925.py" :exports both
+#+LATEX_HEADER: {amsmath}
+# #+HTML_MATHJAX: align: left indent: 5em tagside: left font: Neo-Euler
+#+author: srolisp

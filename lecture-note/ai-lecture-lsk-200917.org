@@ -458,6 +458,7 @@ w_{i+1} & = w_{i} - (\hat{y_{i}} - y_{i})x_{i} \\
               if (i % 2 == 0):
                   plt.scatter(x, [self.forpass(x_i) for x_i in x])
 
+  neuron2 = Neuron2()
   plt.scatter(x, y)
   neuron2.fit(x, y)
   plt.show()
@@ -465,8 +466,8 @@ w_{i+1} & = w_{i} - (\hat{y_{i}} - y_{i})x_{i} \\
 
 #+RESULTS:
 :results:
-# Out[876]:
-[[file:./obipy-resources/tjrQye.png]]
+# Out[10]:
+[[file:./obipy-resources/oTowVa.png]]
 :end:
 
 summation 결과값에 평균을 내야 제대로 표현되는거 같다.
@@ -490,8 +491,8 @@ summation 결과값에 평균을 내야 제대로 표현되는거 같다.
 
 #+RESULTS:
 :results:
-# Out[885]:
-[[file:./obipy-resources/g58hcY.png]]
+# Out[12]:
+[[file:./obipy-resources/2Pc1Sp.png]]
 :end:
 첫번째 코드는 예상했던대로 마지막 $y$가 이상값이면 이 값이 영향을 준다. weght 영향은 크게 안 받나? bias 값에 영향을 많이 주는군. 기울기는 변화가 없네..
 
@@ -503,88 +504,8 @@ summation 결과값에 평균을 내야 제대로 표현되는거 같다.
 
 #+RESULTS:
 :results:
-# Out[886]:
-[[file:./obipy-resources/nYebC9.png]]
+# Out[13]:
+[[file:./obipy-resources/A0FqOQ.png]]
 :end:
 두번째 코드는 평균값에 대한 기울기라서 크게 영향을 받지 않는다. 
 
-** 경사 하강법으로 학습하는 방법
-:PROPERTIES:
-:header-args:bash: :results verbatim
-:header-args:elisp: :exports both
-:header-args:ipython: :session mglearn17 :tangle "mglearn200917.py" :exports both
-:END:
-polyfit을 쓰면 안되나? 쓰면 된다. 하지만, 함수를 만들줄 알고 설계도 해볼 목적으로..
-#+begin_src ipython
-x = diabetes.data[:, 2]
-y = diabetes.target
-#+end_src
-
-#+RESULTS:
-: # Out[28]:
-
-#+begin_src ipython :results output
-w = 1.0
-b = 1.0
-#+end_src
-
-#+RESULTS:
-x[0]에서 w와 b를 임의로 정했을 때 y_hat(예상값)을 출력해본다.
-#+begin_src ipython :results output
-y_hat = x[0] * w + b
-print(y_hat)
-#+end_src
-
-#+RESULTS:
-: 1.0616962065186886
-
-#+begin_src ipython :results output
-print(y[0])
-#+end_src
-
-#+RESULTS:
-: 151.0
-
-#+begin_src ipython :results output
-w_inc = w + 0.1
-y_hat_inc = w_inc * x[0] + b
-print(y_hat_inc)
-#+end_src
-
-#+RESULTS:
-: 1.0678658271705574
-w의 변화량에 대한 예측값의 변화량
-#+begin_src ipython :results output
-w_rate = (y_hat_inc - y_hat) / (w_inc - w)
-print(w_rate)
-#+end_src
-
-#+RESULTS:
-: 0.061696206518688734
-...
-
-** 선형 회귀 심플 뉴런
-#+begin_src ipython :results output
-
-#+end_src
-#+begin_src ipython :results output
-
-#+end_src
-#+begin_src ipython :results output
-
-#+end_src
-#+begin_src ipython :results output
-
-#+end_src
-#+begin_src ipython :results output
-
-#+end_src
-#+begin_src ipython :results output
-
-#+end_src
-
-** 분류하는 뉴런
-이진 분류
-#+begin_src ipython :results output
-
-#+end_src

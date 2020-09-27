@@ -1,0 +1,128 @@
+#+title: (Binary)Logistic Classification
+#+subtitle: supplement learning
+#+date: <2020-09-27 Wed 11:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn27-MLE :tangle "mglearn200927.py" :exports both
+
+#+author: srolisp
+
+* Basics
+$Given: D = ((x_{1}, y_{1}), (x_{2}, y_{2}), \dots, (x_{d}, y_{d})),\ \ x_{i} \in \mathbb{R}^n, y_{i} \in \{0,1\}$
+
+$Model: y_{i} \sim Bernoulli(\sigma(w^Tx))$ indep., (w = param.)\(\qquad\qquad\qquad Logistic\ fn:  \sigma(a) = \frac{1}{1+e^{-a}} \)
+
+$MLE : w_{MLE} \in \underset{w}{arg\,max}$ $p(D|w)$ \\
+
+\(\)
+\begin{equation*}
+\begin{split}
+p(D|w) = \prod_{i=1}^{d} p(y_{i}|x_{i}, w) = \prod_{i=1}^{d} \alpha_{i}^{y_{i}}(1-\alpha_{i})^{1-y_{i}} \qquad\qquad\qquad \alpha_{i} = \sigma(w^{T}x_{i})
+\end{split}
+\end{equation*}
+\(p(D|w)\)가 곱의 연산이라 더 진행하기 어려우므로 \(log\)를 취해 합의 연산으로 바꾸자. 
+
+TODO: \(log\) 함수를 취할 수 있는 이유는 증가함수이므로 \(p(D|w)\) 가 최대가 되는 것은 \(log\ {p(D|w)}\) 가 최대가 되는 지점과 같다.
+
+Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변환시키자.
+
+\begin{equation}
+\mathscr{L}(w) = -log\ p(D|w) = -\sum_{i=1}^{d}\{y_{i}log\alpha_{i} + (1-y_{i})log(1-\alpha_{i})\}
+\end{equation}
+
+* Goal
+\(\mathscr{L}(w)\)가 최소인 w 파라메터를 찾는 게 목표. \(\qquad w \in \mathbb{R}^n\)
+* Pros
+
+** Interpretable (main reason)
+ $w_{0} + w_{1}feature_{1} + w_{2}feature_{2} + w_{3}feature_{3}$
+
+** Small number of params $(n+1)$ $w_{0}$는 bias)
+
+** Computationally eff. to estimate w (Newton's method)
+
+** Multiclass
+
+** Foundational
+
+* Cons
+
+** Not good as best performance methods
+
+* $w_{MLE}$
+\(log\alpha = log\sigma(w^{T}x) = log\frac{1}{1+e^{-w^{T}x}} = -log(1+e^{-w^{T}x})\)
+#+NAME: eq:1
+\begin{equation} 
+\begin{split}
+\frac{\delta}{\delta w_{j}}log\alpha_{i} & = \frac{\delta}{\delta w_{j}} -log({1+e^{-w^{T}x_{i}}}) \\
+                                         & = \frac{e^{-w^{T}x_{i}}}{1+e^{-w^{T}x_{i}}}x_{ij} \\
+                                         & = (1 - \alpha_{i})x_{ij} 
+\end{split}
+\end{equation} 
+\(log(1-\alpha) = log(1- \sigma(w^{T}x)) = log(1-\frac{1}{1+e^{-w^{T}x}}) = log\frac{e^{-w^{T}x}}{1+e^{-w^{T}x}} = -w^{T}x - log(1+e^{-w^{T}x})\)
+#+NAME: eq:2
+\begin{equation}
+\begin{split}
+\frac{\delta}{\delta w_{j}}log(1-\alpha_{i}) & = \frac{\delta}{\delta w_{j}} (-w^{T}x_{i} - log(1+e^{-w^{T}x_{i}})) \\
+                                             & = x_{ij} + \frac{\delta}{\delta w_{j}} - log(1+e^{-w^{T}x_{i}}) \\
+\end{split}
+\end{equation}
+(2) 식을 활용해서,
+\begin{equation}
+\begin{split}
+\frac{\delta}{\delta w_{j}}log(1-\alpha_{i}) & = x_{ij} + (1 - \alpha_{i})x_{ij} \\
+                                             & = -\alpha_{i}x_{ij}
+\end{split}
+\end{equation}
+
+\(\frac{\delta}{\delta w} \mathscr{L}(w) = 0\)을 만족하는 w_{MLE}
+\begin{equation}
+\mathscr{L}(w) = -\sum_{i=1}^{d}\{y_{i}log\alpha_{i} + (1-y_{i})log(1-\alpha_{i})\}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\frac{\delta}{\delta w_{j}} \mathscr{L}(w) & = -\sum_{i=1}^{d}\{y_{i}(1-a_{i})x_{ij} - (1-y_{i})\alpha_{i}x_{ij}\} \\
+                                           & = -\sum_{i=1}^{d}\{y_{i}x_{ij} - \alpha_{i}x_{ij}\} \\
+                                           & = \sum_{i=1}^{d}(\alpha_{i} - y_{i})x_{ij} \\
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\frac{\delta}{\delta w_{j}} \mathscr{L}(w) & = \sum_{i=1}^{d}(\alpha_{i} - y_{i})x_{ij} \\
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\frac{\delta}{\delta w_{1}} \mathscr{L}(w) & = \sum_{i=1}^{d}(\alpha_{i} - y_{i})x_{i1} \\
+                                           & = (\alpha_{1}-y_{1})x_{11} + (\alpha_{2}-y_{2})x_{21} + \dots + (\alpha_{d}-y_{d})x_{d1} \\
+\frac{\delta}{\delta w_{2}} \mathscr{L}(w) & = (\alpha_{1}-y_{1})x_{12} + (\alpha_{2}-y_{2})x_{22} + \dots + (\alpha_{d}-y_{d})x_{d2} \\
+                                           & \vdots \\
+\frac{\delta}{\delta w_{n}} \mathscr{L}(w) & = (\alpha_{1}-y_{1})x_{1n} + (\alpha_{2}-y_{2})x_{2n} + \dots + (\alpha_{d}-y_{d})x_{dn} \\
+\end{split}
+\end{equation}
+풀어놓고 보니 이제 변환할 수 있을 것 같다. 익숙해지도록 연습하자
+
+\(A = \begin{bmatrix}
+                                           x_{11} & x_{12} & \dots & x_{1n} \\
+                                           x_{21} & x_{22} & \dots & x_{2n} \\
+                                                  &        & \vdots & \\
+                                           x_{d1} & x_{d2} & \dots & x_{dn} \\
+                                           \end{bmatrix} \\\)
+\begin{equation}
+\begin{split}
+\frac{\delta}{\delta w} \mathscr{L}(w) & = \begin{bmatrix}
+                                           \alpha_{1}-y_{1}  & \alpha_{2}-y_{2} & \alpha_{3}-y_{3} & \dots & \alpha_{d}-y_{d}
+                                           \end{bmatrix}
+                                           \begin{bmatrix}
+                                           x_{11} & x_{12} & \dots & x_{1n} \\
+                                           x_{21} & x_{22} & \dots & x_{2n} \\
+                                                  &        & \vdots & \\
+                                           x_{d1} & x_{d2} & \dots & x_{dn} \\
+                                           \end{bmatrix} \\
+                                       & = (a-y)^TA
+\end{split}
+\end{equation}

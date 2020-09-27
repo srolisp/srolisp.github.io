@@ -1,0 +1,44 @@
+#+title: 신경망 기초-2
+#+subtitle: 5 weeks by lsk
+#+date: <2020-09-17 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn17 :tangle "mglearn200917.py" :exports both
+
+#+author: srolisp
+
+* 선형 회귀 심플 뉴런
+#+begin_src ipython :results output
+
+#+end_src
+#+begin_src ipython :results output
+
+#+end_src
+#+begin_src ipython :results output
+
+#+end_src
+#+begin_src ipython :results output
+
+#+end_src
+#+begin_src ipython :results output
+
+#+end_src
+#+begin_src ipython :results output
+
+#+end_src
+
+* 분류하는 뉴런
+
+** 로지스틱 함수: 
+
+*** S-커브를 함수로 표현해낸 것. (ex. sigmoid ..)
+
+*** 출력 결과는 항상 0 에서 1 사이값
+0에서 1사이의 값으로 제한할 수 있으므로 확률적 접근이 가능하다.
+어떤 데이터에 대한 로지스틱 함수를 찾아가보려고 하니 Gradient Descent를 써서 해보니 비선형의 제곱오차를 하니 모양이 locally minimum 들이 많은 곡선이 되어 버린다. 
+** 이진 분류
+#+begin_src ipython :results output
+
+#+end_src
+

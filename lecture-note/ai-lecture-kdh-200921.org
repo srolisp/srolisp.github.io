@@ -1,0 +1,74 @@
+#+title: 자연어 처리
+#+subtitle: 5 weeks by lsk
+#+date: <2020-09-21 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn21 :tangle "mglearn200921.py" :exports both
+
+#+author: srolisp
+
+#+begin_src bash
+  # jupyter nbconvert --to script "DataScience/source_code/text분류.ipynb"
+  # jupyter nbconvert --to script "DataScience/source_code/의류분류.ipynb" 
+#+end_src
+
+* nltk 설치
+#+begin_src bash
+pip install nltk
+#+end_src
+
+#+RESULTS:
+| Collecting   | nltk                             |             |                                                                                                   |                                                            |                                                                                   |                                                                         |        |          |
+| Downloading  | nltk-3.5.zip                     | (1.4        | MB)                                                                                               |                                                            |                                                                                   |                                                                         |        |          |
+| Collecting   | click                            |             |                                                                                                   |                                                            |                                                                                   |                                                                         |        |          |
+| Downloading  | click-7.1.2-py2.py3-none-any.whl | (82         | kB)                                                                                               |                                                            |                                                                                   |                                                                         |        |          |
+| Requirement  | already                          | satisfied:  | joblib                                                                                            | in                                                         | /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages | (from                                                                   | nltk)  | (0.16.0) |
+| Collecting   | regex                            |             |                                                                                                   |                                                            |                                                                                   |                                                                         |        |          |
+| Downloading  | regex-2020.7.14.tar.gz           | (690        | kB)                                                                                               |                                                            |                                                                                   |                                                                         |        |          |
+| Collecting   | tqdm                             |             |                                                                                                   |                                                            |                                                                                   |                                                                         |        |          |
+| Downloading  | tqdm-4.49.0-py2.py3-none-any.whl | (69         | kB)                                                                                               |                                                            |                                                                                   |                                                                         |        |          |
+| Building     | wheels                           | for         | collected                                                                                         | packages:                                                  | nltk,                                                                             | regex                                                                   |        |          |
+| Building     | wheel                            | for         | nltk                                                                                              | (setup.py):                                                | started                                                                           |                                                                         |        |          |
+| Building     | wheel                            | for         | nltk                                                                                              | (setup.py):                                                | finished                                                                          | with                                                                    | status | 'done'   |
+| Created      | wheel                            | for         | nltk:                                                                                             | filename=nltk-3.5-py3-none-any.whl                         | size=1434678                                                                      | sha256=15403c66deaa62d12e9a7cda2a163cb3872e0f47a303a96904c1730e8df4dfbc |        |          |
+| Stored       | in                               | directory:  | /Users/sroh/Library/Caches/pip/wheels/45/6c/46/a1865e7ba706b3817f5d1b2ff7ce8996aabdd0d03d47ba0266 |                                                            |                                                                                   |                                                                         |        |          |
+| Building     | wheel                            | for         | regex                                                                                             | (setup.py):                                                | started                                                                           |                                                                         |        |          |
+| Building     | wheel                            | for         | regex                                                                                             | (setup.py):                                                | finished                                                                          | with                                                                    | status | 'done'   |
+| Created      | wheel                            | for         | regex:                                                                                            | filename=regex-2020.7.14-cp37-cp37m-macosx_10_7_x86_64.whl | size=289604                                                                       | sha256=0c6a2a69575e255540e2d60ff30900b7975a63f6cc641d395d109ca4cfee292c |        |          |
+| Stored       | in                               | directory:  | /Users/sroh/Library/Caches/pip/wheels/5b/68/ce/2508b5a5afc13bd96566c62d3ffebea7b401477c2ead3e8cc0 |                                                            |                                                                                   |                                                                         |        |          |
+| Successfully | built                            | nltk        | regex                                                                                             |                                                            |                                                                                   |                                                                         |        |          |
+| Installing   | collected                        | packages:   | click,                                                                                            | regex,                                                     | tqdm,                                                                             | nltk                                                                    |        |          |
+| Successfully | installed                        | click-7.1.2 | nltk-3.5                                                                                          | regex-2020.7.14                                            | tqdm-4.49.0                                                                       |                                                                         |        |          |
+
+** nltk 오류나서 오류메세지따라 설치
+#+begin_src ipython :results value
+import nltk
+nltk.download('punkt')
+#+end_src
+
+** 실습
+#+begin_src ipython :results output
+  from nltk.tokenize import word_tokenize
+  print(word_tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop."))
+#+end_src
+
+#+RESULTS:
+: ['Do', "n't", 'be', 'fooled', 'by', 'the', 'dark', 'sounding', 'name', ',', 'Mr.', 'Jone', "'s", 'Orphanage', 'is', 'as', 'cheery', 'as', 'cheery', 'goes', 'for', 'a', 'pastry', 'shop', '.']
+#+begin_src ipython :results output 
+from nltk.tokenize import WordPunctTokenizer
+print(WordPunctTokenizer().tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop."))
+#+end_src
+
+#+RESULTS:
+: ['Don', "'", 't', 'be', 'fooled', 'by', 'the', 'dark', 'sounding', 'name', ',', 'Mr', '.', 'Jone', "'", 's', 'Orphanage', 'is', 'as', 'cheery', 'as', 'cheery', 'goes', 'for', 'a', 'pastry', 'shop', '.']
+
+#+begin_src ipython :results output
+stop_words = "아무거나 아무렇게나 어찌하던지"
+
+print(stop_words.split(' '))
+
+#+end_src
+
+#+RESULTS:
+: ['아무거나', '아무렇게나', '어찌하던지']
