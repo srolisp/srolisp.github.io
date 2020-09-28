@@ -38,7 +38,7 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
 ** Interpretable (main reason)
  $w_{0} + w_{1}feature_{1} + w_{2}feature_{2} + w_{3}feature_{3}$
 
-** Small number of params $(n+1)$ $w_{0}$는 bias)
+** Small number of params $(n+1)$ $w_{0}$ 는 bias)
 
 ** Computationally eff. to estimate w (Newton's method)
 
