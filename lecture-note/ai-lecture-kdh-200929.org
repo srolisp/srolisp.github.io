@@ -1,0 +1,244 @@
+#+title: Project
+#+subtitle: 6 weeks by kdh
+#+date: <2020-09-28 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn29 :tangle "mglearn200929.py" :exports both
+
+#+author: srolisp
+
+* http://..../robots.txt
+허가여부를 확인해둘것
+
+* Crawling
+# [<tr class="patient" id="patient4">
+<td colspan="4"><a href="http://www.ulsan.go.kr/health/notice/90" style="color: blue;" target="_blank">울산시 주요 집단감염 사례</a></td>
+<td><a href="http://www.ulsan.go.kr/health/notice/90" style="color: blue;" target="_blank" title="자세히보기">자세히보기</a></td>
+</tr>, <tr class="patient" id="patient4">
+<td rowspan="1">울산#146</td>
+<td class="name">울주군</td>
+<td class="name">확진자(#141) 접촉</td>
+<td>9/27</td>
+<td>울산대학교병원</td>
+</tr>, <tr class="patient" id="patient4">
+<td rowspan="1">울산#145</td>
+<td class="name">남구</td>
+<td class="name">확진자(#144) 접촉</td>
+<td>9/22</td>
+<td>울산대학교병원</td>
+</tr>, <tr class="patient" id="patient4">
+<td rowspan="1">울산#144</td>
+<td class="name">남구</td>
+<td class="name">확진자(부산#312) 접촉</td>
+<td>9/22</td>
+<td>울산대학교병원</td>
+</tr>, <tr class="patient" id="patient4">
+<td rowspan="1">울산#143</td>
+<td class="name">중구</td>
+<td class="name">확진자(포항#70) 접촉</td>
+<td>9/21</td>
+<td>울산대학교병원</td>
+</tr>,
+
+#+begin_src ipython :results output pp
+  import requests
+  from bs4 import BeautifulSoup
+  
+  url = 'http://www.ulsan.go.kr/corona.jsp'
+  
+  req = requests.get(url)
+  soup = BeautifulSoup(req.content, 'html.parser') # 다루기 수월하게 하기위해? DOM 구조로 만들겠다.
+  
+  patients = soup.findAll('tr', {'class': 'patient'})
+  acc = []
+  for idx, patient in enumerate(patients):
+    if idx != 0:
+      tds = patient.findAll('td')
+      acc.append([td.text for td in tds])
+
+  import pandas as pd
+  
+df_corona = pd.DataFrame(acc, columns=['환자', '거주지', '추정감염경로', '확진일', '격리시설']) 
+  
+  df_corona.to_csv('corona_ulsan.csv', encoding='utf-8')
+  print(df_corona.)
+#+end_src
+
+#+RESULTS:
+: Index(['환자', '거주지', '추정감염경로', '확진일', '격리시설'], dtype='object')
+
+로봇 감지 피하는 법
+#+begin_src ipython :results output
+# useragentstring.com 로봇이 아닌 웹서버로 접속한 것 처럼 보여주기 위해
+# Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.2 Safari/605.1.15
+
+import requests
+from bs4 import BeautifulSoup
+
+headers = {'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.2 Safari/605.1.15'}
+
+url = 'https://finance.naver.com/item/board.nhn?code=031820&page=1'
+req = requests.get(url, headers=headers)
+
+soup = BeautifulSoup(req.content, 'html.parser')
+
+print(soup)
+
+
+#+end_src
+
+#+begin_src ipython :results output
+  import urllib.request
+  from bs4 import BeautifulSoup
+
+  def get_poster_image(url, headers={'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.2 Safari/605.1.15'}, ):
+
+  # headers = {'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.2 Safari/605.1.15'}
+  # url = 'https://movie.naver.com/movie/bi/mi/basic.nhn?code=190010'
+
+  # req = urllib.request.Request(url, headers=headers)
+    res = urllib.request.urlopen(url).read()
+    soup = BeautifulSoup(res, 'html.parser')
+
+    poster = soup.find('div', {'class' : 'poster'})
+
+    src = poster.find('img')['src']
+    src_filename = str.split(url, '=')[-1]
+  # src_filename = src[str.find(src, '=')+1:]
+
+    if :
+      urllib.request.urlretrieve(src, src_filename + '.jpg')
+      print(src_filename)
+
+  board = 'https://movie.naver.com/movie/running/current.nhn'
+  get_poster_image('https://search.naver.com/search.naver?where=image&sm=tab_jum&query=cat')
+
+  
+#+end_src
+
+#+RESULTS:
+: 165287
+
+
+#+begin_example
+Faq7AWVQ_700b.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimg-9gag-fun.9cache.com%2Fphoto%2Faq7AWVQ_700b.jpg&type=b400
+Fclose-up-photo-red-fluffy-tabby-male-cat-green-eyes-brown-cat-red-male-cat-ginger-cat-113076228.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fclose-up-photo-red-fluffy-tabby-male-cat-green-eyes-brown-cat-red-male-cat-ginger-cat-113076228.jpg&type=b400
+
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fcdn.eyeem.com%2Fthumb%2Fd8c2c02e59d25313f5e6235f8b9ccbd7c52d70fa-1444733444%2F640%2F480&type=b400
+Ffunny-dog-and-cat-videos-4-638.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimage.slidesharecdn.com%2Ffunnydogandcatvideos-150829142350-lva1-app6891%2F95%2Ffunny-dog-and-cat-videos-4-638.jpg&type=b400
+F755719a724da3f8bb79eb6adad593ed5.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F75%2F57%2F19%2F755719a724da3f8bb79eb6adad593ed5.jpg&type=b400
+F1359080228428.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20150214_215%2F0703uk_1423882566719cWbU8_JPEG%2F1359080228428.jpg&type=b400
+F43314356341_bec2d79dd3_b.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Flive.staticflickr.com%2F1784%2F43314356341_bec2d79dd3_b.jpg&type=b400
+F9247f3430feb0c596829ed3ccc7b18fd.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F92%2F47%2Ff3%2F9247f3430feb0c596829ed3ccc7b18fd.jpg&type=b400
+Fbrown-cat-red-male-ginger-close-up-photo-fluffy-tabby-green-eyes-looking-straight-towards-camera-113592741.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fbrown-cat-red-male-ginger-close-up-photo-fluffy-tabby-green-eyes-looking-straight-towards-camera-113592741.jpg&type=b400
+F519dae3990b646017827e12400774182.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F51%2F9d%2Fae%2F519dae3990b646017827e12400774182.jpg&type=b400
+F10530611306_b065121e92_b.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Flive.staticflickr.com%2F7292%2F10530611306_b065121e92_b.jpg&type=b400
+5E5.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20140227_63%2Fpetri__1393507423623Fa8vj_JPEG%2F%25B4%25D9%25BF%25EE%25B7%25CE%25B5%25E5.jpg&type=b400
+
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fassets.community.lomography.com%2F3a%2F2348f1206b8dc6f8086bb9788e33794be7ce87%2F1216x794x2.jpg%3Fauth%3D9ad5493ebbbd15ca1698e0e4e3774714cee0644b&type=b400
+F6e68ef5fc666b2ac47906d9d2c151725.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F6e%2F68%2Fef%2F6e68ef5fc666b2ac47906d9d2c151725.jpg&type=b400
+Fil_570xN.120
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.etsystatic.com%2F14315720%2Fr%2Fil%2F43b53d%2F1209564187%2Fil_570xN.1209564187_hd2q.jpg&type=b400
+
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimg.etsystatic.com%2Fil%2F69563d%2F1453038419%2Fil_570xN.1453038419_8c3w.jpg%3Fversion%3D0&type=b400
+Fclose-up-photo-red-fluffy-tabby-male-cat-green-eyes-home-interior-brown-cat-red-male-cat-ginger-cat-112763960.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fclose-up-photo-red-fluffy-tabby-male-cat-green-eyes-home-interior-brown-cat-red-male-cat-ginger-cat-112763960.jpg&type=b400
+Fimage_38139301474870242764.png
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160926_12%2F1worldkorea_1474870254932eMM9T_PNG%2Fimage_38139301474870242764.png&type=b400
+
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fcdn.eyeem.com%2Fthumb%2Fa81c26bca45d9410f553ca1360e395a7504f1916-1429035130%2F3900%2F3900&type=b400
+
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fcdn5.eyeem.com%2Fthumb%2F86b305c331a4ceeea1f788bd921c2faf9afb7c70-1485575256391%2F1280%2F1280&type=b400
+F12428d8843fbbb77f827cdeca138b117.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F12%2F42%2F8d%2F12428d8843fbbb77f827cdeca138b117.jpg&type=b400
+Fac3fb9c3fa96487b789fcf5a49cf0d8e.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fac%2F3f%2Fb9%2Fac3fb9c3fa96487b789fcf5a49cf0d8e.jpg&type=b400
+F182795238091dae276a15a5e0cd734bf.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F18%2F27%2F95%2F182795238091dae276a15a5e0cd734bf.jpg&type=b400
+Fil_570xN.128
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.etsystatic.com%2F11220554%2Fr%2Fil%2Faf3d60%2F1284185624%2Fil_570xN.1284185624_rorl.jpg&type=b400
+F500grumpycatTSHIRT.jpg
+https://search.pstatic.net/sunny/?src=http%3A%2F%2F4.bp.blogspot.com%2F-S8YCXJ9XEqQ%2FULTvGqkmA1I%2FAAAAAAAAiao%2F5oiJODSL-YI%2Fs1600%2F500grumpycatTSHIRT.jpg&type=b400
+
+https://search.pstatic.net/sunny/?src=http%3A%2F%2Fwww.ninewest.com%2Fdw%2Fimage%2Fv2%2FAACA_PRD%2Fon%2Fdemandware.static%2F-%2FSites-ninewest-catalog%2Fdefault%2Fv1525060861461%2Fproducts%2FPG.10224733.JJ906L5.EZ.jpg%3Fsw%3D2000%26sh%3D2000&type=b400
+Fcat-power-wanderer-1531848614-640x640-1-1534284194-640x640.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxODA4MThfMTQ0%2FMDAxNTM0NTcwODg3MzQx.dAjbU6sM3x8L7HeS6yXn3Q40JTYdQ5EKnmIhxKYuAxYg.P6iPxNv-KC7FdlsL3RnoZTt25c42htNgmpvGstHkeTMg.JPEG.whdtlr7473%2Fcat-power-wanderer-1531848614-640x640-1-1534284194-640x640.jpg&type=b400
+Fnaty_chabanenko3.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20111214_114%2Fguapa79_13238507210203WfhO_JPEG%2Fnaty_chabanenko3.jpg&type=b400
+F25268840b88e7da3e41556fda1312670.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F25%2F26%2F88%2F25268840b88e7da3e41556fda1312670.jpg&type=b400
+F2754200-alley_cat_c64_1_1.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fgiantbomb1.cbsistatic.com%2Fuploads%2Fscale_small%2F7%2F73970%2F2754200-alley_cat_c64_1_1.jpg&type=b400
+F33d826a4a6c9c7eb62aeb015c07a1055.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F33%2Fd8%2F26%2F33d826a4a6c9c7eb62aeb015c07a1055.jpg&type=b400
+
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimages.hugoboss.com%2Fis%2Fimage%2Fboss%2Fhbeu58037723_999_21%3F%24re_fullPageZoom%24%26qlt%3D70%26wid%3D600%26hei%3D910&type=b400
+Fcat_power_024.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20151025_83%2Fidreamup_1445773193296UwUSx_JPEG%2Fcat_power_024.jpg&type=b400
+Fil_570xN.896
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.etsystatic.com%2F6497391%2Fr%2Fil%2Ff60024%2F896489606%2Fil_570xN.896489606_7exr.jpg&type=b400
+FCP_1023.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxOTA3MDRfMjM3%2FMDAxNTYyMTgzMzc0Nzk4.rADMoWZKMGvFgKneUpP7bCYhv7aCbswXYySoRL0lrgQg.2y2kp_Ske1U9dxu0XTkeqUAkCulQn_X9DrcJDETyrmMg.JPEG.willohzeht9620%2FCP_1023.jpg&type=b400
+Fcat3-vs-cat5-vs-cat5e-vs-cat6-vs-cat6e-vs-cat6a-vs-cat7-1-638.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimage.slidesharecdn.com%2Fcat3vs-130815231450-phpapp02%2F95%2Fcat3-vs-cat5-vs-cat5e-vs-cat6-vs-cat6e-vs-cat6a-vs-cat7-1-638.jpg&type=b400
+529.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160215_295%2Fsungboheco_1455522661699PgQMY_JPEG%2FCAT820%2528294L1%2529.jpg&type=b400
+Fil_570xN.137
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.etsystatic.com%2F6770179%2Fr%2Fil%2F817668%2F1377412457%2Fil_570xN.1377412457_pz7e.jpg&type=b400
+F2bd1d614e7255ef0c7c437d9e46f2d55.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F2b%2Fd1%2Fd6%2F2bd1d614e7255ef0c7c437d9e46f2d55.jpg&type=b400
+Fcat_power_aoi_i_eujin999.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2Fdata28%2F2007%2F12%2F26%2F131%2Fcat_power_aoi_i_eujin999.jpg&type=b400
+Fc3979654431d1446bf5f0a26980e3143.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fc3%2F97%2F96%2Fc3979654431d1446bf5f0a26980e3143.jpg&type=b400
+F1184046.jpg
+https://search.pstatic.net/sunny/?src=http%3A%2F%2Fwww.leocom.kr%2Fimages%2Fproduct%2Fimages%2F1184046.jpg&type=b400
+5BB_-lan_cat5e_gisul1.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMjZfMjgg%2FMDAxNDg1NDA2Mzk1NTAx.3uBvRxmPFVrhIwIeopASiCuTvV5E7XSLdrwpFnDEuq0g.hWFADGO1vW9-GHdw4ZANyV6ht6BTaNHoZeyvALXko-Eg.JPEG.ayukawah%2F%25BB%25E7%25BA%25BB_-lan_cat5e_gisul1.jpg&type=b400
+
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimages.hugoboss.com%2Fis%2Fimage%2Fboss%2Fhbna58045662_999_21%3F%24re_fullPageZoom%24%26qlt%3D70%26wid%3D600%26hei%3D910&type=b400
+F5d488a44791f8f507dce8daa412184b6.jpg
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F5d%2F48%2F8a%2F5d488a44791f8f507dce8daa412184b6.jpg&type=b400
+F1181199.jpg
+https://search.pstatic.net/sunny/?src=http%3A%2F%2Fwww.leocom.kr%2Fimages%2Fproduct%2Fimages%2F1181199.jpg&type=b400
+Fil_570xN.133
+https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.etsystatic.com%2F9429624%2Fr%2Fil%2Ff8c633%2F1338058967%2Fil_570xN.1338058967_pixv.jpg&type=b400
+5C1.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160205_164%2Fsungboheco_1454659045117z0dkE_JPEG%2FCAT_SUS3521%252CSUS3521C%252C%25C4%25B9%25C6%25DF%25C7%25C1%252C%25C4%25B9%25B0%25ED%25BE%25D0%25C6%25DF%25C7%25C1.jpg&type=b400
+Fcat_623_621_625_820_821_825_1010_1011_1015.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160205_38%2Fsungboheco_1454658384464GsJsV_JPEG%2Fcat_623_621_625_820_821_825_1010_1011_1015.jpg&type=b400
+5BB_-lan_cat5e_gisul3.jpg
+https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMjZfMjg2%2FMDAxNDg1NDA2Mzk1Nzk0.wu3MfnLrm_lILm-Qnl5KlY-f6bz-jD6cWxJB1t-uyjYg.4yqexg7vyDtMsiDDFv6_0jI67i2_Fzm-cn-LP09EW6Mg.JPEG.ayukawah%2F%25BB%25E7%25BA%25BB_-lan_cat5e_gisul3.jpg&type=b400
+#+end_example
+
+
+#+begin_src ipython :results output
+  import urllib.request
+  from bs4 import BeautifulSoup
+  res = urllib.request.urlopen('https://search.naver.com/search.naver?where=image&sm=tab_jum&query=cat').read()
+
+  soup = BeautifulSoup(res, 'html.parser')
+
+  imgs = soup.findAll('img', class_='_img')
+
+  # print(imgs)
+  # print(imgs[0]['data-source'])
+  for idx, img in enumerate(imgs):
+    # img_start_idx = img['data-source'].rfind('%')+2
+    # img_end_idx = str.find(img['data-source'], '.', img_start_idx) + 4
+    # img_name = img['data-source'][img_start_idx:img_end_idx]
+    urllib.request.urlretrieve(img['data-source'], 'naver_images/image' + idx)
+#+end_src

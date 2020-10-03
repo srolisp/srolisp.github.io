@@ -1,0 +1,10 @@
+#+title: Project
+#+subtitle: 6 weeks by kdh
+#+date: <2020-09-28 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn28 :tangle "mglearn200928.py" :exports both
+
+#+author: srolisp
+

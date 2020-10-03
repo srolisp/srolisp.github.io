@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 19:17 -->
+<!-- 2020-10-03 Sat 15:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>(Binary)Logistic Classification</title>
@@ -272,29 +272,29 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orge46e27f">1. Basics</a></li>
-<li><a href="#org04e0bbe">2. Goal</a></li>
-<li><a href="#org226c9c2">3. Pros</a>
+<li><a href="#orgab75dcc">1. Basics</a></li>
+<li><a href="#org38626f2">2. Goal</a></li>
+<li><a href="#org0a0cfa0">3. Pros</a>
 <ul>
-<li><a href="#org22a7729">3.1. Interpretable (main reason)</a></li>
-<li><a href="#org08f0cfc">3.2. Small number of params \((n+1)\) \(w_{0}\) 는 bias)</a></li>
-<li><a href="#org4d7f974">3.3. Computationally eff. to estimate w (Newton's method)</a></li>
-<li><a href="#org802f93d">3.4. Multiclass</a></li>
-<li><a href="#orgfde1a91">3.5. Foundational</a></li>
+<li><a href="#org89f20cf">3.1. Interpretable (main reason)</a></li>
+<li><a href="#orgd5ff9aa">3.2. Small number of params \((n+1)\) \(w_{0}\) 는 bias)</a></li>
+<li><a href="#orgf7af295">3.3. Computationally eff. to estimate w (Newton's method)</a></li>
+<li><a href="#orgdd852ba">3.4. Multiclass</a></li>
+<li><a href="#org1534fa7">3.5. Foundational</a></li>
 </ul>
 </li>
-<li><a href="#org9b0491d">4. Cons</a>
+<li><a href="#org9ba7ad8">4. Cons</a>
 <ul>
-<li><a href="#org327c99a">4.1. Not good as best performance methods</a></li>
+<li><a href="#org4f43f7d">4.1. Not good as best performance methods</a></li>
 </ul>
 </li>
-<li><a href="#orgdeb8786">5. \(w_{MLE}\)</a></li>
+<li><a href="#org087ccad">5. \(w_{MLE}\)</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orge46e27f" class="outline-2">
-<h2 id="orge46e27f"><span class="section-number-2">1</span> Basics</h2>
+<div id="outline-container-orgab75dcc" class="outline-2">
+<h2 id="orgab75dcc"><span class="section-number-2">1</span> Basics</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 \(Given: D = ((x_{1}, y_{1}), (x_{2}, y_{2}), \dots, (x_{d}, y_{d})),\ \ x_{i} \in \mathbb{R}^n, y_{i} \in \{0,1\}\)
@@ -334,20 +334,20 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
 </div>
 </div>
 
-<div id="outline-container-org04e0bbe" class="outline-2">
-<h2 id="org04e0bbe"><span class="section-number-2">2</span> Goal</h2>
+<div id="outline-container-org38626f2" class="outline-2">
+<h2 id="org38626f2"><span class="section-number-2">2</span> Goal</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 \(\mathscr{L}(w)\)가 최소인 w 파라메터를 찾는 게 목표. \(\qquad w \in \mathbb{R}^n\)
 </p>
 </div>
 </div>
-<div id="outline-container-org226c9c2" class="outline-2">
-<h2 id="org226c9c2"><span class="section-number-2">3</span> Pros</h2>
+<div id="outline-container-org0a0cfa0" class="outline-2">
+<h2 id="org0a0cfa0"><span class="section-number-2">3</span> Pros</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org22a7729" class="outline-3">
-<h3 id="org22a7729"><span class="section-number-3">3.1</span> Interpretable (main reason)</h3>
+<div id="outline-container-org89f20cf" class="outline-3">
+<h3 id="org89f20cf"><span class="section-number-3">3.1</span> Interpretable (main reason)</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 \(w_{0} + w_{1}feature_{1} + w_{2}feature_{2} + w_{3}feature_{3}\)
@@ -355,40 +355,40 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
 </div>
 </div>
 
-<div id="outline-container-org08f0cfc" class="outline-3">
-<h3 id="org08f0cfc"><span class="section-number-3">3.2</span> Small number of params \((n+1)\) \(w_{0}\) 는 bias)</h3>
+<div id="outline-container-orgd5ff9aa" class="outline-3">
+<h3 id="orgd5ff9aa"><span class="section-number-3">3.2</span> Small number of params \((n+1)\) \(w_{0}\) 는 bias)</h3>
 </div>
 
-<div id="outline-container-org4d7f974" class="outline-3">
-<h3 id="org4d7f974"><span class="section-number-3">3.3</span> Computationally eff. to estimate w (Newton's method)</h3>
+<div id="outline-container-orgf7af295" class="outline-3">
+<h3 id="orgf7af295"><span class="section-number-3">3.3</span> Computationally eff. to estimate w (Newton's method)</h3>
 </div>
 
-<div id="outline-container-org802f93d" class="outline-3">
-<h3 id="org802f93d"><span class="section-number-3">3.4</span> Multiclass</h3>
+<div id="outline-container-orgdd852ba" class="outline-3">
+<h3 id="orgdd852ba"><span class="section-number-3">3.4</span> Multiclass</h3>
 </div>
 
-<div id="outline-container-orgfde1a91" class="outline-3">
-<h3 id="orgfde1a91"><span class="section-number-3">3.5</span> Foundational</h3>
+<div id="outline-container-org1534fa7" class="outline-3">
+<h3 id="org1534fa7"><span class="section-number-3">3.5</span> Foundational</h3>
 </div>
 </div>
 
-<div id="outline-container-org9b0491d" class="outline-2">
-<h2 id="org9b0491d"><span class="section-number-2">4</span> Cons</h2>
+<div id="outline-container-org9ba7ad8" class="outline-2">
+<h2 id="org9ba7ad8"><span class="section-number-2">4</span> Cons</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org327c99a" class="outline-3">
-<h3 id="org327c99a"><span class="section-number-3">4.1</span> Not good as best performance methods</h3>
+<div id="outline-container-org4f43f7d" class="outline-3">
+<h3 id="org4f43f7d"><span class="section-number-3">4.1</span> Not good as best performance methods</h3>
 </div>
 </div>
 
-<div id="outline-container-orgdeb8786" class="outline-2">
-<h2 id="orgdeb8786"><span class="section-number-2">5</span> \(w_{MLE}\)</h2>
+<div id="outline-container-org087ccad" class="outline-2">
+<h2 id="org087ccad"><span class="section-number-2">5</span> \(w_{MLE}\)</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 \(log\alpha = log\sigma(w^{T}x) = log\frac{1}{1+e^{-w^{T}x}} = -log(1+e^{-w^{T}x})\)
 </p>
 \begin{equation} 
-\label{org5c0d3e1}
+\label{org3eb67ca}
 \begin{split}
 \frac{\delta}{\delta w_{j}}log\alpha_{i} & = \frac{\delta}{\delta w_{j}} -log({1+e^{-w^{T}x_{i}}}) \\
                                          & = \frac{e^{-w^{T}x_{i}}}{1+e^{-w^{T}x_{i}}}x_{ij} \\
@@ -399,7 +399,7 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
 \(log(1-\alpha) = log(1- \sigma(w^{T}x)) = log(1-\frac{1}{1+e^{-w^{T}x}}) = log\frac{e^{-w^{T}x}}{1+e^{-w^{T}x}} = -w^{T}x - log(1+e^{-w^{T}x})\)
 </p>
 \begin{equation}
-\label{org383b3f3}
+\label{org2858f65}
 \begin{split}
 \frac{\delta}{\delta w_{j}}log(1-\alpha_{i}) & = \frac{\delta}{\delta w_{j}} (-w^{T}x_{i} - log(1+e^{-w^{T}x_{i}})) \\
                                              & = x_{ij} + \frac{\delta}{\delta w_{j}} - log(1+e^{-w^{T}x_{i}}) \\
@@ -459,9 +459,9 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
 </p>
 \begin{equation}
 \begin{split}
-\frac{\delta}{\delta w} \mathscr{L}(w) & = \begin{bmatrix}
+\frac{\delta}{\delta w^T} \mathscr{L}(w) & = \begin{bmatrix}
                                            \alpha_{1}-y_{1}  & \alpha_{2}-y_{2} & \alpha_{3}-y_{3} & \dots & \alpha_{d}-y_{d}
-                                           \end{bmatrix}
+                                           \end{bmatrix}^T
                                            \begin{bmatrix}
                                            x_{11} & x_{12} & \dots & x_{1n} \\
                                            x_{21} & x_{22} & \dots & x_{2n} \\
@@ -471,13 +471,69 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
                                        & = (a-y)^TA
 \end{split}
 \end{equation}
+<p>
+\(\frac{\delta^2}{\delta w_{j}\delta w_{k}} \mathscr{L}(w)\) 를 구해보자.
+</p>
+
+
+\begin{equation}
+\begin{split}
+\frac{\delta^2}{\delta w_{j}\delta w_{k}} \mathscr{L}(w) & = \frac{\delta}{\delta w_{k}}\sum_{i=1}^{d}(\alpha_{i} - y_{i})x_{ij} \\
+                                                         & = \sum_{i=1}^{d}\frac{\delta}{\delta w_{k}}\{(\alpha_{i} - y_{i})x_{ij}\} \\
+                                                         & = \sum_{i=1}^{d}x_{ij}\frac{\delta}{\delta w_{k}}\alpha_{i} \\
+
+\end{split}
+\end{equation}
+<p>
+\(\frac{\delta}{\delta w_{k}}\alpha_{i} \) 는,
+</p>
+\begin{equation}
+\begin{split}
+\frac{\delta}{\delta w_{k}} log\alpha_{i} & = x_{k}(1-\alpha_{i}) \\
+\delta log\alpha_{i} & = x_{k}(1-\alpha_{i})\delta w_{k} \qquad\qquad\qquad\qquad \delta log\alpha_{i} = \frac{\delta \alpha_{i}}{\alpha_{i}} \\
+\frac{\delta \alpha_{i}}{\alpha_{i}} & = x_{k}(1-\alpha_{i})\delta w_{k} \\
+\frac{\delta \alpha_{i}}{\delta w_{k}} & = \alpha_{i}(1-\alpha_{i})x_{k} \\
+\end{split}
+\end{equation}
+<p>
+이렇게 전개해서 정리를 하던데, 나는 일일히 전개해서 구했다. 여튼, <br />
+(11)식에서 구한 미분 \(\frac{\delta}{\delta w_{k}}\alpha_{i}^T\) 을 (10)식에 대입하면, 
+</p>
+\begin{equation}
+\begin{split}
+\frac{\delta^2}{\delta w_{j}\delta w_{k}} \mathscr{L}(w) & = \sum_{i=1}^{d}x_{ij}\alpha_{i}(1-\alpha_{i})x_{ik} \\
+\end{split}
+\end{equation}
+<p>
+행렬로 표현하면 \(d\ x\ d\) 로 표현된다.
+</p>
+\begin{equation}
+\begin{split}
+\frac{\delta^2}{\delta w^2} \mathscr{L}(w) & = A^TBA \qquad\qquad\qquad B = \begin{bmatrix} \alpha_{1}(1-\alpha_{1}) & 0 & \dots &  & 0\\
+                                                                                             0 & \alpha_{2}(1-\alpha_{2}) &  & & \vdots \\
+                                                                                             \vdots & \ddots & \ddots & \ddots & 0 \\
+                                                                                             0 & 0 &  & \dots & \alpha_{n}(1-\alpha_{n}) \\
+                                                                                             \end{bmatrix}\\
+\end{split}
+\end{equation}
+
+
+\begin{equation}
+\begin{split}
+A^TBA & = A^TB^{1/2}B^{1/2}A \\
+      & = (B^{1/2}A)^T(B^{1/2}A)
+\end{split}
+\end{equation}
+<p>
+따라서, \(\mathscr{L}\) 은 convex 이다.
+</p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 2020-09-27 Sun 11:00</p>
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-09-27 Sun 19:17</p>
+<p class="date">Created: 2020-10-03 Sat 15:57</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

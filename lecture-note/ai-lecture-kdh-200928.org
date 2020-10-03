@@ -1,0 +1,61 @@
+#+title: Project
+#+subtitle: 6 weeks by kdh
+#+date: <2020-09-28 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn28 :tangle "mglearn200928.py" :exports both
+
+#+author: srolisp
+
+* Crawling
+#+begin_src ipython :results output
+  import requests
+  from bs4 import BeautifulSoup
+
+  url = 'https://finance.naver.com/item/main.nhn?code=031820'
+  res = requests.get(url)
+  soup = BeautifulSoup(res.content, 'html.parser')
+
+  blinds = soup.findAll('span', {'class' : 'blind'})
+
+  for blind in blinds:
+    print(type(blind))
+
+  # div_today = soup.find('div', {'class': 'today'})
+
+  # td_today = div_today.find('span', {'class' : 'blind'})
+  # print(td_today.text)
+
+  # td_firsts = soup.findAll('td', {'class' : 'first'})
+  # for td_first in td_firsts:
+  #   print(td_first.find('span', {'class' : 'blind'}).text)
+
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+<class 'bs4.element.Tag'>
+#+end_example

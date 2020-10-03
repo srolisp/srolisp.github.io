@@ -114,9 +114,9 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
                                            \end{bmatrix} \\\)
 \begin{equation}
 \begin{split}
-\frac{\delta}{\delta w} \mathscr{L}(w) & = \begin{bmatrix}
+\frac{\delta}{\delta w^T} \mathscr{L}(w) & = \begin{bmatrix}
                                            \alpha_{1}-y_{1}  & \alpha_{2}-y_{2} & \alpha_{3}-y_{3} & \dots & \alpha_{d}-y_{d}
-                                           \end{bmatrix}
+                                           \end{bmatrix}^T
                                            \begin{bmatrix}
                                            x_{11} & x_{12} & \dots & x_{1n} \\
                                            x_{21} & x_{22} & \dots & x_{2n} \\
@@ -126,3 +126,53 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
                                        & = (a-y)^TA
 \end{split}
 \end{equation}
+\(\frac{\delta^2}{\delta w_{j}\delta w_{k}} \mathscr{L}(w)\) 를 구해보자.
+
+
+\begin{equation}
+\begin{split}
+\frac{\delta^2}{\delta w_{j}\delta w_{k}} \mathscr{L}(w) & = \frac{\delta}{\delta w_{k}}\sum_{i=1}^{d}(\alpha_{i} - y_{i})x_{ij} \\
+                                                         & = \sum_{i=1}^{d}\frac{\delta}{\delta w_{k}}\{(\alpha_{i} - y_{i})x_{ij}\} \\
+                                                         & = \sum_{i=1}^{d}x_{ij}\frac{\delta}{\delta w_{k}}\alpha_{i} \\
+
+\end{split}
+\end{equation}
+\(\frac{\delta}{\delta w_{k}}\alpha_{i} \) 는,
+\begin{equation}
+\begin{split}
+\frac{\delta}{\delta w_{k}} log\alpha_{i} & = x_{k}(1-\alpha_{i}) \\
+\delta log\alpha_{i} & = x_{k}(1-\alpha_{i})\delta w_{k} \qquad\qquad\qquad\qquad \delta log\alpha_{i} = \frac{\delta \alpha_{i}}{\alpha_{i}} \\
+\frac{\delta \alpha_{i}}{\alpha_{i}} & = x_{k}(1-\alpha_{i})\delta w_{k} \\
+\frac{\delta \alpha_{i}}{\delta w_{k}} & = \alpha_{i}(1-\alpha_{i})x_{k} \\
+\end{split}
+\end{equation}
+이렇게 전개해서 정리를 하던데, 나는 일일히 전개해서 구했다. 여튼, \\
+(11)식에서 구한 미분 \(\frac{\delta}{\delta w_{k}}\alpha_{i}^T\) 을 (10)식에 대입하면, 
+\begin{equation}
+\begin{split}
+\frac{\delta^2}{\delta w_{j}\delta w_{k}} \mathscr{L}(w) & = \sum_{i=1}^{d}x_{ij}\alpha_{i}(1-\alpha_{i})x_{ik} \\
+\end{split}
+\end{equation}
+행렬로 표현하면 \(d\ x\ d\) 로 표현된다.
+\begin{equation}
+\begin{split}
+\frac{\delta^2}{\delta w^2} \mathscr{L}(w) & = A^TBA \qquad\qquad\qquad B = \begin{bmatrix} \alpha_{1}(1-\alpha_{1}) & 0 & \dots &  & 0\\
+                                                                                             0 & \alpha_{2}(1-\alpha_{2}) &  & & \vdots \\
+                                                                                             \vdots & \ddots & \ddots & \ddots & 0 \\
+                                                                                             0 & 0 &  & \dots & \alpha_{n}(1-\alpha_{n}) \\
+                                                                                             \end{bmatrix}\\
+\end{split}
+\end{equation}
+
+
+\begin{equation}
+\begin{split}
+A^TBA & = A^TB^{1/2}B^{1/2}A \\
+      & = (B^{1/2}A)^T(B^{1/2}A)
+\end{split}
+\end{equation}
+따라서, \(\mathscr{L}\) 은 convex 이다.
+
+
+
+

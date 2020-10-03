@@ -882,7 +882,7 @@ CCTV_Seoul['최근증가율']=(CCTV_Seoul['2018년']+CCTV_Seoul['2017년']+CCTV_
 CCTV_Seoul['최근증가율']
 #+end_src
 
-#+RESULTS:
+#+RESULTgS:
 :results:
 # Out[176]:
 #+BEGIN_EXAMPLE
