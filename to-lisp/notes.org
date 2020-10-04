@@ -1,0 +1,53 @@
+* asdf settings
+
+** 예전방법이군 권장하고 있는 quicklisp 를 쓰자.
+*** .sbclrc 설정
+#+begin_src lisp
+  (require :asdf)
+  (push "/Users/sroh/pg/2020/python/uiap/to-lisp/" asdf:*central-registry*)
+#+end_src
+
+*** bash 에서 swank link
+#+begin_src bash
+  cd /users/sroh/pg/2020/python/uiap/to-lisp/
+  ln -s /Users/sroh/.emacs.d/elpa/slime-20200810.224/swank.asd
+#+end_src
+
+*** sbcl 실행후
+#+begin_src lisp
+  (asdf:oos 'asdf:load-op :swank)
+#+end_src
+
+** M-x slime 해도 repl 이 바로 실행되지 않는 문제는 아래 코드 추가하니 제대로 repl이 나타났다.
+#+begin_src lisp
+  (slime-setup '(slime-fancy))
+#+end_src
+
+** quickload
+gpg 없으면 설치하자 brew install gpg
+
+#+begin_src bash
+  curl -O https://beta.quicklisp.org/quicklisp.lisp
+  curl -O https://beta.quicklisp.org/quicklisp.lisp.asc
+#+end_src
+
+#+begin_src bash
+  gpg --verify quicklisp.lisp.asc quicklisp.lisp
+#+end_src
+에러가 뜨면 에러메세지에 있는 키와 함께
+#+begin_src bash
+  # gpg --keyserver keyserver.ubuntu.com --recv-keys 키값
+  gpg --keyserver keyserver.ubuntu.com --recv-keys 307965AB028B5FF7
+  
+#+end_src
+  sbcl --load quicklisp.lisp
+
+#+begin_src lisp
+(quicklisp-quickstart:install)
+#+end_src
+
+** for project
+.sbclrc 
+#+begin_src lisp
+(push #p"/Users/sroh/pg/2020/python/uiap/to-lisp/" asdf:*central-registry*)
+#+end_src

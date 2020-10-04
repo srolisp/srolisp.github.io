@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-03 Sat 15:57 -->
+<!-- 2020-10-04 Sun 21:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>(Binary)Logistic Classification</title>
@@ -272,29 +272,30 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgab75dcc">1. Basics</a></li>
-<li><a href="#org38626f2">2. Goal</a></li>
-<li><a href="#org0a0cfa0">3. Pros</a>
+<li><a href="#orgb005b8b">1. Basics</a></li>
+<li><a href="#orged11bc5">2. Goal</a></li>
+<li><a href="#org14821fe">3. Pros</a>
 <ul>
-<li><a href="#org89f20cf">3.1. Interpretable (main reason)</a></li>
-<li><a href="#orgd5ff9aa">3.2. Small number of params \((n+1)\) \(w_{0}\) 는 bias)</a></li>
-<li><a href="#orgf7af295">3.3. Computationally eff. to estimate w (Newton's method)</a></li>
-<li><a href="#orgdd852ba">3.4. Multiclass</a></li>
-<li><a href="#org1534fa7">3.5. Foundational</a></li>
+<li><a href="#org585e50d">3.1. Interpretable (main reason)</a></li>
+<li><a href="#orgf617c66">3.2. Small number of params \((n+1)\) \(w_{0}\) 는 bias)</a></li>
+<li><a href="#org269bf76">3.3. Computationally eff. to estimate w (Newton's method)</a></li>
+<li><a href="#org63a64c3">3.4. Multiclass</a></li>
+<li><a href="#orgd209f77">3.5. Foundational</a></li>
 </ul>
 </li>
-<li><a href="#org9ba7ad8">4. Cons</a>
+<li><a href="#orge78d52c">4. Cons</a>
 <ul>
-<li><a href="#org4f43f7d">4.1. Not good as best performance methods</a></li>
+<li><a href="#org02f9eec">4.1. Not good as best performance methods</a></li>
 </ul>
 </li>
-<li><a href="#org087ccad">5. \(w_{MLE}\)</a></li>
+<li><a href="#org8252a76">5. \(w_{MLE}\)</a></li>
+<li><a href="#orgf423423">6. Implements</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgab75dcc" class="outline-2">
-<h2 id="orgab75dcc"><span class="section-number-2">1</span> Basics</h2>
+<div id="outline-container-orgb005b8b" class="outline-2">
+<h2 id="orgb005b8b"><span class="section-number-2">1</span> Basics</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 \(Given: D = ((x_{1}, y_{1}), (x_{2}, y_{2}), \dots, (x_{d}, y_{d})),\ \ x_{i} \in \mathbb{R}^n, y_{i} \in \{0,1\}\)
@@ -334,20 +335,20 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
 </div>
 </div>
 
-<div id="outline-container-org38626f2" class="outline-2">
-<h2 id="org38626f2"><span class="section-number-2">2</span> Goal</h2>
+<div id="outline-container-orged11bc5" class="outline-2">
+<h2 id="orged11bc5"><span class="section-number-2">2</span> Goal</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 \(\mathscr{L}(w)\)가 최소인 w 파라메터를 찾는 게 목표. \(\qquad w \in \mathbb{R}^n\)
 </p>
 </div>
 </div>
-<div id="outline-container-org0a0cfa0" class="outline-2">
-<h2 id="org0a0cfa0"><span class="section-number-2">3</span> Pros</h2>
+<div id="outline-container-org14821fe" class="outline-2">
+<h2 id="org14821fe"><span class="section-number-2">3</span> Pros</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org89f20cf" class="outline-3">
-<h3 id="org89f20cf"><span class="section-number-3">3.1</span> Interpretable (main reason)</h3>
+<div id="outline-container-org585e50d" class="outline-3">
+<h3 id="org585e50d"><span class="section-number-3">3.1</span> Interpretable (main reason)</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 \(w_{0} + w_{1}feature_{1} + w_{2}feature_{2} + w_{3}feature_{3}\)
@@ -355,40 +356,39 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
 </div>
 </div>
 
-<div id="outline-container-orgd5ff9aa" class="outline-3">
-<h3 id="orgd5ff9aa"><span class="section-number-3">3.2</span> Small number of params \((n+1)\) \(w_{0}\) 는 bias)</h3>
+<div id="outline-container-orgf617c66" class="outline-3">
+<h3 id="orgf617c66"><span class="section-number-3">3.2</span> Small number of params \((n+1)\) \(w_{0}\) 는 bias)</h3>
 </div>
 
-<div id="outline-container-orgf7af295" class="outline-3">
-<h3 id="orgf7af295"><span class="section-number-3">3.3</span> Computationally eff. to estimate w (Newton's method)</h3>
+<div id="outline-container-org269bf76" class="outline-3">
+<h3 id="org269bf76"><span class="section-number-3">3.3</span> Computationally eff. to estimate w (Newton's method)</h3>
 </div>
 
-<div id="outline-container-orgdd852ba" class="outline-3">
-<h3 id="orgdd852ba"><span class="section-number-3">3.4</span> Multiclass</h3>
+<div id="outline-container-org63a64c3" class="outline-3">
+<h3 id="org63a64c3"><span class="section-number-3">3.4</span> Multiclass</h3>
 </div>
 
-<div id="outline-container-org1534fa7" class="outline-3">
-<h3 id="org1534fa7"><span class="section-number-3">3.5</span> Foundational</h3>
+<div id="outline-container-orgd209f77" class="outline-3">
+<h3 id="orgd209f77"><span class="section-number-3">3.5</span> Foundational</h3>
 </div>
 </div>
 
-<div id="outline-container-org9ba7ad8" class="outline-2">
-<h2 id="org9ba7ad8"><span class="section-number-2">4</span> Cons</h2>
+<div id="outline-container-orge78d52c" class="outline-2">
+<h2 id="orge78d52c"><span class="section-number-2">4</span> Cons</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org4f43f7d" class="outline-3">
-<h3 id="org4f43f7d"><span class="section-number-3">4.1</span> Not good as best performance methods</h3>
+<div id="outline-container-org02f9eec" class="outline-3">
+<h3 id="org02f9eec"><span class="section-number-3">4.1</span> Not good as best performance methods</h3>
 </div>
 </div>
 
-<div id="outline-container-org087ccad" class="outline-2">
-<h2 id="org087ccad"><span class="section-number-2">5</span> \(w_{MLE}\)</h2>
+<div id="outline-container-org8252a76" class="outline-2">
+<h2 id="org8252a76"><span class="section-number-2">5</span> \(w_{MLE}\)</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 \(log\alpha = log\sigma(w^{T}x) = log\frac{1}{1+e^{-w^{T}x}} = -log(1+e^{-w^{T}x})\)
 </p>
 \begin{equation} 
-\label{org3eb67ca}
 \begin{split}
 \frac{\delta}{\delta w_{j}}log\alpha_{i} & = \frac{\delta}{\delta w_{j}} -log({1+e^{-w^{T}x_{i}}}) \\
                                          & = \frac{e^{-w^{T}x_{i}}}{1+e^{-w^{T}x_{i}}}x_{ij} \\
@@ -399,7 +399,6 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
 \(log(1-\alpha) = log(1- \sigma(w^{T}x)) = log(1-\frac{1}{1+e^{-w^{T}x}}) = log\frac{e^{-w^{T}x}}{1+e^{-w^{T}x}} = -w^{T}x - log(1+e^{-w^{T}x})\)
 </p>
 \begin{equation}
-\label{org2858f65}
 \begin{split}
 \frac{\delta}{\delta w_{j}}log(1-\alpha_{i}) & = \frac{\delta}{\delta w_{j}} (-w^{T}x_{i} - log(1+e^{-w^{T}x_{i}})) \\
                                              & = x_{ij} + \frac{\delta}{\delta w_{j}} - log(1+e^{-w^{T}x_{i}}) \\
@@ -505,14 +504,14 @@ Loss 함수로 표현하기 위해 앞에 \(-\)를 취해서 최소함수로 변
 \end{split}
 \end{equation}
 <p>
-행렬로 표현하면 \(d\ x\ d\) 로 표현된다.
+행렬로 표현하면 \(n\ x\ n\) 로 표현된다.
 </p>
 \begin{equation}
 \begin{split}
 \frac{\delta^2}{\delta w^2} \mathscr{L}(w) & = A^TBA \qquad\qquad\qquad B = \begin{bmatrix} \alpha_{1}(1-\alpha_{1}) & 0 & \dots &  & 0\\
                                                                                              0 & \alpha_{2}(1-\alpha_{2}) &  & & \vdots \\
                                                                                              \vdots & \ddots & \ddots & \ddots & 0 \\
-                                                                                             0 & 0 &  & \dots & \alpha_{n}(1-\alpha_{n}) \\
+                                                                                             0 & 0 &  & \dots & \alpha_{d}(1-\alpha_{d}) \\
                                                                                              \end{bmatrix}\\
 \end{split}
 \end{equation}
@@ -526,14 +525,160 @@ A^TBA & = A^TB^{1/2}B^{1/2}A \\
 \end{equation}
 <p>
 따라서, \(\mathscr{L}\) 은 convex 이다.
+convex이므로 최소가 되는 지점을 newton method를 사용해서 구해보자.
 </p>
+\begin{equation}
+\begin{split}
+w_{t+1} & = w_{t} - H^{-1}g  \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\ \ \  H = A^TBA \\
+                & \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad g = A^T(a-y) 수정\\
+        & = w_{t} - (A^TBA)^{-1}A^T(a-y) \\
+        & = (A^TBA)^{-1}\{(A^TBA)w_{t}-A^T(a-y)\} \\
+        & = (A^TBA)^{-1}(A^TB)\{Aw_{t}-B^{-1}(a-y)\} \\
+\end{split}
+\end{equation}
+</div>
+</div>
+
+<div id="outline-container-orgf423423" class="outline-2">
+<h2 id="orgf423423"><span class="section-number-2">6</span> Implements</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+<pre class="src src-ipython">import numpy as np
+from numpy.linalg import inv
+class LogisticRegression:
+
+    def __init__(self, lr=0.001, n_iters=1000):
+	self.lr = lr
+	self.n_iters = n_iters
+	self.weights = None
+	self.bias = None
+	self.a = None
+
+    def fit(self, X, y):
+	# init parameters
+	n_samples, n_features = X.shape
+	self.weights = np.zeros(X.shape[1])
+
+	for _ in range(self.n_iters):
+	    wx = np.dot(X, self.weights)
+	    a = self._sigmoid(wx)
+	    one_a = np.array([1-a_i for a_i in a])
+
+	    B = np.diag(a * one_a)
+	    dldw = np.dot((a - y).T, X)
+	    d2ldw2 = np.dot(np.dot(X.T, B), X)
+	    inv_d2ldw2 = inv(d2ldw2)
+	    # update weights
+	    self.weights -= np.dot(inv_d2ldw2, dldw)
+	self.a = a
+
+    def predict(self, X):
+	y_predicted = self._sigmoid(np.dot(X, self.weights))
+	y_predicted_cls = [1 if i &gt; 0.5 else 0 for i in y_predicted]
+	return y_predicted_cls
+
+    def result_a(self):
+	return self.a
+
+    def result_weights(self):
+	return self.weights
+
+    def _sigmoid(self, a):
+	 return 1 / (1 + np.exp(-a))
+
+    def _print_debug(self, str, X):
+	 print(str + '\n', X.shape)
+	 print(X)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">from sklearn.model_selection import train_test_split
+from sklearn import datasets
+import matplotlib.pyplot as plt
+
+bc = datasets.load_breast_cancer()
+X, y = bc.data[:,:21], bc.target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
+
+def accuracy(y_true, y_pred):
+    accuracy = np.sum(y_true == y_pred) / len(y_true)
+    return accuracy
+
+r = LogisticRegression()
+r.fit(X_train, y_train)
+predictions = r.predict(X_test)
+
+print("LR classification accuracy:", accuracy(y_test, predictions))
+
+</pre>
+</div>
+
+<pre class="example">
+LR classification accuracy: 0.9298245614035088
+</pre>
+
+
+<pre class="example">
+[-0.07860971798503143]
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">x_3d = np.linspace(0, 40, 455)
+# print(len(x_3d))
+y_3d = np.linspace(0, 3000, 455)
+# print(len(y_3d))
+# x_3d, y_3d = np.meshgrid(x_3d, x_3d)
+z = r.result_a()
+# print(len(z))
+fig = plt.figure(figsize=(6,9))
+ax = fig.add_subplot(111, projection='3d')
+# ax.contour(x_3d, y_3d, z.reshape(35, 13))
+# ax.scatter(X_train[:,10],X_train[:,3],r.result_a())
+# ax.plot_surface(x_3d,y_3d,z.reshape(13, 35))
+ax.scatter(X_train[:,10],X_train[:,3],y_train, marker='.',c='red')
+
+
+# ax.plot(x_3d,y_3d, z )
+# ax.view_init(elev=90.,
+# azim=180
+# )
+
+</pre>
+</div>
+
+<pre class="example">
+&lt;mpl_toolkits.mplot3d.art3d.Path3DCollection at 0x7fefde0e5080&gt;
+</pre>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/kxNMEH.png" alt="kxNMEH.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">plt.figure()
+plt.scatter(np.dot(X_train, r.result_weights()), r.result_a(), marker='.')
+plt.scatter(np.dot(X_train, r.result_weights()), y_train, marker='_', c='red', alpha=.3)
+plt.show()
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./obipy-resources/euTyt6.png" alt="euTyt6.png" />
+</p>
+</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 2020-09-27 Sun 11:00</p>
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-10-03 Sat 15:57</p>
+<p class="date">Created: 2020-10-04 Sun 21:57</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
