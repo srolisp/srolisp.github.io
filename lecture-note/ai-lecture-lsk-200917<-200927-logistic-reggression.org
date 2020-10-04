@@ -284,8 +284,8 @@ Hessian 역행렬을 구해야하다보니 linear dependent 조건을 잘 걸러
 
 #+RESULTS:
 :results:
-# Out[597]:
-[[file:./obipy-resources/pE1jdX.png]]
+# Out[598]:
+[[file:./obipy-resources/w7IZ6E.png]]
 :end:
 
 #+begin_src ipython :results raw drawer
@@ -297,6 +297,6 @@ Hessian 역행렬을 구해야하다보니 linear dependent 조건을 잘 걸러
 
 #+RESULTS:
 :results:
-# Out[558]:
-[[file:./obipy-resources/cQ7u5j.png]]
+# Out[599]:
+[[file:./obipy-resources/FpjogA.png]]
 :end:
