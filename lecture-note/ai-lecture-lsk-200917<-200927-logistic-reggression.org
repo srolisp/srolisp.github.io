@@ -188,7 +188,6 @@ w_{t+1} & = w_{t} - H^{-1}g  \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qq
   class LogisticRegression:
 
       def __init__(self, n_iters=1000):
-          self.lr = lr
           self.n_iters = n_iters
           self.weights = None
           self.bias = None

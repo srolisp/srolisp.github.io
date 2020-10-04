@@ -3,7 +3,6 @@ from numpy.linalg import inv
 class LogisticRegression:
 
     def __init__(self, n_iters=1000):
-        self.lr = lr
         self.n_iters = n_iters
         self.weights = None
         self.bias = None
