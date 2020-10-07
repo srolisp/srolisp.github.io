@@ -1,0 +1,248 @@
+#+title: Project
+#+subtitle: 6 weeks by kdh
+#+date: <2020-10-05 Mon 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn05 :tangle "mglearn201005.py" :exports both
+
+#+author: srolisp
+
+* 한글 인식 by lecture
+#+begin_src ipython :results output
+  import urllib.request
+  from bs4 import BeautifulSoup as bs
+  from urllib.parse import quote_plus
+  
+  keyword = quote_plus('고양이')
+  print(keyword)
+#+end_src
+
+#+RESULTS:
+: %EA%B3%A0%EC%96%91%EC%9D%B4
+
+* mine
+#+begin_src ipython :results output
+  import urllib.request
+  from bs4 import BeautifulSoup
+
+  def get_url_from_search_word(sw, q='https://search.naver.com/search.naver?where=image&sm=tab_jum&query='):
+      return q + urllib.request.pathname2url(sw)
+  url = get_url_from_search_word('고양이')
+  res = urllib.request.urlopen(url).read()
+  soup = BeautifulSoup(res, 'html.parser')
+  # print(soup.find('div', {'class' : 'photowall _photoGridWrapper'}))
+#+end_src
+
+#+RESULTS:
+
+* selenium
+
+** colab
+코랩에 chromedriver설치
+# #+begin_src bash
+#   apt-get update
+#   apt install chromium-chromedriver
+# #+end_src
+
+#+begin_src ipython :results output
+  from selenium import webdriver
+  from urllib.request import urlopen
+  from bs4 import BeautifulSoup as bs
+  from urllib.parse import quote_plus
+  from selenium.webdriver.common.keys import Keys
+  import time
+
+
+
+  # base_url = get_url_from_search_word('고양이')
+  url = 'https://search.naver.com/search.naver?where=image&sm=tab_jum&query='
+  keyword = '고양이'
+  base_url = url + quote_plus(keyword)
+
+  chrome_options = webdriver.ChromeOptions()
+  # colab에서는 보이지 않는 상태에서 쓸거기때문에 필요한 옵션임.
+  chrome_options.add_argument('--headless')
+  chrome_options.add_argument('--no-sandbox')
+  chrome_options.add_argument('--disable-dev-shm-usage')
+  driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver', options=chrome_options)
+  # driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver')
+  driver.get(base_url)
+
+  body = driver.find_element_by_css_selector('body')
+  # def set_web_pages_with_num_images (n_images):
+  #     n = int(n_images / 50)
+  #     return
+  for i in range(10):
+      body.send_keys(Keys.PAGE_DOWN)
+      time.sleep(1)
+
+  imgs = driver.find_elements_by_css_selector('img._img')
+  # for idx, img in enumerate(imgs):
+  #     print(idx, img.get_attribute('src')[:3])
+
+  count = 0
+  idx = 0
+  idx_max = len(imgs)
+  acc = []
+  while count < 300:
+    if imgs[idx].get_attribute('src')[:4] == 'http':
+        # print(idx, count, imgs[idx].get_attribute('src')[:4])
+        acc.append(imgs[idx].get_attribute('src'))
+        count += 1
+    idx += 1
+    if idx == idx_max:
+        # print("spawn")
+        for i in range(10):
+            body.send_keys(Keys.PAGE_DOWN)
+            time.sleep(1)
+        imgs = driver.find_elements_by_css_selector('img._img')
+        idx_max = len(imgs)
+#+end_src
+
+#+RESULTS:
+: 300
+
+#+begin_src ipython :results output
+print(acc[:10])
+#+end_src
+
+#+RESULTS:
+: ['https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2Fdata13%2F2005%2F12%2F28%2F221%2F%25B1%25AA%25C0%25CC-tlrkxmskdl.jpg&type=b400', 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20121226_198%2Fvitaminmd_1356500213018Caobd_JPEG%2F5.jpg&type=b400', 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2Fdata42%2F2009%2F4%2F29%2F193%2F1600cat_12020_nobanaba.jpg&type=b400', 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20121105_119%2Fpet_korea_13521155239109X93X_JPEG%2F_MG_1143_copy.jpg&type=b400', 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20150919_90%2Fkimiyong88_1442646576744NAFqt_JPEG%2FB3%2595%258C4.JPG&type=b400', 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20120808_277%2Ftpet2_1344432366023a5JkD_PNG%2F2.png&type=b400', 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxOTAxMTNfMjA4%2FMDAxNTQ3MzgyMTA5MTgw.dFr5soH-khfwi1r1V-fC4VdRp9xliDO2-S4t5SDQ_Acg.LBo8sG4HHvZFcVmVPDnNy0jSnUCa_ODansmAiYQchTwg.JPEG.yakmir2%2F%25B0%25ED%25BE%25E7%25C0%25CC_%252859%2529.jpg&type=b400', 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20110521_267%2Fwdr08100_1305964109543PKUmd_JPEG%2F%25B1%25CD%25BF%25A9%25BF%25EE_%25B9%25D9%25C5%25C1%25C8%25AD%25B8%25E9_%25B0%25ED%25BE%25E7%25C0%25CC_%25B9%25E8%25B0%25E6%25C8%25AD%25B8%25E9_1600x1200_329.jpg&type=b400', 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20110531_5%2Fhojin2778330_1306768389980FpqJh_JPEG%2F114.jpg&type=b400', 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20150923_38%2Flejdyd_1442990661878S3O0t_JPEG%2Fcat-181268_1280.jpg&type=b400']
+
+#+begin_src ipython :results output :async t
+  from selenium import webdriver
+  from urllib.request import urlopen
+  import urllib.request
+  from bs4 import BeautifulSoup as bs
+  from urllib.parse import quote_plus
+  from selenium.webdriver.common.keys import Keys
+  import time
+  import os
+
+
+  # base_url = get_url_from_search_word('고양이')
+  url = 'https://search.naver.com/search.naver?where=image&sm=tab_jum&query='
+
+  keyword = '암컷고양이'
+  base_url = url + quote_plus(keyword)
+
+  # chrome_options = webdriver.ChromeOptions()
+  # chrome_options.add_argument('--headless')
+  # chrome_options.add_argument('--no-sandbox')
+  # chrome_options.add_argument('--disable-dev-shm-usage')
+  driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver')
+#, options=chrome_options)
+
+  driver.get(base_url)
+  body = driver.find_element_by_css_selector('body')
+
+  for i in range(20):
+      body.send_keys(Keys.PAGE_DOWN)
+      time.sleep(1)
+
+  imgs = driver.find_elements_by_css_selector('img._img')
+  count = 0
+  idx = 0
+  idx_max = len(imgs)
+  acc = []
+
+  while count < 600:
+    if imgs[idx].get_attribute('src')[:4] == 'http':
+        # print(idx, count, imgs[idx].get_attribute('src')[:4])
+        acc.append(imgs[idx].get_attribute('src'))
+        count += 1
+    idx += 1
+    if idx == idx_max:
+         # print("spawn")
+         tmp = 0
+         while len(driver.find_elements_by_css_selector('img._img')) == len(imgs):
+              if tmp >= 10:
+                  break
+              body.send_keys(Keys.PAGE_DOWN)
+              time.sleep(1)
+              tmp += 1
+              
+         if tmp >= 10:
+             print('END WEBPAGES, OK - get')
+             break
+         else:
+             imgs = driver.find_elements_by_css_selector('img._img')
+             idx_max = len(imgs)
+
+  driver.close()
+  # get_images('고양이')
+
+  print('OK - get')
+#+end_src
+
+#+RESULTS:
+: END WEBPAGES, OK - get
+: OK - get
+
+
+#+begin_src ipython :results output :async t
+  import os
+  path = 'naver_images/' + keyword
+  if not (os.path.isdir(path)):
+      os.makedirs(os.path.join(path))
+
+  for idx, src in enumerate(acc):
+      urllib.request.urlretrieve(src, path + '/' + keyword + str(idx) + '.jpg')
+
+  print('OK')
+#+end_src
+
+#+RESULTS:
+: OK
+
+
+# #+begin_src ipython :results output
+#   def get_images(keyword, url='https://search.naver.com/search.naver?where=image&sm=tab_jum&query=',
+#                  ):        
+#       base_url = url + quote_plus(keyword)
+
+#       chrome_options = webdriver.ChromeOptions()
+#       driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver')
+#       # driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver')
+#       driver.get(base_url)
+
+#       body = driver.find_element_by_css_selector('body')
+      
+#       # driver.find_element_by_css_selector()
+
+#       # def set_web_pages_with_num_images (n_images):
+#       #     n = int(n_images / 50)
+#       #     return
+#       # for i in range(10):
+#       #     body.send_keys(Keys.PAGE_DOWN)
+#       #     time.sleep(1)
+
+#       # imgs = driver.find_elements_by_css_selector('img._img')
+#       # # for idx, img in enumerate(imgs):
+#       # #     print(idx, img.get_attribute('src')[:3])
+
+#       # count = 0
+#       # idx = 0
+#       # idx_max = len(imgs)
+#       # acc = []
+#       # while count < 300:
+#       #     if imgs[idx].get_attribute('src')[:4] == 'http':
+#       #          # print(idx, count, imgs[idx].get_attribute('src')[:4])
+#       #          acc.append(imgs[idx].get_attribute('src'))
+#       #          count += 1
+#       #          idx += 1
+#       #          if idx == idx_max:
+#       #              # print("spawn")
+#       #              for i in range(10):
+#       #                  body.send_keys(Keys.PAGE_DOWN)
+#       #                  time.sleep(1)
+#       #                  imgs = driver.find_elements_by_css_selector('img._img')
+#       #                  idx_max = len(imgs)
+#       # driver.close()
+
+#   get_images('고양이')
+# #+end_src
+
+#+RESULTS:
+

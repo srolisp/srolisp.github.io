@@ -237,8 +237,64 @@ https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNz
   # print(imgs)
   # print(imgs[0]['data-source'])
   for idx, img in enumerate(imgs):
-    # img_start_idx = img['data-source'].rfind('%')+2
-    # img_end_idx = str.find(img['data-source'], '.', img_start_idx) + 4
-    # img_name = img['data-source'][img_start_idx:img_end_idx]
-    urllib.request.urlretrieve(img['data-source'], 'naver_images/image' + idx)
+    img_start_idx = img['data-source'].rfind('%')+2
+    img_end_idx = str.find(img['data-source'], '.', img_start_idx) + 4
+    img_name = img['data-source'][img_start_idx:img_end_idx]
+    # print(img)
+    # urllib.request.urlretrieve(img['data-source'], 'naver_images/image' + str(idx))
 #+end_src
+
+#+begin_src ipython :results output
+  import urllib.request
+  from bs4 import BeautifulSoup
+  res = urllib.request.urlopen('https://search.naver.com/search.naver?where=image&sm=tab_jum&query=' + urllib.request.pathname2url('고양이')).read()
+  print(res)
+  # print(res)
+  # soup = BeautifulSoup(res, 'html.parser')
+
+  # print(soup)
+  # imgs = soup.findAll('img', class_='_img')
+
+  # print(imgs)
+  # print(imgs[0]['data-source'])
+  # for idx, img in enumerate(imgs):
+  #   img_start_idx = img['data-source'].rfind('%')+2
+  #   img_end_idx = str.find(img['data-source'], '.', img_start_idx) + 4
+  #   img_name = img['data-source'][img_start_idx:img_end_idx]
+  #   # print(img)
+  #   # urllib.request.urlretrieve(img['data-source'], 'naver_images/image' + str(idx))
+#+end_src
+
+#+RESULTS:
+: https://search.naver.com/search.naver?where=image&sm=tab_jum&query=%EA%B3%A0%EC%96%91%EC%9D%B4
+
+#+begin_src ipython :results output
+  print(urllib.request.pathname2url('https://search.naver.com/search.naver?where=image&sm=tab_jum&query=고양이'))
+#+end_src
+
+#+RESULTS:
+: https%3A//search.naver.com/search.naver%3Fwhere%3Dimage%26sm%3Dtab_jum%26query%3D%EA%B3%A0%EC%96%91%EC%9D%B4
+
+#+begin_src ipython :results output
+  import urllib.request
+  from bs4 import BeautifulSoup
+
+  def get_url_from_search_word(sw, q='https://search.naver.com/search.naver?where=image&sm=tab_jum&query='):
+      return q + urllib.request.pathname2url(sw)
+  url = get_url_from_search_word('고양이')
+  res = urllib.request.urlopen(url).read()
+  soup = BeautifulSoup(res, 'html.parser')
+  print(soup.find('div', {'class' : 'photowall _photoGridWrapper'}))
+  # print(soup)
+  # imgs = soup.findAll('img', class_='_img')
+
+  # print(imgs)
+  # print(imgs[0]['data-source'])
+  # for idx, img in enumerate(imgs):
+  #   img_start_idx = img['data-source'].rfind('%')+2
+  #   img_end_idx = str.find(img['data-source'], '.', img_start_idx) + 4
+  #   img_name = img['data-source'][img_start_idx:img_end_idx]
+  #   # print(img)
+  #   # urllib.request.urlretrieve(img['data-source'], 'naver_images/image' + str(idx))
+#+end_src
+

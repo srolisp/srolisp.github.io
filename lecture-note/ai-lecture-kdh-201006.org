@@ -1,0 +1,99 @@
+#+title: Project
+#+subtitle: 6 weeks by kdh
+#+date: <2020-10-06 Tue 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn06 :tangle "mglearn201006.py" :exports both
+
+#+author: srolisp
+
+* crawling
+#+begin_src ipython :results output
+      url_query_dict = {'naver': 
+                       'https://search.naver.com/search.naver?where=image&sm=tab_jum&query=',
+                       'google': 'https://www.google.co.kr/search?client=safari&hl=ko&source=hp&biw=&bih=&q='}
+
+      print(url_query_dict['naver'])
+      def get_images(keyword, webdriver=None, webvisual=None, services_dict=url_query_dict):
+          if webdriver is None:
+              chrome_options = webdriver.ChromeOptions()
+  #   # chrome_options.add_argument('--headless')
+  #   # chrome_options.add_argument('--no-sandbox')
+  #   # chrome_options.add_argument('--disable-dev-shm-usage')
+  #   driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver')
+  # #, options=chrome_options)
+#+end_src
+
+#+RESULTS:
+: https://search.naver.com/search.naver?where=image&sm=tab_jum&query=
+
+  #   url = 'https://search.naver.com/search.naver?where=image&sm=tab_jum&query='
+
+  #   keyword = '암컷고양이'
+  #   base_url = url + quote_plus(keyword)
+
+  #   # chrome_options = webdriver.ChromeOptions()
+  #   # chrome_options.add_argument('--headless')
+  #   # chrome_options.add_argument('--no-sandbox')
+  #   # chrome_options.add_argument('--disable-dev-shm-usage')
+  #   driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver')
+  # #, options=chrome_options)
+
+  #   driver.get(base_url)
+  #   body = driver.find_element_by_css_selector('body')
+
+  #   for i in range(20):
+  #       body.send_keys(Keys.PAGE_DOWN)
+  #       time.sleep(1)
+
+  #   imgs = driver.find_elements_by_css_selector('img._img')
+  #   count = 0
+  #   idx = 0
+  #   idx_max = len(imgs)
+  #   acc = []
+
+  #   while count < 600:
+  #     if imgs[idx].get_attribute('src')[:4] == 'http':
+  #         # print(idx, count, imgs[idx].get_attribute('src')[:4])
+  #         acc.append(imgs[idx].get_attribute('src'))
+  #         count += 1
+  #     idx += 1
+  #     if idx == idx_max:
+  #          # print("spawn")
+  #          tmp = 0
+  #          while len(driver.find_elements_by_css_selector('img._img')) == len(imgs):
+  #               if tmp >= 10:
+  #                   break
+  #               body.send_keys(Keys.PAGE_DOWN)
+  #               time.sleep(1)
+  #               tmp += 1
+
+  #          if tmp >= 10:
+  #              print('END WEBPAGES, OK - get')
+  #              break
+  #          else:
+  #              imgs = driver.find_elements_by_css_selector('img._img')
+  #              idx_max = len(imgs)
+
+  #   driver.close()
+    # get_images('고양이')
+
+    # print('OK - get')
+
+# #+begin_src ipython :results output :async t
+#   import os
+#   path = 'naver_images/' + keyword
+#   if not (os.path.isdir(path)):
+#       os.makedirs(os.path.join(path))
+
+#   for idx, src in enumerate(acc):
+#       urllib.request.urlretrieve(src, path + '/' + keyword + str(idx) + '.jpg')
+
+#   print('OK')
+
+# #+end_src
+
+* platform_browser.ts:28 Fetch API cannot load file:///Users/sroh/pg/2020/python/uiap/lecture-note/web/my_model/model.json. URL scheme must be "http" or "https" for CORS request.
+캠 띄울려면 http나 https 에서 작동되도록 되어 있어서 에러를 띄운다.
+
