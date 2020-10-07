@@ -1,5 +1,17 @@
+#+title: Project
+#+subtitle: 6 weeks by kdh
+#+date: <2020-10-07 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn1007 :tangle "mglearn201007.py" :exports both
+
+#+author: srolisp
+
+* 
+#+begin_export html 
 <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./web/style.css">
 </head>
 
 <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -26,8 +38,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
-<script src="./tmachine.js"></script>
-<script src="./image.js"></script>
+<script src="./web/tmachine.js"></script>
+<script src="./web/image.js"></script>
 
 <!-- 주석 처리해도 괜찮다. -->
 <!-- Copyright (c) 2020 by Aaron Vanston (https://codepen.io/aaronvanston/pen/yNYOXR) -->
@@ -41,3 +53,8 @@
 
 <!-- <script type="text/javascript">
 -->
+
+#+end_export
+
+
+* google 에서 notion 검색

@@ -1,4 +1,4 @@
-function readURL(input) {
+function readURL(input, ts) {
     if (input.files && input.files[0]) {
 
         var reader = new FileReader();
@@ -13,7 +13,8 @@ function readURL(input) {
         };
 
         reader.readAsDataURL(input.files[0]);
-        init()
+	// init 함수를 여기서 실행하지 말고.. init 함수를 인자로 받아서 실행 할 수 있게 하자
+        // init() 			// tmachine.js
     } else {
         removeUpload();
     }

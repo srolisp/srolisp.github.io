@@ -10,23 +10,30 @@
 
 * crawling
 #+begin_src ipython :results output
-      url_query_dict = {'naver': 
-                       'https://search.naver.com/search.naver?where=image&sm=tab_jum&query=',
-                       'google': 'https://www.google.co.kr/search?client=safari&hl=ko&source=hp&biw=&bih=&q='}
+  from selenium import webdriver  
 
-      print(url_query_dict['naver'])
-      def get_images(keyword, webdriver=None, webvisual=None, services_dict=url_query_dict):
-          if webdriver is None:
-              chrome_options = webdriver.ChromeOptions()
-  #   # chrome_options.add_argument('--headless')
-  #   # chrome_options.add_argument('--no-sandbox')
-  #   # chrome_options.add_argument('--disable-dev-shm-usage')
-  #   driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver')
-  # #, options=chrome_options)
+  url_query_dict = {'naver': 
+                   'https://search.naver.com/search.naver?where=image&sm=tab_jum&query=',
+                   'google': 'https://www.google.co.kr/search?client=safari&hl=ko&source=hp&biw=&bih=&q='}
+
+  def get_images(keyword, web_driver=None, web_visual=None, services_dict=url_query_dict):
+      if web_driver is None:
+          chrome_options = webdriver.ChromeOptions()
+          if web_visual is None:
+              chrome_options.add_argument('--headless')
+              chrome_options.add_argument('--no-sandbox')
+              chrome_options.add_argument('--disable-dev-shm-usage')
+          driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver', options=chrome_options)
+      else:
+          driver = web_driver
+      return driver
+
+  print(get_images('고양이', web_visual=True))
+
 #+end_src
 
 #+RESULTS:
-: https://search.naver.com/search.naver?where=image&sm=tab_jum&query=
+: <selenium.webdriver.chrome.webdriver.WebDriver (session="dff348aa81d54581839c060d59d910a4")>
 
   #   url = 'https://search.naver.com/search.naver?where=image&sm=tab_jum&query='
 
@@ -97,3 +104,6 @@
 * platform_browser.ts:28 Fetch API cannot load file:///Users/sroh/pg/2020/python/uiap/lecture-note/web/my_model/model.json. URL scheme must be "http" or "https" for CORS request.
 캠 띄울려면 http나 https 에서 작동되도록 되어 있어서 에러를 띄운다.
 
+* 로컬에서 테스트
+해당 디렉토리로 가서
+python -m http.server &
