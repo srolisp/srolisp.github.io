@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-08 Thu 16:46 -->
+<!-- 2020-10-08 Thu 16:54 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Teachable Machine 을 이용한 고양이 얼굴로 암수 구분</title>
@@ -273,20 +273,20 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org2b3ed0f">1. Idea</a></li>
-<li><a href="#org225304f">2. Collect data</a></li>
-<li><a href="#org58867e5">3. Refine data</a></li>
-<li><a href="#orgf363f1a">4. Analyze data(omitted)</a></li>
-<li><a href="#org3fd87da">5. Train - Test</a></li>
-<li><a href="#orgf098482">6. Development service(web)</a>
+<li><a href="#org8d49320">1. Idea</a></li>
+<li><a href="#org9ec40a9">2. Collect data</a></li>
+<li><a href="#orgffe8cb0">3. Refine data</a></li>
+<li><a href="#orgfccb206">4. Analyze data(omitted)</a></li>
+<li><a href="#org115ed61">5. Train - Test</a></li>
+<li><a href="#org04b50c7">6. Development service(web)</a>
 <ul>
-<li><a href="#org5628cbc">6.1. Export Teachable Machine</a></li>
-<li><a href="#org6089f70">6.2. 사진을 업로드해서 test 해볼 수 있도록 html 코드 작성</a></li>
-<li><a href="#orga67f883">6.3. localhost 에서 test</a></li>
-<li><a href="#orgbd7bf78">6.4. org 파일 수정</a></li>
+<li><a href="#orgfc9314b">6.1. Export Teachable Machine</a></li>
+<li><a href="#org268e54a">6.2. 사진을 업로드해서 test 해볼 수 있도록 html 코드 작성</a></li>
+<li><a href="#org84d52f0">6.3. localhost 에서 test</a></li>
+<li><a href="#org8970337">6.4. org 파일 수정</a></li>
 </ul>
 </li>
-<li><a href="#org21790ed">7. Distribute using github</a></li>
+<li><a href="#orgcbc89e6">7. Distribute using github</a></li>
 </ul>
 </div>
 </div>
@@ -330,8 +330,8 @@ for the JavaScript code in this tag.
 <!-- <script type="text/javascript">
 -->
 
-<div id="outline-container-org2b3ed0f" class="outline-2">
-<h2 id="org2b3ed0f"><span class="section-number-2">1</span> Idea</h2>
+<div id="outline-container-org8d49320" class="outline-2">
+<h2 id="org8d49320"><span class="section-number-2">1</span> Idea</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 머신러닝을 활용한 프로젝트.
@@ -344,8 +344,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org225304f" class="outline-2">
-<h2 id="org225304f"><span class="section-number-2">2</span> Collect data</h2>
+<div id="outline-container-org9ec40a9" class="outline-2">
+<h2 id="org9ec40a9"><span class="section-number-2">2</span> Collect data</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 네이버 이미지를 크롤링해서 고양이 이미지 수집
@@ -356,8 +356,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org58867e5" class="outline-2">
-<h2 id="org58867e5"><span class="section-number-2">3</span> Refine data</h2>
+<div id="outline-container-orgffe8cb0" class="outline-2">
+<h2 id="orgffe8cb0"><span class="section-number-2">3</span> Refine data</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 필요없는 데이터는 제거하고, 가공이 필요한 부분은 적절히 수정. 중요한
@@ -367,8 +367,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orgf363f1a" class="outline-2">
-<h2 id="orgf363f1a"><span class="section-number-2">4</span> Analyze data(omitted)</h2>
+<div id="outline-container-orgfccb206" class="outline-2">
+<h2 id="orgfccb206"><span class="section-number-2">4</span> Analyze data(omitted)</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 중요한 단계이지만.. 생략.
@@ -376,8 +376,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org3fd87da" class="outline-2">
-<h2 id="org3fd87da"><span class="section-number-2">5</span> Train - Test</h2>
+<div id="outline-container-org115ed61" class="outline-2">
+<h2 id="org115ed61"><span class="section-number-2">5</span> Train - Test</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 수집하고 정제한 고양이 암수 사진을 Teachable Machine을 이용해서 학습, 테스트함.
@@ -390,12 +390,12 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-orgf098482" class="outline-2">
-<h2 id="orgf098482"><span class="section-number-2">6</span> Development service(web)</h2>
+<div id="outline-container-org04b50c7" class="outline-2">
+<h2 id="org04b50c7"><span class="section-number-2">6</span> Development service(web)</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-org5628cbc" class="outline-3">
-<h3 id="org5628cbc"><span class="section-number-3">6.1</span> Export Teachable Machine</h3>
+<div id="outline-container-orgfc9314b" class="outline-3">
+<h3 id="orgfc9314b"><span class="section-number-3">6.1</span> Export Teachable Machine</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 Teachable Machine 에서 train 된 모델을 export. 몇가지 옵션중 js script 로 사용할 수 있게끔 제공된다. 이것을 이용해서 웹페이지에서 제공할 수 있게 해보자.
@@ -573,8 +573,8 @@ async function predict() {
 </div>
 </div>
 
-<div id="outline-container-org6089f70" class="outline-3">
-<h3 id="org6089f70"><span class="section-number-3">6.2</span> 사진을 업로드해서 test 해볼 수 있도록 html 코드 작성</h3>
+<div id="outline-container-org268e54a" class="outline-3">
+<h3 id="org268e54a"><span class="section-number-3">6.2</span> 사진을 업로드해서 test 해볼 수 있도록 html 코드 작성</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 일일히 html 을 작성하고 js script 작성하기 힘드므로, 구글링해서 이미 만들어진 소스 코드를 이용하자.
@@ -906,8 +906,8 @@ $('.image-upload-wrap').bind('dragover', function () {
 </div>
 </div>
 
-<div id="outline-container-orga67f883" class="outline-3">
-<h3 id="orga67f883"><span class="section-number-3">6.3</span> localhost 에서 test</h3>
+<div id="outline-container-org84d52f0" class="outline-3">
+<h3 id="org84d52f0"><span class="section-number-3">6.3</span> localhost 에서 test</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 주소: localhsot:8000/&#x2026;.
@@ -923,8 +923,8 @@ css 스타일이 종종 적용안되는 경우가 있다. web에 올려서도 �
 </div>
 </div>
 
-<div id="outline-container-orgbd7bf78" class="outline-3">
-<h3 id="orgbd7bf78"><span class="section-number-3">6.4</span> org 파일 수정</h3>
+<div id="outline-container-org8970337" class="outline-3">
+<h3 id="org8970337"><span class="section-number-3">6.4</span> org 파일 수정</h3>
 <div class="outline-text-3" id="text-6-4">
 <p>
 css파일이 head태그 내부에 있어서 org 파일을 수정했다.
@@ -937,8 +937,8 @@ css파일이 head태그 내부에 있어서 org 파일을 수정했다.
 </div>
 </div>
 
-<div id="outline-container-org21790ed" class="outline-2">
-<h2 id="org21790ed"><span class="section-number-2">7</span> Distribute using github</h2>
+<div id="outline-container-orgcbc89e6" class="outline-2">
+<h2 id="orgcbc89e6"><span class="section-number-2">7</span> Distribute using github</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 <a href="https://srolisp.github.io/teacherble-machine-example/">https://srolisp.github.io/teacherble-machine-example/</a>
@@ -949,7 +949,7 @@ css파일이 head태그 내부에 있어서 org 파일을 수정했다.
 <div id="postamble" class="status">
 <p class="date">Date: 2020-10-07 Wed 18:00</p>
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-10-08 Thu 16:46</p>
+<p class="date">Created: 2020-10-08 Thu 16:54</p>
 </div>
 </body>
 </html>
