@@ -1,7 +1,7 @@
-body {
+/* body { */
     font-family: sans-serif;
-    background-color: #aaaaaa;
-  }
+/*     background-color: #aaaaaa; */
+/*   } */
   
   .file-upload {
     background-color: #ffffff;
@@ -11,7 +11,7 @@ body {
   }
   
   .file-upload-btn {
-    width: 100%;
+    width: 300px;
     margin: 0;
     color: #fff;
     background: #1FB264;

@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-08 Thu 14:26 -->
+<!-- 2020-10-08 Thu 16:46 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Project</title>
+<title>Teachable Machine 을 이용한 고양이 얼굴로 암수 구분</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="srolisp" />
 <style type="text/css">
@@ -240,10 +240,32 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
-<h1 class="title">Project
+<h1 class="title">Teachable Machine 을 이용한 고양이 얼굴로 암수 구분
 <br />
 <span class="subtitle">6 weeks by kdh</span>
 </h1>
@@ -251,15 +273,23 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org1076002">1. </a></li>
-<li><a href="#orga82a93a">2. google 에서 notion 검색</a></li>
+<li><a href="#org2b3ed0f">1. Idea</a></li>
+<li><a href="#org225304f">2. Collect data</a></li>
+<li><a href="#org58867e5">3. Refine data</a></li>
+<li><a href="#orgf363f1a">4. Analyze data(omitted)</a></li>
+<li><a href="#org3fd87da">5. Train - Test</a></li>
+<li><a href="#orgf098482">6. Development service(web)</a>
+<ul>
+<li><a href="#org5628cbc">6.1. Export Teachable Machine</a></li>
+<li><a href="#org6089f70">6.2. 사진을 업로드해서 test 해볼 수 있도록 html 코드 작성</a></li>
+<li><a href="#orga67f883">6.3. localhost 에서 test</a></li>
+<li><a href="#orgbd7bf78">6.4. org 파일 수정</a></li>
+</ul>
+</li>
+<li><a href="#org21790ed">7. Distribute using github</a></li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org1076002" class="outline-2">
-<h2 id="org1076002"><span class="section-number-2">1</span> </h2>
-<div class="outline-text-2" id="text-1">
 <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <div class="file-upload">
     <!-- <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button> -->
@@ -267,7 +297,7 @@ for the JavaScript code in this tag.
     <div class="image-upload-wrap">
         <input class="file-upload-input" type='file' onchange="readURL(this, init());" accept="image/*" />
         <div class="drag-text">
-            <h3>Drag and drop a file or select add Image</h3>
+            <h3>Drag and drop a CAT's Image</h3>
         </div>
     </div>
     <div class="file-upload-content">
@@ -299,19 +329,627 @@ for the JavaScript code in this tag.
 
 <!-- <script type="text/javascript">
 -->
+
+<div id="outline-container-org2b3ed0f" class="outline-2">
+<h2 id="org2b3ed0f"><span class="section-number-2">1</span> Idea</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+머신러닝을 활용한 프로젝트.
+생각이 없다. 고양이로 뭔가를 해보자.
+</p>
+
+<p>
+\(고양이 얼굴을 이용한 암수 구분\)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org225304f" class="outline-2">
+<h2 id="org225304f"><span class="section-number-2">2</span> Collect data</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+네이버 이미지를 크롤링해서 고양이 이미지 수집
+뭔가 같이 하는 부분이 있었으면 해서 수집을 파트별로 나눠서 했음.
+숫고양이만 수집 후 다른 분의 암고양이 수집 데이터를 받아서 사용.
+검색: 남자 고양이, 남고양이, 수컷 고양이
+</p>
+</div>
+</div>
+
+<div id="outline-container-org58867e5" class="outline-2">
+<h2 id="org58867e5"><span class="section-number-2">3</span> Refine data</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+필요없는 데이터는 제거하고, 가공이 필요한 부분은 적절히 수정. 중요한
+파트이지만, 단기간에 큰 수고로움없이 머신러닝을 적용한 프로젝트 한
+싸이클을 돌아보는게 취지이므로 일단 과정 생략.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf363f1a" class="outline-2">
+<h2 id="orgf363f1a"><span class="section-number-2">4</span> Analyze data(omitted)</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+중요한 단계이지만.. 생략.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3fd87da" class="outline-2">
+<h2 id="org3fd87da"><span class="section-number-2">5</span> Train - Test</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+수집하고 정제한 고양이 암수 사진을 Teachable Machine을 이용해서 학습, 테스트함.
+</p>
+
+<p>
+<a href="https://teachablemachine.withgoogle.com">https://teachablemachine.withgoogle.com</a>
+</p>
 </div>
 </div>
 
 
-<div id="outline-container-orga82a93a" class="outline-2">
-<h2 id="orga82a93a"><span class="section-number-2">2</span> google 에서 notion 검색</h2>
+<div id="outline-container-orgf098482" class="outline-2">
+<h2 id="orgf098482"><span class="section-number-2">6</span> Development service(web)</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org5628cbc" class="outline-3">
+<h3 id="org5628cbc"><span class="section-number-3">6.1</span> Export Teachable Machine</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Teachable Machine 에서 train 된 모델을 export. 몇가지 옵션중 js script 로 사용할 수 있게끔 제공된다. 이것을 이용해서 웹페이지에서 제공할 수 있게 해보자.
+</p>
+
+<ul class="org-ul">
+<li><p>
+js 원본코드
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js">&lt;div&gt;Teachable Machine Image Model&lt;/div&gt;
+&lt;button type="button" onclick="init()"&gt;Start&lt;/button&gt;
+&lt;div id="webcam-container"&gt;&lt;/div&gt;
+&lt;div id="label-container"&gt;&lt;/div&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+    // More API functions here:
+    // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+    // the link to your model provided by Teachable Machine export panel
+    const URL = "./my_model/";
+
+    let model, webcam, labelContainer, maxPredictions;
+
+    // Load the image model and setup the webcam
+    async function init() {
+	const modelURL = URL + "model.json";
+	const metadataURL = URL + "metadata.json";
+
+	// load the model and metadata
+	// Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+	// or files from your local hard drive
+	// Note: the pose library adds "tmImage" object to your window (window.tmImage)
+	model = await tmImage.load(modelURL, metadataURL);
+	maxPredictions = model.getTotalClasses();
+
+	// Convenience function to setup a webcam
+	const flip = true; // whether to flip the webcam
+	webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+	await webcam.setup(); // request access to the webcam
+	await webcam.play();
+	window.requestAnimationFrame(loop);
+
+	// append elements to the DOM
+	document.getElementById("webcam-container").appendChild(webcam.canvas);
+	labelContainer = document.getElementById("label-container");
+	for (let i = 0; i &lt; maxPredictions; i++) { // and class labels
+	    labelContainer.appendChild(document.createElement("div"));
+	}
+    }
+
+    async function loop() {
+	webcam.update(); // update the webcam frame
+	await predict();
+	window.requestAnimationFrame(loop);
+    }
+
+    // run the webcam image through the image model
+    async function predict() {
+	// predict can take in an image, video or canvas html element
+	const prediction = await model.predict(webcam.canvas);
+	for (let i = 0; i &lt; maxPredictions; i++) {
+	    const classPrediction =
+		prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+	    labelContainer.childNodes[i].innerHTML = classPrediction;
+	}
+    }
+&lt;/script&gt;
+
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>tmachine.js 파일로 만들고, html에서 임포트하게끔 했다.</li>
+
+<li>경로부분 수정.</li>
+
+<li><p>
+웹캠부분 및 loop문 주석처리.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js">// More API functions here:
+// https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+// the link to your model provided by Teachable Machine export panel
+const URL = "web/my_model/";
+
+let model, webcam, labelContainer, maxPredictions;
+
+// Load the image model and setup the webcam
+async function init() {
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
+
+    // load the model and metadata
+    // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+    // or files from your local hard drive
+    // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+    model = await tmImage.load(modelURL, metadataURL);
+    maxPredictions = model.getTotalClasses();
+
+    // // Convenience function to setup a webcam
+    // const flip = true; // whether to flip the webcam
+    // webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+    // await webcam.setup(); // request access to the webcam
+    // await webcam.play();
+    // window.requestAnimationFrame(loop);
+
+    // append elements to the DOM
+    // document.getElementById("webcam-container").appendChild(webcam.canvas);
+
+    labelContainer = document.getElementById("label-container"); // id 생성해서 엘레먼트 받는게 수월해서..
+    for (let i = 0; i &lt; maxPredictions; i++) { // and class labels
+	labelContainer.appendChild(document.createElement("div"));
+    }
+    await predict();
+}
+
+// async function loop() {
+//     // webcam.update(); // update the webcam frame
+//     await predict();
+//     // window.requestAnimationFrame(loop);
+// }
+
+// run the webcam image through the image model
+async function predict() {
+    // predict can take in an image, video or canvas html element
+    const prediction = await model.predict(document.getElementById("destImage"));
+    for (let i = 0; i &lt; maxPredictions; i++) {
+	const classPrediction =
+	      prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+	labelContainer.childNodes[i].innerHTML = classPrediction;
+    }
+}
+</pre>
+</div></li>
+
+<li>label-container 부분에 predict 값을 출력하게끔 되어있다.</li>
+
+<li><p>
+html 코드에서 출력될 위치에 id 값을 label-container 로 해주자. 
+이 위치에 결과값을 뿌려줄것이다.
+</p>
+<div class="org-src-container">
+<pre class="src src-js">      labelContainer = document.getElementById("label-container"); // id 생성해서 엘레먼트 받는게 수월해서..
+    for (let i = 0; i &lt; maxPredictions; i++) { // and class labels
+	labelContainer.appendChild(document.createElement("div"));
+    }
+    await predict();
+}
+
+// async function loop() {
+//     // webcam.update(); // update the webcam frame
+//     await predict();
+//     // window.requestAnimationFrame(loop);
+// }
+
+// run the webcam image through the image model
+async function predict() {
+    // predict can take in an image, video or canvas html element
+    const prediction = await model.predict(document.getElementById("destImage"));
+    for (let i = 0; i &lt; maxPredictions; i++) {
+	const classPrediction =
+	    prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+	labelContainer.childNodes[i].innerHTML = classPrediction;
+    }
+}
+</pre>
+</div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6089f70" class="outline-3">
+<h3 id="org6089f70"><span class="section-number-3">6.2</span> 사진을 업로드해서 test 해볼 수 있도록 html 코드 작성</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+일일히 html 을 작성하고 js script 작성하기 힘드므로, 구글링해서 이미 만들어진 소스 코드를 이용하자.
+</p>
+<ul class="org-ul">
+<li><p>
+구글 검색
+</p>
+
+<p>
+image upload html template
+</p>
+
+<p>
+<a href="https://www.google.co.kr/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwjJrtfkpqTsAhV2xYsBHfQEBRwQFjAAegQIBhAC&amp;url=https%3A%2F%2Ffreshdesignweb.com%2Fjquery-html5-file-upload%2F&amp;usg=AOvVaw3IufgXac73ZDkZkvwLdSAv">https://www.google.co.kr/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwjJrtfkpqTsAhV2xYsBHfQEBRwQFjAAegQIBhAC&amp;url=https%3A%2F%2Ffreshdesignweb.com%2Fjquery-html5-file-upload%2F&amp;usg=AOvVaw3IufgXac73ZDkZkvwLdSAv</a>
+</p>
+
+<p>
+여러가지 예제가 있는데 2번째걸로 선택했다.
+</p></li>
+
+<li>codepen.io 로 코드 확인
+
+<ul class="org-ul">
+<li><p>
+html 원래코드
+</p>
+<div class="org-src-container">
+<pre class="src src-html">&lt;script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"&gt;&lt;/script&gt;
+&lt;div class="file-upload"&gt;
+  &lt;button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )"&gt;Add Image&lt;/button&gt;
+
+  &lt;div class="image-upload-wrap"&gt;
+    &lt;input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" /&gt;
+    &lt;div class="drag-text"&gt;
+      &lt;h3&gt;Drag and drop a file or select add Image&lt;/h3&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="file-upload-content"&gt;
+    &lt;img class="file-upload-image" src="#" alt="your image" /&gt;
+    &lt;div class="image-title-wrap"&gt;
+      &lt;button type="button" onclick="removeUpload()" class="remove-image"&gt;Remove &lt;span class="image-title"&gt;Uploaded Image&lt;/span&gt;&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<p>
+Drag and Drop 스타일로 쓰려고 한다. Add Image 버튼은 제거 했다.
+</p>
+<div class="org-src-container">
+<pre class="src src-html">&lt;!-- &lt;button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )"&gt;Add Image&lt;/button&gt; --&gt;
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Teachable Machine에서 제공하는 embedded html을 보면, 웹캠이 활성화되고 실행 버튼을 눌러야하도록 되어있는데, 이미지를 올리면 바로 predict 되게끔 함수값을 인자로 넘겼다.</li>
+
+<li>필요없는 부분(사진제거 버튼, 웹캡부분, 실행하기 부분)은 주석처리.</li>
+
+<li><p>
+id = 'label-container' 추가.
+</p>
+
+<p>
+TODO: readURL에 model을 초기화하고 predict 하는 함수인 init() 을 인자로 넘기는 것으로 바꿨는데 작동은 되는데 뭔가 매끄럽지 못한것 같다.
+</p>
+<div class="org-src-container">
+<pre class="src src-html">&lt;div class="image-upload-wrap"&gt;
+  &lt;input class="file-upload-input" type='file' onchange="readURL(this, init());" accept="image/*" /&gt;
+  &lt;div class="drag-text"&gt;
+    &lt;h3&gt;Drag and drop a CAT's Image&lt;/h3&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="file-upload-content"&gt;
+  &lt;img class="file-upload-image" id="destImage" src="#" alt="your image" /&gt;
+  &lt;div class = "file-upload-container" id ="label-container"&gt;&lt;/div&gt;
+  &lt;!-- &lt;div class="image-title-wrap"&gt; --&gt;
+    &lt;!--     &lt;button type="button" onclick="removeUpload()" class="remove-image"&gt;Remove &lt;span --&gt;
+      &lt;!--             class="image-title"&gt;Uploaded Image&lt;/span&gt;&lt;/button&gt; --&gt;
+    &lt;!-- &lt;/div&gt; --&gt;
+&lt;/div&gt;
+&lt;!-- &lt;button type="button" onclick="init()"&gt;Start&lt;/button&gt; --&gt;
+&lt;!-- &lt;div id="webcam-container"&gt;&lt;/div&gt; --&gt;
+</pre>
+</div>
+<p>
+나머지 부분 및 이미지 업로드 코드 저작권 명시.
+상대경로가 embedded html을 적용할 html 파일위치 기준인지 확인한다. 첨에 제대로 실행이 안됐었는데 경로문제였다. 
+실행이 안될때는 사파리나 크롬의 개발자용 소스보기를 통해 로그를 확인하자.
+</p>
+<div class="org-src-container">
+<pre class="src src-html">&lt;script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"&gt;&lt;/script&gt;
+&lt;script src="./web/tmachine.js"&gt;&lt;/script&gt;
+&lt;script src="./web/image.js"&gt;&lt;/script&gt;
+
+&lt;!-- 주석 처리해도 괜찮다. --&gt;
+&lt;!-- Copyright (c) 2020 by Aaron Vanston (https://codepen.io/aaronvanston/pen/yNYOXR) --&gt;
+
+&lt;!-- Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: --&gt;
+
+&lt;!-- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. --&gt;
+
+&lt;!-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. --&gt;
+
+
+&lt;!-- &lt;script type="text/javascript"&gt;
+--&gt;
+</pre>
+</div></li>
+</ul></li>
+
+<li><p>
+css 원래코드
+</p>
+<div class="org-src-container">
+<pre class="src src-css">body {
+  font-family: sans-serif;
+  background-color: #eeeeee;
+}
+
+.file-upload {
+  background-color: #ffffff;
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #1FB264;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #15824B;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.file-upload-btn:hover {
+  background: #1AA059;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #1FB264;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: #1FB264;
+  border: 4px dashed #ffffff;
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #15824B;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.remove-image {
+  width: 200px;
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #b02818;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.remove-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.remove-image:active {
+  border: 0;
+  transition: all .2s ease;
+}
+</pre>
+</div>
+<p>
+css 파일을 취향에 맞게 적절히 값들을 바꿔보자. class를 새로 정의해서 조금 바꿔봤다.
+생각대로 잘 안되는데 python -m http.server로 구동된 localhost 페이지에서는 적용이 잘 안되었다.
+github 에선 제대로 적용이 된다.
+</p>
+<div class="org-src-container">
+<pre class="src src-css">/* TODO: div 밑 하위 임의의 div에 어떻게 style을 먹이지? */
+/* localhost 에선 적용이 안되네 */
+.file-upload-container {
+  /* width: 100%; */
+  /* margin: 0; */
+  /* color: #fff; */
+  /* background: #1FB264; */
+  /* border: none; */
+  /* padding: 10px; */
+  /* border-radius: 4px; */
+  /* border-bottom: 4px solid #15824B; */
+  /* transition: all .2s ease; */
+  /* outline: none; */
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+</pre>
+</div></li>
+
+<li><p>
+js script 원래코드
+</p>
+<div class="org-src-container">
+<pre class="src src-js">function readURL(input) {
+  if (input.files &amp;&amp; input.files[0]) {
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('.image-upload-wrap').hide();
+
+      $('.file-upload-image').attr('src', e.target.result);
+      $('.file-upload-content').show();
+
+      $('.image-title').html(input.files[0].name);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+
+  } else {
+    removeUpload();
+  }
+}
+
+function removeUpload() {
+  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+  $('.file-upload-content').hide();
+  $('.image-upload-wrap').show();
+}
+$('.image-upload-wrap').bind('dragover', function () {
+		$('.image-upload-wrap').addClass('image-dropping');
+	});
+	$('.image-upload-wrap').bind('dragleave', function () {
+		$('.image-upload-wrap').removeClass('image-dropping');
+});
+</pre>
+</div>
+<p>
+파일 업로되 되면 predict 되도록 init()을 인자로 넘겼다.
+</p>
+<div class="org-src-container">
+<pre class="src src-js">function readURL(input, ts) {
+    if (input.files &amp;&amp; input.files[0]) {
+
+	var reader = new FileReader();
+
+	reader.onload = function (e) {
+	    $('.image-upload-wrap').hide();
+
+	    $('.file-upload-image').attr('src', e.target.result);
+	    $('.file-upload-content').show();
+
+	    $('.image-title').html(input.files[0].name);
+	};
+
+	reader.readAsDataURL(input.files[0]);
+	// init 함수를 여기서 실행하지 말고.. init 함수를 인자로 받아서 실행 할 수 있게 하자
+	// init() 			// tmachine.js
+    } else {
+	removeUpload();
+    }
+}
+</pre>
+</div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga67f883" class="outline-3">
+<h3 id="orga67f883"><span class="section-number-3">6.3</span> localhost 에서 test</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+주소: localhsot:8000/&#x2026;.
+</p>
+
+<p>
+css 스타일이 종종 적용안되는 경우가 있다. web에 올려서도 확인해보자.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">python -m http.server &amp;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbd7bf78" class="outline-3">
+<h3 id="orgbd7bf78"><span class="section-number-3">6.4</span> org 파일 수정</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+css파일이 head태그 내부에 있어서 org 파일을 수정했다.
+</p>
+<div class="org-src-container">
+<pre class="src src-org">#+html_head: &lt;link rel="stylesheet" href="./web/style.css"&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org21790ed" class="outline-2">
+<h2 id="org21790ed"><span class="section-number-2">7</span> Distribute using github</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+<a href="https://srolisp.github.io/teacherble-machine-example/">https://srolisp.github.io/teacherble-machine-example/</a>
+</p>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 2020-10-07 Wed 18:00</p>
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-10-08 Thu 14:26</p>
-<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Created: 2020-10-08 Thu 16:46</p>
 </div>
 </body>
 </html>
