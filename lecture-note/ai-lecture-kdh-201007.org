@@ -2,7 +2,7 @@
 #+subtitle: 6 weeks by kdh
 #+date: <2020-10-07 Wed 18:00>
 #+tags: python, bash, elisp, lisp, zoom
-#+html_head: <link rel="stylesheet" href="/lecture-note/web/style.css">
+#+html_head: <link rel="stylesheet" href="web/style.css">
 #+property: header-args:bash :results verbatim
 #+property: header-args:elisp :exports both
 #+property: header-args:ipython :session mglearn1007 :tangle "mglearn201007.py" :exports both
