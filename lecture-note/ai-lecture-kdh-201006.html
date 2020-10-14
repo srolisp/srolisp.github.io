@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-10-14 Wed 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>네이버, 구글 이미지 크롤링</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="srolisp" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">네이버, 구글 이미지 크롤링
+<br />
+<span class="subtitle">6 weeks by kdh</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5362377">1. <span class="todo TODO">TODO</span> crawling</a>
+<ul>
+<li><a href="#org2eddd1f">1.1. 실행방법</a></li>
+<li><a href="#org725f59f">1.2. 필요한 모듈 로드</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5362377" class="outline-2">
+<h2 id="org5362377"><span class="section-number-2">1</span> <span class="todo TODO">TODO</span> crawling</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+google 혹은 naver 에서 이미지 크롤링
+</p>
+
+<p>
+검색어와 검색싸이트를 리스트로 입력, 각각의 검색싸이트에서 검색어마다 원하는 갯수 입력
+</p>
+
+<p>
+저장경로(예시) google<sub>images</sub>/2020-01-01/고양이/고양이10.jpg 
+</p>
+</div>
+
+<div id="outline-container-org2eddd1f" class="outline-3">
+<h3 id="org2eddd1f"><span class="section-number-3">1.1</span> 실행방법</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">driver = set_webdriver(web_visual=True)
+get_images(driver, ['고양이', '고양이 얼굴', '고양이 꼬리', '강아지'], ['naver', 'google'], 1001)  # naver maximum items 1000
+driver.close()
+</pre>
+</div>
+
+<pre class="example">
+1 - f20bb092-eb84-4aba-aba1-8ea8f97c5636
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org725f59f" class="outline-3">
+<h3 id="org725f59f"><span class="section-number-3">1.2</span> 필요한 모듈 로드</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">import os                       # 파일경로에 사용
+import time                     # 딜레이를 줄 필요가 있을 때 sleep 함수
+import datetime                 # 파일경로
+import ssl                      # 주소가 https 인 경우, urlretrieve로 이미지 다운받을 때 에러 처리
+
+from selenium import webdriver      # browser와 연동하는데 씀
+from urllib.parse import quote_plus # 한국어 검색 처리
+import urllib.request               # urlretrieve 함수 사용(이미지 다운로드)
+from selenium.webdriver.common.keys import Keys # PAGE_DOWN키를 전송할때 사용
+# exceptions 예외 처리모듈
+from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException,  ElementNotInteractableException, ElementClickInterceptedException, TimeoutException
+from urllib.error import URLError, HTTPError
+</pre>
+</div>
+
+<pre class="example">
+2 - 441e34e4-3fe0-48d6-a2ea-a5ede0db8688
+</pre>
+
+
+<p>
+무한 루프 방지 exception
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">class TrialError(Exception):
+    def __init__(self):
+	 super().__init__('TRIAL EXCESS')
+</pre>
+</div>
+
+<pre class="example">
+3 - 5988b80d-7e33-425a-94b0-e1464f15a83f
+</pre>
+
+
+<p>
+네이버 제일 하단 이미지 더보기 클릭
+</p>
+
+<p>
+1000개 넘어가면 사라지던데 NoSuchElementException 에러를 안뱉네.. 밑에 에러를 뱉는데 1001개까지 제공된다는 div가 나타나는지 체크후 처리
+</p>
+
+<p>
+이미지 더보기 클릭이 정상적으로 수행되었으면 True 아니면 False
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">def _no_more_img_click(drv):
+    try:
+
+	drv.find_element_by_css_selector('#_sau_imageTab &gt; div.photowall._photoGridWrapper &gt; div.more_img &gt; a').click()
+    except ElementNotInteractableException:
+	if drv.find_element_by_css_selector('#_sau_imageTab &gt; div.message_bottom._noMore'):
+	    print('ElementNotInteractableException - No More Image')
+	else:
+	    print('ElementNotInteractableException')
+	return False
+
+    print('CLICK SUCCESS')
+    return True
+</pre>
+</div>
+
+<pre class="example">
+4 - 8dd682c4-9af4-4d9b-b4bc-798a6ae10f20
+</pre>
+
+
+<p>
+여러개의 그리드박스내에 이미지 div들이 분할되어 있다. 
+</p>
+
+<p>
+이미지 더보기가 눌러지면 그리드박스가 추가된다. 해당 인덱스의 그리드박스가 없을 경우 이미지 더보기 버튼을 눌러서 그리드박스가 추가되도록 한다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">def _iidx_grid_box(drv, iidx):
+    try:
+	item = drv.find_element_by_css_selector('div.photowall._photoGridWrapper &gt; div.photo_grid._box[data-box-idx="' + str(iidx) + '"]')
+
+    except NoSuchElementException:
+	print('No Grid Box(' + str(iidx) + ') created.')
+	# drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+	if _no_more_img_click(drv):
+	    return _iidx_grid_box(drv, iidx)
+	else:
+	    return False
+    except TrialError:
+	print('TrialError')
+	return False
+    print('IIDX GRID BOX OPENED')
+    return item
+</pre>
+</div>
+
+<pre class="example">
+5 - d8ee0b12-d0fd-4485-8f27-cbc9bc311052
+</pre>
+
+
+<p>
+이미지idx를 증가시켜가며, 링크의 이미지를 저장한다. 
+</p>
+
+<p>
+그리드박스내 img가 있는 div 수보다 이미지idx가 증가하면 그리드박스idx를 증가시키고 그리드박스를 추가시키도록 유도한다. 이미지 더보기 버튼 클릭 방법을 썼다.
+</p>
+
+<p>
+acc는 다운받은 총 이미지 수(이미지 파일명에 필요하다)
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">def _retrieve2(drv, keyword, path, gbox, idx, acc, trial=0, max_trial=20):
+    try:
+	# 무한루프 방지
+	if trial &gt; max_trial:
+	     raise TrialError(trial)
+	# 저장경로 
+	if not (os.path.isdir(path)):
+	    os.makedirs(os.path.join(path))
+	# 이미지 링크주소를 받아온다.
+	img = gbox.find_element_by_css_selector('div &gt; div:nth-child(' + str(idx) + ') &gt; a &gt; img._img').get_attribute('src')
+	# 저장경로에 이미지 저장
+	urllib.request.urlretrieve(img, path + '/' + keyword + str(acc) + '.jpg')
+
+    except URLError:
+	# URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local
+	print('ERROR URLError in _retrieve', trial)
+	ssl._create_default_https_context = ssl._create_unverified_context
+	trial += 1
+	_retrieve2(img, keyword, path, gbox, idx, acc, trial)
+    except HTTPError:
+	# TODO 나중에 찾아보자
+	 print('ERROR HTTPError in _retrieve', img, trial)
+	 trial += 1
+	 time.sleep(1)
+	 _retrieve2(img, keyword, path, gbox, idx, acc, trial)
+    except TrialError:
+	 driver.close()
+</pre>
+</div>
+
+<pre class="example">
+6 - b7d3dde5-4382-485a-b15e-71dde26fd608
+</pre>
+
+
+<p>
+원하는 갯수만큼 이미지를 받는다. True, 원하는 갯수(받은 갯수)
+원하는 갯수만큼 못 받았을 경우 False, 받은 갯수
+</p>
+
+<p>
+idx를 증가시키며 받다가 에러(NoSuchElementException)가
+뜨면(그리드박스내 이미지는 다 받았으므로), 다음 그리드박스로부터
+이미지를 받는다. 다음 그리드박스가 없어서 에러를 내면, 이미지 더보기를
+클릭해서 그리드 박스가 추가되도록 시도한다.
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">def _inner_loop_naver_driver(drv, keyword, path, wanted, gbox, inner_idx=0, idx=1, acc=0):
+    # 원하는 갯수만큼 받았으면 종료
+    if acc == wanted:
+	return True, acc
+
+    # 그리드 안되고, 원하는 갯수만큼보다 적게 다운받은 경우 False
+    if not gbox:
+	return False, acc
+    try:
+	_retrieve2(drv, keyword, path, gbox, idx, acc)
+    except NoSuchElementException: # 그리드박스내 이미지 idx 가 over
+	idx = 1
+	inner_idx += 1
+	gbox = _iidx_grid_box(drv, inner_idx)
+    else:                       # 순차적으로 다운받음
+	acc += 1
+	idx += 1
+    return _inner_loop_naver_driver(drv, keyword, path, wanted, gbox, inner_idx, idx, acc)
+
+def _loop_naver_driver(drv, keyword, path, wanted):
+    time.sleep(2)               # 초기로딩 지연이 종종 있어서 2초가 sleep후 진행
+    return _inner_loop_naver_driver(drv, keyword, path, wanted, _iidx_grid_box(drv, 0))
+
+def _get_naver_items(drv, url, keyword, host, wanted):
+    drv.get(url + quote_plus(keyword))
+    path = host + '_images/' + str(datetime.date.today()) + '/' + keyword
+    p, new_items = _loop_naver_driver(drv, keyword, path, wanted)
+    print(p)
+
+    return new_items
+</pre>
+</div>
+
+<pre class="example">
+7 - 8110fbd2-e6a8-4a58-9edf-859a5fcd87a4
+</pre>
+
+
+<p>
+web<sub>driver가</sub> 설정 안하면 chromdriver 사용, web<sub>visual</sub> 설정 안되면 웹브라우저가 안열린채 실행
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">def set_webdriver(web_driver=None, web_visual=None):
+    if web_driver is None:
+	chrome_options = webdriver.ChromeOptions()
+	if web_visual is None:
+	    chrome_options.add_argument('--headless')
+	    chrome_options.add_argument('--no-sandbox')
+	    chrome_options.add_argument('--disable-dev-shm-usage')
+	driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver', options=chrome_options)
+    else:
+	driver = web_driver
+
+    return driver
+</pre>
+</div>
+
+<pre class="example">
+8 - c583ada8-952f-4c00-8e51-0429f000838c
+</pre>
+
+
+<p>
+TODO 아래쪽은 구글부분인데 크게 다른부분이 없는 듯 하다. 나중에 정리.. 거의 비슷
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">def inner_loop_google_driver(drv, keyword, path, wanted, idx=1, trial=0, max_trial=50):
+    try:
+	if trial &gt; max_trial:
+	    raise TrialError(trial)
+	# print(drv.find_element_by_css_selector('div.islrc &gt; div:nth-child(' + str(idx) + ') &gt; a.wXeWr.islib.nfEiy.mM5pbd &gt; div &gt; img').is_displayed())
+	drv.find_element_by_css_selector('div.islrc &gt; div:nth-child(' + str(idx) + ') &gt; a.wXeWr.islib.nfEiy.mM5pbd &gt; div').click()
+    except ElementNotInteractableException: # loaded image not yet
+	drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+	drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+	drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+	time.sleep(1)
+	print(trial, 'ELEMENTNOTINTERACTABLEEXCEPTION AT:', idx)
+	trial += 1
+	return inner_loop_google_driver(drv, keyword, path, wanted, idx, trial)
+    except NoSuchElementException:
+	print(trial, 'NOSUCHE: ', idx)
+	return False
+    except TrialError:
+	drv.close()
+	return False
+
+    else:
+	if idx &gt; wanted:
+	    return 'OK'
+	_retrieve(drv.find_element_by_css_selector('#Sva75c &gt; div &gt; div &gt; div.pxAole &gt; div.tvh9oe.BIB1wf &gt; c-wiz &gt; div.OUZ5W &gt; div.zjoqD &gt; div &gt; div.v4dQwb &gt; a &gt; img.n3VNCb').get_attribute('src'), keyword, path, idx)
+	idx += 1
+    return inner_loop_google_driver(drv, keyword, path, wanted, idx)
+
+def loop_google_driver(drv, keyword, path, wanted):
+     return inner_loop_google_driver(drv, keyword, path, wanted)
+
+def _get_google_items(drv, url, keyword, host, wanted):
+    drv.get(url)
+    drv.find_element_by_css_selector('div.a4bIc &gt; input').send_keys(keyword + '\n')
+
+    path = host + '_images/' + str(datetime.date.today()) + '/' + keyword
+    new_items = loop_google_driver(drv, keyword, path, wanted)
+    return new_items
+
+def _get_images(drv, keyword, host, n_items, 
+		d_servs={'naver' : ['https://search.naver.com/search.naver?where=image&amp;sm=tab_jum&amp;query=', _get_naver_items],
+			 'google' : ['https://www.google.co.kr/imghp?hl=ko&amp;tab=wi&amp;authuser=0&amp;ogbl', _get_google_items]}):
+    url = d_servs[host][0]
+    fn = d_servs[host][1]
+    print(fn(drv, url, keyword, host, n_items))
+
+def _get_images_by_hosts(drv, keyword, hosts, n_items):
+     if hosts == []:
+	 print('HOSTS OK')
+     else:
+	 _get_images(drv, keyword, hosts[0], n_items)
+	 _get_images_by_hosts(drv, keyword, hosts[1:], n_items)
+
+def get_images(drv, keywords, hosts, n_items):
+    if keywords == []:
+	print ('KEYWORDS OK')
+    else:
+	_get_images_by_hosts(drv, keywords[0], hosts, n_items)
+	get_images(drv, keywords[1:], hosts, n_items)
+
+
+def _retrieve(img, keyword, path, idx, trial=0, max_trial=50):
+    if not (os.path.isdir(path)):
+	os.makedirs(os.path.join(path))
+    try:
+	if trial &gt; max_trial:
+	     raise TrialError(trial)
+	urllib.request.urlretrieve(img, path + '/' + keyword + str(idx) + '.jpg')
+    except URLError:
+	# URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local
+	print('ERROR URLError in _retrieve', trial)
+	ssl._create_default_https_context = ssl._create_unverified_context
+	trial += 1
+	_retrieve(img, keyword, path, idx, trial)
+    except HTTPError:
+	 print('ERROR HTTPError in _retrieve', img, trial)
+	 trial += 1
+	 time.sleep(1)
+	 _retrieve(img, keyword, path, idx, trial)
+    except TrialError:
+	 driver.close()
+
+def retrieve(imgs, keyword, host):
+    path = host + '_images/' + str(datetime.date.today()) + '/' + keyword
+
+    for idx, i in enumerate(imgs):
+	_retrieve(i, keyword, path, idx)
+
+driver = set_webdriver(web_visual=True)
+
+get_images(driver, ['고양이'], ['naver'], 1001)  # naver maximum items 1000
+
+driver.close()
+
+</pre>
+</div>
+
+<pre class="example">
+9 - a295d774-cc3d-438b-b9d9-2fe9c88fb5ad
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2020-10-06 Tue 18:00</p>
+<p class="author">Author: srolisp</p>
+<p class="date">Created: 2020-10-14 Wed 18:25</p>
+</div>
+</body>
+</html>

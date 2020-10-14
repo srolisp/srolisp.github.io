@@ -1,0 +1,13 @@
+#+title: Crawing
+#+subtitle: 6 weeks by kdh
+#+date: <2020-10-11 Sun 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn11 :tangle "mglearn201011.py" :exports both
+
+#+author: srolisp
+
+* 
+#+begin_src ipython :results output
+#+end_src

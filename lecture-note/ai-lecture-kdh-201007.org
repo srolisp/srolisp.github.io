@@ -52,6 +52,7 @@
 
 #+end_export
 
+
 * Idea
 머신러닝을 활용한 프로젝트.
 생각이 없다. 고양이로 뭔가를 해보자.
@@ -533,6 +534,12 @@ css 스타일이 종종 적용안되는 경우가 있다. web에 올려서도 �
 #+begin_src bash
   python -m http.server &
 #+end_src
+
+** platform_browser.ts:28 Fetch API cannot load file:///Users/sroh/pg/2020/python/uiap/lecture-note/web/my_model/model.json. 
+
+URL scheme must be "http" or "https" for CORS request.
+
+캠 띄울려면 http나 https 에서 작동되도록 되어 있어서 에러를 띄운다.
 
 ** org 파일 수정
 css파일이 head태그 내부에 있어서 org 파일을 수정했다.

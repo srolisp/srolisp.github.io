@@ -1,4 +1,4 @@
-#+title: Project
+#+title: 네이버, 구글 이미지 크롤링
 #+subtitle: 6 weeks by kdh
 #+date: <2020-10-06 Tue 18:00>
 #+tags: python, bash, elisp, lisp, zoom
@@ -8,15 +8,347 @@
 
 #+author: srolisp
 
-* crawling
-#+begin_src ipython :results output
-  from selenium import webdriver  
+* TODO crawling
+google 혹은 naver 에서 이미지 크롤링
 
-  url_query_dict = {'naver': 
-                   'https://search.naver.com/search.naver?where=image&sm=tab_jum&query=',
-                   'google': 'https://www.google.co.kr/search?client=safari&hl=ko&source=hp&biw=&bih=&q='}
+검색어와 검색싸이트를 리스트로 입력, 각각의 검색싸이트에서 검색어마다 원하는 갯수 입력
 
-  def get_images(keyword, web_driver=None, web_visual=None, services_dict=url_query_dict):
+저장경로(예시) google_images/2020-01-01/고양이/고양이10.jpg 
+
+** 실행방법
+#+begin_src ipython :results output :export code
+  driver = set_webdriver(web_visual=True)
+  get_images(driver, ['고양이', '고양이 얼굴', '고양이 꼬리', '강아지'], ['naver', 'google'], 10)  # naver maximum items 1000
+  driver.close()
+#+end_src
+
+#+RESULTS:
+#+begin_example
+IIDX GRID BOX OPENED
+True
+10
+(True, 10)
+HOSTS OK
+IIDX GRID BOX OPENED
+True
+10
+(True, 10)
+HOSTS OK
+IIDX GRID BOX OPENED
+True
+10
+(True, 10)
+HOSTS OK
+IIDX GRID BOX OPENED
+True
+10
+(True, 10)
+HOSTS OK
+KEYWORDS OK
+#+end_example
+
+** 필요한 모듈 로드
+#+begin_src ipython :results output :export code
+  import os                       # 파일경로에 사용
+  import time                     # 딜레이를 줄 필요가 있을 때 sleep 함수
+  import datetime                 # 파일경로
+  import ssl                      # 주소가 https 인 경우, urlretrieve로 이미지 다운받을 때 에러 처리
+
+  from selenium import webdriver      # browser와 연동하는데 씀
+  from urllib.parse import quote_plus # 한국어 검색 처리
+  import urllib.request               # urlretrieve 함수 사용(이미지 다운로드)
+  from selenium.webdriver.common.keys import Keys # PAGE_DOWN키를 전송할때 사용
+  # exceptions 예외 처리모듈
+  from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException,  ElementNotInteractableException, ElementClickInterceptedException, TimeoutException, InvalidSessionIdException
+  from urllib.error import URLError, HTTPError
+#+end_src
+
+#+RESULTS:
+
+** 무한 루프 방지 exception
+#+begin_src ipython :results output :export code
+  class TrialError(Exception):
+      def __init__(self):
+           super().__init__('TRIAL EXCESS')
+#+end_src
+
+#+RESULTS:
+
+* Naver
+** 네이버 제일 하단 이미지 더보기 클릭
+
+1000개 넘어가면 사라지던데 NoSuchElementException 에러를 안뱉네.. 밑에 에러를 뱉는데 1001개까지 제공된다는 div가 나타나는지 체크후 처리
+
+이미지 더보기 클릭이 정상적으로 수행되었으면 True 아니면 False
+#+begin_src ipython :results output :export code
+  def _no_more_img_click(drv):
+      try:
+
+          drv.find_element_by_css_selector('#_sau_imageTab > div.photowall._photoGridWrapper > div.more_img > a').click()
+      except ElementNotInteractableException:
+          if drv.find_element_by_css_selector('#_sau_imageTab > div.message_bottom._noMore'):
+              print('ElementNotInteractableException - No More Image')
+          else:
+              print('ElementNotInteractableException')
+          return False
+
+      print('CLICK SUCCESS')
+      return True
+#+end_src
+
+#+RESULTS:
+
+** 여러개의 그리드박스내에 이미지 div들이 분할되어 있다. 
+
+이미지 더보기가 눌러지면 그리드박스가 추가된다. 해당 인덱스의 그리드박스가 없을 경우 이미지 더보기 버튼을 눌러서 그리드박스가 추가되도록 한다.
+#+begin_src ipython :results output :export code
+  def _iidx_grid_box(drv, iidx):
+      try:
+          item = drv.find_element_by_css_selector('div.photowall._photoGridWrapper > div.photo_grid._box[data-box-idx="' + str(iidx) + '"]')
+
+      except NoSuchElementException:
+          print('No Grid Box(' + str(iidx) + ') created.')
+          # drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+          if _no_more_img_click(drv):
+              return _iidx_grid_box(drv, iidx)
+          else:
+              return False
+      except TrialError:
+          print('TrialError')
+          return False
+      print('IIDX GRID BOX OPENED')
+      return item
+#+end_src
+
+#+RESULTS:
+
+** 이미지idx를 증가시켜가며, 링크의 이미지를 저장한다. 
+
+그리드박스내 img가 있는 div 수보다 이미지idx가 증가하면 그리드박스idx를 증가시키고 그리드박스를 추가시키도록 유도한다. 이미지 더보기 버튼 클릭 방법을 썼다.
+
+acc는 다운받은 총 이미지 수(이미지 파일명에 필요하다)
+#+begin_src ipython :results output :export code
+  def _retrieve2(drv, keyword, path, gbox, idx, acc, trial=0, max_trial=20):
+      try:
+          # 무한루프 방지
+          if trial > max_trial:
+               raise TrialError
+          # 저장경로 
+          if not (os.path.isdir(path)):
+              os.makedirs(os.path.join(path))
+          # 이미지 링크주소를 받아온다.
+          img = gbox.find_element_by_css_selector('div > div:nth-child(' + str(idx) + ') > a > img._img').get_attribute('src')
+          # 저장경로에 이미지 저장
+          urllib.request.urlretrieve(img, path + '/' + keyword + str(acc) + '.jpg')
+
+      except URLError:
+          # URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local
+          print('ERROR URLError in _retrieve', trial)
+          ssl._create_default_https_context = ssl._create_unverified_context
+          trial += 1
+          _retrieve2(img, keyword, path, gbox, idx, acc, trial)
+      except HTTPError:
+          # TODO 나중에 찾아보자
+           print('ERROR HTTPError in _retrieve', img, trial)
+           trial += 1
+           time.sleep(1)
+           _retrieve2(img, keyword, path, gbox, idx, acc, trial)
+      except TrialError:
+           driver.close()
+#+end_src
+
+#+RESULTS:
+
+** 원하는 갯수만큼 이미지를 받는다. True, 원하는 갯수(받은 갯수)
+원하는 갯수만큼 못 받았을 경우 False, 받은 갯수
+
+idx를 증가시키며 받다가 에러(NoSuchElementException)가
+뜨면(그리드박스내 이미지는 다 받았으므로), 다음 그리드박스로부터
+이미지를 받는다. 다음 그리드박스가 없어서 에러를 내면, 이미지 더보기를
+클릭해서 그리드 박스가 추가되도록 시도한다.
+#+begin_src ipython :results output :async t :export code
+  def _inner_loop_naver_driver(drv, keyword, path, wanted, gbox, inner_idx=0, idx=1, acc=0):
+      # 원하는 갯수만큼 받았으면 종료
+      if acc == wanted:
+          return True, acc
+
+      # 그리드 안되고, 원하는 갯수만큼보다 적게 다운받은 경우 False
+      if not gbox:
+          return False, acc
+      try:
+          _retrieve2(drv, keyword, path, gbox, idx, acc)
+      except NoSuchElementException: # 그리드박스내 이미지 idx 가 over
+          idx = 1
+          inner_idx += 1
+          gbox = _iidx_grid_box(drv, inner_idx)
+      else:                       # 순차적으로 다운받음
+          acc += 1
+          idx += 1
+      return _inner_loop_naver_driver(drv, keyword, path, wanted, gbox, inner_idx, idx, acc)
+
+  def _loop_naver_driver(drv, keyword, path, wanted):
+      time.sleep(2)               # 초기로딩 지연이 종종 있어서 2초가 sleep후 진행
+      return _inner_loop_naver_driver(drv, keyword, path, wanted, _iidx_grid_box(drv, 0))
+
+  def _get_naver_items(drv, url, keyword, host, wanted):
+      drv.get(url + quote_plus(keyword))
+      path = host + '_images/' + str(datetime.date.today()) + '/' + keyword
+      p, new_items = _loop_naver_driver(drv, keyword, path, wanted)
+      print(p)
+
+      return new_items
+#+end_src
+
+#+RESULTS:
+
+
+* Google
+** TODO 아래쪽은 구글부분인데 크게 다른부분이 없는 듯 하다. 나중에 정리.. 거의 비슷
+#+begin_src ipython :results output :async t
+  def _inner_loop_google_driver(drv, keyword, path, wanted, idx=1, trial=0, max_trial=50):
+      try:
+          if trial > max_trial:
+              raise TrialError
+          # print(drv.find_element_by_css_selector('div.islrc > div:nth-child(' + str(idx) + ') > a.wXeWr.islib.nfEiy.mM5pbd > div > img').is_displayed())
+          #islrg > div.islrc > div:nth-child(10) > a.wXeWr.islib.nfEiy.mM5pbd
+          drv.find_element_by_css_selector('div.islrc > div:nth-child(' + str(idx) + ') > a.wXeWr.islib.nfEiy.mM5pbd').click()
+      except ElementNotInteractableException: # loaded image not yet
+          drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+          drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+          drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+          drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+          time.sleep(1)
+          print(trial, 'ELEMENTNOTINTERACTABLEEXCEPTION AT:', idx)
+          trial += 1
+          return _inner_loop_google_driver(drv, keyword, path, wanted, idx, trial)
+      except ElementClickInterceptedException:
+          time.sleep(1)
+          print(trial, 'ElementClickInterceptedException AT:', idx)
+          trial += 1
+          return _inner_loop_google_driver(drv, keyword, path, wanted, idx, trial)
+      except InvalidSessionIdException:
+          time.sleep(1)
+          print(trial, 'InvalidSessionIdException AT:', idx)
+          trial += 1
+          return _inner_loop_google_driver(drv, keyword, path, wanted, idx, trial)
+      except NoSuchElementException:
+          print(trial, 'NOSUCHE: ', idx)
+          return False
+      except TrialError:
+          drv.close()
+          return False
+
+      else:
+          if idx > wanted:
+              return 'OK'
+          _retrieve(drv.find_element_by_css_selector('#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div.OUZ5W > div.zjoqD > div > div.v4dQwb > a > img.n3VNCb').get_attribute('src'), keyword, path, idx)
+          idx += 1
+      return _inner_loop_google_driver(drv, keyword, path, wanted, idx)
+
+  def _result_click(drv, idx):
+      drv.find_element_by_css_selector('div.islrc > div:nth-child(' + str(idx) + ') > a.wXeWr.islib.nfEiy.mM5pbd').click()
+
+  def _inner_loop_google_driver2(drv, keyword, path, wanted, idx=1, acc=0):
+      if acc == wanted:
+          return True, acc
+      try:
+          _result_click(drv, idx)
+      except NoSuchElementException:
+          print('NOSUCHE: ', drv.find_element_by_css_selector('#islrg > div.islrc > div:nth-child(25) > div > div.a3Wc3.O8VmIc > div').text, idx)
+          return _inner_loop_google_driver2(drv, keyword, path, wanted, idx+1, acc)
+      if _retrieve(drv.find_element_by_css_selector('#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div.OUZ5W > div.zjoqD > div > div.v4dQwb > a > img.n3VNCb').get_attribute('src'), keyword, path, idx):
+          return _inner_loop_google_driver2(drv, keyword, path, wanted, idx+1, acc+1)
+      return _inner_loop_google_driver2(drv, keyword, path, wanted, idx+1, acc)
+          
+
+  def loop_google_driver(drv, keyword, path, wanted):
+       time.sleep(2)
+       return _inner_loop_google_driver2(drv, keyword, path, wanted)
+
+  def _get_google_items(drv, url, keyword, host, wanted):
+      drv.get(url)
+      drv.find_element_by_css_selector('div.a4bIc > input').send_keys(keyword + '\n')
+
+      path = host + '_images/' + str(datetime.date.today()) + '/' + keyword
+      new_items = loop_google_driver(drv, keyword, path, wanted)
+      return new_items
+
+  driver = set_webdriver()
+#islrg > div.islrc > div:nth-child(24) > a.wXeWr.islib.nfEiy.mM5pbd
+  get_images(driver, ['고양이'], ['google'], 100)  # naver maximum items 1000
+
+  driver.close()
+
+
+#+end_src
+
+#+RESULTS:
+: NOSUCHE:  관련 검색어 25
+: NOSUCHE:  관련 검색어 50
+: NOSUCHE:  관련 검색어 75
+: NOSUCHE:  관련 검색어 100
+: (True, 100)
+: HOSTS OK
+: KEYWORDS OK
+
+** 
+#+begin_src ipython :results output :export code
+  def _get_images(drv, keyword, host, n_items, 
+                  d_servs={'naver' : ['https://search.naver.com/search.naver?where=image&sm=tab_jum&query=', _get_naver_items],
+                           'google' : ['https://www.google.co.kr/imghp?hl=ko&tab=wi&authuser=0&ogbl', _get_google_items]}):
+      url = d_servs[host][0]
+      fn = d_servs[host][1]
+      print(fn(drv, url, keyword, host, n_items))
+
+  def _get_images_by_hosts(drv, keyword, hosts, n_items):
+       if hosts == []:
+           print('HOSTS OK')
+       else:
+           _get_images(drv, keyword, hosts[0], n_items)
+           _get_images_by_hosts(drv, keyword, hosts[1:], n_items)
+
+  def get_images(drv, keywords, hosts, n_items):
+      if keywords == []:
+          print ('KEYWORDS OK')
+      else:
+          _get_images_by_hosts(drv, keywords[0], hosts, n_items)
+          get_images(drv, keywords[1:], hosts, n_items)
+
+
+  def _retrieve(img, keyword, path, idx, trial=0, max_trial=50):
+      if not (os.path.isdir(path)):
+          os.makedirs(os.path.join(path))
+      try:
+          if trial > max_trial:
+               raise TrialError
+          urllib.request.urlretrieve(img, path + '/' + keyword + str(idx) + '.jpg')
+      except URLError:
+          # URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local
+          print('ERROR URLError in _retrieve', trial)
+          ssl._create_default_https_context = ssl._create_unverified_context
+          trial += 1
+          _retrieve(img, keyword, path, idx, trial)
+      except HTTPError:
+           print('ERROR HTTPError in _retrieve', img, trial)
+           trial += 1
+           _retrieve(img, keyword, path, idx, trial)
+      except TrialError:
+          print('TrialError - Failed', img)
+          return False
+      return True
+      
+  def retrieve(imgs, keyword, host):
+      path = host + '_images/' + str(datetime.date.today()) + '/' + keyword
+
+      for idx, i in enumerate(imgs):
+          _retrieve(i, keyword, path, idx)
+#+end_src
+
+#+RESULTS:
+
+** web_driver가 설정 안하면 chromdriver 사용, web_visual 설정 안되면 웹브라우저가 안열린채 실행
+#+begin_src ipython :results output :export code
+  def set_webdriver(web_driver=None, web_visual=None):
       if web_driver is None:
           chrome_options = webdriver.ChromeOptions()
           if web_visual is None:
@@ -26,84 +358,26 @@
           driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver', options=chrome_options)
       else:
           driver = web_driver
-      return driver
 
-  print(get_images('고양이', web_visual=True))
+      return driver
+#+end_src
+
+#+RESULTS:
+
+** 
+
+#+begin_src ipython :results output :export code
+
+  driver = set_webdriver(web_visual=True)
+
+  get_images(driver, ['고양이'], ['google'], 100)  # naver maximum items 1000
+
+  driver.close()
 
 #+end_src
 
 #+RESULTS:
-: <selenium.webdriver.chrome.webdriver.WebDriver (session="dff348aa81d54581839c060d59d910a4")>
+: (False, 1)
+: HOSTS OK
+: KEYWORDS OK
 
-  #   url = 'https://search.naver.com/search.naver?where=image&sm=tab_jum&query='
-
-  #   keyword = '암컷고양이'
-  #   base_url = url + quote_plus(keyword)
-
-  #   # chrome_options = webdriver.ChromeOptions()
-  #   # chrome_options.add_argument('--headless')
-  #   # chrome_options.add_argument('--no-sandbox')
-  #   # chrome_options.add_argument('--disable-dev-shm-usage')
-  #   driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver')
-  # #, options=chrome_options)
-
-  #   driver.get(base_url)
-  #   body = driver.find_element_by_css_selector('body')
-
-  #   for i in range(20):
-  #       body.send_keys(Keys.PAGE_DOWN)
-  #       time.sleep(1)
-
-  #   imgs = driver.find_elements_by_css_selector('img._img')
-  #   count = 0
-  #   idx = 0
-  #   idx_max = len(imgs)
-  #   acc = []
-
-  #   while count < 600:
-  #     if imgs[idx].get_attribute('src')[:4] == 'http':
-  #         # print(idx, count, imgs[idx].get_attribute('src')[:4])
-  #         acc.append(imgs[idx].get_attribute('src'))
-  #         count += 1
-  #     idx += 1
-  #     if idx == idx_max:
-  #          # print("spawn")
-  #          tmp = 0
-  #          while len(driver.find_elements_by_css_selector('img._img')) == len(imgs):
-  #               if tmp >= 10:
-  #                   break
-  #               body.send_keys(Keys.PAGE_DOWN)
-  #               time.sleep(1)
-  #               tmp += 1
-
-  #          if tmp >= 10:
-  #              print('END WEBPAGES, OK - get')
-  #              break
-  #          else:
-  #              imgs = driver.find_elements_by_css_selector('img._img')
-  #              idx_max = len(imgs)
-
-  #   driver.close()
-    # get_images('고양이')
-
-    # print('OK - get')
-
-# #+begin_src ipython :results output :async t
-#   import os
-#   path = 'naver_images/' + keyword
-#   if not (os.path.isdir(path)):
-#       os.makedirs(os.path.join(path))
-
-#   for idx, src in enumerate(acc):
-#       urllib.request.urlretrieve(src, path + '/' + keyword + str(idx) + '.jpg')
-
-#   print('OK')
-
-# #+end_src
-
-* platform_browser.ts:28 Fetch API cannot load file:///Users/sroh/pg/2020/python/uiap/lecture-note/web/my_model/model.json. URL scheme must be "http" or "https" for CORS request.
-캠 띄울려면 http나 https 에서 작동되도록 되어 있어서 에러를 띄운다.
-
-* 로컬에서 테스트
-해당 디렉토리로 가서
-python -m http.server &
