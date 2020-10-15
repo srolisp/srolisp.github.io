@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-14 Wed 18:25 -->
+<!-- 2020-10-15 Thu 14:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>네이버, 구글 이미지 크롤링</title>
@@ -250,18 +250,42 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org5362377">1. <span class="todo TODO">TODO</span> crawling</a>
+<li><a href="#org92fa480">1. <span class="todo TODO">TODO</span> crawling</a>
 <ul>
-<li><a href="#org2eddd1f">1.1. 실행방법</a></li>
-<li><a href="#org725f59f">1.2. 필요한 모듈 로드</a></li>
+<li><a href="#orgb7d8b22">1.1. 실행방법</a></li>
+<li><a href="#org06db515">1.2. 필요한 모듈 로드</a></li>
+<li><a href="#orgfd0affc">1.3. 무한 루프 방지 exception</a></li>
+</ul>
+</li>
+<li><a href="#orgdc870b4">2. Naver</a>
+<ul>
+<li><a href="#org70786cc">2.1. 네이버 제일 하단 이미지 더보기 클릭</a></li>
+<li><a href="#org08a65d7">2.2. 여러개의 그리드박스내에 이미지 div들이 분할되어 있다.</a></li>
+<li><a href="#org2a3337d">2.3. acc는 다운받은 총 이미지 수(이미지 파일명에 필요하다)</a></li>
+<li><a href="#org38e9bfd">2.4. 원하는 갯수만큼 이미지를 받는다. True, 원하는 갯수(받은 갯수)</a></li>
+</ul>
+</li>
+<li><a href="#org804897a">3. Google</a>
+<ul>
+<li><a href="#org49a9f92">3.1. <span class="todo TODO">TODO</span> 아래쪽은 구글부분인데 크게 다른부분이 없는 듯 하다. 나중에 정리.. 거의 비슷</a></li>
+</ul>
+</li>
+<li><a href="#org48b6349">4. 공통부분</a></li>
+<li><a href="#org07b920e">5. web<sub>driver가</sub> 설정 안하면 chromdriver 사용, web<sub>visual</sub> 설정 안되면 웹브라우저를 열지않고 실행</a></li>
+<li><a href="#org0cef807">6. <span class="todo TODO">TODO</span> 개선시켜볼 부분</a>
+<ul>
+<li><a href="#orgf0bb04e">6.1. 구글같은 경우, 이미지 중간중간 연관검색어를 넣어놨다. 이 연관 검색어를 참고해서 관련 이미지를 자동으로 다운시켜봐도 좋을 것 같다.</a></li>
+<li><a href="#org93ddafe">6.2. Code 정리</a></li>
+<li><a href="#org41e0f69">6.3. 1000개 이상 입력 받았을 때 예외처리(Google)</a></li>
+<li><a href="#org2c8196e">6.4. 다운 받은 Image 에 문제가 있는 경우 처리</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org5362377" class="outline-2">
-<h2 id="org5362377"><span class="section-number-2">1</span> <span class="todo TODO">TODO</span> crawling</h2>
+<div id="outline-container-org92fa480" class="outline-2">
+<h2 id="org92fa480"><span class="section-number-2">1</span> <span class="todo TODO">TODO</span> crawling</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 google 혹은 naver 에서 이미지 크롤링
@@ -276,24 +300,20 @@ google 혹은 naver 에서 이미지 크롤링
 </p>
 </div>
 
-<div id="outline-container-org2eddd1f" class="outline-3">
-<h3 id="org2eddd1f"><span class="section-number-3">1.1</span> 실행방법</h3>
+<div id="outline-container-orgb7d8b22" class="outline-3">
+<h3 id="orgb7d8b22"><span class="section-number-3">1.1</span> 실행방법</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
-<pre class="src src-ipython">driver = set_webdriver(web_visual=True)
-get_images(driver, ['고양이', '고양이 얼굴', '고양이 꼬리', '강아지'], ['naver', 'google'], 1001)  # naver maximum items 1000
-driver.close()
-</pre>
-</div>
-
-<pre class="example">
-1 - f20bb092-eb84-4aba-aba1-8ea8f97c5636
+<pre class="src src-ipython"># driver = set_webdriver(web_visual=True)
+# get_images(driver, ['고양이', '고양이 얼굴', '고양이 꼬리', '강아지'], ['naver', 'google'], 10)  # naver maximum items 1000
+# driver.close()
 </pre>
 </div>
 </div>
+</div>
 
-<div id="outline-container-org725f59f" class="outline-3">
-<h3 id="org725f59f"><span class="section-number-3">1.2</span> 필요한 모듈 로드</h3>
+<div id="outline-container-org06db515" class="outline-3">
+<h3 id="org06db515"><span class="section-number-3">1.2</span> 필요한 모듈 로드</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-ipython">import os                       # 파일경로에 사용
@@ -306,35 +326,33 @@ from urllib.parse import quote_plus # 한국어 검색 처리
 import urllib.request               # urlretrieve 함수 사용(이미지 다운로드)
 from selenium.webdriver.common.keys import Keys # PAGE_DOWN키를 전송할때 사용
 # exceptions 예외 처리모듈
-from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException,  ElementNotInteractableException, ElementClickInterceptedException, TimeoutException
+from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException,  ElementNotInteractableException, ElementClickInterceptedException, TimeoutException, InvalidSessionIdException
 from urllib.error import URLError, HTTPError
 </pre>
 </div>
+</div>
+</div>
 
-<pre class="example">
-2 - 441e34e4-3fe0-48d6-a2ea-a5ede0db8688
-</pre>
-
-
-<p>
-무한 루프 방지 exception
-</p>
+<div id="outline-container-orgfd0affc" class="outline-3">
+<h3 id="orgfd0affc"><span class="section-number-3">1.3</span> 무한 루프 방지 exception</h3>
+<div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-ipython">class TrialError(Exception):
     def __init__(self):
 	 super().__init__('TRIAL EXCESS')
 </pre>
 </div>
+</div>
+</div>
+</div>
 
-<pre class="example">
-3 - 5988b80d-7e33-425a-94b0-e1464f15a83f
-</pre>
-
-
-<p>
-네이버 제일 하단 이미지 더보기 클릭
-</p>
-
+<div id="outline-container-orgdc870b4" class="outline-2">
+<h2 id="orgdc870b4"><span class="section-number-2">2</span> Naver</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org70786cc" class="outline-3">
+<h3 id="org70786cc"><span class="section-number-3">2.1</span> 네이버 제일 하단 이미지 더보기 클릭</h3>
+<div class="outline-text-3" id="text-2-1">
 <p>
 1000개 넘어가면 사라지던데 NoSuchElementException 에러를 안뱉네.. 밑에 에러를 뱉는데 1001개까지 제공된다는 div가 나타나는지 체크후 처리
 </p>
@@ -358,16 +376,12 @@ from urllib.error import URLError, HTTPError
     return True
 </pre>
 </div>
+</div>
+</div>
 
-<pre class="example">
-4 - 8dd682c4-9af4-4d9b-b4bc-798a6ae10f20
-</pre>
-
-
-<p>
-여러개의 그리드박스내에 이미지 div들이 분할되어 있다. 
-</p>
-
+<div id="outline-container-org08a65d7" class="outline-3">
+<h3 id="org08a65d7"><span class="section-number-3">2.2</span> 여러개의 그리드박스내에 이미지 div들이 분할되어 있다.</h3>
+<div class="outline-text-3" id="text-2-2">
 <p>
 이미지 더보기가 눌러지면 그리드박스가 추가된다. 해당 인덱스의 그리드박스가 없을 경우 이미지 더보기 버튼을 눌러서 그리드박스가 추가되도록 한다.
 </p>
@@ -390,61 +404,30 @@ from urllib.error import URLError, HTTPError
     return item
 </pre>
 </div>
-
-<pre class="example">
-5 - d8ee0b12-d0fd-4485-8f27-cbc9bc311052
-</pre>
-
-
-<p>
-이미지idx를 증가시켜가며, 링크의 이미지를 저장한다. 
-</p>
-
-<p>
-그리드박스내 img가 있는 div 수보다 이미지idx가 증가하면 그리드박스idx를 증가시키고 그리드박스를 추가시키도록 유도한다. 이미지 더보기 버튼 클릭 방법을 썼다.
-</p>
-
-<p>
-acc는 다운받은 총 이미지 수(이미지 파일명에 필요하다)
-</p>
-<div class="org-src-container">
-<pre class="src src-ipython">def _retrieve2(drv, keyword, path, gbox, idx, acc, trial=0, max_trial=20):
-    try:
-	# 무한루프 방지
-	if trial &gt; max_trial:
-	     raise TrialError(trial)
-	# 저장경로 
-	if not (os.path.isdir(path)):
-	    os.makedirs(os.path.join(path))
-	# 이미지 링크주소를 받아온다.
-	img = gbox.find_element_by_css_selector('div &gt; div:nth-child(' + str(idx) + ') &gt; a &gt; img._img').get_attribute('src')
-	# 저장경로에 이미지 저장
-	urllib.request.urlretrieve(img, path + '/' + keyword + str(acc) + '.jpg')
-
-    except URLError:
-	# URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local
-	print('ERROR URLError in _retrieve', trial)
-	ssl._create_default_https_context = ssl._create_unverified_context
-	trial += 1
-	_retrieve2(img, keyword, path, gbox, idx, acc, trial)
-    except HTTPError:
-	# TODO 나중에 찾아보자
-	 print('ERROR HTTPError in _retrieve', img, trial)
-	 trial += 1
-	 time.sleep(1)
-	 _retrieve2(img, keyword, path, gbox, idx, acc, trial)
-    except TrialError:
-	 driver.close()
-</pre>
+</div>
 </div>
 
-<pre class="example">
-6 - b7d3dde5-4382-485a-b15e-71dde26fd608
+<div id="outline-container-org2a3337d" class="outline-3">
+<h3 id="org2a3337d"><span class="section-number-3">2.3</span> acc는 다운받은 총 이미지 수(이미지 파일명에 필요하다)</h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+<pre class="src src-ipython">def _retrieve2(drv, keyword, path, gbox, idx, acc):
+    # 저장경로 
+    if not (os.path.isdir(path)):
+	os.makedirs(os.path.join(path))
+    # 이미지 링크주소를 받아온다.
+    img = gbox.find_element_by_css_selector('div &gt; div:nth-child(' + str(idx) + ') &gt; a &gt; img._img').get_attribute('src')
+    # 저장경로에 이미지 저장
+    _retrieve(img, keyword, path, acc)
 </pre>
+</div>
+</div>
+</div>
 
-
+<div id="outline-container-org38e9bfd" class="outline-3">
+<h3 id="org38e9bfd"><span class="section-number-3">2.4</span> 원하는 갯수만큼 이미지를 받는다. True, 원하는 갯수(받은 갯수)</h3>
+<div class="outline-text-3" id="text-2-4">
 <p>
-원하는 갯수만큼 이미지를 받는다. True, 원하는 갯수(받은 갯수)
 원하는 갯수만큼 못 받았을 경우 False, 받은 갯수
 </p>
 
@@ -466,91 +449,72 @@ idx를 증가시키며 받다가 에러(NoSuchElementException)가
     try:
 	_retrieve2(drv, keyword, path, gbox, idx, acc)
     except NoSuchElementException: # 그리드박스내 이미지 idx 가 over
-	idx = 1
-	inner_idx += 1
-	gbox = _iidx_grid_box(drv, inner_idx)
-    else:                       # 순차적으로 다운받음
-	acc += 1
-	idx += 1
-    return _inner_loop_naver_driver(drv, keyword, path, wanted, gbox, inner_idx, idx, acc)
+	return _inner_loop_naver_driver(drv, keyword, path, wanted, _iidx_grid_box(drv, inner_idx), inner_idx + 1, 1, acc)
+    return _inner_loop_naver_driver(drv, keyword, path, wanted, gbox, inner_idx, idx + 1, acc + 1)
 
-def _loop_naver_driver(drv, keyword, path, wanted):
+
+</pre>
+</div>
+
+<pre class="example">
+7 - 7b69876b-fc6a-4887-a0cc-594676333326
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org804897a" class="outline-2">
+<h2 id="org804897a"><span class="section-number-2">3</span> Google</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org49a9f92" class="outline-3">
+<h3 id="org49a9f92"><span class="section-number-3">3.1</span> <span class="todo TODO">TODO</span> 아래쪽은 구글부분인데 크게 다른부분이 없는 듯 하다. 나중에 정리.. 거의 비슷</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">def _result_click(drv, idx):
+    drv.find_element_by_css_selector('div.islrc &gt; div:nth-child(' + str(idx) + ') &gt; a.wXeWr.islib.nfEiy.mM5pbd').click()
+
+def _inner_loop_google_driver2(drv, keyword, path, wanted, idx=1, acc=0):
+    if acc == wanted:
+	return True, acc
+    try:
+	_result_click(drv, idx)
+    # TODO 1000 over
+    except NoSuchElementException: 
+	print('NOSUCHE: ', drv.find_element_by_css_selector('#islrg &gt; div.islrc &gt; div:nth-child(25) &gt; div &gt; div.a3Wc3.O8VmIc &gt; div').text, idx)
+	return _inner_loop_google_driver2(drv, keyword, path, wanted, idx+1, acc)
+
+    if _retrieve(drv.find_element_by_css_selector('#Sva75c &gt; div &gt; div &gt; div.pxAole &gt; div.tvh9oe.BIB1wf &gt; c-wiz &gt; div.OUZ5W &gt; div.zjoqD &gt; div &gt; div.v4dQwb &gt; a &gt; img.n3VNCb').get_attribute('src'), keyword, path, idx):
+	return _inner_loop_google_driver2(drv, keyword, path, wanted, idx+1, acc+1)
+    return _inner_loop_google_driver2(drv, keyword, path, wanted, idx+1, acc)
+
+</pre>
+</div>
+
+<pre class="example">
+8 - 309ce872-4080-42a0-af8a-43dd2a102acc
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org48b6349" class="outline-2">
+<h2 id="org48b6349"><span class="section-number-2">4</span> 공통부분</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+<pre class="src src-ipython">def _loop_naver_driver(drv, keyword, path, wanted):
     time.sleep(2)               # 초기로딩 지연이 종종 있어서 2초가 sleep후 진행
     return _inner_loop_naver_driver(drv, keyword, path, wanted, _iidx_grid_box(drv, 0))
 
 def _get_naver_items(drv, url, keyword, host, wanted):
     drv.get(url + quote_plus(keyword))
     path = host + '_images/' + str(datetime.date.today()) + '/' + keyword
-    p, new_items = _loop_naver_driver(drv, keyword, path, wanted)
-    print(p)
 
-    return new_items
-</pre>
-</div>
-
-<pre class="example">
-7 - 8110fbd2-e6a8-4a58-9edf-859a5fcd87a4
-</pre>
-
-
-<p>
-web<sub>driver가</sub> 설정 안하면 chromdriver 사용, web<sub>visual</sub> 설정 안되면 웹브라우저가 안열린채 실행
-</p>
-<div class="org-src-container">
-<pre class="src src-ipython">def set_webdriver(web_driver=None, web_visual=None):
-    if web_driver is None:
-	chrome_options = webdriver.ChromeOptions()
-	if web_visual is None:
-	    chrome_options.add_argument('--headless')
-	    chrome_options.add_argument('--no-sandbox')
-	    chrome_options.add_argument('--disable-dev-shm-usage')
-	driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver', options=chrome_options)
-    else:
-	driver = web_driver
-
-    return driver
-</pre>
-</div>
-
-<pre class="example">
-8 - c583ada8-952f-4c00-8e51-0429f000838c
-</pre>
-
-
-<p>
-TODO 아래쪽은 구글부분인데 크게 다른부분이 없는 듯 하다. 나중에 정리.. 거의 비슷
-</p>
-<div class="org-src-container">
-<pre class="src src-ipython">def inner_loop_google_driver(drv, keyword, path, wanted, idx=1, trial=0, max_trial=50):
-    try:
-	if trial &gt; max_trial:
-	    raise TrialError(trial)
-	# print(drv.find_element_by_css_selector('div.islrc &gt; div:nth-child(' + str(idx) + ') &gt; a.wXeWr.islib.nfEiy.mM5pbd &gt; div &gt; img').is_displayed())
-	drv.find_element_by_css_selector('div.islrc &gt; div:nth-child(' + str(idx) + ') &gt; a.wXeWr.islib.nfEiy.mM5pbd &gt; div').click()
-    except ElementNotInteractableException: # loaded image not yet
-	drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
-	drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
-	drv.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
-	time.sleep(1)
-	print(trial, 'ELEMENTNOTINTERACTABLEEXCEPTION AT:', idx)
-	trial += 1
-	return inner_loop_google_driver(drv, keyword, path, wanted, idx, trial)
-    except NoSuchElementException:
-	print(trial, 'NOSUCHE: ', idx)
-	return False
-    except TrialError:
-	drv.close()
-	return False
-
-    else:
-	if idx &gt; wanted:
-	    return 'OK'
-	_retrieve(drv.find_element_by_css_selector('#Sva75c &gt; div &gt; div &gt; div.pxAole &gt; div.tvh9oe.BIB1wf &gt; c-wiz &gt; div.OUZ5W &gt; div.zjoqD &gt; div &gt; div.v4dQwb &gt; a &gt; img.n3VNCb').get_attribute('src'), keyword, path, idx)
-	idx += 1
-    return inner_loop_google_driver(drv, keyword, path, wanted, idx)
+    return _loop_naver_driver(drv, keyword, path, wanted)
 
 def loop_google_driver(drv, keyword, path, wanted):
-     return inner_loop_google_driver(drv, keyword, path, wanted)
+     time.sleep(2)
+     return _inner_loop_google_driver2(drv, keyword, path, wanted)
 
 def _get_google_items(drv, url, keyword, host, wanted):
     drv.get(url)
@@ -559,6 +523,28 @@ def _get_google_items(drv, url, keyword, host, wanted):
     path = host + '_images/' + str(datetime.date.today()) + '/' + keyword
     new_items = loop_google_driver(drv, keyword, path, wanted)
     return new_items
+
+def _retrieve(img, keyword, path, idx, trial=0, max_trial=50):
+    if not (os.path.isdir(path)):
+	os.makedirs(os.path.join(path))
+    try:
+	if trial &gt; max_trial:
+	     raise TrialError
+	urllib.request.urlretrieve(img, path + '/' + keyword + str(idx) + '.jpg')
+    except URLError:
+	# URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local
+	print('ERROR URLError in _retrieve', trial)
+	ssl._create_default_https_context = ssl._create_unverified_context
+	trial += 1
+	_retrieve(img, keyword, path, idx, trial)
+    except HTTPError:
+	 print('ERROR HTTPError in _retrieve', img, trial)
+	 trial += 1
+	 _retrieve(img, keyword, path, idx, trial)
+    except TrialError:
+	print('TrialError - Failed', img)
+	return False
+    return True
 
 def _get_images(drv, keyword, host, n_items, 
 		d_servs={'naver' : ['https://search.naver.com/search.naver?where=image&amp;sm=tab_jum&amp;query=', _get_naver_items],
@@ -580,55 +566,57 @@ def get_images(drv, keywords, hosts, n_items):
     else:
 	_get_images_by_hosts(drv, keywords[0], hosts, n_items)
 	get_images(drv, keywords[1:], hosts, n_items)
-
-
-def _retrieve(img, keyword, path, idx, trial=0, max_trial=50):
-    if not (os.path.isdir(path)):
-	os.makedirs(os.path.join(path))
-    try:
-	if trial &gt; max_trial:
-	     raise TrialError(trial)
-	urllib.request.urlretrieve(img, path + '/' + keyword + str(idx) + '.jpg')
-    except URLError:
-	# URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local
-	print('ERROR URLError in _retrieve', trial)
-	ssl._create_default_https_context = ssl._create_unverified_context
-	trial += 1
-	_retrieve(img, keyword, path, idx, trial)
-    except HTTPError:
-	 print('ERROR HTTPError in _retrieve', img, trial)
-	 trial += 1
-	 time.sleep(1)
-	 _retrieve(img, keyword, path, idx, trial)
-    except TrialError:
-	 driver.close()
-
-def retrieve(imgs, keyword, host):
-    path = host + '_images/' + str(datetime.date.today()) + '/' + keyword
-
-    for idx, i in enumerate(imgs):
-	_retrieve(i, keyword, path, idx)
-
-driver = set_webdriver(web_visual=True)
-
-get_images(driver, ['고양이'], ['naver'], 1001)  # naver maximum items 1000
-
-driver.close()
-
 </pre>
 </div>
+</div>
+</div>
 
-<pre class="example">
-9 - a295d774-cc3d-438b-b9d9-2fe9c88fb5ad
+<div id="outline-container-org07b920e" class="outline-2">
+<h2 id="org07b920e"><span class="section-number-2">5</span> web<sub>driver가</sub> 설정 안하면 chromdriver 사용, web<sub>visual</sub> 설정 안되면 웹브라우저를 열지않고 실행</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-ipython">def set_webdriver(web_driver=None, web_visual=None):
+    if web_driver is None:
+	chrome_options = webdriver.ChromeOptions()
+	if web_visual is None:
+	    chrome_options.add_argument('--headless')
+	    chrome_options.add_argument('--no-sandbox')
+	    chrome_options.add_argument('--disable-dev-shm-usage')
+	driver = webdriver.Chrome('/Users/sroh/Downloads/chromedriver', options=chrome_options)
+    else:
+	driver = web_driver
+
+    return driver
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-org0cef807" class="outline-2">
+<h2 id="org0cef807"><span class="section-number-2">6</span> <span class="todo TODO">TODO</span> 개선시켜볼 부분</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-orgf0bb04e" class="outline-3">
+<h3 id="orgf0bb04e"><span class="section-number-3">6.1</span> 구글같은 경우, 이미지 중간중간 연관검색어를 넣어놨다. 이 연관 검색어를 참고해서 관련 이미지를 자동으로 다운시켜봐도 좋을 것 같다.</h3>
+</div>
+
+<div id="outline-container-org93ddafe" class="outline-3">
+<h3 id="org93ddafe"><span class="section-number-3">6.2</span> Code 정리</h3>
+</div>
+
+<div id="outline-container-org41e0f69" class="outline-3">
+<h3 id="org41e0f69"><span class="section-number-3">6.3</span> 1000개 이상 입력 받았을 때 예외처리(Google)</h3>
+</div>
+
+<div id="outline-container-org2c8196e" class="outline-3">
+<h3 id="org2c8196e"><span class="section-number-3">6.4</span> 다운 받은 Image 에 문제가 있는 경우 처리</h3>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 2020-10-06 Tue 18:00</p>
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-10-14 Wed 18:25</p>
+<p class="date">Created: 2020-10-15 Thu 14:25</p>
 </div>
 </body>
 </html>

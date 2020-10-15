@@ -33,6 +33,8 @@
 
 ** [[file:lecture-note/ai-lecture-lsk-200917<-200927-logistic-reggression.html::<?xml version="1.0" encoding="utf-8"?>][200927 Logistic Regression 수정중]]
 
+** [[file:lecture-note/ai-lecture-kdh-201006.html::<?xml version="1.0" encoding="utf-8"?>][201006 Naver, Google Image Crawling]]
+
 ** [[file:lecture-note/ai-lecture-kdh-201007.html::<?xml version="1.0" encoding="utf-8"?>][201007 Simple Machine Learning using Teachable Machine]]
 
 * pyenv은 파이썬 버전을 다양하게 사용할 수 있다
