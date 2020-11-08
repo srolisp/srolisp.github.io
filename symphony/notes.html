@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-11-08 Sun 09:08 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI를 활용한 도면 설계 자동화 및 검도 시스템</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="srolisp" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">AI를 활용한 도면 설계 자동화 및 검도 시스템
+<br />
+<span class="subtitle">team &lt;symphony&gt;</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8543bd4">1. 해결과제</a></li>
+<li><a href="#orgd666afb">2. 생각해볼거리 및 의견, 아이디어 등등 whatever</a></li>
+<li><a href="#orgd4376fe">3. trivial</a></li>
+<li><a href="#org834ce8b">4. 일정</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8543bd4" class="outline-2">
+<h2 id="org8543bd4"><span class="section-number-2">1</span> 해결과제</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org004056c" class="outline-3">
+<h3 id="org004056c"><span class="todo TODO">TODO</span> 프로젝트 사전 준비</h3>
+<div class="outline-text-3" id="text-org004056c">
+<ul class="org-ul">
+<li class="on"><code>[X]</code> 연락망</li>
+
+<li class="on"><code>[X]</code> 배경이해 <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-10-30 Fri&gt;</span></span></li>
+
+<li class="off"><code>[&#xa0;]</code> 프로젝트 툴
+
+<ul class="org-ul">
+<li><p>
+google drive by uipa
+</p>
+
+<p>
+<a href="https://drive.google.com/drive/folders/1yYiv-ssXVfBPnpwZE4qSQpoDzhZOzhXE">https://drive.google.com/drive/folders/1yYiv-ssXVfBPnpwZE4qSQpoDzhZOzhXE</a>
+</p></li>
+
+<li><p>
+비지니스 모델 캔버스
+</p>
+
+<p>
+<a href="https://cnvs.online/en/business/-MLCeyJI0uQ_CFmCmdzC">https://cnvs.online/en/business/-MLCeyJI0uQ_CFmCmdzC</a>
+</p></li>
+
+<li></li>
+</ul></li>
+
+<li></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orga72b761" class="outline-3">
+<h3 id="orga72b761"><span class="todo TODO">TODO</span> 해결과제</h3>
+<div class="outline-text-3" id="text-orga72b761">
+</div>
+
+<div id="outline-container-org3028698" class="outline-4">
+<h4 id="org3028698">BMC 및 발표 다듬기</h4>
+<div class="outline-text-4" id="text-org3028698">
+</div>
+<ul class="org-ul">
+<li><a id="orgded9c87"></a>KDH 강사님<br />
+<div class="outline-text-5" id="text-orgded9c87">
+<ul class="org-ul">
+<li class="off"><code>[&#xa0;]</code> Definition - '무엇을 하는 것인가' 에 대해 명확히 전달하라.</li>
+
+<li class="off"><code>[&#xa0;]</code> 어떤 서비스를 할 것이냐?</li>
+</ul>
+</div>
+</li>
+
+
+<li><a id="org21a154d"></a>발표내용, 질문 및 답변, 참고사항<br />
+<div class="outline-text-5" id="text-org21a154d">
+<ul class="org-ul">
+<li>발표
+
+<ul class="org-ul">
+<li class="off"><code>[&#xa0;]</code> 고객 관계(CR)</li>
+
+<li class="off"><code>[&#xa0;]</code> Channels</li>
+
+<li class="off"><code>[&#xa0;]</code> Cost structure
+
+<ul class="org-ul">
+<li>claim (처리에 대비해야할) cost</li>
+</ul></li>
+
+<li class="off"><code>[&#xa0;]</code> <b>핵심 활동(우리가 뭘 하는가?)</b> - 강사님
+
+<ul class="org-ul">
+<li>소프트웨어 개발</li>
+
+<li>검도 직접 수행</li>
+
+<li></li>
+
+
+<li></li>
+</ul></li>
+</ul></li>
+
+<li>질답
+
+<ul class="org-ul">
+<li>Question (강사님)
+
+<ul class="org-ul">
+<li><p>
+<b>claim cost 보호막?</b>
+</p>
+
+<p>
+증빙을 위한 서류들 구비: 상담내역, 계약서
+</p>
+<blockquote>
+<p>
+<b>"특허 및 데이터는 특정(ex. 하우?) 변호사(단체)와 대화중이고, 법률적 범위에서 라이센스 및 특허에 대해 처리해주기로 논의중이다.(혹은 계약되어있다.)"</b>
+</p>
+</blockquote></li>
+
+<li><p>
+<b>기술에 대한 보호막? 및  아무도 개발하지 못하고 있는 영역을 Startup에서 개발가능하냐?</b>
+</p>
+
+<p>
+스타트업 기업내 인력으로 모든것을 처리하기엔 비용적으로 기술적으로 시간적으로 어려운 부분이 있다.
+</p>
+<blockquote>
+<p>
+<b>"기술력을 가진 기업들과 협약하라."</b>
+</p>
+</blockquote></li>
+
+<li><p>
+<b>데이터는 어떻게 수집?</b>
+</p>
+
+<p>
+데이터셋 구축! Important!
+</p>
+<blockquote>
+<p>
+<b>"인건비 싼 나라의 인력을 적극 활용하라."</b>
+</p>
+
+<p>
+<b>"나아가서 데이터셋을 모아서 팔 궁리를 하라." =&gt; "작은 서버 구축부터 시작하라."</b>
+</p>
+</blockquote></li>
+</ul></li>
+
+<li>Question (수강생)
+
+<ul class="org-ul">
+<li>설계 실무자의 두뇌 없이 자동으로 설계가 가능하냐?</li>
+
+<li>보급되어 있는 유사한 기술이 있느냐?</li>
+
+<li>작업, 검도의 신뢰도는 어떻게 되느냐?</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgd666afb" class="outline-2">
+<h2 id="orgd666afb"><span class="section-number-2">2</span> 생각해볼거리 및 의견, 아이디어 등등 whatever</h2>
+</div>
+
+
+<div id="outline-container-orgd4376fe" class="outline-2">
+<h2 id="orgd4376fe"><span class="section-number-2">3</span> trivial</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li class="on"><code>[X]</code> AI 아이디어 COMPETITION</li>
+
+<li class="off"><code>[&#xa0;]</code> 구글링, 전화, 논문, 특허 등으로 정보를 수집해보자
+
+<ul class="org-ul">
+<li>CAD 2021(Windows)
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2020-11-05 Thu&gt;</span></span></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org834ce8b" class="outline-2">
+<h2 id="org834ce8b"><span class="section-number-2">4</span> 일정</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2020-10-26 Mon 18:00</p>
+<p class="author">Author: srolisp</p>
+<p class="date">Created: 2020-11-08 Sun 09:08</p>
+</div>
+</body>
+</html>
