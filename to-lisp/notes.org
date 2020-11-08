@@ -50,4 +50,5 @@ gpg 없으면 설치하자 brew install gpg
 .sbclrc 
 #+begin_src lisp
 (push #p"/Users/sroh/pg/2020/python/uiap/to-lisp/" asdf:*central-registry*)
+(push #p"/Users/sroh/pg/2020/lisp/student/" asdf:*central-registry*)
 #+end_src

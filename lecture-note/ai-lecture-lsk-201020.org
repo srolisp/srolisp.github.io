@@ -1,0 +1,25 @@
+#+title: 
+#+subtitle: 1 weeks by lsk
+#+date: <2020-10-20 Tue 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn1020 :tangle "mglearn201020.py" :exports both
+
+#+author: srolisp
+
+* ipynb -> txt
+#+begin_src bash
+  jupyter nbconvert --to script "./drive-download-20201020T091917Z-001/*.ipynb" 
+#+end_src
+
+* 의류분류
+#+begin_src ipython :results output
+import tensorflow as tf
+
+print(tf.__version__)
+#+end_src
+
+#+RESULTS:
+: 2.3.0
+

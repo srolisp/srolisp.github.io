@@ -29,13 +29,15 @@
 
 ** [[file:lecture-note/ai-lecture-lsk-200916.html::<?xml version="1.0" encoding="utf-8"?>][200916]]
 
-** [[file:lecture-note/ai-lecture-lsk-200917.html::<?xml version="1.0" encoding="utf-8"?>][200917]]
+** [[file:lecture-note/ai-lecture-lsk-200917.html::<?xml version="1.0" encoding="utf-8"?>][200917 Linear Regression 수정중]]
 
 ** [[file:lecture-note/ai-lecture-lsk-200917<-200927-logistic-reggression.html::<?xml version="1.0" encoding="utf-8"?>][200927 Logistic Regression 수정중]]
 
 ** [[file:lecture-note/ai-lecture-kdh-201006.html::<?xml version="1.0" encoding="utf-8"?>][201006 Naver, Google Image Crawling]]
 
 ** [[file:lecture-note/ai-lecture-kdh-201007.html::<?xml version="1.0" encoding="utf-8"?>][201007 Simple Machine Learning using Teachable Machine]]
+
+** [[file:symphony/notes.html::<?xml version="1.0" encoding="utf-8"?>][201108 Symphony team, bm, uipa]]
 
 * pyenv은 파이썬 버전을 다양하게 사용할 수 있다
 * virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.

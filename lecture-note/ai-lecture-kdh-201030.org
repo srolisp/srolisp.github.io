@@ -1,0 +1,19 @@
+#+title: term project notes <autocad verify system>
+#+subtitle: team <symphony>
+#+date: <2020-10-28 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session symphony1028 :tangle "symphony1028.py" :exports both
+
+#+author: srolisp
+
+* Lecture Idea
+
+** 시각장애인 AI
+
+*** [#A] 주요고객 설정
+시각장애인의 가족이거나 보호자
+주요고객에 맞춰서 마케팅
+
+

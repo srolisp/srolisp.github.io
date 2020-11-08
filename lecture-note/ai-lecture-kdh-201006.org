@@ -163,6 +163,8 @@ idx를 증가시키며 받다가 에러(NoSuchElementException)가
 
 #+end_src
 
+#+RESULTS:
+
 * 공통부분
 #+begin_src ipython :results output :export code
   def _loop_naver_driver(drv, keyword, path, wanted):
@@ -249,6 +251,8 @@ idx를 증가시키며 받다가 에러(NoSuchElementException)가
       return driver
 #+end_src
 
+#+RESULTS:
+
 * TODO 개선시켜볼 부분
 
 ** 구글같은 경우, 이미지 중간중간 연관검색어를 넣어놨다. 이 연관 검색어를 참고해서 관련 이미지를 자동으로 다운시켜봐도 좋을 것 같다.
@@ -259,9 +263,12 @@ idx를 증가시키며 받다가 에러(NoSuchElementException)가
 
 ** 다운 받은 Image 에 문제가 있는 경우 처리
 
-* COMMENT TEST
-#+begin_src ipython :results output :export code
+* TEST
+#+begin_src ipython :results output :async t
   driver = set_webdriver(web_visual=True)
-  get_images(driver, ['고양이'], ['google'], 1001)
+  get_images(driver, ['hardhat'], ['google'], 1001)
   driver.close
 #+end_src
+
+#+RESULTS:
+: 0 - 8da97e48-8fff-4cb2-8310-18ff143c5ad6

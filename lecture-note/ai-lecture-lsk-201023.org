@@ -1,0 +1,13 @@
+#+title: 
+#+subtitle: 1 weeks by lsk
+#+date: <2020-10-21 Tue 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn1021 :tangle "mglearn201021.py" :exports both
+
+#+author: srolisp
+
+* AI reference
+** pyimagesearch.com
+** youtube AU Guys

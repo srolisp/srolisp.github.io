@@ -1,0 +1,23 @@
+#+title: sound AI
+#+subtitle: 
+#+date: <2020-10-21 Tue 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+n#+property: header-args:ipython :session symphony :tangle "verify-autocad.py" :exports both
+
+#+author: srolisp
+
+
+* 히든마코브체인
+
+* speech to text
+
+** kaldi library
+
+* 음성인식 관심있으면 그룹에 가입해봐라
+Soundly
+링크는 자료에..
+
+* PCA (Principle Component Analysis)
+

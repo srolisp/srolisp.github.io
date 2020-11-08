@@ -25,8 +25,7 @@
 					(fselector #'car)
 					;; fupdate: need to treat nil case. (make filters or not)
 					;; if nil, there aren't filters to refer. 
-					(fupdate #'(lambda (s &optional f)
-						     (adjoin s f))) 
+					(fupdate #'%update-each) 
 					(f-post-process #'identity)
 					(ffilterer #'(lambda (c f &optional s)
 						       (or (member c (cdr s))
@@ -38,28 +37,32 @@
   (lambda (&optional args)
     (if (null states)
 	(error "starved states.")
+	;; state is best choice
 	(let ((state (funcall fselector states)))
 	  (if (funcall fgoalp state)
 	      (funcall fresult states)
+	      ;; (....) select 1 state
+	      ;; (1 2 3 4 5 6 7) -> (2 3 4 5 6 7) is candidated states
 	      (let* ((candidate-states (funcall fsuccessors state))
 		     ;; Update visited cur state to filters
 		     ;; TODO: If args nil, make filters or not.
 		     
+		     ;; ex. args is old-path-list
 		     (updated-filters (if (null fupdate) args (updater state args fupdate)))
                                       ;; (and fupdate (updater state args fupdate)))
 		     
 		     (filtered-states (generate-new-states states candidate-states
 							   updated-filters ffilterer))
+		     
 		     (new-states (funcall fcombine
 					  ;; pick candidate-states satisfied group justifying
 					  ;; if need, post processing (ex. order filtered states
 					  (funcall f-post-process filtered-states)
 					  (cdr states))))
-		(format t "states ~a~%c-states ~a~%updated-filters ~a ~%filtered ~a~%new-states~a ~%" states candidate-states updated-filters filtered-states
-			new-states)
-		;; TODO: how to treat current state?
-		;; find proper group and update the group with the state.
-		(funcall (funcall #'srl new-states fgoalp fsuccessors
+		(format t
+			"states ~a~%c-states ~a~%updated-filters ~a ~%filtered ~a~%new-states~a ~%"
+			states candidate-states updated-filters filtered-states new-states)
+		(funcall (srl new-states fgoalp fsuccessors
 				:fresult fresult :fselector fselector :fcombine fcombine
 				:fupdate fupdate
 				:f-post-process f-post-process :ffilterer ffilterer)
@@ -117,15 +120,33 @@
 
 ;; how to distinguish finishing loop and null case?
 ;; %updater: iterate filters
-(defun updater (state filters fupdate)
-  (labels ((%updater (state filters fupdate &optional updated)
-	     (if (null filters)
-		 updated
-		 (%updater state (cdr filters) fupdate
-			   (append updated (list (funcall fupdate state (car filters))))))))
-    (if (null filters)        
-	(list (funcall fupdate state))
-	(%updater state filters fupdate))))
+;; (defun updater (state filters fupdate)
+;;   (labels ((%updater (state filters fupdate &optional updated)
+;; 	     (if (null filters)
+;; 		 updated
+;; 		 (%updater state (cdr filters) fupdate
+;; 			   (append updated (list (funcall fupdate state (car filters))))))))
+;;     (if (null filters)        
+;; 	(list (funcall fupdate state))
+;; 	(%updater state filters fupdate))))
+
+(defun %update-each (s f)
+  (mapcar (lambda (each)
+	    (let ((type (filter-type f))
+		  (fcompare (filter-fcompare f))
+		  (fupdate (filter-fupdate f)))
+	      (declare (ignore type))
+	      (if (funcall fcompare s each)
+		  (funcall fupdate f)
+		  nil)))
+	  (filter-states f)))
+
+(defun updater (state filters fupdate &optional updated-filters)
+  (if (null filters)
+      updated-filters
+      (updater state (cdr filters) fupdate
+	       (append updated-filters (list (funcall fupdate state (car filters)))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; application

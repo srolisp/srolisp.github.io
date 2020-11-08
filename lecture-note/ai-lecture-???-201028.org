@@ -1,0 +1,41 @@
+#+title: sound AI
+#+subtitle: 
+#+date: <2020-10-28 Wed 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session symphony :tangle "verify-autocad.py" :exports both
+
+#+author: srolisp
+
+* 
+
+* 
+
+* 음성인식분야는 AI 수준은 최종점에 거의다 다다른상태이다. 
+AI 라이브러리는 만들어진 것을 활용하고(이미 구현이 잘 되어있다.), 인지과학을 접목시키는데에 포커스를 두자.
+
+  + 윤송이 박사 논문
+
+  + 인지과학, 감성공학
+
+
+** 조건부 확률, Bayes 
+
+*** Pros
+
+** Fourie transform 
+주파수 \( \in \) 타임도메인 to 주파수 도메인
+
+*** 단편적인 신호(wavenet)는 학습을 할 수 없다.
+주기적인 신호인 신호여야 학습시킬 수 있다.
+
+**** DTFT (샘플링)
+컨티뉴어스한 정보로 처리하긴 힘드므로, 샘플링
+**** DFT
+단편적인 신호가 반복하는 시점이 무한대라고 가정, 퓨리에 트랜스폼으로 변환가능
+-> 주파수 분할 가능 -> 대표주파수들 found!
+
+*** 쓰는 이유? 단편적인 정보를 살리기 위해 등등
+
+* 임종대, 구글

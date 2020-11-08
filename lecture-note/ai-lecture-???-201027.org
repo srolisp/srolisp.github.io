@@ -1,0 +1,21 @@
+#+title: sound AI
+#+subtitle: 
+#+date: <2020-10-21 Tue 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session symphony :tangle "verify-autocad.py" :exports both
+
+#+author: srolisp
+
+* 히든레이어 설정 for accuracy
+
+* Tips
+** output 의 중요도보다 시간과 정확도를 결정하자.
+
+** 정확도를 위해 weight와 func를 늘리지 마라.
+히든 레이어, 중간과정의 특징을 활용해라.
+
+** cnn 의 최대 장점: conv 할수록 특징(feature) 을 늘려나갈 수 있다!!!
+
+

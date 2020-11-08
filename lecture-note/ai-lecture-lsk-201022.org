@@ -1,0 +1,47 @@
+#+title: 
+#+subtitle: 1 weeks by lsk
+#+date: <2020-10-21 Tue 18:00>
+#+tags: python, bash, elisp, lisp, zoom
+#+property: header-args:bash :results verbatim
+#+property: header-args:elisp :exports both
+#+property: header-args:ipython :session mglearn1021 :tangle "mglearn201021.py" :exports both
+
+#+author: srolisp
+
+# * ipynb -> txt
+# #+begin_src bash
+#   jupyter nbconvert --to script "./drive-download-20201020T091917Z-001/*.ipynb" 
+# #+end_src
+
+#+begin_src bash :results verbatim
+pip install pyqt5
+#+end_src
+
+#+RESULTS:
+: Collecting pyqt5
+:   Downloading PyQt5-5.15.1-5.15.1-cp35.cp36.cp37.cp38.cp39-abi3-macosx_10_13_intel.whl (50.2 MB)
+: Collecting PyQt5-sip<13,>=12.8
+:   Downloading PyQt5_sip-12.8.1-cp37-cp37m-macosx_10_9_x86_64.whl (63 kB)
+: Installing collected packages: PyQt5-sip, pyqt5
+: Successfully installed PyQt5-sip-12.8.1 pyqt5-5.15.1
+
+#+begin_src bash :results verbatim
+pip install lxml
+#+end_src
+
+#+RESULTS:
+: Requirement already satisfied: lxml in /Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/uiap/lib/python3.7/site-packages (4.5.2)
+
+#+begin_src bash :results verbatim
+pyrcc5 -o ./201022/labelImg-master/libs/resources.py ./201022/labelImg-master/resources.qrc
+#+end_src
+
+#+RESULTS:
+
+#+begin_src bash :results verbatim :async t
+cd /Users/sroh/pg/2020/python/uiap/lecture-note/201022/labelImg-master
+python labelImg.py
+#+end_src
+
+#+RESULTS:
+: Invalid locale
