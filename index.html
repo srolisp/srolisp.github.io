@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-01 화 18:21 -->
+<!-- 2020-12-02 수 16:33 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Literate AI programming with Python</title>
@@ -250,210 +250,210 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org8dd6b51">1. <span class="todo TODO">TODO</span> lectures(기록날짜임.. 기록만 하지말고 정리를하자)</a>
+<li><a href="#org0dd4933">1. <span class="todo TODO">TODO</span> lectures(기록날짜임.. 기록만 하지말고 정리를하자)</a>
 <ul>
-<li><a href="#orgba09732">1.1. 200906</a></li>
-<li><a href="#org6fbfac8">1.2. 200907</a></li>
-<li><a href="#org49586ce">1.3. 200908</a></li>
-<li><a href="#org2da5a3e">1.4. 200908-2</a></li>
-<li><a href="#org5834751">1.5. 200908-3</a></li>
-<li><a href="#org656f436">1.6. 200909-1</a></li>
-<li><a href="#org3cde0d3">1.7. 200909-2</a></li>
-<li><a href="#orgdfe5437">1.8. 200910</a></li>
-<li><a href="#org4288e99">1.9. 200911</a></li>
-<li><a href="#orgd3de9ee">1.10. 200912</a></li>
-<li><a href="#org89302f3">1.11. 200914</a></li>
-<li><a href="#orga675d6a">1.12. 200915</a></li>
-<li><a href="#org3c9b1ba">1.13. 200916</a></li>
-<li><a href="#org6ee0819">1.14. 200917 Linear Regression 수정중</a></li>
-<li><a href="#orgbc36d00">1.15. 200927 Logistic Regression 수정중</a></li>
-<li><a href="#org7834545">1.16. 201006 Naver, Google Image Crawling</a></li>
-<li><a href="#orgf7f97a1">1.17. 201007 Simple Machine Learning using Teachable Machine</a></li>
-<li><a href="#org68bea34">1.18. 201108 Symphony team, bm, uipa</a></li>
-<li><a href="#orgc55b5f1">1.19. 201201 Jetson AGX</a></li>
+<li><a href="#orga25e419">1.1. 200906</a></li>
+<li><a href="#orgf00e68a">1.2. 200907</a></li>
+<li><a href="#orgcbf5831">1.3. 200908</a></li>
+<li><a href="#org21a0152">1.4. 200908-2</a></li>
+<li><a href="#orgc742d69">1.5. 200908-3</a></li>
+<li><a href="#orgffadc8e">1.6. 200909-1</a></li>
+<li><a href="#org40c2172">1.7. 200909-2</a></li>
+<li><a href="#orgcee69c8">1.8. 200910</a></li>
+<li><a href="#orgff5879d">1.9. 200911</a></li>
+<li><a href="#orgf1c1918">1.10. 200912</a></li>
+<li><a href="#org970f07c">1.11. 200914</a></li>
+<li><a href="#org3d87b0f">1.12. 200915</a></li>
+<li><a href="#org1b40a36">1.13. 200916</a></li>
+<li><a href="#orga705d19">1.14. 200917 Linear Regression 수정중</a></li>
+<li><a href="#org5435254">1.15. 200927 Logistic Regression 수정중</a></li>
+<li><a href="#orgcf100c9">1.16. 201006 Naver, Google Image Crawling</a></li>
+<li><a href="#org0b3a13c">1.17. 201007 Simple Machine Learning using Teachable Machine</a></li>
+<li><a href="#org253f70f">1.18. 201108 Symphony team, bm, uipa</a></li>
+<li><a href="#org7750896">1.19. 201201 Jetson AGX</a></li>
 </ul>
 </li>
-<li><a href="#orgd4c7c09">2. pyenv은 파이썬 버전을 다양하게 사용할 수 있다</a></li>
-<li><a href="#org6070c2a">3. virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.</a></li>
-<li><a href="#org51c6bd1">4. pyvenv-create를 이용해서 virtualenv를 새로 생성하려 했으나 제대로 작동이 안되었다;;</a>
+<li><a href="#org80f62db">2. pyenv은 파이썬 버전을 다양하게 사용할 수 있다</a></li>
+<li><a href="#org79b2c38">3. virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.</a></li>
+<li><a href="#org2952f06">4. pyvenv-create를 이용해서 virtualenv를 새로 생성하려 했으나 제대로 작동이 안되었다;;</a>
 <ul>
-<li><a href="#org71ede51">4.1. pyenv가 작동하는지부터 확인</a></li>
-<li><a href="#org07022bb">4.2. pyvenv-create.el 소스코드를 보며 원인을 찾아보다 virtualenv 에서 에러코드를 발생하는 것을 발견</a>
+<li><a href="#orgece49c5">4.1. pyenv가 작동하는지부터 확인</a></li>
+<li><a href="#org766e27a">4.2. pyvenv-create.el 소스코드를 보며 원인을 찾아보다 virtualenv 에서 에러코드를 발생하는 것을 발견</a>
 <ul>
-<li><a href="#org1d242a0">4.2.1. virtualenv 실행</a></li>
-<li><a href="#org494728a">4.2.2. <span class="todo TODO">TODO</span> error code(에러를 새 버퍼에 띄우는데 바로 나타내는 방법은 없는걸까,  버퍼에 나타난 에러를 복사한후 소스코드 블럭안에 넣어놨다)</a></li>
-<li><a href="#org22dd12b">4.2.3. PATH쪽 확인</a></li>
-<li><a href="#org5eaa4cc">4.2.4. 구글링해보니 python@2 재설치로 해결했다는 걸 봄. 삭제하면 안된다는 글을 본것 같은데;; 포멧 각인가</a></li>
-<li><a href="#orgc0071ad">4.2.5. virtualenv 실행</a></li>
-<li><a href="#org1e6cca0">4.2.6. error code</a></li>
-<li><a href="#org5dfb8ed">4.2.7. 구글링..구글링..</a></li>
-<li><a href="#org50b5911">4.2.8. 다시 실행해보니 제대로 작동;; 파이썬과 친해지려면 한참 멀었구나</a></li>
-<li><a href="#org9dd1895">4.2.9. <span class="todo TODO">TODO</span> 정상 작동! 일단 해결했는데 python@2 버전은 설치 안해놔도 되나;;</a></li>
-<li><a href="#org92046ef">4.2.10. env에 uiap가 정상적으로 생성되었고, pyvenv-workon실행시키니 minibuffer에 해당 env가 표시되는것도 확인.</a></li>
-<li><a href="#orgf1f8fbd">4.2.11. <span class="todo TODO">TODO</span> html로 export할때 RESULTS: 결과중 일부만 색상이나 밑줄등 바꾸려면 어떻게 해야할까?</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org4f6e955">5. 웹으로 확인차 export할 때 블럭마다 confirm을 묻는데 매번 no 쳐야했다.</a>
-<ul>
-<li><a href="#org7a09d3c">5.1. The variable `org-babel-confirm-evaluate-answer-no' is used by</a></li>
-</ul>
-</li>
-<li><a href="#orgecbb7ed">6. install jupyter</a>
-<ul>
-<li><a href="#org3686530">6.1. uiap 활성화(pyvenv-workon -&gt; uiap)</a></li>
-<li><a href="#orgaa24c47">6.2. version 확인</a></li>
-<li><a href="#org4ed02c9">6.3. pip 업그레이드 (해야하나;;)</a></li>
-<li><a href="#org55547d7">6.4. 최신버전이라는군. jupyter 설치</a></li>
-<li><a href="#orgcc27976">6.5. ipython 테스트</a></li>
-<li><a href="#org169eee8">6.6. org-babel 테스트</a></li>
-<li><a href="#orga5d675c">6.7. matplotlib 설치</a></li>
-</ul>
-</li>
-<li><a href="#org9d527af">7. anaconda 를 설치했으면 됐는데</a>
-<ul>
-<li><a href="#org807199b">7.1. install 가능한 버전 확인</a></li>
-<li><a href="#orgbc65889">7.2. 새로 가상환경을 만들고 anaconda를 설치하자</a>
-<ul>
-<li><a href="#orgdf7221a">7.2.1. virtualenvs 확인</a></li>
-<li><a href="#orgbcca26b">7.2.2. 잠깐 왜</a></li>
-<li><a href="#orge8c59ce">7.2.3. pyvenv.el을 보니 exec-path를 참조한다고 해 있어서 <i>Users/sroh</i>.pyenv/shims 을 추가</a></li>
-<li><a href="#org00738fe">7.2.4. M-x pyvenv-create 선택 후 test-anaconda로 이름을 설정하고 python 선택</a></li>
-<li><a href="#org1397728">7.2.5. anaconda 설치</a></li>
-<li><a href="#orgb822a4b">7.2.6. pyenv 버전 변경</a></li>
-<li><a href="#org85e6427">7.2.7. pyvenv-create 테스트</a></li>
-<li><a href="#orgdd3ed23">7.2.8. python 버전 밑 위치 확인</a></li>
-<li><a href="#org5e25192">7.2.9. virtualenv 설치</a></li>
-<li><a href="#org51555bd">7.2.10. virtualenv 버전 확인</a></li>
-<li><a href="#orga034bfd">7.2.11. pyvenv-create 테스트</a></li>
-<li><a href="#org75c63b9">7.2.12. pyvenv-workon 으로 아나콘다 버전 설정하고 create 실행하니 경로가 선택한 아나콘다 버전을 가리킨다.</a></li>
-<li><a href="#orgd696e00">7.2.13. pyenv virtualenvs 확인해보자</a></li>
-<li><a href="#org438aa97">7.2.14. workon으로 변경해보자</a></li>
-<li><a href="#org58c8363">7.2.15. virtualenv를 anaconda버전으로 설정해도 create를 할때 shims/python으로 하면 3.8.5 버전으로 설치된다!</a></li>
-<li><a href="#orgd5b52b9">7.2.16. 또다른 문제</a></li>
-<li><a href="#orgb4480ce">7.2.17. 결론 WORKFLOW</a></li>
-<li><a href="#org44d639c">7.2.18. python-language-server 설치</a></li>
+<li><a href="#orgd2faff8">4.2.1. virtualenv 실행</a></li>
+<li><a href="#org55ca81e">4.2.2. <span class="todo TODO">TODO</span> error code(에러를 새 버퍼에 띄우는데 바로 나타내는 방법은 없는걸까,  버퍼에 나타난 에러를 복사한후 소스코드 블럭안에 넣어놨다)</a></li>
+<li><a href="#org6817d06">4.2.3. PATH쪽 확인</a></li>
+<li><a href="#org889aaf4">4.2.4. 구글링해보니 python@2 재설치로 해결했다는 걸 봄. 삭제하면 안된다는 글을 본것 같은데;; 포멧 각인가</a></li>
+<li><a href="#orgc95a6ab">4.2.5. virtualenv 실행</a></li>
+<li><a href="#orgde53d78">4.2.6. error code</a></li>
+<li><a href="#orgd91f0ca">4.2.7. 구글링..구글링..</a></li>
+<li><a href="#org4a20a01">4.2.8. 다시 실행해보니 제대로 작동;; 파이썬과 친해지려면 한참 멀었구나</a></li>
+<li><a href="#org30ac539">4.2.9. <span class="todo TODO">TODO</span> 정상 작동! 일단 해결했는데 python@2 버전은 설치 안해놔도 되나;;</a></li>
+<li><a href="#org8b51340">4.2.10. env에 uiap가 정상적으로 생성되었고, pyvenv-workon실행시키니 minibuffer에 해당 env가 표시되는것도 확인.</a></li>
+<li><a href="#org3b20019">4.2.11. <span class="todo TODO">TODO</span> html로 export할때 RESULTS: 결과중 일부만 색상이나 밑줄등 바꾸려면 어떻게 해야할까?</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgbfad72e">8. LSP mode in org-babel</a>
+<li><a href="#orgba18109">5. 웹으로 확인차 export할 때 블럭마다 confirm을 묻는데 매번 no 쳐야했다.</a>
 <ul>
-<li><a href="#org7a58d85">8.1. org file안에서 begin<sub>src</sub> ipython &#x2026;. :tangle "filename.py" 를 해준다</a></li>
-<li><a href="#org93cab9b">8.2. filename.py를 열고 lsp server를 작동시킨다.</a></li>
-<li><a href="#orga708784">8.3. 다시 org file 을 열고 lsp-org 실행시킨다.</a></li>
-<li><a href="#org8a495da">8.4. 2020-09-07 18:58:13,245 UTC - WARNING - pyls<sub>jsonrpc.endpoint</sub> - Received cancel notification for unknown message id 2</a></li>
+<li><a href="#org596daf4">5.1. The variable `org-babel-confirm-evaluate-answer-no' is used by</a></li>
 </ul>
 </li>
-<li><a href="#org800e01e">9. lsp 에서 lsp-python-ms 로 갈아탔다</a>
+<li><a href="#org5c46475">6. install jupyter</a>
 <ul>
-<li><a href="#orgc073bad">9.1. lsp 에선 code completion 이 조금 부족한 부분이 있어서 ms로 갈아탔다.</a>
+<li><a href="#orge0b036a">6.1. uiap 활성화(pyvenv-workon -&gt; uiap)</a></li>
+<li><a href="#org3afb6e6">6.2. version 확인</a></li>
+<li><a href="#org6e4f7e0">6.3. pip 업그레이드 (해야하나;;)</a></li>
+<li><a href="#org9f4a381">6.4. 최신버전이라는군. jupyter 설치</a></li>
+<li><a href="#orgacac0b0">6.5. ipython 테스트</a></li>
+<li><a href="#org0e59850">6.6. org-babel 테스트</a></li>
+<li><a href="#orgaa56bf9">6.7. matplotlib 설치</a></li>
+</ul>
+</li>
+<li><a href="#org474b7a1">7. anaconda 를 설치했으면 됐는데</a>
 <ul>
-<li><a href="#org638a35c">9.1.1. <span class="todo TODO">TODO</span> 제대로 작동하다 안되다하는게 문제.. 몇번 재접속하다보면 제대로 작동한다. 왜 그럴까 &#x2013;;</a></li>
+<li><a href="#org7348faf">7.1. install 가능한 버전 확인</a></li>
+<li><a href="#org5b51a25">7.2. 새로 가상환경을 만들고 anaconda를 설치하자</a>
+<ul>
+<li><a href="#org5d55eed">7.2.1. virtualenvs 확인</a></li>
+<li><a href="#orge816bf1">7.2.2. 잠깐 왜</a></li>
+<li><a href="#org0d68fe2">7.2.3. pyvenv.el을 보니 exec-path를 참조한다고 해 있어서 <i>Users/sroh</i>.pyenv/shims 을 추가</a></li>
+<li><a href="#orgfac3fed">7.2.4. M-x pyvenv-create 선택 후 test-anaconda로 이름을 설정하고 python 선택</a></li>
+<li><a href="#org8460b8b">7.2.5. anaconda 설치</a></li>
+<li><a href="#org8f6fc9b">7.2.6. pyenv 버전 변경</a></li>
+<li><a href="#org34f7ff7">7.2.7. pyvenv-create 테스트</a></li>
+<li><a href="#org87c64b1">7.2.8. python 버전 밑 위치 확인</a></li>
+<li><a href="#org32853e5">7.2.9. virtualenv 설치</a></li>
+<li><a href="#org1897452">7.2.10. virtualenv 버전 확인</a></li>
+<li><a href="#org47fb3c2">7.2.11. pyvenv-create 테스트</a></li>
+<li><a href="#org52c0dbb">7.2.12. pyvenv-workon 으로 아나콘다 버전 설정하고 create 실행하니 경로가 선택한 아나콘다 버전을 가리킨다.</a></li>
+<li><a href="#org1e2264d">7.2.13. pyenv virtualenvs 확인해보자</a></li>
+<li><a href="#org086d564">7.2.14. workon으로 변경해보자</a></li>
+<li><a href="#org378d518">7.2.15. virtualenv를 anaconda버전으로 설정해도 create를 할때 shims/python으로 하면 3.8.5 버전으로 설치된다!</a></li>
+<li><a href="#org6424972">7.2.16. 또다른 문제</a></li>
+<li><a href="#org4906be6">7.2.17. 결론 WORKFLOW</a></li>
+<li><a href="#org8c85c0f">7.2.18. python-language-server 설치</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgc170c6e">10. <span class="todo TODO">TODO</span> 소스블락이 여러개일때 lsp-org 가 제대로 작동하게 하는 방법?</a></li>
-<li><a href="#org9734d2b">11. 출력 results 에 대해 좀 알아보자 출력이 헷갈린다. print(&#x2026; 그냥 print없이 변수 출력</a>
+<li><a href="#orgb821f12">8. LSP mode in org-babel</a>
 <ul>
-<li><a href="#org5a1ba9d">11.1. <span class="todo TODO">TODO</span> pd 데이터프레임 같은거 출력할때는 :results output 옵션에 print() 함수로 출력하는게 그나마 정렬이 되어 출력된다. 깔끔하진 않다.</a></li>
+<li><a href="#orgcb6a562">8.1. org file안에서 begin<sub>src</sub> ipython &#x2026;. :tangle "filename.py" 를 해준다</a></li>
+<li><a href="#orgdbbe330">8.2. filename.py를 열고 lsp server를 작동시킨다.</a></li>
+<li><a href="#org42f072c">8.3. 다시 org file 을 열고 lsp-org 실행시킨다.</a></li>
+<li><a href="#org10d0f88">8.4. 2020-09-07 18:58:13,245 UTC - WARNING - pyls<sub>jsonrpc.endpoint</sub> - Received cancel notification for unknown message id 2</a></li>
 </ul>
 </li>
-<li><a href="#org3f2251f">12. ipynb to py</a></li>
-<li><a href="#org1ad1fac">13. latex</a></li>
-<li><a href="#orgd9aa905">14. update tex live update</a></li>
-<li><a href="#org7483785">15. for fixing error, install wrapfig, capt-of</a></li>
+<li><a href="#orgdd41d5c">9. lsp 에서 lsp-python-ms 로 갈아탔다</a>
+<ul>
+<li><a href="#org3f55276">9.1. lsp 에선 code completion 이 조금 부족한 부분이 있어서 ms로 갈아탔다.</a>
+<ul>
+<li><a href="#orgc0deb1e">9.1.1. <span class="todo TODO">TODO</span> 제대로 작동하다 안되다하는게 문제.. 몇번 재접속하다보면 제대로 작동한다. 왜 그럴까 &#x2013;;</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgb1fd74c">10. <span class="todo TODO">TODO</span> 소스블락이 여러개일때 lsp-org 가 제대로 작동하게 하는 방법?</a></li>
+<li><a href="#orgf76d571">11. 출력 results 에 대해 좀 알아보자 출력이 헷갈린다. print(&#x2026; 그냥 print없이 변수 출력</a>
+<ul>
+<li><a href="#orgc25a792">11.1. <span class="todo TODO">TODO</span> pd 데이터프레임 같은거 출력할때는 :results output 옵션에 print() 함수로 출력하는게 그나마 정렬이 되어 출력된다. 깔끔하진 않다.</a></li>
+</ul>
+</li>
+<li><a href="#org01e6d70">12. ipynb to py</a></li>
+<li><a href="#orgf5fa60a">13. latex</a></li>
+<li><a href="#orgd265e5f">14. update tex live update</a></li>
+<li><a href="#org21e11f7">15. for fixing error, install wrapfig, capt-of</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org8dd6b51" class="outline-2">
-<h2 id="org8dd6b51"><span class="section-number-2">1</span> <span class="todo TODO">TODO</span> lectures(기록날짜임.. 기록만 하지말고 정리를하자)</h2>
+<div id="outline-container-org0dd4933" class="outline-2">
+<h2 id="org0dd4933"><span class="section-number-2">1</span> <span class="todo TODO">TODO</span> lectures(기록날짜임.. 기록만 하지말고 정리를하자)</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgba09732" class="outline-3">
-<h3 id="orgba09732"><span class="section-number-3">1.1</span> <a href="lecture-note/synopsis-kdh-200906.html#MissingReference">200906</a></h3>
+<div id="outline-container-orga25e419" class="outline-3">
+<h3 id="orga25e419"><span class="section-number-3">1.1</span> <a href="lecture-note/synopsis-kdh-200906.html#MissingReference">200906</a></h3>
 </div>
 
-<div id="outline-container-org6fbfac8" class="outline-3">
-<h3 id="org6fbfac8"><span class="section-number-3">1.2</span> <a href="lecture-note/ai-methodology-unnamed.html#MissingReference">200907</a></h3>
+<div id="outline-container-orgf00e68a" class="outline-3">
+<h3 id="orgf00e68a"><span class="section-number-3">1.2</span> <a href="lecture-note/ai-methodology-unnamed.html#MissingReference">200907</a></h3>
 </div>
 
-<div id="outline-container-org49586ce" class="outline-3">
-<h3 id="org49586ce"><span class="section-number-3">1.3</span> <a href="lecture-note/ai-lecture-kdh-200908.html#MissingReference">200908</a></h3>
+<div id="outline-container-orgcbf5831" class="outline-3">
+<h3 id="orgcbf5831"><span class="section-number-3">1.3</span> <a href="lecture-note/ai-lecture-kdh-200908.html#MissingReference">200908</a></h3>
 </div>
 
-<div id="outline-container-org2da5a3e" class="outline-3">
-<h3 id="org2da5a3e"><span class="section-number-3">1.4</span> <a href="lecture-note/ai-lecture-kdh-200908-2.html#MissingReference">200908-2</a></h3>
+<div id="outline-container-org21a0152" class="outline-3">
+<h3 id="org21a0152"><span class="section-number-3">1.4</span> <a href="lecture-note/ai-lecture-kdh-200908-2.html#MissingReference">200908-2</a></h3>
 </div>
 
-<div id="outline-container-org5834751" class="outline-3">
-<h3 id="org5834751"><span class="section-number-3">1.5</span> <a href="lecture-note/ai-lecture-kdh-200908-3.html#MissingReference">200908-3</a></h3>
+<div id="outline-container-orgc742d69" class="outline-3">
+<h3 id="orgc742d69"><span class="section-number-3">1.5</span> <a href="lecture-note/ai-lecture-kdh-200908-3.html#MissingReference">200908-3</a></h3>
 </div>
 
-<div id="outline-container-org656f436" class="outline-3">
-<h3 id="org656f436"><span class="section-number-3">1.6</span> <a href="lecture-note/ai-lecture-kdh-200909-1.html#MissingReference">200909-1</a></h3>
+<div id="outline-container-orgffadc8e" class="outline-3">
+<h3 id="orgffadc8e"><span class="section-number-3">1.6</span> <a href="lecture-note/ai-lecture-kdh-200909-1.html#MissingReference">200909-1</a></h3>
 </div>
 
-<div id="outline-container-org3cde0d3" class="outline-3">
-<h3 id="org3cde0d3"><span class="section-number-3">1.7</span> <a href="lecture-note/ai-lecture-kdh-200909-2.html#MissingReference">200909-2</a></h3>
+<div id="outline-container-org40c2172" class="outline-3">
+<h3 id="org40c2172"><span class="section-number-3">1.7</span> <a href="lecture-note/ai-lecture-kdh-200909-2.html#MissingReference">200909-2</a></h3>
 </div>
 
-<div id="outline-container-orgdfe5437" class="outline-3">
-<h3 id="orgdfe5437"><span class="section-number-3">1.8</span> <a href="lecture-note/ai-lecture-kdh-200910.html#MissingReference">200910</a></h3>
+<div id="outline-container-orgcee69c8" class="outline-3">
+<h3 id="orgcee69c8"><span class="section-number-3">1.8</span> <a href="lecture-note/ai-lecture-kdh-200910.html#MissingReference">200910</a></h3>
 </div>
 
-<div id="outline-container-org4288e99" class="outline-3">
-<h3 id="org4288e99"><span class="section-number-3">1.9</span> <a href="lecture-note/ai-lecture-kdh-200911.html#MissingReference">200911</a></h3>
+<div id="outline-container-orgff5879d" class="outline-3">
+<h3 id="orgff5879d"><span class="section-number-3">1.9</span> <a href="lecture-note/ai-lecture-kdh-200911.html#MissingReference">200911</a></h3>
 </div>
 
-<div id="outline-container-orgd3de9ee" class="outline-3">
-<h3 id="orgd3de9ee"><span class="section-number-3">1.10</span> <a href="lecture-note/ai-lecture-kdh-200912.html#MissingReference">200912</a></h3>
+<div id="outline-container-orgf1c1918" class="outline-3">
+<h3 id="orgf1c1918"><span class="section-number-3">1.10</span> <a href="lecture-note/ai-lecture-kdh-200912.html#MissingReference">200912</a></h3>
 </div>
 
-<div id="outline-container-org89302f3" class="outline-3">
-<h3 id="org89302f3"><span class="section-number-3">1.11</span> <a href="lecture-note/ai-lecture-lsk-200914.html#MissingReference">200914</a></h3>
+<div id="outline-container-org970f07c" class="outline-3">
+<h3 id="org970f07c"><span class="section-number-3">1.11</span> <a href="lecture-note/ai-lecture-lsk-200914.html#MissingReference">200914</a></h3>
 </div>
 
-<div id="outline-container-orga675d6a" class="outline-3">
-<h3 id="orga675d6a"><span class="section-number-3">1.12</span> <a href="lecture-note/ai-lecture-lsk-200915.html#MissingReference">200915</a></h3>
+<div id="outline-container-org3d87b0f" class="outline-3">
+<h3 id="org3d87b0f"><span class="section-number-3">1.12</span> <a href="lecture-note/ai-lecture-lsk-200915.html#MissingReference">200915</a></h3>
 </div>
 
-<div id="outline-container-org3c9b1ba" class="outline-3">
-<h3 id="org3c9b1ba"><span class="section-number-3">1.13</span> <a href="lecture-note/ai-lecture-lsk-200916.html#MissingReference">200916</a></h3>
+<div id="outline-container-org1b40a36" class="outline-3">
+<h3 id="org1b40a36"><span class="section-number-3">1.13</span> <a href="lecture-note/ai-lecture-lsk-200916.html#MissingReference">200916</a></h3>
 </div>
 
-<div id="outline-container-org6ee0819" class="outline-3">
-<h3 id="org6ee0819"><span class="section-number-3">1.14</span> <a href="lecture-note/ai-lecture-lsk-200917.html#MissingReference">200917 Linear Regression 수정중</a></h3>
+<div id="outline-container-orga705d19" class="outline-3">
+<h3 id="orga705d19"><span class="section-number-3">1.14</span> <a href="lecture-note/ai-lecture-lsk-200917.html#MissingReference">200917 Linear Regression 수정중</a></h3>
 </div>
 
-<div id="outline-container-orgbc36d00" class="outline-3">
-<h3 id="orgbc36d00"><span class="section-number-3">1.15</span> <a href="lecture-note/ai-lecture-lsk-200917&lt;-200927-logistic-reggression.html#MissingReference">200927 Logistic Regression 수정중</a></h3>
+<div id="outline-container-org5435254" class="outline-3">
+<h3 id="org5435254"><span class="section-number-3">1.15</span> <a href="lecture-note/ai-lecture-lsk-200917&lt;-200927-logistic-reggression.html#MissingReference">200927 Logistic Regression 수정중</a></h3>
 </div>
 
-<div id="outline-container-org7834545" class="outline-3">
-<h3 id="org7834545"><span class="section-number-3">1.16</span> <a href="lecture-note/ai-lecture-kdh-201006.html#MissingReference">201006 Naver, Google Image Crawling</a></h3>
+<div id="outline-container-orgcf100c9" class="outline-3">
+<h3 id="orgcf100c9"><span class="section-number-3">1.16</span> <a href="lecture-note/ai-lecture-kdh-201006.html#MissingReference">201006 Naver, Google Image Crawling</a></h3>
 </div>
 
-<div id="outline-container-orgf7f97a1" class="outline-3">
-<h3 id="orgf7f97a1"><span class="section-number-3">1.17</span> <a href="lecture-note/ai-lecture-kdh-201007.html#MissingReference">201007 Simple Machine Learning using Teachable Machine</a></h3>
+<div id="outline-container-org0b3a13c" class="outline-3">
+<h3 id="org0b3a13c"><span class="section-number-3">1.17</span> <a href="lecture-note/ai-lecture-kdh-201007.html#MissingReference">201007 Simple Machine Learning using Teachable Machine</a></h3>
 </div>
 
-<div id="outline-container-org68bea34" class="outline-3">
-<h3 id="org68bea34"><span class="section-number-3">1.18</span> <a href="symphony/notes.html#MissingReference">201108 Symphony team, bm, uipa</a></h3>
+<div id="outline-container-org253f70f" class="outline-3">
+<h3 id="org253f70f"><span class="section-number-3">1.18</span> <a href="symphony/notes.html#MissingReference">201108 Symphony team, bm, uipa</a></h3>
 </div>
 
-<div id="outline-container-orgc55b5f1" class="outline-3">
-<h3 id="orgc55b5f1"><span class="section-number-3">1.19</span> <a href="https://github.com/srolisp/jetson/blob/master/jetson-installation.html">201201 Jetson AGX</a></h3>
+<div id="outline-container-org7750896" class="outline-3">
+<h3 id="org7750896"><span class="section-number-3">1.19</span> <a href="https://htmlpreview.github.io/?https://github.com/srolisp/jetson/blob/master/jetson-installation.html">201201 Jetson AGX</a></h3>
 </div>
 </div>
 
-<div id="outline-container-orgd4c7c09" class="outline-2">
-<h2 id="orgd4c7c09"><span class="section-number-2">2</span> pyenv은 파이썬 버전을 다양하게 사용할 수 있다</h2>
+<div id="outline-container-org80f62db" class="outline-2">
+<h2 id="org80f62db"><span class="section-number-2">2</span> pyenv은 파이썬 버전을 다양하게 사용할 수 있다</h2>
 </div>
-<div id="outline-container-org6070c2a" class="outline-2">
-<h2 id="org6070c2a"><span class="section-number-2">3</span> virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.</h2>
+<div id="outline-container-org79b2c38" class="outline-2">
+<h2 id="org79b2c38"><span class="section-number-2">3</span> virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 pyenv의 목록에 virtualenv가 들어가기 때문에 pyenv를 먼저 설치
@@ -461,12 +461,12 @@ pyenv의 목록에 virtualenv가 들어가기 때문에 pyenv를 먼저 설치
 </div>
 </div>
 
-<div id="outline-container-org51c6bd1" class="outline-2">
-<h2 id="org51c6bd1"><span class="section-number-2">4</span> pyvenv-create를 이용해서 virtualenv를 새로 생성하려 했으나 제대로 작동이 안되었다;;</h2>
+<div id="outline-container-org2952f06" class="outline-2">
+<h2 id="org2952f06"><span class="section-number-2">4</span> pyvenv-create를 이용해서 virtualenv를 새로 생성하려 했으나 제대로 작동이 안되었다;;</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org71ede51" class="outline-3">
-<h3 id="org71ede51"><span class="section-number-3">4.1</span> pyenv가 작동하는지부터 확인</h3>
+<div id="outline-container-orgece49c5" class="outline-3">
+<h3 id="orgece49c5"><span class="section-number-3">4.1</span> pyenv가 작동하는지부터 확인</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 잘 작동하는걸로 봐서는 다른 곳에 원인이 있는 것 같음
@@ -529,12 +529,12 @@ opencv (created from /Users/sroh/.pyenv/versions/3.8.5)
 </div>
 
 
-<div id="outline-container-org07022bb" class="outline-3">
-<h3 id="org07022bb"><span class="section-number-3">4.2</span> pyvenv-create.el 소스코드를 보며 원인을 찾아보다 virtualenv 에서 에러코드를 발생하는 것을 발견</h3>
+<div id="outline-container-org766e27a" class="outline-3">
+<h3 id="org766e27a"><span class="section-number-3">4.2</span> pyvenv-create.el 소스코드를 보며 원인을 찾아보다 virtualenv 에서 에러코드를 발생하는 것을 발견</h3>
 <div class="outline-text-3" id="text-4-2">
 </div>
-<div id="outline-container-org1d242a0" class="outline-4">
-<h4 id="org1d242a0"><span class="section-number-4">4.2.1</span> virtualenv 실행</h4>
+<div id="outline-container-orgd2faff8" class="outline-4">
+<h4 id="orgd2faff8"><span class="section-number-4">4.2.1</span> virtualenv 실행</h4>
 <div class="outline-text-4" id="text-4-2-1">
 <div class="org-src-container">
 <pre class="src src-bash">virtualenv
@@ -543,8 +543,8 @@ opencv (created from /Users/sroh/.pyenv/versions/3.8.5)
 </div>
 </div>
 
-<div id="outline-container-org494728a" class="outline-4">
-<h4 id="org494728a"><span class="section-number-4">4.2.2</span> <span class="todo TODO">TODO</span> error code(에러를 새 버퍼에 띄우는데 바로 나타내는 방법은 없는걸까,  버퍼에 나타난 에러를 복사한후 소스코드 블럭안에 넣어놨다)</h4>
+<div id="outline-container-org55ca81e" class="outline-4">
+<h4 id="org55ca81e"><span class="section-number-4">4.2.2</span> <span class="todo TODO">TODO</span> error code(에러를 새 버퍼에 띄우는데 바로 나타내는 방법은 없는걸까,  버퍼에 나타난 에러를 복사한후 소스코드 블럭안에 넣어놨다)</h4>
 <div class="outline-text-4" id="text-4-2-2">
 <ul class="org-ul">
 <li>파이썬 버전이 2.7.16 을 찾네..</li>
@@ -598,8 +598,8 @@ ValueError: unsupported hash type sha512
 </div>
 </div>
 
-<div id="outline-container-org22dd12b" class="outline-4">
-<h4 id="org22dd12b"><span class="section-number-4">4.2.3</span> PATH쪽 확인</h4>
+<div id="outline-container-org6817d06" class="outline-4">
+<h4 id="org6817d06"><span class="section-number-4">4.2.3</span> PATH쪽 확인</h4>
 <div class="outline-text-4" id="text-4-2-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'pyvenv)
@@ -625,8 +625,8 @@ ValueError: unsupported hash type sha512
 </div>
 </div>
 
-<div id="outline-container-org5eaa4cc" class="outline-4">
-<h4 id="org5eaa4cc"><span class="section-number-4">4.2.4</span> 구글링해보니 python@2 재설치로 해결했다는 걸 봄. 삭제하면 안된다는 글을 본것 같은데;; 포멧 각인가</h4>
+<div id="outline-container-org889aaf4" class="outline-4">
+<h4 id="org889aaf4"><span class="section-number-4">4.2.4</span> 구글링해보니 python@2 재설치로 해결했다는 걸 봄. 삭제하면 안된다는 글을 본것 같은데;; 포멧 각인가</h4>
 <div class="outline-text-4" id="text-4-2-4">
 <div class="org-src-container">
 <pre class="src src-bash">brew uninstall python@2
@@ -639,8 +639,8 @@ Uninstalling /usr/local/Cellar/python@2/2.7.16... (7,567 files, 122.8MB)
 </div>
 </div>
 
-<div id="outline-container-orgc0071ad" class="outline-4">
-<h4 id="orgc0071ad"><span class="section-number-4">4.2.5</span> virtualenv 실행</h4>
+<div id="outline-container-orgc95a6ab" class="outline-4">
+<h4 id="orgc95a6ab"><span class="section-number-4">4.2.5</span> virtualenv 실행</h4>
 <div class="outline-text-4" id="text-4-2-5">
 <div class="org-src-container">
 <pre class="src src-bash">virtualenv
@@ -649,8 +649,8 @@ Uninstalling /usr/local/Cellar/python@2/2.7.16... (7,567 files, 122.8MB)
 </div>
 </div>
 
-<div id="outline-container-org1e6cca0" class="outline-4">
-<h4 id="org1e6cca0"><span class="section-number-4">4.2.6</span> error code</h4>
+<div id="outline-container-orgde53d78" class="outline-4">
+<h4 id="orgde53d78"><span class="section-number-4">4.2.6</span> error code</h4>
 <div class="outline-text-4" id="text-4-2-6">
 <div class="org-src-container">
 <pre class="src src-sh">/usr/local/Cellar/pyenv/1.2.20/libexec/pyenv-exec: /usr/local/bin/virtualenv: /usr/local/opt/python@2/bin/python2.7: bad interpreter: No such file or directory
@@ -660,8 +660,8 @@ Uninstalling /usr/local/Cellar/python@2/2.7.16... (7,567 files, 122.8MB)
 </div>
 </div>
 
-<div id="outline-container-org5dfb8ed" class="outline-4">
-<h4 id="org5dfb8ed"><span class="section-number-4">4.2.7</span> 구글링..구글링..</h4>
+<div id="outline-container-orgd91f0ca" class="outline-4">
+<h4 id="orgd91f0ca"><span class="section-number-4">4.2.7</span> 구글링..구글링..</h4>
 <div class="outline-text-4" id="text-4-2-7">
 <p>
 virtualenv를 재설치 해보라네
@@ -693,8 +693,8 @@ Successfully installed appdirs-1.4.4 distlib-0.3.1 filelock-3.0.12 six-1.15.0 vi
 </div>
 </div>
 
-<div id="outline-container-org50b5911" class="outline-4">
-<h4 id="org50b5911"><span class="section-number-4">4.2.8</span> 다시 실행해보니 제대로 작동;; 파이썬과 친해지려면 한참 멀었구나</h4>
+<div id="outline-container-org4a20a01" class="outline-4">
+<h4 id="org4a20a01"><span class="section-number-4">4.2.8</span> 다시 실행해보니 제대로 작동;; 파이썬과 친해지려면 한참 멀었구나</h4>
 <div class="outline-text-4" id="text-4-2-8">
 <div class="org-src-container">
 <pre class="src src-bash">virtualenv --version
@@ -707,8 +707,8 @@ virtualenv 20.0.31 from /usr/local/lib/python3.8/site-packages/virtualenv/__init
 </div>
 </div>
 
-<div id="outline-container-org9dd1895" class="outline-4">
-<h4 id="org9dd1895"><span class="section-number-4">4.2.9</span> <span class="todo TODO">TODO</span> 정상 작동! 일단 해결했는데 python@2 버전은 설치 안해놔도 되나;;</h4>
+<div id="outline-container-org30ac539" class="outline-4">
+<h4 id="org30ac539"><span class="section-number-4">4.2.9</span> <span class="todo TODO">TODO</span> 정상 작동! 일단 해결했는데 python@2 버전은 설치 안해놔도 되나;;</h4>
 <div class="outline-text-4" id="text-4-2-9">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(require 'pyvenv)
@@ -724,8 +724,8 @@ virtualenv 20.0.31 from /usr/local/lib/python3.8/site-packages/virtualenv/__init
 </div>
 </div>
 
-<div id="outline-container-org92046ef" class="outline-4">
-<h4 id="org92046ef"><span class="section-number-4">4.2.10</span> env에 uiap가 정상적으로 생성되었고, pyvenv-workon실행시키니 minibuffer에 해당 env가 표시되는것도 확인.</h4>
+<div id="outline-container-org8b51340" class="outline-4">
+<h4 id="org8b51340"><span class="section-number-4">4.2.10</span> env에 uiap가 정상적으로 생성되었고, pyvenv-workon실행시키니 minibuffer에 해당 env가 표시되는것도 확인.</h4>
 <div class="outline-text-4" id="text-4-2-10">
 <pre class="example">
 3.8.5/envs/emacs (created from /Users/sroh/.pyenv/versions/3.8.5)
@@ -743,21 +743,21 @@ uiap (created from /usr/local/Cellar/python@3.8/3.8.5/Frameworks/Python.framewor
 </div>
 </div>
 
-<div id="outline-container-orgf1f8fbd" class="outline-4">
-<h4 id="orgf1f8fbd"><span class="section-number-4">4.2.11</span> <span class="todo TODO">TODO</span> html로 export할때 RESULTS: 결과중 일부만 색상이나 밑줄등 바꾸려면 어떻게 해야할까?</h4>
+<div id="outline-container-org3b20019" class="outline-4">
+<h4 id="org3b20019"><span class="section-number-4">4.2.11</span> <span class="todo TODO">TODO</span> html로 export할때 RESULTS: 결과중 일부만 색상이나 밑줄등 바꾸려면 어떻게 해야할까?</h4>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4f6e955" class="outline-2">
-<h2 id="org4f6e955"><span class="section-number-2">5</span> 웹으로 확인차 export할 때 블럭마다 confirm을 묻는데 매번 no 쳐야했다.</h2>
+<div id="outline-container-orgba18109" class="outline-2">
+<h2 id="orgba18109"><span class="section-number-2">5</span> 웹으로 확인차 export할 때 블럭마다 confirm을 묻는데 매번 no 쳐야했다.</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 현재 해결된 문제의 코드를 다시 evaluate하면 다른 메세지를 나타내기 때문에 no를 해야했는데 ob-core.el 파일을 읽어보니 해결책이 있었다.
 </p>
 </div>
-<div id="outline-container-org7a09d3c" class="outline-3">
-<h3 id="org7a09d3c"><span class="section-number-3">5.1</span> The variable `org-babel-confirm-evaluate-answer-no' is used by</h3>
+<div id="outline-container-org596daf4" class="outline-3">
+<h3 id="org596daf4"><span class="section-number-3">5.1</span> The variable `org-babel-confirm-evaluate-answer-no' is used by</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 the async export process, which requires a non-interactive
@@ -771,16 +771,16 @@ environment, to override this check."
 </div>
 </div>
 
-<div id="outline-container-orgecbb7ed" class="outline-2">
-<h2 id="orgecbb7ed"><span class="section-number-2">6</span> install jupyter</h2>
+<div id="outline-container-org5c46475" class="outline-2">
+<h2 id="org5c46475"><span class="section-number-2">6</span> install jupyter</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-org3686530" class="outline-3">
-<h3 id="org3686530"><span class="section-number-3">6.1</span> uiap 활성화(pyvenv-workon -&gt; uiap)</h3>
+<div id="outline-container-orge0b036a" class="outline-3">
+<h3 id="orge0b036a"><span class="section-number-3">6.1</span> uiap 활성화(pyvenv-workon -&gt; uiap)</h3>
 </div>
 
-<div id="outline-container-orgaa24c47" class="outline-3">
-<h3 id="orgaa24c47"><span class="section-number-3">6.2</span> version 확인</h3>
+<div id="outline-container-org3afb6e6" class="outline-3">
+<h3 id="org3afb6e6"><span class="section-number-3">6.2</span> version 확인</h3>
 <div class="outline-text-3" id="text-6-2">
 <div class="org-src-container">
 <pre class="src src-bash">python -V
@@ -789,8 +789,8 @@ environment, to override this check."
 </div>
 </div>
 
-<div id="outline-container-org4ed02c9" class="outline-3">
-<h3 id="org4ed02c9"><span class="section-number-3">6.3</span> pip 업그레이드 (해야하나;;)</h3>
+<div id="outline-container-org6e4f7e0" class="outline-3">
+<h3 id="org6e4f7e0"><span class="section-number-3">6.3</span> pip 업그레이드 (해야하나;;)</h3>
 <div class="outline-text-3" id="text-6-3">
 <div class="org-src-container">
 <pre class="src src-bash">python3 -m pip install --upgrade pip
@@ -799,8 +799,8 @@ environment, to override this check."
 </div>
 </div>
 
-<div id="outline-container-org55547d7" class="outline-3">
-<h3 id="org55547d7"><span class="section-number-3">6.4</span> 최신버전이라는군. jupyter 설치</h3>
+<div id="outline-container-org9f4a381" class="outline-3">
+<h3 id="org9f4a381"><span class="section-number-3">6.4</span> 최신버전이라는군. jupyter 설치</h3>
 <div class="outline-text-3" id="text-6-4">
 <div class="org-src-container">
 <pre class="src src-bash">python3 -m pip install jupyter
@@ -929,8 +929,8 @@ Successfully installed MarkupSafe-1.1.1 Send2Trash-1.5.0 appnope-0.1.0 argon2-cf
 </div>
 </div>
 
-<div id="outline-container-orgcc27976" class="outline-3">
-<h3 id="orgcc27976"><span class="section-number-3">6.5</span> ipython 테스트</h3>
+<div id="outline-container-orgacac0b0" class="outline-3">
+<h3 id="orgacac0b0"><span class="section-number-3">6.5</span> ipython 테스트</h3>
 <div class="outline-text-3" id="text-6-5">
 <div class="org-src-container">
 <pre class="src src-bash">ipython -V
@@ -943,8 +943,8 @@ Successfully installed MarkupSafe-1.1.1 Send2Trash-1.5.0 appnope-0.1.0 argon2-cf
 </div>
 </div>
 
-<div id="outline-container-org169eee8" class="outline-3">
-<h3 id="org169eee8"><span class="section-number-3">6.6</span> org-babel 테스트</h3>
+<div id="outline-container-org0e59850" class="outline-3">
+<h3 id="org0e59850"><span class="section-number-3">6.6</span> org-babel 테스트</h3>
 <div class="outline-text-3" id="text-6-6">
 <div class="org-src-container">
 <pre class="src src-ipython">print("hello world")
@@ -960,8 +960,8 @@ import numpy as np
 </div>
 </div>
 
-<div id="outline-container-orga5d675c" class="outline-3">
-<h3 id="orga5d675c"><span class="section-number-3">6.7</span> matplotlib 설치</h3>
+<div id="outline-container-orgaa56bf9" class="outline-3">
+<h3 id="orgaa56bf9"><span class="section-number-3">6.7</span> matplotlib 설치</h3>
 <div class="outline-text-3" id="text-6-7">
 <div class="org-src-container">
 <pre class="src src-bash">pip install matplotlib
@@ -1052,12 +1052,12 @@ array([-4.03406121, -3.99237603, -3.95069086, -3.90900569, -3.86732051,
 </div>
 </div>
 
-<div id="outline-container-org9d527af" class="outline-2">
-<h2 id="org9d527af"><span class="section-number-2">7</span> anaconda 를 설치했으면 됐는데</h2>
+<div id="outline-container-org474b7a1" class="outline-2">
+<h2 id="org474b7a1"><span class="section-number-2">7</span> anaconda 를 설치했으면 됐는데</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org807199b" class="outline-3">
-<h3 id="org807199b"><span class="section-number-3">7.1</span> install 가능한 버전 확인</h3>
+<div id="outline-container-org7348faf" class="outline-3">
+<h3 id="org7348faf"><span class="section-number-3">7.1</span> install 가능한 버전 확인</h3>
 <div class="outline-text-3" id="text-7-1">
 <div class="org-src-container">
 <pre class="src src-bash">pyenv install -l
@@ -1066,12 +1066,12 @@ array([-4.03406121, -3.99237603, -3.95069086, -3.90900569, -3.86732051,
 </div>
 </div>
 
-<div id="outline-container-orgbc65889" class="outline-3">
-<h3 id="orgbc65889"><span class="section-number-3">7.2</span> 새로 가상환경을 만들고 anaconda를 설치하자</h3>
+<div id="outline-container-org5b51a25" class="outline-3">
+<h3 id="org5b51a25"><span class="section-number-3">7.2</span> 새로 가상환경을 만들고 anaconda를 설치하자</h3>
 <div class="outline-text-3" id="text-7-2">
 </div>
-<div id="outline-container-orgdf7221a" class="outline-4">
-<h4 id="orgdf7221a"><span class="section-number-4">7.2.1</span> virtualenvs 확인</h4>
+<div id="outline-container-org5d55eed" class="outline-4">
+<h4 id="org5d55eed"><span class="section-number-4">7.2.1</span> virtualenvs 확인</h4>
 <div class="outline-text-4" id="text-7-2-1">
 <div class="org-src-container">
 <pre class="src src-bash">pyenv virtualenvs
@@ -1080,8 +1080,8 @@ array([-4.03406121, -3.99237603, -3.95069086, -3.90900569, -3.86732051,
 </div>
 </div>
 
-<div id="outline-container-orgbcca26b" class="outline-4">
-<h4 id="orgbcca26b"><span class="section-number-4">7.2.2</span> 잠깐 왜</h4>
+<div id="outline-container-orge816bf1" class="outline-4">
+<h4 id="orge816bf1"><span class="section-number-4">7.2.2</span> 잠깐 왜</h4>
 <div class="outline-text-4" id="text-7-2-2">
 <p>
 (created from /usr/local/Cellar/python@3.8/3.8.5/Frameworks/Python.framework/Versions/3.8) 이지?
@@ -1089,12 +1089,12 @@ array([-4.03406121, -3.99237603, -3.95069086, -3.90900569, -3.86732051,
 </div>
 </div>
 
-<div id="outline-container-orge8c59ce" class="outline-4">
-<h4 id="orge8c59ce"><span class="section-number-4">7.2.3</span> pyvenv.el을 보니 exec-path를 참조한다고 해 있어서 <i>Users/sroh</i>.pyenv/shims 을 추가</h4>
+<div id="outline-container-org0d68fe2" class="outline-4">
+<h4 id="org0d68fe2"><span class="section-number-4">7.2.3</span> pyvenv.el을 보니 exec-path를 참조한다고 해 있어서 <i>Users/sroh</i>.pyenv/shims 을 추가</h4>
 </div>
 
-<div id="outline-container-org00738fe" class="outline-4">
-<h4 id="org00738fe"><span class="section-number-4">7.2.4</span> M-x pyvenv-create 선택 후 test-anaconda로 이름을 설정하고 python 선택</h4>
+<div id="outline-container-orgfac3fed" class="outline-4">
+<h4 id="orgfac3fed"><span class="section-number-4">7.2.4</span> M-x pyvenv-create 선택 후 test-anaconda로 이름을 설정하고 python 선택</h4>
 <div class="outline-text-4" id="text-7-2-4">
 <pre class="example">
 created virtual environment CPython3.8.5.final.0-64 in 1074ms
@@ -1107,8 +1107,8 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </div>
 </div>
 
-<div id="outline-container-org1397728" class="outline-4">
-<h4 id="org1397728"><span class="section-number-4">7.2.5</span> anaconda 설치</h4>
+<div id="outline-container-org8460b8b" class="outline-4">
+<h4 id="org8460b8b"><span class="section-number-4">7.2.5</span> anaconda 설치</h4>
 <div class="outline-text-4" id="text-7-2-5">
 <div class="org-src-container">
 <pre class="src src-bash">pyenv install anaconda3-5.3.1
@@ -1134,8 +1134,8 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </div>
 </div>
 
-<div id="outline-container-orgb822a4b" class="outline-4">
-<h4 id="orgb822a4b"><span class="section-number-4">7.2.6</span> pyenv 버전 변경</h4>
+<div id="outline-container-org8f6fc9b" class="outline-4">
+<h4 id="org8f6fc9b"><span class="section-number-4">7.2.6</span> pyenv 버전 변경</h4>
 <div class="outline-text-4" id="text-7-2-6">
 <div class="org-src-container">
 <pre class="src src-bash">pyenv global anaconda3-5.3.1
@@ -1173,8 +1173,8 @@ Python 3.7.0 (default, Jun 28 2018, 07:39:16)
 </div>
 </div>
 
-<div id="outline-container-org85e6427" class="outline-4">
-<h4 id="org85e6427"><span class="section-number-4">7.2.7</span> pyvenv-create 테스트</h4>
+<div id="outline-container-org34f7ff7" class="outline-4">
+<h4 id="org34f7ff7"><span class="section-number-4">7.2.7</span> pyvenv-create 테스트</h4>
 <div class="outline-text-4" id="text-7-2-7">
 <p>
 env로 test-anaconda 만들었음
@@ -1209,8 +1209,8 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </p>
 </div>
 </div>
-<div id="outline-container-orgdd3ed23" class="outline-4">
-<h4 id="orgdd3ed23"><span class="section-number-4">7.2.8</span> python 버전 밑 위치 확인</h4>
+<div id="outline-container-org87c64b1" class="outline-4">
+<h4 id="org87c64b1"><span class="section-number-4">7.2.8</span> python 버전 밑 위치 확인</h4>
 <div class="outline-text-4" id="text-7-2-8">
 <div class="org-src-container">
 <pre class="src src-bash">python -V
@@ -1234,8 +1234,8 @@ Python 3.7.0 (default, Jun 28 2018, 07:39:16)
 </div>
 </div>
 
-<div id="outline-container-org5e25192" class="outline-4">
-<h4 id="org5e25192"><span class="section-number-4">7.2.9</span> virtualenv 설치</h4>
+<div id="outline-container-org32853e5" class="outline-4">
+<h4 id="org32853e5"><span class="section-number-4">7.2.9</span> virtualenv 설치</h4>
 <div class="outline-text-4" id="text-7-2-9">
 <div class="org-src-container">
 <pre class="src src-bash">pip install virtualenv
@@ -1260,8 +1260,8 @@ Successfully installed distlib-0.3.1 importlib-metadata-1.7.0 virtualenv-20.0.31
 </div>
 </div>
 
-<div id="outline-container-org51555bd" class="outline-4">
-<h4 id="org51555bd"><span class="section-number-4">7.2.10</span> virtualenv 버전 확인</h4>
+<div id="outline-container-org1897452" class="outline-4">
+<h4 id="org1897452"><span class="section-number-4">7.2.10</span> virtualenv 버전 확인</h4>
 <div class="outline-text-4" id="text-7-2-10">
 <div class="org-src-container">
 <pre class="src src-bash">virtualenv --version
@@ -1278,16 +1278,16 @@ ok!
 </div>
 </div>
 
-<div id="outline-container-orga034bfd" class="outline-4">
-<h4 id="orga034bfd"><span class="section-number-4">7.2.11</span> pyvenv-create 테스트</h4>
+<div id="outline-container-org47fb3c2" class="outline-4">
+<h4 id="org47fb3c2"><span class="section-number-4">7.2.11</span> pyvenv-create 테스트</h4>
 <div class="outline-text-4" id="text-7-2-11">
 <p>
 pyvenv-create 바로 사용하니 3.8.5버전으로 설치된다
 </p>
 </div>
 </div>
-<div id="outline-container-org75c63b9" class="outline-4">
-<h4 id="org75c63b9"><span class="section-number-4">7.2.12</span> pyvenv-workon 으로 아나콘다 버전 설정하고 create 실행하니 경로가 선택한 아나콘다 버전을 가리킨다.</h4>
+<div id="outline-container-org52c0dbb" class="outline-4">
+<h4 id="org52c0dbb"><span class="section-number-4">7.2.12</span> pyvenv-workon 으로 아나콘다 버전 설정하고 create 실행하니 경로가 선택한 아나콘다 버전을 가리킨다.</h4>
 <div class="outline-text-4" id="text-7-2-12">
 <p>
 설치도 제대로 된거 같다.
@@ -1301,8 +1301,8 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </pre>
 </div>
 </div>
-<div id="outline-container-orgd696e00" class="outline-4">
-<h4 id="orgd696e00"><span class="section-number-4">7.2.13</span> pyenv virtualenvs 확인해보자</h4>
+<div id="outline-container-org1e2264d" class="outline-4">
+<h4 id="org1e2264d"><span class="section-number-4">7.2.13</span> pyenv virtualenvs 확인해보자</h4>
 <div class="outline-text-4" id="text-7-2-13">
 <div class="org-src-container">
 <pre class="src src-bash">pyenv virtualenvs
@@ -1326,8 +1326,8 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </div>
 </div>
 
-<div id="outline-container-org438aa97" class="outline-4">
-<h4 id="org438aa97"><span class="section-number-4">7.2.14</span> workon으로 변경해보자</h4>
+<div id="outline-container-org086d564" class="outline-4">
+<h4 id="org086d564"><span class="section-number-4">7.2.14</span> workon으로 변경해보자</h4>
 <div class="outline-text-4" id="text-7-2-14">
 <p>
 제대로 작동된다.
@@ -1335,12 +1335,12 @@ activators BashActivator,CShellActivator,FishActivator,PowerShellActivator,Pytho
 </div>
 </div>
 
-<div id="outline-container-org58c8363" class="outline-4">
-<h4 id="org58c8363"><span class="section-number-4">7.2.15</span> virtualenv를 anaconda버전으로 설정해도 create를 할때 shims/python으로 하면 3.8.5 버전으로 설치된다!</h4>
+<div id="outline-container-org378d518" class="outline-4">
+<h4 id="org378d518"><span class="section-number-4">7.2.15</span> virtualenv를 anaconda버전으로 설정해도 create를 할때 shims/python으로 하면 3.8.5 버전으로 설치된다!</h4>
 </div>
 
-<div id="outline-container-orgd5b52b9" class="outline-4">
-<h4 id="orgd5b52b9"><span class="section-number-4">7.2.16</span> 또다른 문제</h4>
+<div id="outline-container-org6424972" class="outline-4">
+<h4 id="org6424972"><span class="section-number-4">7.2.16</span> 또다른 문제</h4>
 <div class="outline-text-4" id="text-7-2-16">
 <p>
 virtualenv 폴더가 아나콘다 밑에 생성이 안되네;;
@@ -1348,7 +1348,7 @@ virtualenv 폴더가 아나콘다 밑에 생성이 안되네;;
 </div>
 
 <ol class="org-ol">
-<li><a id="org8dc814e"></a>WORKON<sub>HOME</sub> setenv<br />
+<li><a id="org9f1af07"></a>WORKON<sub>HOME</sub> setenv<br />
 <div class="outline-text-5" id="text-7-2-16-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(setenv "WORKON_HOME" "/Users/sroh/.pyenv/versions/anaconda3-5.3.1/envs/")
@@ -1359,12 +1359,12 @@ virtualenv 폴더가 아나콘다 밑에 생성이 안되네;;
 </ol>
 </div>
 
-<div id="outline-container-orgb4480ce" class="outline-4">
-<h4 id="orgb4480ce"><span class="section-number-4">7.2.17</span> 결론 WORKFLOW</h4>
+<div id="outline-container-org4906be6" class="outline-4">
+<h4 id="org4906be6"><span class="section-number-4">7.2.17</span> 결론 WORKFLOW</h4>
 <div class="outline-text-4" id="text-7-2-17">
 </div>
 <ol class="org-ol">
-<li><a id="org17edf41"></a>pyenv 로 python 버전 설치 (python2&#x2026; python3&#x2026; anaconda3&#x2026; 등등)<br />
+<li><a id="orgbfc41de"></a>pyenv 로 python 버전 설치 (python2&#x2026; python3&#x2026; anaconda3&#x2026; 등등)<br />
 <div class="outline-text-5" id="text-7-2-17-1">
 <p>
 pyenv install anaconda3-5.3.1
@@ -1372,9 +1372,9 @@ pyenv install anaconda3-5.3.1
 </div>
 </li>
 
-<li><a id="org355e4bd"></a>WORKON<sub>HOME</sub> 재설정<br /></li>
+<li><a id="orgb9bc464"></a>WORKON<sub>HOME</sub> 재설정<br /></li>
 
-<li><a id="orgb99e780"></a>pyvenv-create 설정<br />
+<li><a id="orge2762f1"></a>pyvenv-create 설정<br />
 <div class="outline-text-5" id="text-7-2-17-3">
 <p>
 python 디렉토리는 anaconda 밑으로 수동으로 설정.(지금은 anaconda설치니깐..)
@@ -1382,7 +1382,7 @@ python 디렉토리는 anaconda 밑으로 수동으로 설정.(지금은 anacond
 </div>
 
 <ol class="org-ol">
-<li><a id="orgf29f8a3"></a><span class="todo TODO">TODO</span> global로 anaconda버전이 잡혀있는데 왜 emacs에서는 3.8.5 로 되는 걸까<br />
+<li><a id="org52a45b5"></a><span class="todo TODO">TODO</span> global로 anaconda버전이 잡혀있는데 왜 emacs에서는 3.8.5 로 되는 걸까<br />
 <div class="outline-text-6" id="text-7-2-17-3-1">
 <p>
 여튼 아래 방법으로 수동으로 python위치 잡아주면 되기는 한다.
@@ -1392,7 +1392,7 @@ python 디렉토리는 anaconda 밑으로 수동으로 설정.(지금은 anacond
 </ol>
 </li>
 
-<li><a id="orgf141330"></a>test<br />
+<li><a id="org7aaf0a7"></a>test<br />
 <div class="outline-text-5" id="text-7-2-17-4">
 <p>
 pyvenv-workon test-anaconda
@@ -1414,8 +1414,8 @@ Successfully installed numpy-1.19.1
 </ol>
 </div>
 
-<div id="outline-container-org44d639c" class="outline-4">
-<h4 id="org44d639c"><span class="section-number-4">7.2.18</span> python-language-server 설치</h4>
+<div id="outline-container-org8c85c0f" class="outline-4">
+<h4 id="org8c85c0f"><span class="section-number-4">7.2.18</span> python-language-server 설치</h4>
 <div class="outline-text-4" id="text-7-2-18">
 <div class="org-src-container">
 <pre class="src src-bash">which pyls
@@ -1540,21 +1540,21 @@ ModuleNotFoundError: No module named 'jupyter_client'
 </div>
 </div>
 
-<div id="outline-container-orgbfad72e" class="outline-2">
-<h2 id="orgbfad72e"><span class="section-number-2">8</span> LSP mode in org-babel</h2>
+<div id="outline-container-orgb821f12" class="outline-2">
+<h2 id="orgb821f12"><span class="section-number-2">8</span> LSP mode in org-babel</h2>
 <div class="outline-text-2" id="text-8">
 </div>
 
-<div id="outline-container-org7a58d85" class="outline-3">
-<h3 id="org7a58d85"><span class="section-number-3">8.1</span> org file안에서 begin<sub>src</sub> ipython &#x2026;. :tangle "filename.py" 를 해준다</h3>
+<div id="outline-container-orgcb6a562" class="outline-3">
+<h3 id="orgcb6a562"><span class="section-number-3">8.1</span> org file안에서 begin<sub>src</sub> ipython &#x2026;. :tangle "filename.py" 를 해준다</h3>
 </div>
 
-<div id="outline-container-org93cab9b" class="outline-3">
-<h3 id="org93cab9b"><span class="section-number-3">8.2</span> filename.py를 열고 lsp server를 작동시킨다.</h3>
+<div id="outline-container-orgdbbe330" class="outline-3">
+<h3 id="orgdbbe330"><span class="section-number-3">8.2</span> filename.py를 열고 lsp server를 작동시킨다.</h3>
 </div>
 
-<div id="outline-container-orga708784" class="outline-3">
-<h3 id="orga708784"><span class="section-number-3">8.3</span> 다시 org file 을 열고 lsp-org 실행시킨다.</h3>
+<div id="outline-container-org42f072c" class="outline-3">
+<h3 id="org42f072c"><span class="section-number-3">8.3</span> 다시 org file 을 열고 lsp-org 실행시킨다.</h3>
 <div class="outline-text-3" id="text-8-3">
 <p>
 org babel 에서 잘 작동된다!!! YES!
@@ -1566,8 +1566,8 @@ org babel 에서 잘 작동된다!!! YES!
 </div>
 </div>
 
-<div id="outline-container-org8a495da" class="outline-3">
-<h3 id="org8a495da"><span class="section-number-3">8.4</span> 2020-09-07 18:58:13,245 UTC - WARNING - pyls<sub>jsonrpc.endpoint</sub> - Received cancel notification for unknown message id 2</h3>
+<div id="outline-container-org10d0f88" class="outline-3">
+<h3 id="org10d0f88"><span class="section-number-3">8.4</span> 2020-09-07 18:58:13,245 UTC - WARNING - pyls<sub>jsonrpc.endpoint</sub> - Received cancel notification for unknown message id 2</h3>
 <div class="outline-text-3" id="text-8-4">
 <p>
 에러가 발생하는데 버전 미스매치라고 한다. T.T
@@ -1589,12 +1589,12 @@ T.T 죽갔군..
 </div>
 </div>
 
-<div id="outline-container-org800e01e" class="outline-2">
-<h2 id="org800e01e"><span class="section-number-2">9</span> lsp 에서 lsp-python-ms 로 갈아탔다</h2>
+<div id="outline-container-orgdd41d5c" class="outline-2">
+<h2 id="orgdd41d5c"><span class="section-number-2">9</span> lsp 에서 lsp-python-ms 로 갈아탔다</h2>
 <div class="outline-text-2" id="text-9">
 </div>
-<div id="outline-container-orgc073bad" class="outline-3">
-<h3 id="orgc073bad"><span class="section-number-3">9.1</span> lsp 에선 code completion 이 조금 부족한 부분이 있어서 ms로 갈아탔다.</h3>
+<div id="outline-container-org3f55276" class="outline-3">
+<h3 id="org3f55276"><span class="section-number-3">9.1</span> lsp 에선 code completion 이 조금 부족한 부분이 있어서 ms로 갈아탔다.</h3>
 <div class="outline-text-3" id="text-9-1">
 <p>
 변수가 어떤 객체인지 인식을 못하는건지 인식 후 코드 컴플리션이 안되는건 지 모르겠다.
@@ -1602,22 +1602,22 @@ ms는변수에 맞게 methods 등이 제대로 컴플리션 되었다.
 </p>
 </div>
 
-<div id="outline-container-org638a35c" class="outline-4">
-<h4 id="org638a35c"><span class="section-number-4">9.1.1</span> <span class="todo TODO">TODO</span> 제대로 작동하다 안되다하는게 문제.. 몇번 재접속하다보면 제대로 작동한다. 왜 그럴까 &#x2013;;</h4>
+<div id="outline-container-orgc0deb1e" class="outline-4">
+<h4 id="orgc0deb1e"><span class="section-number-4">9.1.1</span> <span class="todo TODO">TODO</span> 제대로 작동하다 안되다하는게 문제.. 몇번 재접속하다보면 제대로 작동한다. 왜 그럴까 &#x2013;;</h4>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc170c6e" class="outline-2">
-<h2 id="orgc170c6e"><span class="section-number-2">10</span> <span class="todo TODO">TODO</span> 소스블락이 여러개일때 lsp-org 가 제대로 작동하게 하는 방법?</h2>
+<div id="outline-container-orgb1fd74c" class="outline-2">
+<h2 id="orgb1fd74c"><span class="section-number-2">10</span> <span class="todo TODO">TODO</span> 소스블락이 여러개일때 lsp-org 가 제대로 작동하게 하는 방법?</h2>
 </div>
 
-<div id="outline-container-org9734d2b" class="outline-2">
-<h2 id="org9734d2b"><span class="section-number-2">11</span> 출력 results 에 대해 좀 알아보자 출력이 헷갈린다. print(&#x2026; 그냥 print없이 변수 출력</h2>
+<div id="outline-container-orgf76d571" class="outline-2">
+<h2 id="orgf76d571"><span class="section-number-2">11</span> 출력 results 에 대해 좀 알아보자 출력이 헷갈린다. print(&#x2026; 그냥 print없이 변수 출력</h2>
 <div class="outline-text-2" id="text-11">
 </div>
-<div id="outline-container-org5a1ba9d" class="outline-3">
-<h3 id="org5a1ba9d"><span class="section-number-3">11.1</span> <span class="todo TODO">TODO</span> pd 데이터프레임 같은거 출력할때는 :results output 옵션에 print() 함수로 출력하는게 그나마 정렬이 되어 출력된다. 깔끔하진 않다.</h3>
+<div id="outline-container-orgc25a792" class="outline-3">
+<h3 id="orgc25a792"><span class="section-number-3">11.1</span> <span class="todo TODO">TODO</span> pd 데이터프레임 같은거 출력할때는 :results output 옵션에 print() 함수로 출력하는게 그나마 정렬이 되어 출력된다. 깔끔하진 않다.</h3>
 <div class="outline-text-3" id="text-11-1">
 <p>
 완전하게 정렬되게끔 하려면 함수를 만들어서 출력시키는 것 같았다.
@@ -1626,8 +1626,8 @@ ms는변수에 맞게 methods 등이 제대로 컴플리션 되었다.
 </div>
 </div>
 
-<div id="outline-container-org3f2251f" class="outline-2">
-<h2 id="org3f2251f"><span class="section-number-2">12</span> ipynb to py</h2>
+<div id="outline-container-org01e6d70" class="outline-2">
+<h2 id="org01e6d70"><span class="section-number-2">12</span> ipynb to py</h2>
 <div class="outline-text-2" id="text-12">
 <p>
 ipython nbconvert &#x2013;to script 200915-class1.ipynb
@@ -1666,8 +1666,8 @@ Requirement already satisfied: zipp&gt;=0.5 in /Users/sroh/.pyenv/versions/anaco
 </div>
 </div>
 
-<div id="outline-container-org1ad1fac" class="outline-2">
-<h2 id="org1ad1fac"><span class="section-number-2">13</span> latex</h2>
+<div id="outline-container-orgf5fa60a" class="outline-2">
+<h2 id="orgf5fa60a"><span class="section-number-2">13</span> latex</h2>
 <div class="outline-text-2" id="text-13">
 <div class="org-src-container">
 <pre class="src src-bash">brew cask install basictex
@@ -1676,8 +1676,8 @@ Requirement already satisfied: zipp&gt;=0.5 in /Users/sroh/.pyenv/versions/anaco
 </div>
 </div>
 
-<div id="outline-container-orgd9aa905" class="outline-2">
-<h2 id="orgd9aa905"><span class="section-number-2">14</span> update tex live update</h2>
+<div id="outline-container-orgd265e5f" class="outline-2">
+<h2 id="orgd265e5f"><span class="section-number-2">14</span> update tex live update</h2>
 <div class="outline-text-2" id="text-14">
 <div class="org-src-container">
 <pre class="src src-bash">tlmgr update --self
@@ -1686,8 +1686,8 @@ Requirement already satisfied: zipp&gt;=0.5 in /Users/sroh/.pyenv/versions/anaco
 </div>
 </div>
 
-<div id="outline-container-org7483785" class="outline-2">
-<h2 id="org7483785"><span class="section-number-2">15</span> for fixing error, install wrapfig, capt-of</h2>
+<div id="outline-container-org21e11f7" class="outline-2">
+<h2 id="org21e11f7"><span class="section-number-2">15</span> for fixing error, install wrapfig, capt-of</h2>
 <div class="outline-text-2" id="text-15">
 <div class="org-src-container">
 <pre class="src src-bash">tlmgr install wrapfig
@@ -1699,7 +1699,7 @@ tlmgr install capt-of
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: srolisp</p>
-<p class="date">Created: 2020-12-01 화 18:21</p>
+<p class="date">Created: 2020-12-02 수 16:33</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
