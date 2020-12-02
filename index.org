@@ -39,6 +39,8 @@
 
 ** [[file:symphony/notes.html::<?xml version="1.0" encoding="utf-8"?>][201108 Symphony team, bm, uipa]]
 
+** [[https://htmlpreview.github.io/?https://github.com/srolisp/jetson/blob/master/jetson-installation.html][201201 Jetson AGX]]
+
 * pyenv은 파이썬 버전을 다양하게 사용할 수 있다
 * virtualenv 프로젝트별로 패키지들의 충돌을 막아주기 위한 가상환경이다.
 pyenv의 목록에 virtualenv가 들어가기 때문에 pyenv를 먼저 설치
